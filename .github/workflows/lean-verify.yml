@@ -1,4 +1,4 @@
-name: Lean 4 Proof & Axiom Audit
+name: Cellular Engine Omega v5.0 — Live C11→Lean 4 & Full Verification CI
 
 on:
   push:
@@ -7,20 +7,59 @@ on:
   workflow_dispatch:
 
 jobs:
-  lean-verify:
+  c11-and-lean-verify:
+    name: C11 Linux ELF64 (-Werror) + 54 Gates / 16 Mutants + Live C11→Lean 4 (66 Proofs)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
       - name: Install elan & Lean 4.35.0
+        shell: bash
         run: |
+          set -euo pipefail
           curl https://elan.lean-lang.org/elan-init.sh -sSf | sh -s -- -y --default-toolchain leanprover/lean4:v4.35.0
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
-      - name: Build OmegaCellularProofs & Audit Axioms (zero sorry)
-        working-directory: lean
+      - name: Build C11 (-Werror), Run 54 Gates / 16 Mutants / 10 Seeds, Export Live C11 Trace & Verify 66 Pure Lean 4 Theorems
+        shell: bash
         run: |
-          lake build 2>&1 | tee lean-ci-audit.log
-          if grep -E "sorryAx|declaration uses 'sorry'" lean-ci-audit.log; then
-            echo "ERROR: sorryAx detected!"
-            exit 1
-          fi
-          echo "PASS: All 61 OmegaCellularProofs theorems built cleanly with zero sorryAx."
+          set -euo pipefail
+          chmod +x build_linux.sh
+          ./build_linux.sh
+      - name: Verify Zero-Warning JS Syntax & Hardened Web Observatory HTTP Security
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check web/server.mjs
+          node --check web/app.js
+          PORT=18791 node web/server.mjs &
+          SRV_PID=$!
+          trap "kill $SRV_PID 2>/dev/null || true" EXIT
+          sleep 1
+          node - <<'JS'
+          async function main() {
+            const hRes = await fetch("http://127.0.0.1:18791/api/health");
+            if (hRes.headers.get("x-content-type-options") !== "nosniff") {
+              throw new Error("Missing X-Content-Type-Options: nosniff");
+            }
+            const h = await hRes.json();
+            if (!h.ok || h.version !== "5.0" || h.lean_theorems !== 66 || h.gates !== 54 || h.mutants !== 16) {
+              throw new Error("Health mismatch: " + JSON.stringify(h));
+            }
+            const leak = await fetch("http://127.0.0.1:18791/server.mjs");
+            if (leak.status !== 404) {
+              throw new Error("Security failure: GET /server.mjs returned " + leak.status + " instead of 404!");
+            }
+            const r = await (await fetch("http://127.0.0.1:18791/api/run?seed=2026001")).json();
+            if (r.tb14.confluence_match !== 1 || r.tb14.causal_hops !== 8 || r.tb16.syn3a_total !== 493 || r.tb16.six_tier_int_drift !== 0) {
+              throw new Error("API run invariant mismatch");
+            }
+            const m12 = await (await fetch("http://127.0.0.1:18791/api/run?seed=2026001&mutant=12")).json();
+            if (m12.tb04.active_droplets !== m12.tb04.eq_droplets) {
+              throw new Error("Mutant M12 not reflected via /api/run");
+            }
+            console.log("PASS: Web Observatory HTTP API & Security Controls verified cleanly.");
+          }
+          main().catch(e => { console.error(e); process.exit(1); });
+          JS

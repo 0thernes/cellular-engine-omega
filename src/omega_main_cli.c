@@ -1,9 +1,42 @@
 #include "omega_bare_crt.h"
 #include "omega_abi.h"
 
+static inline int64_t i64_abs_cli(int64_t v) { return (v < 0) ? -v : v; }
+
 static void make_demo_autophage_dna(uint64_t seed, uint8_t dna[256]) {
     OmegaRng rng; omega_rng_seed(&rng, seed ^ 0xA070F46EULL);
     for (int i = 0; i < 256; ++i) dna[i] = (uint8_t)(omega_rng_u32(&rng) & 0xFFu);
+}
+
+static uint64_t cli_feral_mix(uint64_t base_seed) {
+    double t = omega_time_sec();
+    uint64_t bits = 0;
+    memcpy(&bits, &t, sizeof(bits));
+#if defined(__x86_64__) || defined(_M_X64)
+    uint32_t lo = 0, hi = 0;
+    __asm__ __volatile__("rdtsc" : "=a"(lo), "=d"(hi));
+    uint64_t tsc = ((uint64_t)hi << 32) | (uint64_t)lo;
+    return base_seed ^ bits ^ (tsc * 0x9E3779B97F4A7C15ULL);
+#else
+    return base_seed ^ (bits * 0x9E3779B97F4A7C15ULL);
+#endif
+}
+
+static void build_tier_ledger(const TB04Result* r4, const TB05Result* r5,
+                              const TB13Result* r13, const TB14Result* r14,
+                              const TB15Result* r15, OmegaTierLedger* out_ledger) {
+    out_ledger->t1_raf_mass_residual       = r15->raf_mass_residual;
+    out_ledger->t1_raf_total_mass          = 128.0;
+    out_ledger->t2_three_genome_mass_drift = r15->three_genome_mass_drift;
+    out_ledger->t3_llps_mass_drift         = r4->mass_drift_eq;
+    out_ledger->t3_llps_total_mass         = 1024.0;
+    out_ledger->t4_inet_mass_drift         = i64_abs_cli(r14->mass_drift_fifo) +
+                                             i64_abs_cli(r14->mass_drift_lifo) +
+                                             i64_abs_cli(r14->mass_drift_random);
+    out_ledger->t4_inet_charge_drift       = i64_abs_cli(r14->gap_charge_drift);
+    out_ledger->t5_biosphere_mass_residual = r13->global_mass_residual;
+    out_ledger->t5_biosphere_total_mass    = 7920.0;
+    out_ledger->t5_topology_charge_err     = r5->max_charge_error;
 }
 
 static void print_float_array(const float* arr, int n) {
@@ -33,14 +66,146 @@ static void print_u8_array(const uint8_t* arr, int n) {
     putchar(']');
 }
 
+static int export_lean_trace(const char* out_path, uint64_t seed) {
+    TB04Result r4;
+    TB05Result r5;
+    TB13Result r13;
+    TB14Result r14;
+    TB15Result r15;
+    TB16Result r16;
+    OmegaTierLedger ledger;
+
+    omega_run_tb04(seed, 0, &r4);
+    omega_run_tb05(seed, 0, &r5);
+    omega_run_tb13(seed, 0, 0, &r13);
+    omega_run_tb14(seed, 0, 0, &r14);
+    omega_run_tb15(seed, 0, &r15);
+    build_tier_ledger(&r4, &r5, &r13, &r14, &r15, &ledger);
+    omega_run_tb16_coupled(seed, 0, &ledger, &r16);
+
+    char concat[2 * 64 + 1];
+    memcpy(concat,      r14.sha256, 64);
+    memcpy(concat + 64, r16.sha256, 64);
+    concat[128] = '\0';
+    char receipt_sha[65];
+    omega_sha256_hex(concat, 128, receipt_sha);
+
+    int64_t mass_before     = r14.init_mass_q;
+    int64_t mass_after_fifo = r14.init_mass_q + r14.mass_drift_fifo;
+    int64_t mass_after_lifo = r14.init_mass_q + r14.mass_drift_lifo;
+    int64_t mass_after_rand = r14.init_mass_q + r14.mass_drift_random;
+    int64_t charge_before   = r14.init_charge_q;
+    int64_t charge_after    = r14.init_charge_q + r14.gap_charge_drift;
+
+    FILE* fp = fopen(out_path, "wb");
+    if (!fp) {
+        fprintf(stderr, "ERROR: Failed to open %s for writing Lean trace receipt.\n", out_path);
+        return 1;
+    }
+
+    fprintf(fp, "/-!\n");
+    fprintf(fp, "# LiveC11Receipt.lean — Auto-Generated Live C11 Runtime Trace Receipt (v5.0)\n\n");
+    fprintf(fp, "Emitted directly by `omega_cell --export-lean-trace` executing real C11 `TB14`\n");
+    fprintf(fp, "(Bio-Frostbite 4-Layer INet VM) + coupled `TB16` (Virtual-Cell AI & 6-Tier Closure)\n");
+    fprintf(fp, "on deterministic Seed `%llu`. Verified inside the Lean 4 kernel by `O63_live_c11_receipt_verified`.\n",
+            (unsigned long long)seed);
+    fprintf(fp, "-/\n\n");
+    fprintf(fp, "namespace OmegaCellular.LiveC11Receipt\n\n");
+    fprintf(fp, "structure LiveReceipt where\n");
+    fprintf(fp, "  seed               : Nat\n");
+    fprintf(fp, "  nodesInit          : Nat\n");
+    fprintf(fp, "  rewritesFifo       : Nat\n");
+    fprintf(fp, "  rewritesLifo       : Nat\n");
+    fprintf(fp, "  rewritesRandom     : Nat\n");
+    fprintf(fp, "  layer1Rewrites     : Nat\n");
+    fprintf(fp, "  layer2Rewrites     : Nat\n");
+    fprintf(fp, "  layer3Rewrites     : Nat\n");
+    fprintf(fp, "  layer4Rewrites     : Nat\n");
+    fprintf(fp, "  confluenceMatch    : Nat\n");
+    fprintf(fp, "  massBefore         : Int\n");
+    fprintf(fp, "  massAfterFifo      : Int\n");
+    fprintf(fp, "  massAfterLifo      : Int\n");
+    fprintf(fp, "  massAfterRandom    : Int\n");
+    fprintf(fp, "  chargeBefore       : Int\n");
+    fprintf(fp, "  chargeAfter        : Int\n");
+    fprintf(fp, "  wireErrors         : Nat\n");
+    fprintf(fp, "  russianDollDepth   : Nat\n");
+    fprintf(fp, "  tunDryPairs        : Nat\n");
+    fprintf(fp, "  tunDryPower        : Int\n");
+    fprintf(fp, "  tunRehydRewrites   : Nat\n");
+    fprintf(fp, "  ssinArbiterPairs   : Nat\n");
+    fprintf(fp, "  ssinContended      : Nat\n");
+    fprintf(fp, "  ssinConfluentRw    : Nat\n");
+    fprintf(fp, "  causalHops         : Nat\n");
+    fprintf(fp, "  threeGenMassDrift  : Int\n");
+    fprintf(fp, "  syn3aTotalGenes    : Nat\n");
+    fprintf(fp, "  syn3aDarkGenes     : Nat\n");
+    fprintf(fp, "  syn3aDarkDiscov    : Nat\n");
+    fprintf(fp, "  sixTierIntDrift    : Int\n");
+    fprintf(fp, "  shaFifo            : String\n");
+    fprintf(fp, "  shaLifo            : String\n");
+    fprintf(fp, "  shaRandom          : String\n");
+    fprintf(fp, "  tb14Sha256         : String\n");
+    fprintf(fp, "  tb16Sha256         : String\n");
+    fprintf(fp, "  receiptSha256      : String\n");
+    fprintf(fp, "  deriving Repr, DecidableEq\n\n");
+    fprintf(fp, "def liveReceipt : LiveReceipt :=\n");
+    fprintf(fp, "  { seed              := %llu\n", (unsigned long long)seed);
+    fprintf(fp, "  , nodesInit         := %d\n",   r14.total_nodes_init);
+    fprintf(fp, "  , rewritesFifo      := %d\n",   r14.rewrites_fifo);
+    fprintf(fp, "  , rewritesLifo      := %d\n",   r14.rewrites_lifo);
+    fprintf(fp, "  , rewritesRandom    := %d\n",   r14.rewrites_random);
+    fprintf(fp, "  , layer1Rewrites    := %d\n",   r14.layer_rewrites[0]);
+    fprintf(fp, "  , layer2Rewrites    := %d\n",   r14.layer_rewrites[1]);
+    fprintf(fp, "  , layer3Rewrites    := %d\n",   r14.layer_rewrites[2]);
+    fprintf(fp, "  , layer4Rewrites    := %d\n",   r14.layer_rewrites[3]);
+    fprintf(fp, "  , confluenceMatch   := %d\n",   r14.confluence_exact_match);
+    fprintf(fp, "  , massBefore        := %lld\n", (long long)mass_before);
+    fprintf(fp, "  , massAfterFifo     := %lld\n", (long long)mass_after_fifo);
+    fprintf(fp, "  , massAfterLifo     := %lld\n", (long long)mass_after_lifo);
+    fprintf(fp, "  , massAfterRandom   := %lld\n", (long long)mass_after_rand);
+    fprintf(fp, "  , chargeBefore      := %lld\n", (long long)charge_before);
+    fprintf(fp, "  , chargeAfter       := %lld\n", (long long)charge_after);
+    fprintf(fp, "  , wireErrors        := %d\n",   r14.wire_ownership_errors);
+    fprintf(fp, "  , russianDollDepth  := %d\n",   r14.russian_doll_max_depth);
+    fprintf(fp, "  , tunDryPairs       := %d\n",   r14.tun_active_pairs_dry);
+    fprintf(fp, "  , tunDryPower       := %lld\n", (long long)r14.tun_power_burn_dry);
+    fprintf(fp, "  , tunRehydRewrites  := %d\n",   r14.tun_rewrites_rehyd);
+    fprintf(fp, "  , ssinArbiterPairs  := %d\n",   r14.ssin_arbiter_pairings);
+    fprintf(fp, "  , ssinContended     := %d\n",   r14.ssin_agents_contended);
+    fprintf(fp, "  , ssinConfluentRw   := %d\n",   r14.ssin_confluent_rewrites);
+    fprintf(fp, "  , causalHops        := %d\n",   r14.causal_4layer_hops);
+    fprintf(fp, "  , threeGenMassDrift := %lld\n", (long long)r15.three_genome_mass_drift);
+    fprintf(fp, "  , syn3aTotalGenes   := %d\n",   r16.syn3a_total_genes);
+    fprintf(fp, "  , syn3aDarkGenes    := %d\n",   r16.syn3a_dark_genes);
+    fprintf(fp, "  , syn3aDarkDiscov   := %d\n",   r16.syn3a_dark_discovered);
+    fprintf(fp, "  , sixTierIntDrift   := %lld\n", (long long)r16.six_tier_int_drift);
+    fprintf(fp, "  , shaFifo           := \"%s\"\n", r14.sha_fifo);
+    fprintf(fp, "  , shaLifo           := \"%s\"\n", r14.sha_lifo);
+    fprintf(fp, "  , shaRandom         := \"%s\"\n", r14.sha_random);
+    fprintf(fp, "  , tb14Sha256        := \"%s\"\n", r14.sha256);
+    fprintf(fp, "  , tb16Sha256        := \"%s\"\n", r16.sha256);
+    fprintf(fp, "  , receiptSha256     := \"%s\"\n", receipt_sha);
+    fprintf(fp, "  }\n\n");
+    fprintf(fp, "end OmegaCellular.LiveC11Receipt\n");
+    fclose(fp);
+
+    printf("Exported Live C11 Lean 4 Trace Receipt -> %s (Seed=%llu, Rewrites=%d/%d/%d, Mass=%lld, Charge=%lld, 6TierDrift=%lld, SHA=%s)\n",
+           out_path, (unsigned long long)seed, r14.rewrites_fifo, r14.rewrites_lifo, r14.rewrites_random,
+           (long long)mass_before, (long long)charge_before, (long long)r16.six_tier_int_drift, receipt_sha);
+    return 0;
+}
+
 static void emit_json_all(uint64_t seed, int mutant, int feral) {
     uint8_t dna[256]; make_demo_autophage_dna(seed, dna);
     TB01Result r1; TB02Result r2; TB03Result r3; TB04Result r4;
     TB05Result r5; TB06Result r6; TB07Result r7; TB08Result r8;
     TB09Result r9; TB10Result r10; TB11Result r11; TB12Result r12;
     TB13Result r13; TB14Result r14; TB15Result r15; TB16Result r16;
+    OmegaTierLedger ledger;
 
     double t0 = omega_time_sec();
+    uint64_t tb15_seed = feral ? cli_feral_mix(seed) : seed;
     omega_run_tb01(seed, mutant, &r1);
     omega_run_tb02(seed, mutant, &r2);
     omega_run_tb03(seed, mutant, &r3);
@@ -55,8 +220,9 @@ static void emit_json_all(uint64_t seed, int mutant, int feral) {
     omega_run_tb12(seed, mutant, dna, &r12);
     omega_run_tb13(seed, mutant, feral, &r13);
     omega_run_tb14(seed, mutant, feral, &r14);
-    omega_run_tb15(seed, mutant, &r15);
-    omega_run_tb16(seed, mutant, &r16);
+    omega_run_tb15(tb15_seed, mutant, &r15);
+    build_tier_ledger(&r4, &r5, &r13, &r14, &r15, &ledger);
+    omega_run_tb16_coupled(seed, mutant, &ledger, &r16);
     double elapsed_ms = (omega_time_sec() - t0) * 1000.0;
 
     printf("{\n");
@@ -130,21 +296,22 @@ static void emit_json_all(uint64_t seed, int mutant, int feral) {
     printf(", \"axis_spans\": ");
     print_double_array(r13.axis_spans, 12);
     printf(", \"sha256\": \"%s\"},\n", r13.sha256);
-    printf("  \"tb14\": {\"nodes_init\": %d, \"rewrites_fifo\": %d, \"rewrites_lifo\": %d, \"rewrites_random\": %d, \"layer_rewrites\": [%d,%d,%d,%d], \"confluence_match\": %d, \"init_mass\": %lld, \"mass_drift_fifo\": %lld, \"mass_drift_lifo\": %lld, \"mass_drift_random\": %lld, \"gap_charge_drift\": %lld, \"wire_errors\": %d, \"max_depth\": %d, \"tun_dry_pairs\": %d, \"tun_dry_power\": %lld, \"tun_rehyd_rewrites\": %d, \"ssin_arbiter\": %d, \"ssin_confluent\": %d, \"ssin_confluent_pct\": %.2f, \"rewrites_per_sec\": %.1f, \"sha_fifo\": \"%s\", \"sha_lifo\": \"%s\", \"sha_random\": \"%s\", \"sha256\": \"%s\"},\n",
+    printf("  \"tb14\": {\"nodes_init\": %d, \"rewrites_fifo\": %d, \"rewrites_lifo\": %d, \"rewrites_random\": %d, \"layer_rewrites\": [%d,%d,%d,%d], \"confluence_match\": %d, \"init_mass\": %lld, \"init_charge\": %lld, \"mass_drift_fifo\": %lld, \"mass_drift_lifo\": %lld, \"mass_drift_random\": %lld, \"gap_charge_drift\": %lld, \"wire_errors\": %d, \"max_depth\": %d, \"tun_dry_pairs\": %d, \"tun_dry_power\": %lld, \"tun_rehyd_rewrites\": %d, \"ssin_arbiter\": %d, \"ssin_contended\": %d, \"ssin_confluent\": %d, \"causal_hops\": %d, \"ssin_confluent_pct\": %.2f, \"rewrites_per_sec\": %.1f, \"sha_fifo\": \"%s\", \"sha_lifo\": \"%s\", \"sha_random\": \"%s\", \"sha256\": \"%s\"},\n",
            r14.total_nodes_init, r14.rewrites_fifo, r14.rewrites_lifo, r14.rewrites_random,
            r14.layer_rewrites[0], r14.layer_rewrites[1], r14.layer_rewrites[2], r14.layer_rewrites[3],
-           r14.confluence_exact_match, (long long)r14.init_mass_q,
+           r14.confluence_exact_match, (long long)r14.init_mass_q, (long long)r14.init_charge_q,
            (long long)r14.mass_drift_fifo, (long long)r14.mass_drift_lifo, (long long)r14.mass_drift_random,
            (long long)r14.gap_charge_drift, r14.wire_ownership_errors, r14.russian_doll_max_depth,
            r14.tun_active_pairs_dry, (long long)r14.tun_power_burn_dry, r14.tun_rewrites_rehyd,
-           r14.ssin_arbiter_pairings, r14.ssin_confluent_rewrites, r14.ssin_confluent_pct,
+           r14.ssin_arbiter_pairings, r14.ssin_agents_contended, r14.ssin_confluent_rewrites,
+           r14.causal_4layer_hops, r14.ssin_confluent_pct,
            r14.rewrites_per_sec, r14.sha_fifo, r14.sha_lifo, r14.sha_random, r14.sha256);
-    printf("  \"tb15\": {\"ciss_racemic_ee\": %.6f, \"ciss_magnetite_ee\": %.6f, \"raf_rxns\": %d, \"raf_mass_res\": %.12f, \"oxy_mds\": %d, \"oxy_ies_pct\": %.2f, \"tad_gain\": %.3f, \"tad_insul\": %.3f, \"aa_codons\": %d, \"trp_qy_gain\": %.3f, \"trp_subrad\": %.2f, \"ocelloid_gain\": %.3f, \"cnidocyte_g\": %.1f, \"magnetosome_cos\": %.4f, \"three_gen_drift\": %lld, \"klepto_gain\": %.3f, \"levin_wild_heads\": %d, \"levin_reprog_heads\": %d, \"levin_dna_mut\": %d, \"somite_cycles\": %d, \"emt_switches\": %d, \"wired_reach\": %.4f, \"wireless_reach\": %.4f, \"rhombozoa_cells\": %d, \"henneguya_mt\": %d, \"vmem_wild\": ",
+    printf("  \"tb15\": {\"ciss_racemic_ee\": %.6f, \"ciss_magnetite_ee\": %.6f, \"raf_rxns\": %d, \"raf_mass_res\": %.12f, \"oxy_mds\": %d, \"oxy_ies_pct\": %.2f, \"tad_gain\": %.3f, \"tad_insul\": %.3f, \"cohesin_blocks\": %d, \"aa_codons\": %d, \"trp_qy_gain\": %.3f, \"trp_subrad\": %.2f, \"ocelloid_gain\": %.3f, \"cnidocyte_g\": %.1f, \"magnetosome_cos\": %.4f, \"three_gen_drift\": %lld, \"three_gen_ko_blocked\": %d, \"klepto_gain\": %.3f, \"levin_wild_heads\": %d, \"levin_reprog_heads\": %d, \"levin_dna_mut\": %d, \"somite_cycles\": %d, \"emt_switches\": %d, \"wired_reach\": %.4f, \"wireless_reach\": %.4f, \"rhombozoa_cells\": %d, \"henneguya_mt\": %d, \"vmem_wild\": ",
            r15.ciss_racemic_ee, r15.ciss_magnetite_ee, r15.raf_closed_reactions, r15.raf_mass_residual,
            r15.oxytricha_mds_unscrambled, r15.oxytricha_ies_deleted_pct, r15.tad_contact_gain, r15.tad_ctcf_insulation,
-           r15.expanded_aa_codons, r15.trp_superradiant_qy_gain, r15.trp_subradiant_ratio,
+           r15.cohesin_steric_blocks, r15.expanded_aa_codons, r15.trp_superradiant_qy_gain, r15.trp_subradiant_ratio,
            r15.ocelloid_focal_gain, r15.cnidocyte_peak_accel_g, r15.magnetosome_align_cos,
-           (long long)r15.three_genome_mass_drift, r15.kleptoplasty_surv_gain,
+           (long long)r15.three_genome_mass_drift, r15.three_gen_ko_blocked, r15.kleptoplasty_surv_gain,
            r15.levin_wild_heads, r15.levin_reprog_heads, r15.levin_dna_mutations,
            r15.somite_clock_cycles, r15.emt_reversible_switches,
            r15.connectome_wired_reach, r15.connectome_wireless_reach,
@@ -157,10 +324,10 @@ static void emit_json_all(uint64_t seed, int mutant, int feral) {
     printf(", \"tad_profile\": ");
     print_float_array(r15.tad_contact_profile, 32);
     printf(", \"sha256\": \"%s\"},\n", r15.sha256);
-    printf("  \"tb16\": {\"manifold_dim\": %d, \"zones\": %d, \"zonation_mono\": %.5f, \"raw_r2\": %.5f, \"perturb_r2\": %.5f, \"essential_auroc\": %.5f, \"syn3a_total\": %d, \"syn3a_dark\": %d, \"syn3a_discovered\": %d, \"raw_ai_halluc\": %.6f, \"proj_mass_res\": %.12f, \"six_tier_err\": %.12f, \"z_o2\": ",
+    printf("  \"tb16\": {\"manifold_dim\": %d, \"zones\": %d, \"zonation_mono\": %.5f, \"raw_r2\": %.5f, \"perturb_r2\": %.5f, \"essential_auroc\": %.5f, \"syn3a_total\": %d, \"syn3a_dark\": %d, \"syn3a_discovered\": %d, \"raw_ai_halluc\": %.6f, \"proj_mass_res\": %.12f, \"six_tier_err\": %.12f, \"six_tier_int_drift\": %lld, \"z_o2\": ",
            r16.manifold_dim, r16.zonation_zones, r16.zonation_monotonicity, r16.zeroshot_raw_r2, r16.zeroshot_perturb_r2,
            r16.zeroshot_essential_auroc, r16.syn3a_total_genes, r16.syn3a_dark_genes, r16.syn3a_dark_discovered,
-           r16.raw_ai_mass_hallucination, r16.projected_mass_residual, r16.six_tier_closure_err);
+           r16.raw_ai_mass_hallucination, r16.projected_mass_residual, r16.six_tier_closure_err, (long long)r16.six_tier_int_drift);
     print_float_array(r16.zonation_o2, 32);
     printf(", \"z_gluconeo\": ");
     print_float_array(r16.zonation_gluconeo, 32);
@@ -177,8 +344,10 @@ static void run_human_all(uint64_t seed, int mutant, int feral) {
     TB05Result r5; TB06Result r6; TB07Result r7; TB08Result r8;
     TB09Result r9; TB10Result r10; TB11Result r11; TB12Result r12;
     TB13Result r13; TB14Result r14; TB15Result r15; TB16Result r16;
+    OmegaTierLedger ledger;
 
     double t0 = omega_time_sec();
+    uint64_t tb15_seed = feral ? cli_feral_mix(seed) : seed;
     omega_run_tb01(seed, mutant, &r1);
     omega_run_tb02(seed, mutant, &r2);
     omega_run_tb03(seed, mutant, &r3);
@@ -193,16 +362,17 @@ static void run_human_all(uint64_t seed, int mutant, int feral) {
     omega_run_tb12(seed, mutant, dna, &r12);
     omega_run_tb13(seed, mutant, feral, &r13);
     omega_run_tb14(seed, mutant, feral, &r14);
-    omega_run_tb15(seed, mutant, &r15);
-    omega_run_tb16(seed, mutant, &r16);
+    omega_run_tb15(tb15_seed, mutant, &r15);
+    build_tier_ledger(&r4, &r5, &r13, &r14, &r15, &ledger);
+    omega_run_tb16_coupled(seed, mutant, &ledger, &r16);
     double dt_ms = (omega_time_sec() - t0) * 1000.0;
 
     printf("================================================================================\n");
     if (mutant > 0) {
-        printf(" CELLULAR ENGINE OMEGA v4.0 — 16-TESTBED LEDGER (Seed %llu, MUTANT M%d%s)\n",
+        printf(" CELLULAR ENGINE OMEGA v5.0 — 16-TESTBED LEDGER (Seed %llu, MUTANT M%d%s)\n",
                (unsigned long long)seed, mutant, feral ? ", FERAL-HW" : "");
     } else {
-        printf(" CELLULAR ENGINE OMEGA v4.0 — 16-TESTBED DEEP-STRATA & VIRTUAL-CELL LEDGER (Seed %llu%s)\n",
+        printf(" CELLULAR ENGINE OMEGA v5.0 — 16-TESTBED DEEP-STRATA & VIRTUAL-CELL LEDGER (Seed %llu%s)\n",
                (unsigned long long)seed, feral ? ", FERAL-HW" : "");
     }
     printf("================================================================================\n");
@@ -216,7 +386,7 @@ static void run_human_all(uint64_t seed, int mutant, int feral) {
            r3.cargo_net_kinesin_dom, r3.cargo_net_dynein_dom, r3.arp23_70deg_thrust_pN, r3.lacrymaria_max_ratio);
     printf("[TB04] Active-Arrested LLPS     | Eq Ostwald: %d drops (R=%.2f, drift=%.1e) | Active ATP: %d drops (R=%.2f)\n",
            r4.eq_droplet_count, r4.eq_mean_radius, r4.mass_drift_eq, r4.active_droplet_count, r4.active_mean_radius);
-    printf("[TB05] Poincare-Hopf Sphere     | V=%d | Sum(q): %.8f -> %.8f (maxErr=%.2e) | Organizers=%d | S=%.3f\n",
+    printf("[TB05] Poincare-Hopf Sphere     | V=%d | Sum(q): %.8f -> %.8f (maxErr=%.2e) | Defects=%d | S=%.3f\n",
            r5.n_vertices, r5.init_charge_sum, r5.final_charge_sum, r5.max_charge_error, r5.final_polar_organizers, r5.nematic_order_S);
     printf("[TB06] Eigen & Proofreading     | Eq(L=100)=%.3f Eq(L=600)=%.5f | KP1(L=600)=%.3f | KP2(L=3200)=%.4f\n",
            r6.master_eq_L100, r6.master_eq_L600, r6.master_kp1_L600, r6.master_kp2_L3200);
@@ -240,18 +410,19 @@ static void run_human_all(uint64_t seed, int mutant, int feral) {
            r13.unique_niches_found, r13.novelty_first_half, r13.novelty_second_half, r13.russian_doll_chimeras,
            r13.swarm_colonies_formed, r13.organ_creatures_born, r13.wild_outliers_spawned,
            r13.global_mass_residual, r13.apex_archetype);
-    printf("[TB14] Bio-Frostbite INet VM    | Rewrites=%d/%d/%d (L1=%d L2=%d L3=%d L4=%d) | Confluent=%s | Drift=%lld | QErr=%lld | Depth=%d | Tun0W=%d/%lld | SSIN=%.1f%%\n",
+    printf("[TB14] Bio-Frostbite INet VM    | Rewrites=%d/%d/%d (L1=%d L2=%d L3=%d L4=%d, Causal=%dh) | Confluent=%s | Drift=%lld | QErr=%lld | Depth=%d | Tun0W=%d/%lld | SSIN=%.1f%% (%da->%dp)\n",
            r14.rewrites_fifo, r14.rewrites_lifo, r14.rewrites_random,
            r14.layer_rewrites[0], r14.layer_rewrites[1], r14.layer_rewrites[2], r14.layer_rewrites[3],
+           r14.causal_4layer_hops,
            r14.confluence_exact_match ? "EXACT-5xSHA256" : "MISMATCH!",
            (long long)r14.mass_drift_fifo, (long long)r14.gap_charge_drift,
            r14.russian_doll_max_depth, r14.tun_active_pairs_dry, (long long)r14.tun_power_burn_dry,
-           r14.ssin_confluent_pct);
-    printf("[TB15] Deep Strata Frontier     | CISS=%.1f%% | TAD=%.1fx | TrpSR=%.2fx | Cnid=%.2fMg | Levin=%d->%dH (0-DNA) | Wire=%.1f%%->%.1f%% | 3GenDrift=%lld\n",
-           100.0 * r15.ciss_magnetite_ee, r15.tad_contact_gain, r15.trp_superradiant_qy_gain,
-           r15.cnidocyte_peak_accel_g / 1.0e6, r15.levin_wild_heads, r15.levin_reprog_heads,
+           r14.ssin_confluent_pct, r14.ssin_agents_contended, r14.ssin_arbiter_pairings);
+    printf("[TB15] Deep Strata Frontier     | CISS=%.1f%% | TAD=%.1fx (Steric=%d) | TrpSR=%.2fx | Cnid=%.2fMg | Levin=%d->%dH (%d-DNA) | Wire=%.1f%%->%.1f%% | 3GenDrift=%lld (KO=%d/3)\n",
+           100.0 * r15.ciss_magnetite_ee, r15.tad_contact_gain, r15.cohesin_steric_blocks, r15.trp_superradiant_qy_gain,
+           r15.cnidocyte_peak_accel_g / 1.0e6, r15.levin_wild_heads, r15.levin_reprog_heads, r15.levin_dna_mutations,
            100.0 * r15.connectome_wired_reach, 100.0 * r15.connectome_wireless_reach,
-           (long long)r15.three_genome_mass_drift);
+           (long long)r15.three_genome_mass_drift, r15.three_gen_ko_blocked);
     printf("[TB16] Virtual-Cell AI & syn3A  | Zonation r=%.3f | ZeroShot R2=%.3f (Raw=%.3f) AUROC=%.3f | Dark=%d/%d | RawAI=%.3f -> ProjRes=%.1e | 6Tier=%.1e\n",
            r16.zonation_monotonicity, r16.zeroshot_perturb_r2, r16.zeroshot_raw_r2, r16.zeroshot_essential_auroc,
            r16.syn3a_dark_discovered, r16.syn3a_dark_genes,
@@ -277,15 +448,25 @@ static void run_human_all(uint64_t seed, int mutant, int feral) {
 int main(int argc, char** argv) {
     uint64_t seed = 2026001ULL;
     int mutant = 0, feral = 0;
-    const char* cmd = (argc >= 2) ? argv[1] : "all";
-    for (int i = 2; i < argc; ++i) {
+    const char* cmd = "all";
+    const char* export_path = NULL;
+
+    for (int i = 1; i < argc; ++i) {
         if (strcmp(argv[i], "--seed") == 0 && i + 1 < argc) {
             seed = strtoull(argv[++i], NULL, 10);
         } else if (strcmp(argv[i], "--mutant") == 0 && i + 1 < argc) {
             mutant = atoi(argv[++i]);
         } else if (strcmp(argv[i], "--feral") == 0) {
             feral = 1;
+        } else if (strcmp(argv[i], "--export-lean-trace") == 0 && i + 1 < argc) {
+            export_path = argv[++i];
+        } else if (strcmp(argv[i], "json") == 0 || strcmp(argv[i], "all") == 0) {
+            cmd = argv[i];
         }
+    }
+
+    if (export_path) {
+        return export_lean_trace(export_path, seed);
     }
     if (strcmp(cmd, "json") == 0) {
         emit_json_all(seed, mutant, feral);

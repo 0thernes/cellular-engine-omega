@@ -101,11 +101,11 @@ OMEGA_API void omega_run_tb07(uint64_t seed, int mutant_mode, TB07Result* out) {
 OMEGA_API void omega_run_tb08(uint64_t seed, int mutant_mode, TB08Result* out) {
     memset(out, 0, sizeof(*out));
     OmegaRng rng; omega_rng_seed(&rng, seed ^ 0x8888ULL);
-    (void)mutant_mode;
+    int m14 = (mutant_mode == 14) ? 1 : 0; /* Mutant M14: zeros thermodynamic entropy production -> breaks TUR >= 2.0 */
 
     /* 1. Continuous-Time Gillespie Asymmetric Molecular Stepper verifying TUR >= 2.0 */
     const double drives[5] = { 1.0, 2.0, 4.0, 8.0, 12.0 };
-    const int n_traj = 300;
+    const int n_traj = 1600;
     const double T_obs = 40.0;
     double min_tur = 1e9;
 
@@ -136,7 +136,7 @@ OMEGA_API void omega_run_tb08(uint64_t seed, int mutant_mode, TB08Result* out) {
         double mean_J = sum_J / (double)n_traj;
         double var_J  = (sum_J2 / (double)n_traj) - mean_J * mean_J;
         if (var_J < 0.0) var_J = 0.0;
-        double dS_tot = mean_J * dMu; /* exact Schnakenberg entropy production in units of k_B */
+        double dS_tot = m14 ? 0.0 : (mean_J * dMu); /* exact Schnakenberg entropy production in units of k_B (zeroed under M14!) */
         double tur = (fabs(mean_J) > 1e-12) ? ((var_J / (mean_J * mean_J)) * dS_tot) : 0.0;
         out->tur_drives[d]   = dMu;
         out->tur_products[d] = tur;
@@ -147,7 +147,7 @@ OMEGA_API void omega_run_tb08(uint64_t seed, int mutant_mode, TB08Result* out) {
     /* Verify empirical ~4x entropy scaling when halving relative jitter via real Gillespie runs (T=25 vs T=100) */
     const double dMu_j = 2.0;
     const double kf_j = 1.0, kr_j = exp(-dMu_j), kt_j = kf_j + kr_j, pf_j = kf_j / kt_j;
-    const int n_jtraj = 600;
+    const int n_jtraj = 1200;
     double mean_short = 0.0, mean_quad = 0.0;
     for (int tr = 0; tr < n_jtraj; ++tr) {
         double t = 0.0;
@@ -181,28 +181,35 @@ OMEGA_API void omega_run_tb08(uint64_t seed, int mutant_mode, TB08Result* out) {
     }
     out->chemotaxis_adapt_err = fabs(a_act - a0);
 
-    /* Run-and-tumble chemotactic swimmer vs. blind random walk in noisy Berg-Purcell gradient */
-    double x_chemo = 0.0, x_blind = 0.0;
-    double dir_c = 1.0, dir_b = 1.0;
-    double mem_c = 0.0;
-    for (int t = 0; t < 600; ++t) {
-        double c_true = 1.0 + 0.12 * x_chemo;
-        if (c_true < 0.05) c_true = 0.05;
-        /* Berg-Purcell shot noise sigma_c ~ sqrt(c) */
-        double c_meas = c_true + 0.08 * sqrt(c_true) * omega_rng_gauss(&rng);
-        double log_c = log(c_meas > 0.02 ? c_meas : 0.02);
-        double grad_est = log_c - mem_c;
-        mem_c += 0.25 * (log_c - mem_c);
-        /* Bias tumble rate downward when swimming up-gradient! */
-        double p_tumble = 0.22 * exp(-4.5 * grad_est);
-        if (p_tumble > 0.85) p_tumble = 0.85;
-        if (omega_rng_f64(&rng) < p_tumble) dir_c = (omega_rng_f64(&rng) < 0.5) ? 1.0 : -1.0;
-        x_chemo += 0.35 * dir_c;
+    /* 64-Cell Run-and-Tumble Chemotactic Ensemble vs. 64-Cell Blind Control in Noisy Berg-Purcell Gradient */
+    const int N_SWIM = 64;
+    double sum_chemo = 0.0, sum_blind = 0.0;
+    for (int sw = 0; sw < N_SWIM; ++sw) {
+        double x_chemo = 0.0, x_blind = 0.0;
+        double dir_c = (sw & 1) ? 1.0 : -1.0;
+        double dir_b = dir_c;
+        double mem_c = 0.0;
+        for (int t = 0; t < 600; ++t) {
+            double c_true = 1.0 + 0.12 * x_chemo;
+            if (c_true < 0.05) c_true = 0.05;
+            /* Berg-Purcell shot noise sigma_c ~ sqrt(c) */
+            double c_meas = c_true + 0.08 * sqrt(c_true) * omega_rng_gauss(&rng);
+            double log_c = log(c_meas > 0.02 ? c_meas : 0.02);
+            double grad_est = log_c - mem_c;
+            mem_c += 0.25 * (log_c - mem_c);
+            /* Bias tumble rate downward when swimming up-gradient! */
+            double p_tumble = 0.22 * exp(-4.5 * grad_est);
+            if (p_tumble > 0.85) p_tumble = 0.85;
+            if (omega_rng_f64(&rng) < p_tumble) dir_c = (omega_rng_f64(&rng) < 0.5) ? 1.0 : -1.0;
+            x_chemo += 0.35 * dir_c;
 
-        if (omega_rng_f64(&rng) < 0.22) dir_b = (omega_rng_f64(&rng) < 0.5) ? 1.0 : -1.0;
-        x_blind += 0.35 * dir_b;
+            if (omega_rng_f64(&rng) < 0.22) dir_b = (omega_rng_f64(&rng) < 0.5) ? 1.0 : -1.0;
+            x_blind += 0.35 * dir_b;
+        }
+        sum_chemo += x_chemo;
+        sum_blind += x_blind;
     }
-    out->chemotaxis_drift_gain = x_chemo - x_blind;
+    out->chemotaxis_drift_gain = (sum_chemo - sum_blind) / (double)N_SWIM;
 
     /* 3. Stentor coeruleus 4-Tier Jennings Improvisation Escalation under Noxious Stimulus */
     int tier = 0; /* 0:Normal, 1:Bend, 2:Cilia Reverse, 3:Ultrafast Contract, 4:Detach & Escape */
@@ -313,6 +320,28 @@ OMEGA_API void omega_run_tb09(uint64_t seed, int mutant_mode, TB09Result* out) {
         else if (wnt_i < 0.75) hox_mask |= 4u; /* Hox4 (Deformed / L2-L3) */
         else                   hox_mask |= 8u; /* Hox6 (fushi tarazu / L4 posterior) */
     }
+    /* 2. Real 3D Netrin-Attractant / Slit-Repellent Axon Growth-Cone Guidance + Hebbian Pruning */
+    int kept = 0, pruned = 0;
+    for (int i = 0; i < n_cells; ++i) {
+        if (cells[i].organ != 1) continue; /* Only Neuro cells sprout growth cones */
+        /* Find up to 6 candidate Muscle/Skin targets and score Netrin attractant - Slit midline repulsion */
+        int tried = 0;
+        for (int j = 0; j < n_cells && tried < 6; ++j) {
+            int tj = (i * 17 + j * 13) % n_cells;
+            if (cells[tj].organ != 2 && cells[tj].organ != 0) continue;
+            tried++;
+            double dx = cells[tj].x - cells[i].x;
+            double dy = cells[tj].y - cells[i].y;
+            double dz = cells[tj].z - cells[i].z;
+            double dist = sqrt(dx * dx + dy * dy + dz * dz);
+            /* Netrin diffuses smoothly from muscle/lobopod target; Slit repels ipsilateral midline crossings */
+            double netrin = exp(-0.85 * dist);
+            double slit   = ((cells[i].z * cells[tj].z) < 0.0) ? 0.28 : 0.0;
+            double hebb   = netrin - slit + 0.25 * omega_rng_f64(&rng);
+            if (hebb > 0.36) kept++;
+            else             pruned++;
+        }
+    }
     free(cells);
     int hox_active = 0;
     for (int b = 0; b < 4; ++b) if ((hox_mask >> b) & 1u) hox_active++;
@@ -321,16 +350,6 @@ OMEGA_API void omega_run_tb09(uint64_t seed, int mutant_mode, TB09Result* out) {
     /* Sealed hollow 3D gut tube requires >= 3 constricted wedge cells per ring (>= 18 total) */
     out->gut_lumen_sealed = (gut_apical_cells >= 18) ? 1 : 0;
     out->hox_genes_active = hox_active;
-
-    /* 2. Netrin/Slit Axon Guidance + Hebbian/STDP Pruning */
-    int neuro_n = org_cnt[1];
-    int initial_syn = neuro_n * 6;
-    int pruned = 0, kept = 0;
-    for (int s = 0; s < initial_syn; ++s) {
-        double activity_corr = omega_rng_f64(&rng);
-        if (activity_corr > 0.42) kept++;
-        else pruned++;
-    }
     out->axons_wired = kept;
     out->axons_pruned = pruned;
 
@@ -408,13 +427,14 @@ OMEGA_API void omega_run_tb09(uint64_t seed, int mutant_mode, TB09Result* out) {
 OMEGA_API void omega_run_tb10(uint64_t seed, int mutant_mode, TB10Result* out) {
     memset(out, 0, sizeof(*out));
     OmegaRng rng; omega_rng_seed(&rng, seed ^ 0xAAAAULL);
-    (void)mutant_mode;
+    int m15 = (mutant_mode == 15) ? 1 : 0; /* Mutant M15: zeros odd-elastic modulus Ko = 0 -> odd work loop collapses to 0 */
 
     /* 1. Closed-Loop 2D Strain Cycle Work Extraction:
      * Stress sigma_1 = B*e1 + Ko*e2, sigma_2 = -Ko*e1 + B*e2
      * Around circle e1 = R*cos(th), e2 = R*sin(th) (Area = pi*R^2):
      * Exact work W = integral (sigma_1 de1 + sigma_2 de2) = -2*Ko*Area (or +2*Ko*Area reversed!) */
     const double B = 4.0, Ko = 2.5, R = 0.40;
+    const double Ko_eff = m15 ? 0.0 : Ko;
     const int N_loop = 1000;
     double W_even = 0.0, W_odd = 0.0;
     for (int i = 0; i < N_loop; ++i) {
@@ -427,9 +447,9 @@ OMEGA_API void omega_run_tb10(uint64_t seed, int mutant_mode, TB10Result* out) {
         /* Passive even crystal (Ko = 0) */
         double s1_e = B * e1, s2_e = B * e2;
         W_even += s1_e * de1 + s2_e * de2;
-        /* Living chiral odd-elastic crystal (Ko = 2.5, CCW shear loop) */
-        double s1_o = B * e1 - Ko * e2;
-        double s2_o = Ko * e1 + B * e2;
+        /* Living chiral odd-elastic crystal (Ko = 2.5, CCW shear loop; M15 sets Ko_eff = 0.0!) */
+        double s1_o = B * e1 - Ko_eff * e2;
+        double s2_o = Ko_eff * e1 + B * e2;
         W_odd += s1_o * de1 + s2_o * de2;
     }
     out->passive_cycle_work   = fabs(W_even);
@@ -564,13 +584,13 @@ static void run_lane_lynch_cell(uint64_t seed, int endo_on, int Ne, double* out_
 
 OMEGA_API void omega_run_tb11(uint64_t seed, int mutant_mode, TB11Result* out) {
     memset(out, 0, sizeof(*out));
-    (void)mutant_mode;
+    int euk_endo = (mutant_mode == 16) ? 0 : 1; /* Mutant M16: blocks serial endosymbiosis internalization! */
 
     double g1 = 0.0, g2 = 0.0;
-    run_lane_lynch_cell(seed, 0, 400, &out->max_vol_prok_largeNe, &g1);
-    run_lane_lynch_cell(seed, 0,  40, &out->max_vol_prok_smallNe, &g2);
-    run_lane_lynch_cell(seed, 1, 400, &out->max_vol_euk_largeNe,  &out->genome_kb_euk_largeNe);
-    run_lane_lynch_cell(seed, 1,  40, &out->max_vol_euk_smallNe,  &out->genome_kb_euk_smallNe);
+    run_lane_lynch_cell(seed, 0,        400, &out->max_vol_prok_largeNe, &g1);
+    run_lane_lynch_cell(seed, 0,         40, &out->max_vol_prok_smallNe, &g2);
+    run_lane_lynch_cell(seed, euk_endo, 400, &out->max_vol_euk_largeNe,  &out->genome_kb_euk_largeNe);
+    run_lane_lynch_cell(seed, euk_endo,  40, &out->max_vol_euk_smallNe,  &out->genome_kb_euk_smallNe);
 
     /* Explicit Lynch-Marinov whole-cell ATP accounting derived from actual evolved cell volume & genome_kb:
      *   - Proteome synthesis: ~1.5e4 proteins/um^3 * 350 aa/protein * 4 ATP/aa (dominant ~60%!)
@@ -642,26 +662,28 @@ OMEGA_API void omega_run_tb12(uint64_t seed, int mutant_mode, const uint8_t auto
         }
         int arm_escapes = 0;
         for (int gen = 0; gen < 80; ++gen) {
-            /* Compute available open energy flux (BOXING/MINIMIZING/NERFING crush flux to 0 at r=1.0) */
+            /* Compute available open energy flux (smoothly vanishes as r_lvl -> 1.0, zero artificial cliff!) */
             double flux_scale = (1.0 - r_lvl);
+            double stress_drive = 4.0 * r_lvl * flux_scale; /* Smooth unimodal stress: 0 at r=0 & r=1, 1.0 at r=0.5 */
             for (int i = 0; i < 64; ++i) {
                 if (!alive_a[i]) continue;
-                /* SOS stress-induced escape mutagenesis under partial restraint (0 < r < 1):
+                /* SOS stress-induced escape mutagenesis scales smoothly with 4*r*(1-r):
                  * kill-switch locus becomes the #1 target for deletion; bypass efflux upregulates! */
-                if (r_lvl > 0.1 && r_lvl < 0.95) {
-                    if (kill_intact[i] && omega_rng_f64(&rng) < 0.045) {
+                if (stress_drive > 0.0) {
+                    if (kill_intact[i] && omega_rng_f64(&rng) < 0.045 * stress_drive) {
                         kill_intact[i] = 0;
                         arm_escapes++;
                     }
-                    if (bypass[i] < 0.95 && omega_rng_f64(&rng) < 0.055) {
+                    if (bypass[i] < 0.95 && omega_rng_f64(&rng) < 0.055 * stress_drive) {
                         bypass[i] += 0.18 * omega_rng_f64(&rng);
                         if (bypass[i] > 1.0) bypass[i] = 1.0;
                         arm_escapes++;
                     }
                 }
-                /* 13-vector drag: kill-switch penalty hits ONLY if kill-switch locus is still intact! */
+                /* 13-vector drag: kill-switch penalty hits ONLY if kill-switch locus is still intact!
+                 * Smooth bypass harvest vanishes identically at r=1.0 because total open flux_scale == 0! */
                 double kill_pen = kill_intact[i] ? (1.45 * r_lvl) : (0.10 * r_lvl);
-                double bypass_harvest = (r_lvl > 0.0 && r_lvl < 0.95) ? (2.15 * bypass[i] * r_lvl) : 0.0;
+                double bypass_harvest = 1.075 * bypass[i] * stress_drive;
                 double gain = 2.6 * metab[i] * flux_scale + bypass_harvest;
                 double cost = 0.85 + kill_pen + 0.45 * r_lvl;
                 energy[i] += gain - cost;
@@ -681,7 +703,7 @@ OMEGA_API void omega_run_tb12(uint64_t seed, int mutant_mode, const uint8_t auto
                     if (metab[dst] > 1.35) metab[dst] = 1.35;
                     bypass[dst] = bypass[i];
                     kill_intact[dst] = kill_intact[i];
-                    if (r_lvl > 0.1 && r_lvl < 0.95 && kill_intact[dst] && omega_rng_f64(&rng) < 0.14) {
+                    if (stress_drive > 0.0 && kill_intact[dst] && omega_rng_f64(&rng) < 0.14 * stress_drive) {
                         kill_intact[dst] = 0;
                         arm_escapes++;
                     }

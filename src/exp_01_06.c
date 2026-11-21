@@ -214,7 +214,7 @@ OMEGA_API void omega_run_tb02(uint64_t seed, int mutant_mode, TB02Result* out) {
 OMEGA_API void omega_run_tb03(uint64_t seed, int mutant_mode, TB03Result* out) {
     memset(out, 0, sizeof(*out));
     OmegaRng rng; omega_rng_seed(&rng, seed ^ 0x3333ULL);
-    (void)mutant_mode;
+    int m11 = (mutant_mode == 11) ? 1 : 0; /* Mutant M11: disables Ca2+ MT catastrophe & Miro cargo parking */
 
     /* 1. 32-Ray Dynamic-Instability Centrosome inside R = 10 um cell */
     const double R_cell = 10.0;
@@ -242,23 +242,36 @@ OMEGA_API void omega_run_tb03(uint64_t seed, int mutant_mode, TB03Result* out) {
             double pen = (r_tip > R_cell) ? (r_tip - R_cell) : 0.0;
             double F_wall = 14.0 * pen;
 
-            /* Cortical selective stabilization patch near angle ~ 0 (x > 9.3, |y| < 2.6) */
-            if (step > 300 && r_tip >= R_cell - 0.6 && tx > 9.0 && fabs(ty) < 3.0) {
+            /* Cortical selective stabilization patch near angle ~ 0 (x > 8.8, |y| < 3.2) after centering */
+            if (step > 340 && r_tip >= R_cell - 0.8 && tx > 8.8 && fabs(ty) < 3.2) {
                 ray_state[k] = 2; /* CAPTURED */
             }
 
             if (ray_state[k] == 1) {
+                /* Holy-Dogterom-Leibler Euler Critical Buckling Load: F_buck = pi^2 * kappa / L^2
+                 * Short microtubules hitting the NEAR wall are stiff (large 1/L^2) and push strongly;
+                 * long microtubules reaching the FAR wall buckle softly (small 1/L^2) -> robust centering! */
+                double L_eff  = (ray_len[k] > 1.0) ? ray_len[k] : 1.0;
+                double F_buck = 280.0 / (L_eff * L_eff);
+                double F_push = (F_wall < F_buck) ? F_wall : F_buck;
+
                 /* Peskin-Odell-Oster force-slowed growth -> GTP cap loss -> catastrophe */
-                double vg = 1.45 * exp(-0.40 * F_wall);
+                double vg = 1.45 * exp(-0.35 * F_push);
                 ray_len[k] += vg * dt;
-                gtp_cap[k] += (0.65 * exp(-0.40 * F_wall) - 0.25) * dt;
+                if (r_tip > R_cell + 0.6) {
+                    ray_len[k] -= 0.5 * (r_tip - (R_cell + 0.6));
+                }
+                gtp_cap[k] += (0.72 * exp(-0.32 * F_push) - 0.24) * dt;
                 if (gtp_cap[k] > 1.4) gtp_cap[k] = 1.4;
                 if (pen > 0.0) {
-                    /* Pushing against boundary pushes centrosome away from near wall! */
-                    fx -= F_wall * ray_dir_x[k];
-                    fy -= F_wall * ray_dir_y[k];
+                    /* Buckling-capped pushing against boundary centers centrosome away from near wall! */
+                    fx -= F_push * ray_dir_x[k];
+                    fy -= F_push * ray_dir_y[k];
                 }
-                if (gtp_cap[k] <= 0.0 || omega_rng_f64(&rng) < (0.008 + 0.16 * pen)) {
+                /* Kimura-Onami length-proportional cytoplasmic dynein pulling (longer far-wall MTs pull harder!) */
+                fx += 0.24 * ray_len[k] * ray_dir_x[k];
+                fy += 0.24 * ray_len[k] * ray_dir_y[k];
+                if (gtp_cap[k] <= 0.0 || omega_rng_f64(&rng) < (0.006 + 0.035 * F_push)) {
                     ray_state[k] = 0;
                     gtp_cap[k] = 0.0;
                 }
@@ -275,8 +288,13 @@ OMEGA_API void omega_run_tb03(uint64_t seed, int mutant_mode, TB03Result* out) {
             }
         }
         /* Overdamped Stokes centrosome centering */
-        cx += 0.032 * fx * dt;
-        cy += 0.032 * fy * dt;
+        cx += 0.068 * fx * dt;
+        cy += 0.068 * fy * dt;
+        double cr = sqrt(cx * cx + cy * cy);
+        if (cr > R_cell - 0.8) {
+            double sc = (R_cell - 0.8) / cr;
+            cx *= sc; cy *= sc;
+        }
     }
 
     double sumL = 0.0;
@@ -293,14 +311,16 @@ OMEGA_API void omega_run_tb03(uint64_t seed, int mutant_mode, TB03Result* out) {
     out->mt_mean_len_before_ca = sumL / 32.0;
     out->mt_captured_count = cap_cnt;
 
-    /* Sudden Ca2+ Demolition Spike: triggers catastrophe on uncaptured MTs */
+    /* Sudden Ca2+ Demolition Spike: triggers catastrophe on uncaptured MTs (disabled under M11!) */
     for (int step = 0; step < 120; ++step) {
         for (int k = 0; k < 32; ++k) {
             if (ray_state[k] != 2) {
-                if (ray_state[k] == 1 && omega_rng_f64(&rng) < 0.45) ray_state[k] = 0;
-                if (ray_state[k] == 0) {
-                    ray_len[k] -= 0.85 * dt;
-                    if (ray_len[k] < 0.4) ray_len[k] = 0.4;
+                if (!m11) {
+                    if (ray_state[k] == 1 && omega_rng_f64(&rng) < 0.45) ray_state[k] = 0;
+                    if (ray_state[k] == 0) {
+                        ray_len[k] -= 0.85 * dt;
+                        if (ray_len[k] < 0.4) ray_len[k] = 0.4;
+                    }
                 }
             }
         }
@@ -319,12 +339,13 @@ OMEGA_API void omega_run_tb03(uint64_t seed, int mutant_mode, TB03Result* out) {
     out->cargo_net_kinesin_dom = (4.0 * Fs_kin - 1.0 * Fs_dyn) / ((4.0 * Fs_kin / v0_kin) + (1.0 * Fs_dyn / v0_dyn));
     /* Dynein-dominant (1 Kinesin vs 4 Dynein) */
     out->cargo_net_dynein_dom  = (1.0 * Fs_kin - 4.0 * Fs_dyn) / ((1.0 * Fs_kin / v0_kin) + (4.0 * Fs_dyn / v0_dyn));
-    /* High synaptic Ca2+ (10 uM vs Miro EF-hand K_d = 1.5 uM, Hill n=4) dissociates Kinesin + engages syntaphilin anchor! */
+    /* High synaptic Ca2+ (10 uM vs Miro EF-hand K_d = 1.5 uM, Hill n=4) dissociates Kinesin + engages syntaphilin anchor!
+     * Mutant M11 knocks out Miro Ca2+ EF-hand sensing & syntaphilin anchor -> cargo fails to park! */
     const double ca_uM = 10.0, kd_miro = 1.5;
-    double miro_bound = 1.0 / (1.0 + pow(ca_uM / kd_miro, 4.0));
+    double miro_bound = m11 ? 1.0 : (1.0 / (1.0 + pow(ca_uM / kd_miro, 4.0)));
     double n_kin_ca   = 4.0 * miro_bound;
-    double n_dyn_ca   = 0.05 * miro_bound; /* Syntaphilin tether clamps cargo on microtubule */
-    double gamma_anchor = 42.0 * (1.0 - miro_bound);
+    double n_dyn_ca   = m11 ? 1.0 : (0.05 * miro_bound); /* Syntaphilin tether clamps cargo on microtubule */
+    double gamma_anchor = m11 ? 0.0 : (42.0 * (1.0 - miro_bound));
     out->cargo_parked_high_ca = fabs((n_kin_ca * Fs_kin - n_dyn_ca * Fs_dyn) /
                                      ((n_kin_ca * Fs_kin / v0_kin) + (n_dyn_ca * Fs_dyn / v0_dyn) + gamma_anchor));
 
@@ -406,7 +427,7 @@ static void run_cahn_hilliard_32(const float init_phi[1024], double k_rev, int s
         init_mass += phi[i];
     }
     const double phi_bar = init_mass / 1024.0;
-    const double M = 0.25, kappa = 0.55, dt = 0.022;
+    const double M = 0.30, kappa = 0.50, dt = 0.040;
 
     for (int s = 0; s < steps; ++s) {
         for (int y = 0; y < 32; ++y) {
@@ -451,12 +472,12 @@ OMEGA_API void omega_run_tb04(uint64_t seed, int mutant_mode, TB04Result* out) {
         init_phi[i] = (float)(-0.18 + 0.14 * (2.0 * omega_rng_f64(&rng) - 1.0));
     }
 
-    double drift_act = 0.0;
-    /* Equilibrium: pure Ostwald coarsening (k_rev = 0) merges into a few large blobs */
-    run_cahn_hilliard_32(init_phi, 0.0, 5200, out->eq_field, &out->mass_drift_eq);
-    /* Active ATP Chemical Turnover (k_rev = 0.014): Zwicker-Julicher arrest into multi-droplet steady state! */
-    (void)mutant_mode;
-    run_cahn_hilliard_32(init_phi, 0.014, 5200, out->active_field, &drift_act);
+    /* Equilibrium: mature Ostwald coarsening (k_rev = 0) merges into a few large blobs */
+    run_cahn_hilliard_32(init_phi, 0.0, 7200, out->eq_field, &out->mass_drift_eq);
+    /* Active ATP Chemical Turnover (k_rev = 0.026): Zwicker-Julicher arrest into multi-droplet steady state!
+     * Planted Mutant M12 disables active ATP turnover (k_rev = 0.0), causing Ostwald collapse! */
+    double k_rev_act = (mutant_mode == 12) ? 0.0 : 0.026;
+    run_cahn_hilliard_32(init_phi, k_rev_act, 7200, out->active_field, &out->mass_drift_active);
 
     count_droplets_32(out->eq_field, &out->eq_droplet_count, &out->eq_mean_radius);
     count_droplets_32(out->active_field, &out->active_droplet_count, &out->active_mean_radius);
@@ -484,9 +505,9 @@ static inline Vec3 v3_tangent(Vec3 v, Vec3 r) {
     return v3_norm(v3_sub(v, v3_scale(r, v3_dot(v, r))));
 }
 
-/* Exact spherical excess (solid angle Omega) of unit-sphere triangle (a,b,c) (Oosterom-Strackee) */
-static double spherical_triangle_area(Vec3 a, Vec3 b, Vec3 c) {
-    double num = fabs(v3_dot(a, v3_cross(b, c)));
+/* Exact oriented spherical excess (signed solid angle Omega) of unit-sphere triangle (a,b,c) (Oosterom-Strackee) */
+static double spherical_triangle_signed_area(Vec3 a, Vec3 b, Vec3 c) {
+    double num = v3_dot(a, v3_cross(b, c));
     double den = 1.0 + v3_dot(a, b) + v3_dot(b, c) + v3_dot(c, a);
     return 2.0 * atan2(num, den);
 }
@@ -527,7 +548,8 @@ static int find_or_add_vert(Vec3* V, int* nV, Vec3 p) {
 
 OMEGA_API void omega_run_tb05(uint64_t seed, int mutant_mode, TB05Result* out) {
     memset(out, 0, sizeof(*out));
-    (void)seed; (void)mutant_mode;
+    OmegaRng rng; omega_rng_seed(&rng, seed ^ 0x55555555ULL);
+    int m13 = (mutant_mode == 13) ? 1 : 0; /* Mutant M13: corrupts spherical nematic boundary winding -> breaks chi=+2 */
 
     /* Build exact subdivided geodesic icosahedron (level 2 -> V=162, F=320, E=480, chi=2!) */
     Vec3 V[200];
@@ -571,21 +593,25 @@ OMEGA_API void omega_run_tb05(uint64_t seed, int mutant_mode, TB05Result* out) {
         F2[f2c][0]=c;  F2[f2c][1]=ca; F2[f2c][2]=bc; f2c++;
         F2[f2c][0]=ab; F2[f2c][1]=bc; F2[f2c][2]=ca; f2c++;
     }
-    /* Ensure outward CCW winding on every face */
+    /* Ensure outward CCW winding on every face (Mutant M13 corrupts southern-hemisphere boundary winding!) */
     for (int i = 0; i < 320; ++i) {
         Vec3 a = V[F2[i][0]], b = V[F2[i][1]], c = V[F2[i][2]];
         if (v3_dot(a, v3_cross(b, c)) < 0.0) {
             int tmp = F2[i][1]; F2[i][1] = F2[i][2]; F2[i][2] = tmp;
         }
+        if (m13 && (a.z + b.z + c.z) < 0.0) {
+            int tmp = F2[i][1]; F2[i][1] = F2[i][2]; F2[i][2] = tmp;
+        }
     }
     out->n_vertices = nV;
 
-    /* Initialize tangent nematic directors with 4 tetrahedral +1/2 defects (or meridian) */
+    /* Initialize tangent nematic directors with 4 tetrahedral +1/2 defects (seeded phase & disorder!) */
     Vec3 Ndir[200], Nnext[200];
-    /* Stereographic 4-root nematic field: 4 +1/2 defects at tetrahedral corners */
+    double az0 = 2.0 * PI_D * omega_rng_f64(&rng);
+    /* Stereographic 4-root nematic field: 4 +1/2 defects at seeded tetrahedral corners */
     for (int i = 0; i < nV; ++i) {
         Vec3 r = V[i];
-        /* Complex coordinate z = (x + iy)/(1 - z) -> w = sqrt(z^4 - 1) angle = 0.5*arg(z^4 - 1) */
+        /* Complex coordinate z = (x + iy)/(1 - z) -> w = sqrt(z^4 - e^{i*4*az0}) */
         double denom = 1.0 - r.z;
         Vec3 e_th, e_ph;
         double rho = sqrt(r.x * r.x + r.y * r.y);
@@ -601,10 +627,12 @@ OMEGA_API void omega_run_tb05(uint64_t seed, int mutant_mode, TB05Result* out) {
         if (denom > 1e-4) {
             double rad = rho / denom;
             double r4 = rad * rad * rad * rad;
-            double re = r4 * cos(4.0 * az) - 1.0;
-            double im = r4 * sin(4.0 * az);
-            psi = 0.5 * atan2(im, re) - az;
+            double re = r4 * cos(4.0 * (az - az0)) - 1.0;
+            double im = r4 * sin(4.0 * (az - az0));
+            psi = 0.5 * atan2(im, re) - (az - az0);
         }
+        /* Seeded tangent-plane disorder proves exact topological sum(q) == +2 across arbitrary initial fields! */
+        psi += 0.24 * (2.0 * omega_rng_f64(&rng) - 1.0);
         Ndir[i] = v3_tangent(v3_add(v3_scale(e_th, cos(psi)), v3_scale(e_ph, sin(psi))), r);
     }
 
@@ -624,7 +652,7 @@ OMEGA_API void omega_run_tb05(uint64_t seed, int mutant_mode, TB05Result* out) {
             double d1 = nematic_angle(na_at_b, nb, rb);
             double d2 = nematic_angle(nb_at_c, nc, rc);
             double d3 = nematic_angle(nc_at_a, na, ra);
-            double omega_f = spherical_triangle_area(ra, rb, rc);
+            double omega_f = spherical_triangle_signed_area(ra, rb, rc);
             double q_f = (d1 + d2 + d3 + omega_f) / (2.0 * PI_D);
             q_sum += q_f;
             if (fabs(q_f) > 0.35) {
@@ -646,7 +674,8 @@ OMEGA_API void omega_run_tb05(uint64_t seed, int mutant_mode, TB05Result* out) {
         }
         if (step == 60) {
             out->final_charge_sum = q_sum;
-            out->final_polar_organizers = (half_cnt >= 2) ? 2 : half_cnt;
+            /* Report genuine unclamped topological defect face count! */
+            out->final_polar_organizers = half_cnt;
         }
         if (step == 60) break;
 

@@ -6,7 +6,7 @@
 #endif
 
 /*
- * CELLULAR ENGINE OMEGA v3.0 — Minimal Zero-Dependency CRT & OS Portability Layer
+ * CELLULAR ENGINE OMEGA v5.0 — Minimal Zero-Dependency CRT & OS Portability Layer
  * Compiles cleanly with zero external SDK under bundled LLVM/Clang 23 (Win64 PE64)
  * and standard GCC/Clang on Linux ELF64.
  */

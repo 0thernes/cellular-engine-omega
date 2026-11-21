@@ -1,6 +1,6 @@
 /-
-  CELLULAR ENGINE OMEGA v3.0 — Pure Lean 4 Formal Verification (Zero Mathlib)
-  Module 8: Lafont Bio-Interaction Nets ("Bio-Frostbite") & Hybrid SSIN (O41–O46)
+  CELLULAR ENGINE OMEGA v5.0 — Pure Lean 4 Formal Verification (Zero Mathlib)
+  Module 8: Lafont Bio-Interaction Nets ("Bio-Frostbite") & Hybrid SSIN (O41–O46 + O41b)
     O41: Single-Ownership Linear Mass-Energy Conservation across all 4 Bio-Layers
     O42: Active-Pair Diamond Strong Confluence (Disjoint Rewrite Commutativity)
     O43: Zero-Power Cryptobiotic Bioglass Port Freezing (CAHS Tun Shielding)
@@ -171,17 +171,16 @@ theorem O45_gap_junction_laplacian_conservation
 
 /-! ### Hybrid SSIN ("Bio-Frostbite") Voxel Arbiter Conservation & Dominance (O46) -/
 
-/-- O46 (Hybrid Stochastic Spatial Interaction Net — SSIN Voxel Arbiter Law):
+/-- O46 (Hybrid Stochastic Spatial Interaction Net — Universal SSIN Voxel Arbiter Law):
     When a spatial `Voxel_Arbiter` matches `m` colliding free-swimming agents into
     `k` disjoint single-owner active pairs (`2 * k ≤ m`), total agent cardinality is
-    exactly conserved (`2 * k + (m - 2 * k) = m`), every matched agent belongs to at most
-    one active pair (strict linearity restored after arbitration!), and a 95/5 split allocates
-    strictly ≥ 19× more compute to pure lock-free confluent silicon than spatial arbitration. -/
+    identically conserved (`2 * k + (m - 2 * k) = m`). Moreover, for ANY arbitrary
+    arbitration workload `arb` and confluent cascade workload `conf` with `19 * arb ≤ conf`,
+    strictly ≥ 95% of total compute runs on pure lock-free confluent silicon (`95 * (arb + conf) ≤ 100 * conf`)! -/
 theorem O46_ssin_hybrid_arbiter_conservation_and_dominance
-    (m k : Nat) (hBound : 2 * k ≤ m) :
+    (m k arb conf : Nat) (hBound : 2 * k ≤ m) (hRatio : 19 * arb ≤ conf) :
     2 * k + (m - 2 * k) = m ∧
-    95 + 5 = 100 ∧
-    19 * 5 ≤ 95 := by
+    95 * (arb + conf) ≤ 100 * conf := by
   omega
 
 end OmegaCellular.BioInteractionNets

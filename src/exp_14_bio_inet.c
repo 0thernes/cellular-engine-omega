@@ -105,6 +105,8 @@ typedef struct BioInet {
     int        rewrites_total;
     int        layer_rewrites[4];
     int        max_box_depth;
+    int        ownership_faults;  /* Tracks overflow or double-wiring attempts (must be 0!) */
+    int        causal_hops;       /* End-to-end L1(DNA)->L2(Org)->L3(Cell)->L4(Creat) causal hops */
     int        mutant_race_mode;
     int64_t    shared_race_acc;
 } BioInet;
@@ -126,7 +128,10 @@ static void inet_init(BioInet* net, int mutant_race_mode) {
 
 static int32_t inet_add(BioInet* net, uint8_t tag, uint8_t layer, uint8_t depth,
                         uint32_t lineage_id, int64_t mass_q, int64_t charge_q, int32_t param) {
-    if (net->n_nodes >= INET_MAX_NODES) return -1;
+    if (net->n_nodes >= INET_MAX_NODES) {
+        net->ownership_faults++;
+        return -1;
+    }
     int32_t id = net->n_nodes++;
     BioAgent* ag = &net->nodes[id];
     ag->tag        = tag;
@@ -149,7 +154,11 @@ static int inet_is_rehydration_pair(const BioAgent* a, const BioAgent* b) {
 }
 
 static void inet_push_redex(BioInet* net, int32_t a, int32_t b) {
-    if (a < 0 || b < 0 || a == b || net->n_redex >= INET_MAX_REDEX) return;
+    if (a < 0 || b < 0 || a == b) return;
+    if (net->n_redex >= INET_MAX_REDEX) {
+        net->ownership_faults++;
+        return;
+    }
     if (!net->nodes[a].alive || !net->nodes[b].alive) return;
     if ((net->nodes[a].shielded || net->nodes[b].shielded) &&
         !inet_is_rehydration_pair(&net->nodes[a], &net->nodes[b])) return;
@@ -159,7 +168,14 @@ static void inet_push_redex(BioInet* net, int32_t a, int32_t b) {
 }
 
 static void inet_connect(BioInet* net, int32_t a, uint8_t pa, int32_t b, uint8_t pb) {
-    if (a < 0 || b < 0 || a == b || pa >= 4 || pb >= 4) return;
+    if (a < 0 || b < 0 || a == b || pa >= 4 || pb >= 4) {
+        net->ownership_faults++;
+        return;
+    }
+    /* Strict single-ownership check: overwriting an already-connected port is an ownership fault! */
+    if (net->nodes[a].port[pa].node != -1 || net->nodes[b].port[pb].node != -1) {
+        net->ownership_faults++;
+    }
     net->nodes[a].port[pa].node = b;
     net->nodes[a].port[pa].slot = pb;
     net->nodes[b].port[pb].node = a;
@@ -199,7 +215,7 @@ static int64_t inet_total_charge(const BioInet* net) {
 
 /* Strict Single-Ownership Wire Audit: every live wire must be strictly symmetric & dangling-free */
 static int inet_audit_ownership(const BioInet* net) {
-    int errs = 0;
+    int errs = net->ownership_faults;
     for (int i = 0; i < net->n_nodes; ++i) {
         if (!net->nodes[i].alive) continue;
         for (int p = 0; p < 4; ++p) {
@@ -268,7 +284,7 @@ static int inet_fire_pair(BioInet* net, int32_t u, int32_t v) {
         inet_add(net, AG_DNA_COPY, 1, d_max, mix_lineage(la, lb, 101u), copy_q, 0, B.param ^ 0x5A);
         if (heat_q > 0) inet_add(net, AG_HEAT, 1, d_max, mix_lineage(la, lb, 102u), heat_q, 0, 1);
         int32_t poly2 = inet_add(net, AG_POLY_DUP, 1, d_max, mix_lineage(la, lb, 103u), poly_rem, q_tot, A.param + 1);
-        if (next_base.node >= 0 && net->nodes[next_base.node].alive) {
+        if (poly2 >= 0 && next_base.node >= 0 && net->nodes[next_base.node].alive) {
             inet_connect(net, poly2, 0, next_base.node, next_base.slot);
         }
         net->layer_rewrites[0]++;
@@ -276,16 +292,22 @@ static int inet_fire_pair(BioInet* net, int32_t u, int32_t v) {
         return 1;
     }
     if (A.tag == AG_RIBO && B.tag == AG_CODON) {
-        /* Ribosome >< Codon -> Catalytic Protein + Heat + Advance Ribosome along mRNA! */
+        /* Ribosome >< Codon -> Catalytic Protein + Heat + Advance Ribosome along mRNA!
+         * If auxiliary port[2] holds a waiting L2 Organelle Synthase, deliver Protein causally (Hop 1: L1->L2)! */
         PortRef next_codon = inet_detach(net, v, 1);
+        PortRef l2_target  = inet_detach(net, u, 2);
         inet_kill_pair(net, u, v);
         int64_t heat_q = (m_tot >= 8) ? 2 : 0;
         int64_t prot_q = B.mass_q - (B.mass_q > 2 ? 1 : 0);
         int64_t ribo_q = m_tot - prot_q - heat_q;
-        inet_add(net, AG_PROTEIN, 1, d_max, mix_lineage(la, lb, 111u), prot_q, 0, B.param);
+        int32_t prot = inet_add(net, AG_PROTEIN, 1, d_max, mix_lineage(la, lb, 111u), prot_q, 0, B.param);
         if (heat_q > 0) inet_add(net, AG_HEAT, 1, d_max, mix_lineage(la, lb, 112u), heat_q, 0, 1);
         int32_t ribo2 = inet_add(net, AG_RIBO, 1, d_max, mix_lineage(la, lb, 113u), ribo_q, q_tot, A.param + 1);
-        if (next_codon.node >= 0 && net->nodes[next_codon.node].alive) {
+        if (prot >= 0 && l2_target.node >= 0 && net->nodes[l2_target.node].alive) {
+            inet_connect(net, prot, 0, l2_target.node, l2_target.slot);
+            net->causal_hops++;
+        }
+        if (ribo2 >= 0 && next_codon.node >= 0 && net->nodes[next_codon.node].alive) {
             inet_connect(net, ribo2, 0, next_codon.node, next_codon.slot);
         }
         net->layer_rewrites[0]++;
@@ -301,10 +323,10 @@ static int inet_fire_pair(BioInet* net, int32_t u, int32_t v) {
         int64_t adar_q = m_tot - ed_q;
         int32_t codon = inet_add(net, AG_CODON, 1, d_max, mix_lineage(la, lb, 121u), ed_q, q_tot, B.param ^ 0x3C);
         inet_add(net, AG_ADAR, 1, d_max, mix_lineage(la, lb, 122u), adar_q, 0, A.param + 1);
-        if (tail_chain.node >= 0 && net->nodes[tail_chain.node].alive) {
+        if (codon >= 0 && tail_chain.node >= 0 && net->nodes[tail_chain.node].alive) {
             inet_connect(net, codon, 1, tail_chain.node, tail_chain.slot);
         }
-        if (ribo_wait.node >= 0 && net->nodes[ribo_wait.node].alive) {
+        if (codon >= 0 && ribo_wait.node >= 0 && net->nodes[ribo_wait.node].alive) {
             inet_connect(net, codon, 0, ribo_wait.node, ribo_wait.slot);
         }
         net->layer_rewrites[0]++;
@@ -347,6 +369,23 @@ static int inet_fire_pair(BioInet* net, int32_t u, int32_t v) {
         net->rewrites_total++;
         return 1;
     }
+    if (A.tag == AG_ATP_SYNTH && B.tag == AG_PROTEIN) {
+        /* Causal Hop 2 (L1->L2->L3): Newly translated L1 Protein activates L2 ATP Synthase -> L3 CellRing! */
+        PortRef l3_target = inet_detach(net, u, 1);
+        inet_kill_pair(net, u, v);
+        int64_t heat_q = (B.mass_q >= 4) ? 2 : 0;
+        int64_t atp_q  = B.mass_q - heat_q;
+        inet_add(net, AG_ATP_SYNTH, 2, d_max, mix_lineage(la, lb, 204u), A.mass_q, q_tot, A.param);
+        int32_t atp = inet_add(net, AG_ATP, 2, d_max, mix_lineage(la, lb, 205u), atp_q, 0, 777);
+        if (heat_q > 0) inet_add(net, AG_HEAT, 2, d_max, mix_lineage(la, lb, 206u), heat_q, 0, 1);
+        if (atp >= 0 && l3_target.node >= 0 && net->nodes[l3_target.node].alive) {
+            inet_connect(net, atp, 0, l3_target.node, l3_target.slot);
+            net->causal_hops++;
+        }
+        net->layer_rewrites[1]++;
+        net->rewrites_total++;
+        return 1;
+    }
     if (A.tag == AG_KINESIN && B.tag == AG_TUBULIN) {
         /* Kinesin(ATP) >< Tubulin_i -> +8.2nm Step onto Tubulin_{i+1} + Work + Heat! */
         PortRef next_tub = inet_detach(net, v, 1);
@@ -359,7 +398,7 @@ static int inet_fire_pair(BioInet* net, int32_t u, int32_t v) {
         if (work_q > 0) inet_add(net, AG_WORK_STEP, 2, d_max, mix_lineage(la, lb, 212u), work_q, 0, 82); /* +8.2 nm */
         if (heat_q > 0) inet_add(net, AG_HEAT, 2, d_max, mix_lineage(la, lb, 213u), heat_q, 0, 1);
         int32_t kin2 = inet_add(net, AG_KINESIN, 2, d_max, mix_lineage(la, lb, 214u), kin_q, q_tot, A.param + 1);
-        if (next_tub.node >= 0 && net->nodes[next_tub.node].alive) {
+        if (kin2 >= 0 && next_tub.node >= 0 && net->nodes[next_tub.node].alive) {
             inet_connect(net, kin2, 0, next_tub.node, next_tub.slot);
         }
         net->layer_rewrites[1]++;
@@ -375,7 +414,7 @@ static int inet_fire_pair(BioInet* net, int32_t u, int32_t v) {
         inet_add(net, AG_MONOMER, 2, d_max, mix_lineage(la, lb, 221u), mono_q, 0, B.param);
         if (heat_q > 0) inet_add(net, AG_HEAT, 2, d_max, mix_lineage(la, lb, 222u), heat_q, 0, 1);
         int32_t ca2 = inet_add(net, AG_CA2_MELT, 2, d_max, mix_lineage(la, lb, 223u), A.mass_q, q_tot, A.param + 1);
-        if (next_wall.node >= 0 && net->nodes[next_wall.node].alive) {
+        if (ca2 >= 0 && next_wall.node >= 0 && net->nodes[next_wall.node].alive) {
             inet_connect(net, ca2, 0, next_wall.node, next_wall.slot);
         }
         net->layer_rewrites[1]++;
@@ -388,7 +427,7 @@ static int inet_fire_pair(BioInet* net, int32_t u, int32_t v) {
         inet_kill_pair(net, u, v);
         uint8_t next_depth = (d_max < 3) ? (uint8_t)(d_max + 1) : 3;
         int32_t endo = inet_add(net, AG_ENDO_BOX, 2, next_depth, mix_lineage(la, lb, 231u), m_tot, q_tot, (int32_t)next_depth);
-        if (outer_host.node >= 0 && net->nodes[outer_host.node].alive) {
+        if (endo >= 0 && outer_host.node >= 0 && net->nodes[outer_host.node].alive) {
             inet_connect(net, endo, 0, outer_host.node, outer_host.slot);
         }
         net->layer_rewrites[1]++;
@@ -433,15 +472,37 @@ static int inet_fire_pair(BioInet* net, int32_t u, int32_t v) {
         net->rewrites_total++;
         return 1;
     }
+    if (A.tag == AG_CELL_RING && B.tag == AG_ATP) {
+        /* Causal Hop 3 (L2->L3->L4): Charged L2 ATP triggers L3 Cell depolarization -> fires L4 CPG Neuron! */
+        PortRef l4_target = inet_detach(net, u, 1);
+        inet_kill_pair(net, u, v);
+        int64_t heat_q = (m_tot >= 16) ? 2 : 0;
+        int64_t cpg_q  = (B.mass_q >= 4) ? (B.mass_q - heat_q) : B.mass_q;
+        int64_t cell_m = m_tot - cpg_q - heat_q;
+        int64_t cpg_chg = q_tot / 4;
+        int64_t cell_chg = q_tot - cpg_chg;
+        inet_add(net, AG_CELL_RING, 3, d_max, mix_lineage(la, lb, 351u), cell_m, cell_chg, A.param + 1);
+        int32_t cpg = inet_add(net, AG_CPG_NEURON, 4, d_max, mix_lineage(la, lb, 352u), cpg_q, cpg_chg, 777);
+        if (heat_q > 0) inet_add(net, AG_HEAT, 3, d_max, mix_lineage(la, lb, 353u), heat_q, 0, 1);
+        if (cpg >= 0 && l4_target.node >= 0 && net->nodes[l4_target.node].alive) {
+            inet_connect(net, cpg, 0, l4_target.node, l4_target.slot);
+            net->causal_hops++;
+        }
+        net->layer_rewrites[2]++;
+        net->rewrites_total++;
+        return 1;
+    }
     if (A.tag == AG_CELL_RING && B.tag == AG_CAHS_GLASS) {
         /* CAHS Bioglass Tun Vitrification: wraps internal ports in shielded=1 (0 active pairs!) */
         PortRef internal_peer = inet_detach(net, u, 1);
         inet_kill_pair(net, u, v);
         int32_t tun = inet_add(net, AG_BIOGLASS_TUN, 3, d_max, mix_lineage(la, lb, 331u), m_tot, q_tot, B.param);
-        net->nodes[tun].shielded = 1; /* Principal port frozen — ZERO dynamic power burn! */
-        if (internal_peer.node >= 0 && net->nodes[internal_peer.node].alive) {
-            net->nodes[internal_peer.node].shielded = 1;
-            inet_connect(net, tun, 1, internal_peer.node, internal_peer.slot);
+        if (tun >= 0) {
+            net->nodes[tun].shielded = 1; /* Principal port frozen — ZERO dynamic power burn! */
+            if (internal_peer.node >= 0 && net->nodes[internal_peer.node].alive) {
+                net->nodes[internal_peer.node].shielded = 1;
+                inet_connect(net, tun, 1, internal_peer.node, internal_peer.slot);
+            }
         }
         net->layer_rewrites[2]++;
         net->rewrites_total++;
@@ -456,7 +517,7 @@ static int inet_fire_pair(BioInet* net, int32_t u, int32_t v) {
         int64_t cell_m  = m_tot - h2o_rem;
         int32_t cell2 = inet_add(net, AG_CELL_RING, 3, d_max, mix_lineage(la, lb, 341u), cell_m, q_tot, A.param);
         inet_add(net, AG_MONOMER, 3, d_max, mix_lineage(la, lb, 342u), h2o_rem, 0, B.param);
-        if (internal_peer.node >= 0 && net->nodes[internal_peer.node].alive) {
+        if (cell2 >= 0 && internal_peer.node >= 0 && net->nodes[internal_peer.node].alive) {
             net->nodes[internal_peer.node].shielded = 0;
             inet_connect(net, cell2, 1, internal_peer.node, internal_peer.slot);
             /* If internal organelle had a waiting principal-port encounter, wake its active pair! */
@@ -472,9 +533,13 @@ static int inet_fire_pair(BioInet* net, int32_t u, int32_t v) {
 
     /* ---------------- LAYER 4: MULTICELLULAR CREATURES / ORGANS / CPG ---------------- */
     if (A.tag == AG_GAP_JUNC && B.tag == AG_CELL_VM) {
-        /* GapJunction >< (Cell_i, Cell_j): Lock-free conservative Levin bioelectric Graph Laplacian! */
-        PortRef cell_j_ref = inet_detach(net, u, 1);
-        if (cell_j_ref.node >= 0 && net->nodes[cell_j_ref.node].alive && net->nodes[cell_j_ref.node].tag == AG_CELL_VM) {
+        /* GapJunction >< (Cell_i, Cell_j): Lock-free conservative Levin bioelectric Graph Laplacian!
+         * Validate peer cj BEFORE detaching port 1 so an invalid peer never mutates graph wiring. */
+        PortRef cell_j_peek = net->nodes[u].port[1];
+        if (cell_j_peek.node >= 0 && cell_j_peek.node < net->n_nodes &&
+            cell_j_peek.node != u && cell_j_peek.node != v &&
+            net->nodes[cell_j_peek.node].alive && net->nodes[cell_j_peek.node].tag == AG_CELL_VM) {
+            PortRef cell_j_ref = inet_detach(net, u, 1);
             int32_t cj = cell_j_ref.node;
             BioAgent J = net->nodes[cj];
             int64_t dq = (B.charge_q - J.charge_q) / 4; /* Conservative integer charge transfer! */
@@ -511,6 +576,7 @@ static int inet_fire_pair(BioInet* net, int32_t u, int32_t v) {
         inet_add(net, AG_MUSCLE_BAND, 4, d_max, mix_lineage(la, lb, 421u), rem, q_tot, B.param + 1);
         if (work_q > 0) inet_add(net, AG_WORK_STEP, 4, d_max, mix_lineage(la, lb, 422u), work_q, 0, A.param);
         if (heat_q > 0) inet_add(net, AG_HEAT, 4, d_max, mix_lineage(la, lb, 423u), heat_q, 0, 1);
+        if (A.param == 777) net->causal_hops++; /* Causal Hop 4 completed at L4 Creature actuator! */
         net->layer_rewrites[3]++;
         net->rewrites_total++;
         return 1;
@@ -563,18 +629,25 @@ typedef struct CanonNodeRec {
     uint32_t peer_lin[4];  /* Content-addressed lineage_id of each port partner */
 } CanonNodeRec;
 
+static int canon_rec_cmp(const CanonNodeRec* a, const CanonNodeRec* b) {
+    if (a->lineage_id != b->lineage_id) return (a->lineage_id > b->lineage_id) ? 1 : -1;
+    if (a->meta       != b->meta)       return (a->meta       > b->meta)       ? 1 : -1;
+    if (a->mass_q     != b->mass_q)     return (a->mass_q     > b->mass_q)     ? 1 : -1;
+    if (a->charge_q   != b->charge_q)   return (a->charge_q   > b->charge_q)   ? 1 : -1;
+    if (a->param      != b->param)      return (a->param      > b->param)      ? 1 : -1;
+    for (int p = 0; p < 4; ++p) {
+        if (a->peer_lin[p] != b->peer_lin[p]) return (a->peer_lin[p] > b->peer_lin[p]) ? 1 : -1;
+    }
+    return 0;
+}
+
 static void sort_canon_records(CanonNodeRec* arr, int n) {
-    /* Deterministic insertion/shell sort (zero stdlib qsort dependency on bare Win64) */
+    /* Deterministic insertion/shell sort with total-order canonical tie-breaker across ALL fields */
     for (int gap = n / 2; gap > 0; gap /= 2) {
         for (int i = gap; i < n; ++i) {
             CanonNodeRec tmp = arr[i];
             int j = i;
-            while (j >= gap) {
-                const CanonNodeRec* prev = &arr[j - gap];
-                int gt = (prev->lineage_id > tmp.lineage_id) ||
-                         (prev->lineage_id == tmp.lineage_id && prev->meta > tmp.meta) ||
-                         (prev->lineage_id == tmp.lineage_id && prev->meta == tmp.meta && prev->mass_q > tmp.mass_q);
-                if (!gt) break;
+            while (j >= gap && canon_rec_cmp(&arr[j - gap], &tmp) > 0) {
                 arr[j] = arr[j - gap];
                 j -= gap;
             }
@@ -721,6 +794,21 @@ static void build_4layer_biosphere_graph(BioInet* net, uint64_t seed) {
         int32_t musc = inet_add(net, AG_MUSCLE_BAND, 4, 0, uid++, 56, -70, leg);
         inet_connect(net, cpg, 0, musc, 0);
     }
+
+    /* ---- END-TO-END 4-LAYER CAUSAL PIPELINE (L1 DNA -> L2 Organelle -> L3 Cell -> L4 Creature) ----
+     * Strictly causal sequential dependency chain that MUST execute in exact L1->L2->L3->L4 order
+     * even under Chaotic Random Parallel Scheduling, proving deterministic causal confluence! */
+    for (int pipe = 0; pipe < 2; ++pipe) {
+        int32_t ribo_c = inet_add(net, AG_RIBO,        1, 0, uid++, 64,   0, 900 + pipe);
+        int32_t cod_c  = inet_add(net, AG_CODON,       1, 0, uid++, 20,   0, 910 + pipe);
+        int32_t syn_c  = inet_add(net, AG_ATP_SYNTH,   2, 1, uid++, 40,   0, 920 + pipe);
+        int32_t cell_c = inet_add(net, AG_CELL_RING,   3, 0, uid++, 96, -64, 930 + pipe);
+        int32_t musc_c = inet_add(net, AG_MUSCLE_BAND, 4, 0, uid++, 56, -72, 940 + pipe);
+        inet_connect(net, cell_c, 1, musc_c, 0); /* L3 waits to fire L4 Muscle */
+        inet_connect(net, syn_c,  1, cell_c, 0); /* L2 waits to energize L3 Cell */
+        inet_connect(net, ribo_c, 2, syn_c,  0); /* L1 waits to deliver Protein to L2 ATP Synthase */
+        inet_connect(net, ribo_c, 0, cod_c,  0); /* Ignites L1->L2->L3->L4 causal cascade! */
+    }
 }
 
 /*
@@ -780,11 +868,14 @@ static void run_cryptobiotic_tun_test(int* dry_pairs, int64_t* dry_power, int* r
 }
 
 /*
- * Hybrid Stochastic Spatial Interaction Net (SSIN / "Bio-Frostbite") Test:
- * <=5% Spatial Voxel_Arbiter boundary pairs free-swimming microbes/phages -> >=95% lock-free confluent cascades!
+ * Hybrid Stochastic Spatial Interaction Net (SSIN / "Bio-Frostbite") Test (O46):
+ * Each of 16 3D fluid voxels contains m in [3..7] freely colliding agents (total m >= 64).
+ * Spatial Voxel_Arbiter resolves multi-agent contention into k=1 disjoint single-owner pair
+ * per voxel (strictly 2*k <= m, preserving m-2*k spectator agents untouched!), launching a
+ * 20..22-step lock-free confluent internal rewrite cascade (>= 95% confluent compute)!
  */
-static void run_ssin_hybrid_bench(uint64_t seed, int feral, int* arbiter_pairs, int* confluent_rewrites,
-                                  int64_t* ssin_mass_drift, int* ssin_wire_errs) {
+static void run_ssin_hybrid_bench(uint64_t seed, int feral, int* arbiter_pairs, int* agents_contended,
+                                  int* confluent_rewrites, int64_t* ssin_mass_drift, int* ssin_wire_errs) {
     OmegaRng rng;
     uint64_t eff = seed ^ 0x551AF057ULL;
     if (feral) {
@@ -805,10 +896,17 @@ static void run_ssin_hybrid_bench(uint64_t seed, int feral, int* arbiter_pairs, 
     if (!ssin) return;
     inet_init(ssin, 0);
 
-    /* 16 3D fluid voxels: 1 spatial Voxel_Arbiter pairing triggers a 20..22-step pure confluent cascade (~95.3%!) */
+    /* 16 3D fluid voxels with genuine multi-agent contention (m = 3..7 agents/voxel) -> 2*k <= m */
     int pairs_matched = 0;
+    int total_contenders = 0;
     uint32_t uid = 50000u;
     for (int vox = 0; vox < 16; ++vox) {
+        int m_voxel = 3 + (int)(omega_rng_u32(&rng) % 5u); /* 3..7 contending free agents in this voxel */
+        total_contenders += m_voxel;
+        /* Add (m_voxel - 2) unmatched spectator agents preserved intact by Voxel_Arbiter (O46: 2k + (m-2k) = m) */
+        for (int sp = 0; sp < m_voxel - 2; ++sp) {
+            inet_add(ssin, AG_MONOMER, 2, 0, uid++, 10, 0, vox * 16 + sp);
+        }
         int encounter = (int)(omega_rng_u32(&rng) % 3u);
         if (encounter == 0) {
             int32_t poly = inet_add(ssin, AG_POLY_DUP, 1, 0, uid++, 240, 0, vox);
@@ -846,6 +944,7 @@ static void run_ssin_hybrid_bench(uint64_t seed, int feral, int* arbiter_pairs, 
     /* Execute all resulting cascades lock-free in chaotic parallel permutation order */
     inet_reduce_to_normal_form(ssin, 2, eff ^ 0x12345678ULL);
     *arbiter_pairs      = pairs_matched;
+    *agents_contended   = total_contenders;
     *confluent_rewrites = ssin->rewrites_total;
     *ssin_mass_drift    = inet_total_mass(ssin) - m0;
     *ssin_wire_errs     = inet_audit_ownership(ssin);
@@ -876,6 +975,7 @@ OMEGA_API void omega_run_tb14(uint64_t seed, int mutant_mode, int feral_hw_entro
     int64_t init_q = inet_total_charge(net_fifo);
     out->total_nodes_init = net_fifo->n_nodes;
     out->init_mass_q      = init_m;
+    out->init_charge_q    = init_q;
 
     /* Execute the EXACT SAME graph under FIFO, LIFO, and 3 distinct Chaotic Random Parallel Permutations (5 schedules!) */
     inet_reduce_to_normal_form(net_fifo, 0, seed ^ 0x1111ULL); /* Forward FIFO */
@@ -911,9 +1011,10 @@ OMEGA_API void omega_run_tb14(uint64_t seed, int mutant_mode, int feral_hw_entro
     double dt_sec = omega_time_sec() - t0;
     if (dt_sec < 1e-6) dt_sec = 1e-6;
 
-    out->rewrites_fifo   = net_fifo->rewrites_total;
-    out->rewrites_lifo   = net_lifo->rewrites_total;
-    out->rewrites_random = rand_rewrites;
+    out->rewrites_fifo      = net_fifo->rewrites_total;
+    out->rewrites_lifo      = net_lifo->rewrites_total;
+    out->rewrites_random    = rand_rewrites;
+    out->causal_4layer_hops = net_fifo->causal_hops;
     for (int l = 0; l < 4; ++l) out->layer_rewrites[l] = net_fifo->layer_rewrites[l];
 
     out->confluence_exact_match =
@@ -948,8 +1049,8 @@ OMEGA_API void omega_run_tb14(uint64_t seed, int mutant_mode, int feral_hw_entro
     int64_t ssin_drift = 0;
     int ssin_wire_errs = 0;
     double t_ssin0 = omega_time_sec();
-    run_ssin_hybrid_bench(seed, feral_hw_entropy, &out->ssin_arbiter_pairings, &out->ssin_confluent_rewrites,
-                          &ssin_drift, &ssin_wire_errs);
+    run_ssin_hybrid_bench(seed, feral_hw_entropy, &out->ssin_arbiter_pairings, &out->ssin_agents_contended,
+                          &out->ssin_confluent_rewrites, &ssin_drift, &ssin_wire_errs);
     double dt_ssin = omega_time_sec() - t_ssin0;
     if (dt_ssin < 0.0) dt_ssin = 0.0;
     out->mass_drift_fifo       += ssin_drift;

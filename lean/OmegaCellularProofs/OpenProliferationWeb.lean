@@ -81,4 +81,22 @@ theorem O40_five_repo_ecosystem_bidirectional_closure
     mDNA + mCell + mCreat + mSwarm + mWorld := by
   omega
 
+/-- O61 (Cross-Substrate Xenocellular `c`-Ring Chemiosmotic Gearbox Threshold):
+    Across planetary solvents (e.g., Titan cryogenic `CH₄/N₂` lower PMF `eLow` vs.
+    Terran `H₂O` or Venusian `H₂SO₄` higher PMF `eHigh > eLow`), synthesizing ATP
+    against fixed barrier `dG` (`nLow * eLow = dG = nHigh * eHigh`) strictly forces
+    a larger minimum proton `c`-ring stoichiometry in the lower-PMF solvent (`nHigh < nLow`). -/
+theorem O61_xenocellular_cring_pmf_threshold
+    (eLow eHigh nLow nHigh dG : Nat)
+    (heLt : eLow < eHigh) (hnH : 0 < nHigh)
+    (hL : nLow * eLow = dG) (hH : nHigh * eHigh = dG) :
+    nHigh < nLow := by
+  by_cases hres : nHigh < nLow
+  · exact hres
+  · have hle : nLow ≤ nHigh := Nat.le_of_not_lt hres
+    have ha : nLow * eLow ≤ nHigh * eLow := Nat.mul_le_mul_right eLow hle
+    have hb : nHigh * eLow < nHigh * eHigh := Nat.mul_lt_mul_of_pos_left heLt hnH
+    have hlt : nLow * eLow < nHigh * eHigh := Nat.lt_of_le_of_lt ha hb
+    omega
+
 end OmegaCellular.OpenProliferationWeb

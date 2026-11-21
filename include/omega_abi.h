@@ -32,7 +32,7 @@ OMEGA_API double   omega_time_sec(void);
 OMEGA_API void     omega_sha256_hex(const void* data, size_t len, char out_hex[65]);
 
 /* ============================================================================
- * 12 Experimental Testbed Result Structures
+ * 16 Experimental Testbed Result Structures (CELLULAR ENGINE OMEGA v5.0)
  * ============================================================================ */
 
 /* TB01: Purcell Scallop Theorem & MotA5MotB2 Rotary Corkscrew */
@@ -89,6 +89,7 @@ typedef struct TB04Result {
     int    active_droplet_count;   /* ATP-arrested droplet count (> eq_droplet_count) */
     double active_mean_radius;     /* ATP-arrested finite radius (< eq_mean_radius) */
     double mass_drift_eq;          /* Mass conservation residual in passive Cahn-Hilliard */
+    double mass_drift_active;      /* Mass conservation residual in active ATP Cahn-Hilliard */
     float  eq_field[1024];         /* 32x32 equilibrium snapshot for microscope */
     float  active_field[1024];     /* 32x32 active-arrested snapshot for microscope */
     char   sha256[65];
@@ -231,6 +232,7 @@ typedef struct TB14Result {
     int      layer_rewrites[4];      /* Active-pair rewrites by layer: [0]=DNA, [1]=Organelle, [2]=Cell, [3]=Creature */
     int      confluence_exact_match; /* 1 iff sha_fifo == sha_lifo == sha_random (0-bit identical!) */
     int64_t  init_mass_q;            /* Initial exact integer linear mass quantum across all 4 layers */
+    int64_t  init_charge_q;          /* Initial exact integer bioelectric charge quantum across all 4 layers */
     int64_t  mass_drift_fifo;        /* Exact integer linear mass residual (must be 0) */
     int64_t  mass_drift_lifo;        /* Exact integer linear mass residual (must be 0) */
     int64_t  mass_drift_random;      /* Exact integer linear mass residual (must be 0) */
@@ -240,8 +242,10 @@ typedef struct TB14Result {
     int      tun_active_pairs_dry;   /* Active pairs fired during CAHS Bioglass desiccation (must be 0!) */
     int64_t  tun_power_burn_dry;     /* Dynamic power units burned during cryptobiotic tun (must be 0!) */
     int      tun_rewrites_rehyd;     /* Active pairs resumed cleanly after H2O rehydration (> 0) */
-    int      ssin_arbiter_pairings;  /* Spatial Voxel_Arbiter pairings at <=5% collision boundary */
+    int      ssin_arbiter_pairings;  /* Spatial Voxel_Arbiter disjoint pairings (2k <= m) */
+    int      ssin_agents_contended;  /* Total multi-agent 3D voxel contenders arbitrated (m >= 2k) */
     int      ssin_confluent_rewrites;/* Pure confluent lock-free internal rewrites (95%+ compute!) */
+    int      causal_4layer_hops;     /* End-to-end L1(DNA)->L2(Org)->L3(Cell)->L4(Creat) causal hops */
     double   ssin_confluent_pct;     /* Confluent parallel silicon compute percentage (>= 95%) */
     char     sha_fifo[65];           /* Normal-form canonical SHA-256 (Schedule A: Forward FIFO) */
     char     sha_lifo[65];           /* Normal-form canonical SHA-256 (Schedule B: Reverse LIFO) */
@@ -279,6 +283,8 @@ typedef struct TB15Result {
     double   connectome_wireless_reach; /* Wired + wireless neuropeptide reachability (> wired!) */
     int      rhombozoa_cells;           /* Eutelic cleavage mesozoan micro-parasite cell count (20..40) */
     int      henneguya_mt_genes;        /* Anoxic gene-loss cnidarian micro-parasite mtDNA genes (0) */
+    int      cohesin_steric_blocks;     /* Excluded-volume Cohesin-Cohesin lattice collision stalls */
+    int      three_gen_ko_blocked;      /* Single-genome KOs blocking 3-genome pathway closure (must be 3/3) */
     float    cnidocyte_accel_curve[32]; /* 32-pt real 1ns-ODE acceleration trajectory (units of 10^6 g) */
     float    tad_contact_profile[32];   /* 32-bin real Cohesin/CTCF loop-extrusion contact curve across CTCF */
     char     sha256[65];
@@ -294,16 +300,31 @@ typedef struct TB16Result {
     double   zonation_monotonicity;     /* Gradient correlation coherence (> 0.95) */
     double   zeroshot_raw_r2;           /* Unprojected Ridge-trained AI held-out Context B R^2 */
     double   zeroshot_perturb_r2;       /* Stoichiometric-projected Ridge-trained AI Context B R^2 (> 0.85) */
-    double   zeroshot_essential_auroc;  /* Real 473-gene graph CRISPRi knockout AUROC (> 0.90) */
-    int      syn3a_total_genes;         /* JCVI-syn3A minimal genome size (473) */
-    int      syn3a_dark_genes;          /* Essential unknown-function "dark proteome" genes (100) */
+    double   zeroshot_essential_auroc;  /* Real 593-gene JCVI-syn3A graph CRISPRi knockout AUROC (> 0.90) */
+    int      syn3a_total_genes;         /* JCVI-syn3A minimal genome size (493: 401 characterized + 92 dark) */
+    int      syn3a_dark_genes;          /* Essential unknown-function "dark proteome" genes (92) */
     int      syn3a_dark_discovered;     /* Essential dark genes recovered via real flux-collapse knockouts */
     double   raw_ai_mass_hallucination; /* Unconstrained Ridge-fitted prediction mass drift (> 0.15) */
     double   projected_mass_residual;   /* Physics-projected stoichiometric residual (< 1e-12; broken by M10!) */
-    double   six_tier_closure_err;      /* End-to-end 6-tier Inorganic->VirtualCell conservation residual */
+    double   six_tier_closure_err;      /* Coupled 6-tier Inorganic->VirtualCell conservation residual */
+    int64_t  six_tier_int_drift;        /* Exact integer 6-tier closure ledger drift (must be 0 for O63!) */
     float    syn3a_ko_flux_hist[32];    /* Real 32-bin CRISPRi knockout flux-collapse histogram (dark vs ctrl) */
     char     sha256[65];
 } TB16Result;
+
+/* Cross-Testbed Live 6-Tier Conservation Ledger fed into TB16 (O58 / O63) */
+typedef struct OmegaTierLedger {
+    double  t1_raf_mass_residual;       /* Tier 1: Inorganic->Prebiotic RAF (TB15) */
+    double  t1_raf_total_mass;          /* Tier 1 reference mass */
+    int64_t t2_three_genome_mass_drift; /* Tier 2: 3-Genome Molecular Assembly (TB15) */
+    double  t3_llps_mass_drift;         /* Tier 3: Organelle LLPS Cahn-Hilliard (TB04) */
+    double  t3_llps_total_mass;         /* Tier 3 reference mass */
+    int64_t t4_inet_mass_drift;         /* Tier 4: Cellular 4-Layer Bio-Frostbite INet (TB14) */
+    int64_t t4_inet_charge_drift;       /* Tier 4: Bio-Frostbite Gap-Junction charge drift (TB14) */
+    double  t5_biosphere_mass_residual; /* Tier 5: 5-Repo Biosphere & Topology (TB13) */
+    double  t5_biosphere_total_mass;    /* Tier 5 reference mass */
+    double  t5_topology_charge_err;     /* Tier 5: Poincare-Hopf S^2 charge err (TB05) */
+} OmegaTierLedger;
 
 /* Public Runner Entry Points */
 OMEGA_API void omega_run_tb01(uint64_t seed, int mutant_mode, TB01Result* out);
@@ -322,6 +343,7 @@ OMEGA_API void omega_run_tb13(uint64_t seed, int mutant_mode, int feral_hw_entro
 OMEGA_API void omega_run_tb14(uint64_t seed, int mutant_mode, int feral_hw_entropy, TB14Result* out);
 OMEGA_API void omega_run_tb15(uint64_t seed, int mutant_mode, TB15Result* out);
 OMEGA_API void omega_run_tb16(uint64_t seed, int mutant_mode, TB16Result* out);
+OMEGA_API void omega_run_tb16_coupled(uint64_t seed, int mutant_mode, const OmegaTierLedger* ledger, TB16Result* out);
 
 #ifdef __cplusplus
 }

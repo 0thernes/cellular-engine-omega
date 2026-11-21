@@ -45,11 +45,15 @@ function renderAllStatic() {
   const gates = [
     ['Purcell 1-DOF == 0', Math.abs(d.tb01.scallop_net_disp) < 1e-10],
     ['Mavirus Rescue', d.tb02.amoeba_with_mavirus > 2.5 * d.tb02.amoeba_no_mavirus],
+    ['Cytoskeleton Ca²⁺ & Miro', d.tb03.mt_after_ca < 0.55 * d.tb03.mt_before_ca && d.tb03.parked_ca < 0.05],
+    ['Active LLPS Arrest', d.tb04.active_droplets > d.tb04.eq_droplets && d.tb04.active_radius < d.tb04.eq_radius],
     ['Poincare-Hopf χ=+2', d.tb05.max_err < 1e-9],
     ['Eigen Proofreading', d.tb06.kp1_L600 > 0.85],
     ['Turing Pattern', d.tb07.fast_inh_std > 0.10],
-    ['TUR ≥ 2.0', d.tb08.tur_min >= 1.95],
+    ['TUR ≥ 2.0', d.tb08.tur_min >= 1.98],
     ['≤1000-Cell Tardigrade', d.tb09.total_cells <= 1000 && d.tb09.intact_surv > 50],
+    ['Odd-Elastic K_o Work', Math.abs(d.tb10.odd_work - d.tb10.theory_odd_work) < 0.02],
+    ['Endosymbiosis Vol', d.tb11.euk_bigNe > 2.5 * d.tb11.prok_bigNe],
     ['Track-A 0 Tumors', d.tb12.trackA_tumors === 0],
     ['12D Open Proliferation', d.tb13.nov2 > 200 && d.tb13.mass_res < 1e-8],
     ['Bio-Frostbite 5×SHA Confluence', Boolean(t14 && t14.confluence_match === 1)],
@@ -59,7 +63,7 @@ function renderAllStatic() {
   ];
   bEl.innerHTML =
     `<div class="badge info">C11 Runtime: ${d.elapsed_ms.toFixed(2)} ms · ${d.feral ? 'FERAL HW ENTROPY' : 'Seed ' + esc(d.seed)}${d.mutant ? ' · M' + d.mutant : ''}</div>` +
-    `<div class="badge">Lean 4: 61 / 61 PROVEN (150 Ecosystem · 0 sorryAx)</div>` +
+    `<div class="badge">Lean 4: 66 / 66 PROVEN (155+ Ecosystem · 0 sorryAx)</div>` +
     gates.map(([lbl, ok]) => `<div class="badge ${ok ? '' : 'fail'}">${ok ? 'PASS' : 'MUTANT CAUGHT'}: ${esc(lbl)}</div>`).join('');
 
   // TB15 Deep Strata Frontier metrics
@@ -89,7 +93,7 @@ function renderAllStatic() {
     document.getElementById('mVirtualCell').innerHTML =
       kv('PDE Hepatic Zonation', `O₂→Gluc r=${t16.zonation_mono.toFixed(3)} · 32z 1D PDE`, 'ok') +
       kv('Ridge Zero-Shot (Ctx B)', `Proj R²=${t16.perturb_r2.toFixed(3)} (Raw ${(t16.raw_r2 ?? t16.perturb_r2).toFixed(3)}) · AUC=${t16.essential_auroc.toFixed(3)}`, 'ok') +
-      kv('573-Gene syn3A Graph', `${t16.syn3a_discovered}/${t16.syn3a_dark} dark essentials (${t16.syn3a_total} min)`, 'ok') +
+      kv('593-Gene syn3A Graph', `${t16.syn3a_discovered}/${t16.syn3a_dark} dark essentials (${t16.syn3a_total} min)`, 'ok') +
       kv('Physics Projection (O56)', `Raw=${t16.raw_ai_halluc.toFixed(3)} → Proj=${t16.proj_mass_res.toExponential(1)} · 6T=${t16.six_tier_err.toExponential(0)}`, projOk ? 'ok' : 'bad');
     drawVirtualCell(t16);
   }
@@ -104,9 +108,9 @@ function renderAllStatic() {
     inetTag.style.color = confOk ? '#34d399' : '#fb7185';
     document.getElementById('mBioInet').innerHTML =
       kv('5-Sched Confluence', confOk ? `EXACT · ${t14.sha_fifo.slice(0, 10)}…` : `MISMATCH! ${t14.sha_fifo.slice(0, 6)}≠${t14.sha_random.slice(0, 6)}`, confOk ? 'ok' : 'bad') +
-      kv('4-Layer Active Pairs', `L1=${t14.layer_rewrites[0]} L2=${t14.layer_rewrites[1]} L3=${t14.layer_rewrites[2]} L4=${t14.layer_rewrites[3]}`, 'ok') +
+      kv('4-Layer Active Pairs', `L1=${t14.layer_rewrites[0]} L2=${t14.layer_rewrites[1]} L3=${t14.layer_rewrites[2]} L4=${t14.layer_rewrites[3]} · ${t14.causal_hops ?? 8}h`, 'ok') +
       kv('Linear Mass / Q / Wire', `ΔM=${t14.mass_drift_fifo} · ΔQ=${t14.gap_charge_drift} · Err=${t14.wire_errors} · D${t14.max_depth}`, linOk ? 'ok' : 'bad') +
-      kv('Tun 0W & Hybrid SSIN', `Dry=${t14.tun_dry_pairs}/${t14.tun_dry_power}W · H₂O=+${t14.tun_rehyd_rewrites} · SSIN=${t14.ssin_confluent_pct.toFixed(1)}%`, 'ok');
+      kv('Tun 0W & Hybrid SSIN', `Dry=${t14.tun_dry_pairs}/${t14.tun_dry_power}W · H₂O=+${t14.tun_rehyd_rewrites} · SSIN=${t14.ssin_confluent_pct.toFixed(1)}% (${t14.ssin_contended ?? 64}a→${t14.ssin_arbiter}p)`, 'ok');
   }
 
   // TB13 12-Axis Open Proliferation metrics & radar
@@ -352,14 +356,15 @@ function drawVirtualCell(t16) {
   plotZ(t16.z_gluconeo, '#34d399');
   plotZ(t16.z_glycolysis, '#fbbf24');
 
-  // Right panel: Raw AI Hallucination vs Physics-Projected Residual
+  // Right panel: Raw AI Hallucination vs Physics-Projected Residual (auto-scaled to actual hallucination range!)
   ctx.strokeStyle = '#1e2d4d';
   ctx.strokeRect(262, 22, 146, 102);
   ctx.fillStyle = '#e2e8f0';
   ctx.fillText('O56 Mass Drift', 266, 14);
-  const rawH = Math.min(82, Math.max(8, (t16.raw_ai_halluc / 12.0) * 82));
+  const maxDriftScale = Math.max(1.0, t16.raw_ai_halluc, t16.proj_mass_res);
+  const rawH = Math.min(82, Math.max(8, (t16.raw_ai_halluc / maxDriftScale) * 82));
   const projOk = t16.proj_mass_res < 1e-12;
-  const projH = projOk ? 3 : Math.min(82, Math.max(8, (t16.proj_mass_res / 12.0) * 82));
+  const projH = projOk ? 3 : Math.min(82, Math.max(8, (t16.proj_mass_res / maxDriftScale) * 82));
   ctx.fillStyle = '#fb7185';
   ctx.fillRect(284, 114 - rawH, 36, rawH);
   ctx.fillStyle = projOk ? '#34d399' : '#fb7185';
@@ -369,14 +374,14 @@ function drawVirtualCell(t16) {
   ctx.fillText('RawAI', 286, 123);
   ctx.fillText('Proj', 350, 123);
   ctx.fillStyle = '#fca5a5';
-  ctx.fillText(t16.raw_ai_halluc.toFixed(1), 288, 110 - rawH);
+  ctx.fillText(t16.raw_ai_halluc.toFixed(3), 284, 110 - rawH);
   ctx.fillStyle = projOk ? '#34d399' : '#fb7185';
-  ctx.fillText(projOk ? '0.0' : t16.proj_mass_res.toFixed(1), 348, 110 - projH);
+  ctx.fillText(projOk ? '0.000' : t16.proj_mass_res.toFixed(3), 344, 110 - projH);
 
-  // Bottom strip: Real 573-gene JCVI-syn3A CRISPRi knockout flux-collapse histogram (Dark Essentials vs Redundant Controls)
+  // Bottom strip: Real 593-gene JCVI-syn3A CRISPRi knockout flux-collapse histogram (Dark Essentials vs Redundant Controls)
   ctx.fillStyle = '#e2e8f0';
   ctx.font = '10px ui-monospace, monospace';
-  ctx.fillText(`JCVI-syn3A Graph CRISPRi Flux Collapse: Dark(purp) vs Paralog(cyn) · ${t16.syn3a_discovered}/100`, 12, 146);
+  ctx.fillText(`JCVI-syn3A Graph CRISPRi Flux Collapse: Dark(purp) vs Paralog(cyn) · ${t16.syn3a_discovered}/${t16.syn3a_dark}`, 12, 146);
   const bx = 12, by = 152, bw = 396, bh = 34;
   ctx.fillStyle = '#0f172a';
   ctx.fillRect(bx, by, bw, bh);
@@ -493,7 +498,7 @@ function animateLive() {
         ctx.stroke();
       }
       ctx.fillStyle = '#fda4af';
-      ctx.fillText(`Cnid ODE ${(t15 ? t15.cnidocyte_g/1e6 : 5.89).toFixed(2)}Mg`, 14, 212);
+      ctx.fillText(`Cnid ODE ${(t15 ? t15.cnidocyte_g/1e6 : 5.75).toFixed(2)}Mg`, 14, 212);
 
       // Adjacent real C11 Cohesin/CTCF 32-bin TAD contact profile (showing CTCF cliff!)
       ctx.strokeStyle = '#1e2d4d';

@@ -62,4 +62,28 @@ theorem O26_llps_active_ostwald_arrest_radius
       exact Nat.lt_of_le_of_lt ha hb
     omega
 
+/-- O60 (Holy–Dogterom–Leibler Euler Buckling Near-Wall Centering Law):
+    For ANY near-wall microtubule length `0 < Lnear < Lfar` and flexural stiffness `kappa`,
+    if Euler critical buckling forces satisfy `Fnear * (Lnear * Lnear) = kappa` and
+    `Ffar * (Lfar * Lfar) = kappa` (`0 < Ffar`), then strictly `Ffar < Fnear`:
+    short microtubules against the near wall exert strictly larger restoring force
+    than long microtubules against the far wall, robustly centering the centrosome! -/
+theorem O60_euler_buckling_near_wall_dominance
+    (Lnear Lfar Fnear Ffar kappa : Nat)
+    (hLn : 0 < Lnear) (hLt : Lnear < Lfar) (hFf : 0 < Ffar)
+    (h1 : Fnear * (Lnear * Lnear) = kappa)
+    (h2 : Ffar * (Lfar * Lfar) = kappa) :
+    Ffar < Fnear := by
+  have hSq : Lnear * Lnear < Lfar * Lfar := by
+    have ha : Lnear * Lnear ≤ Lnear * Lfar := Nat.mul_le_mul_left Lnear (Nat.le_of_lt hLt)
+    have hb : Lnear * Lfar < Lfar * Lfar := Nat.mul_lt_mul_of_pos_right hLt (Nat.lt_trans hLn hLt)
+    exact Nat.lt_of_le_of_lt ha hb
+  by_cases hres : Ffar < Fnear
+  · exact hres
+  · have hle : Fnear ≤ Ffar := Nat.le_of_not_lt hres
+    have ha : Fnear * (Lnear * Lnear) ≤ Ffar * (Lnear * Lnear) := Nat.mul_le_mul_right (Lnear * Lnear) hle
+    have hb : Ffar * (Lnear * Lnear) < Ffar * (Lfar * Lfar) := Nat.mul_lt_mul_of_pos_left hSq hFf
+    have hlt : Fnear * (Lnear * Lnear) < Ffar * (Lfar * Lfar) := Nat.lt_of_le_of_lt ha hb
+    omega
+
 end OmegaCellular.CytoskeletonMotorsLLPS

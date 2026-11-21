@@ -1,7 +1,7 @@
 /-
-  CELLULAR ENGINE OMEGA v4.0 — Pure Lean 4 Formal Verification (Zero Mathlib)
+  CELLULAR ENGINE OMEGA v5.0 — Pure Lean 4 Formal Verification (Zero Mathlib)
   Module 10: Continuous Waddington/Zonation Gradients, Physics-Projected Virtual Cell AI,
-  JCVI-syn3A Dark Proteome Partition & End-to-End 6-Tier Conservation Closure (O55–O58)
+  JCVI-syn3A (493 Genes / 92 Dark) Proteome Partition & End-to-End 6-Tier Conservation Closure (O55–O58)
 -/
 
 namespace OmegaCellular.VirtualCellManifold
@@ -29,32 +29,58 @@ def sumInt : List Int → Int
   | [] => 0
   | x :: xs => x + sumInt xs
 
-/-- O56 (Virtual-Cell AI Conservation-Projection Theorem — Arbitrary Dimension `N ≥ 1`!):
-    Given ANY unconstrained neural perturbation prediction vector `d0 :: rest` across ANY
-    number of coupled cellular compartments (`N = 1 + rest.length`), subtracting the total
-    stoichiometric mass-hallucination error `err = sumInt (d0 :: rest)` onto the carrier
-    compartment restores exact zero-drift conservation `sumInt ((d0 - err) :: rest) = 0`! -/
+/-- Cleared-denominator uniform Euclidean projection sum:
+    maps each compartment flux `x_i ↦ N * x_i - S`, corresponding to `x_i - S / N`
+    on the orthogonal complement of `1 = (1, ..., 1)` (exact C11 TB16 projection!). -/
+def sumScaledShift (N S : Int) : List Int → Int
+  | [] => 0
+  | x :: xs => (N * x - S) + sumScaledShift N S xs
+
+theorem sumScaledShift_eq (N S : Int) (xs : List Int) :
+    sumScaledShift N S xs = N * sumInt xs - (xs.length : Int) * S := by
+  induction xs with
+  | nil =>
+      simp [sumScaledShift, sumInt]
+  | cons x rest ih =>
+      simp only [sumScaledShift, sumInt, List.length_cons, ih]
+      have h1 : N * (x + sumInt rest) = N * x + N * sumInt rest := Int.mul_add N x (sumInt rest)
+      have h2 : ((rest.length + 1 : Nat) : Int) = (rest.length : Int) + 1 := Int.natCast_add rest.length 1
+      have h3 : ((rest.length : Int) + 1) * S = (rest.length : Int) * S + S := by
+        rw [Int.add_mul, Int.one_mul]
+      rw [h1, h2, h3]
+      omega
+
+/-- O56 (Virtual-Cell AI Orthogonal Stoichiometric Projection — Exact Uniform Hyperplane & Carrier):
+    Given ANY unconstrained neural perturbation vector `xs` across ANY number of coupled cellular
+    compartments (`N = xs.length`), the orthogonal Euclidean projection `x_i ↦ x_i - (sum xs)/N`
+    (in cleared integer denominators: `N * x_i - sumInt xs`) restores IDENTICAL zero-drift
+    conservation `sumScaledShift N (sumInt xs) xs = 0`, matching C11 `TB16` verbatim! -/
 theorem O56_virtual_cell_physics_projection_conservation
-    (d0 : Int) (rest : List Int) :
-    let err := sumInt (d0 :: rest)
-    sumInt ((d0 - err) :: rest) = 0 ∧
-    (err ≠ 0 → sumInt (d0 :: rest) ≠ 0) := by
-  intro err
+    (xs : List Int) :
+    let N : Int := (xs.length : Int)
+    let err : Int := sumInt xs
+    sumScaledShift N err xs = 0 ∧
+    (err ≠ 0 → sumInt xs ≠ 0) := by
+  intro N err
   refine ⟨?_, fun hNe => hNe⟩
-  simp only [err, sumInt]
+  dsimp only [N, err]
+  rw [sumScaledShift_eq]
   omega
 
 /-- O57 (`JCVI-syn3A` Minimal Synthetic Cell & Dark Proteome Essential Partition — Universal + Witness):
-    For ANY minimal genome partitioned into `known + dark = total` where unknown-function
-    essentials exceed `20%` (`5 * dark > total`) and stay under `25%` (`4 * dark < total`),
-    strictly `0 < dark < known < total`, instantiated for `JCVI-syn3A` (`373 + 100 = 473`). -/
+    For ANY minimal genome partitioned into `known + dark = total` with `protCoding ≤ total` where
+    uncharacterized essentials exceed 20% of protein-coding genes (`protCoding < 5 * dark`) and
+    stay under 25% (`4 * dark < protCoding`), strictly `0 < dark < known < total`, instantiated
+    for published `JCVI-syn3A` (Breuer et al. eLife 2019 / Thornburg et al. Cell 2022:
+    `493` total genes = `401` characterized + `92` dark essentials, `452` protein-coding). -/
 theorem O57_jcvi_syn3a_dark_proteome_essential_fraction
-    (known dark total : Nat)
+    (known dark total protCoding : Nat)
     (hPart : known + dark = total)
-    (hGt20 : total < 5 * dark)
-    (hLt25 : 4 * dark < total) :
+    (hProtLe : protCoding ≤ total)
+    (hGt20 : protCoding < 5 * dark)
+    (hLt25 : 4 * dark < protCoding) :
     0 < dark ∧ dark < known ∧ known < total ∧
-    ((373 : Nat) + 100 = 473 ∧ 473 < 5 * 100 ∧ 4 * 100 < 473) := by
+    ((401 : Nat) + 92 = 493 ∧ 452 ≤ 493 ∧ 452 < 5 * 92 ∧ 4 * 92 < 452) := by
   refine ⟨by omega, by omega, by omega, by decide⟩
 
 /-- Pairwise flux transfer across an arbitrary-length chain of coupled biosphere tiers:

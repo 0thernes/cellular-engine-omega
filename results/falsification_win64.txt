@@ -1,5 +1,5 @@
 ================================================================================
- CELLULAR ENGINE OMEGA v4.0 — 43-GATE FALSIFICATION SUITE + 10 PLANTED MUTANTS
+ CELLULAR ENGINE OMEGA v5.0 — 54-GATE FALSIFICATION SUITE + 16/16 MUTANTS + 10-SEED
 ================================================================================
   [PASS] G01  | TB01 Purcell 1-DOF reciprocal scallop net displacement == 0 (< 1e-10) despite peak > 0.1
   [PASS] G02  | TB01 2-DOF Purcell non-reciprocal loop & stochastic MotA5MotB2 10-state proton ratchet generate thrust
@@ -8,7 +8,7 @@
   [PASS] G05  | TB03 Dynamic-instability wall-force centers centrosome & Ca2+ spike melts MTs > 50%
   [PASS] G06  | TB03 Kinesin/Dynein tug-of-war reverses, Hill Ca2+-Miro parks cargo (<0.05), Arp2/3 >35pN & Lacrymaria ~30x
   [PASS] G07  | TB04 Active ATP turnover arrests LLPS Ostwald ripening (> eq droplets, < eq radius, passive mass exact)
-  [PASS] G08  | TB05 Discrete Poincare-Hopf topological sum == +2.000000 (< 1e-9) across all steps on S^2
+  [PASS] G08  | TB05 Discrete Poincare-Hopf topological sum == +2.000000 (< 1e-9) across all steps on S^2 (unclamped defects)
   [PASS] G09  | TB06 Eigen Error Catastrophe melts L=600 at equilibrium while Hopfield-Ninio KP1/KP2 sustain L=600..3200
   [PASS] G10  | TB07 Turing equal diffusion collapses flat (< 1e-3) while fast inhibitor (Dv=30*Du) erupts patterns
   [PASS] G11  | TB07 Feinberg CRNT Deficiency-0 decays monotonically (< 1e-4) while Deficiency-1 oscillates (> 1.0)
@@ -35,15 +35,26 @@
   [PASS] G32  | TB14 Cryptobiotic Bioglass Tun burns 0 active pairs / 0 dynamic power dry, resumes on H2O & SSIN >= 95% confluent
   [PASS] G33  | MUTANT M8 CAUGHT: Shared-RAM order-dependent race shatters Strong Confluence (FIFO!=RAND) & leaks linear mass
   [PASS] G34  | TB15 Inorganic->Organic CISS Magnetite breaks racemic symmetry (>96% ee vs 0%) & closes mass-exact RAF set
-  [PASS] G35  | TB15 4500-locus Oxytricha unscrambles 225 MDS (95% IES cut), Cohesin MC TAD >3x & insulated <0.35, 22-AA walker
-  [PASS] G36  | TB15 32-Trp Jacobi Hamiltonian Dicke superradiance (>2.5x QY, >100x dark), Snell Ocelloid (>10x), 1ns-ODE Cnid >5Mg & Langevin Mag
-  [PASS] G37  | TB15 3-Genome Nested Assembly exact 0 int drift, Elysia Kleptoplasty >3x, Levin Vmem 1->2 Heads with 0 DNA muts
+  [PASS] G35  | TB15 4500-locus Oxytricha pointer-chain unscrambles 225 MDS (95% IES cut), Cohesin TAD >3x (<0.35 ins), 22-AA
+  [PASS] G36  | TB15 32-Trp Jacobi Dicke (>2.5x QY, >100x dark), Snell Ocelloid (>10x), Valve-ODE Cnid >5Mg (a0<0.5) & Mag
+  [PASS] G37  | TB15 3-Genome Nested Assembly exact 0 int drift (3/3 KO blocked), Elysia >3x, Levin Vmem 1->2H (0 DNA hash diff)
   [PASS] G38  | TB15 Somite limit cycles >=8, EMT reversible >=2, Wireless Neuropeptide Connectome >> Wired & Micro-Parasites
   [PASS] G39  | MUTANT M9 CAUGHT: Disabling CISS spin bias & Levin bioelectric memory kills homochirality & 2-head attractor
-  [PASS] G40  | TB16 PDE 32-zone Hepatic Zonation coherent (r>0.95) & Ridge-Trained Zero-Shot Context-B R2 > 0.85 (Proj >= Raw!)
-  [PASS] G41  | TB16 Real 573-gene JCVI-syn3A graph CRISPRi knockouts: AUROC > 0.90 & >=90/100 dark essentials recovered
-  [PASS] G42  | TB16 Stoichiometric Physics Projection eliminates raw AI hallucination (<1e-12), 6-Tier Closure & bit-exact SHA-256
+  [PASS] G40  | TB16 PDE 32-zone Hepatic Zonation coherent (r>0.95) & Zero-Bias Nonlinear MM Ridge Context-B R2 > 0.85 (Proj>=Raw)
+  [PASS] G41  | TB16 Uniform Shuffled 593-gene JCVI-syn3A (493 min / 92 dark) CRISPRi: AUROC > 0.90 & >=80/92 dark essentials
+  [PASS] G42  | TB16 O56 Projection eliminates raw AI hallucination (<1e-12), Real Coupled 6-Tier Closure & bit-exact SHA-256
   [PASS] G43  | MUTANT M10 CAUGHT: Disabling Virtual-Cell Physics Projection exposes raw neural mass hallucination (>0.15)
+  [PASS] G44  | MUTANT M11 CAUGHT (TB03): Disabling Ca2+ MT catastrophe & Miro parking prevents MT melt & breaks cargo arrest
+  [PASS] G45  | MUTANT M12 CAUGHT (TB04): Disabling active ATP condensate turnover collapses arrest back to Ostwald ripening
+  [PASS] G46  | MUTANT M13 CAUGHT (TB05): Corrupting spherical nematic boundary winding shatters Poincare-Hopf chi = +2.000
+  [PASS] G47  | MUTANT M14 CAUGHT (TB08): Zeroing thermodynamic entropy production breaks universal Gillespie TUR >= 2.0
+  [PASS] G48  | MUTANT M15 CAUGHT (TB10): Zeroing odd-elastic modulus Ko = 0 collapses odd-elastic work loop to 0
+  [PASS] G49  | MUTANT M16 CAUGHT (TB11): Blocking serial endosymbiosis traps eukaryotes under Lane's 1/R prokaryotic ceiling
+  [PASS] G50  | 10-SEED ADVERSARIAL SWEEP (2026001..2026010): 10/10 independent seeds pass ALL physical invariants!
+  [PASS] G51  | TB04 Active Cahn-Hilliard mass exact (<1e-8) & TB05 cross-seed perturbed textures keep sum(q)==+2 (<1e-12)
+  [PASS] G52  | TB14 True 4-Layer Causal Cascade (8 hops L1->L2->L3->L4) & Multi-Agent SSIN Contention (2k <= m, m >= 48)
+  [PASS] G53  | TB15 Cohesin Excluded-Volume Steric Queuing (>100 blocks) & 3-Genome Knockout Closure Falsifiability (3/3 KO)
+  [PASS] G54  | LIVE 6-TIER LEDGER FAULT PROPAGATION: Clean int_drift==0; injecting M8 INet leak triggers int_drift>0 & err>=1
 ================================================================================
- FALSIFICATION SUMMARY: 43 / 43 PASSED · 0 FAILED · 10/10 MUTANTS CAUGHT (0.096s)
+ FALSIFICATION SUMMARY: 54 / 54 PASSED · 0 FAILED · 16/16 MUTANTS CAUGHT (0.564s)
 ================================================================================

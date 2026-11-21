@@ -1,118 +1,110 @@
-✔ [2/14] Built OmegaCellularProofs.PurcellGaugeGeometry (1.7s)
-✔ [3/14] Built OmegaCellularProofs.EigenProofreadingInfo (1.7s)
-✔ [4/14] Built OmegaCellularProofs.TuringFeinbergCRNT (1.7s)
-✔ [5/14] Built OmegaCellularProofs.TURSpeedLimitsTopo (1.6s)
-✔ [6/14] Built OmegaCellularProofs.CytoskeletonMotorsLLPS (1.7s)
-✔ [7/14] Built OmegaCellularProofs.TardigradeVirosphereOmega (1.7s)
-✔ [8/14] Built OmegaCellularProofs.OpenProliferationWeb (1.7s)
-✔ [9/14] Built OmegaCellularProofs.BioInteractionNets (1.7s)
-✔ [10/14] Built OmegaCellularProofs.DeepStrataFrontier (1.7s)
-✔ [11/14] Built OmegaCellularProofs.VirtualCellManifold (1.7s)
-✔ [12/14] Built OmegaCellularProofs.VerifyTraceReceipt (1.7s)
-ℹ [13/14] Built OmegaCellularProofs (617ms)
-info: OmegaCellularProofs.lean:20:0: 'OmegaCellular.PurcellGaugeGeometry.O01_purcell_1dof_reciprocal_cycle_zero' depends on axioms: [propext, Quot.sound]
-info: OmegaCellularProofs.lean:21:0: 'OmegaCellular.PurcellGaugeGeometry.O01b_purcell_multistep_reciprocal_zero' depends on axioms: [propext, Quot.sound]
-info: OmegaCellularProofs.lean:22:0: 'OmegaCellular.PurcellGaugeGeometry.O02_purcell_2dof_nonreciprocal_area_positive' depends on axioms: [propext,
+'OmegaCellular.PurcellGaugeGeometry.O01_purcell_1dof_reciprocal_cycle_zero' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.PurcellGaugeGeometry.O01b_purcell_multistep_reciprocal_zero' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.PurcellGaugeGeometry.O02_purcell_2dof_nonreciprocal_area_positive' depends on axioms: [propext,
  Quot.sound]
-info: OmegaCellularProofs.lean:23:0: 'OmegaCellular.PurcellGaugeGeometry.O03_helical_chiral_rotation_beats_scallop' does not depend on any axioms
-info: OmegaCellularProofs.lean:24:0: 'OmegaCellular.PurcellGaugeGeometry.O04_stokes_linearity_rate_invariance' depends on axioms: [propext]
-info: OmegaCellularProofs.lean:25:0: 'OmegaCellular.PurcellGaugeGeometry.O05_viscous_power_strictly_positive' depends on axioms: [propext, Quot.sound]
-info: OmegaCellularProofs.lean:28:0: 'OmegaCellular.EigenProofreadingInfo.O06_hopfield_ninio_proofreading_beats_equilibrium' depends on axioms: [propext]
-info: OmegaCellularProofs.lean:29:0: 'OmegaCellular.EigenProofreadingInfo.O07_hopfield_ninio_quadratic_and_cubic_witness' does not depend on any axioms
-info: OmegaCellularProofs.lean:30:0: 'OmegaCellular.EigenProofreadingInfo.O08_eigen_error_threshold_expansion' depends on axioms: [propext]
-info: OmegaCellularProofs.lean:31:0: 'OmegaCellular.EigenProofreadingInfo.O09_rna_virus_vs_dna_cell_genome_separation' does not depend on any axioms
-info: OmegaCellularProofs.lean:32:0: 'OmegaCellular.EigenProofreadingInfo.O10_kinetic_proofreading_dissipation_strict' does not depend on any axioms
-info: OmegaCellularProofs.lean:35:0: 'OmegaCellular.TuringFeinbergCRNT.O11_feinberg_deficiency_nonneg' depends on axioms: [propext,
+'OmegaCellular.PurcellGaugeGeometry.O03_helical_chiral_rotation_beats_scallop' does not depend on any axioms
+'OmegaCellular.PurcellGaugeGeometry.O04_stokes_linearity_rate_invariance' depends on axioms: [propext]
+'OmegaCellular.PurcellGaugeGeometry.O05_viscous_power_strictly_positive' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.EigenProofreadingInfo.O06_hopfield_ninio_proofreading_beats_equilibrium' depends on axioms: [propext]
+'OmegaCellular.EigenProofreadingInfo.O07_hopfield_ninio_quadratic_and_cubic_witness' does not depend on any axioms
+'OmegaCellular.EigenProofreadingInfo.O08_eigen_error_threshold_expansion' depends on axioms: [propext]
+'OmegaCellular.EigenProofreadingInfo.O09_rna_virus_vs_dna_cell_genome_separation' does not depend on any axioms
+'OmegaCellular.EigenProofreadingInfo.O10_kinetic_proofreading_dissipation_strict' does not depend on any axioms
+'OmegaCellular.TuringFeinbergCRNT.O11_feinberg_deficiency_nonneg' depends on axioms: [propext,
  Classical.choice,
  Quot.sound]
-info: OmegaCellularProofs.lean:36:0: 'OmegaCellular.TuringFeinbergCRNT.O12_turing_equal_diffusion_impossibility' depends on axioms: [propext, Quot.sound]
-info: OmegaCellularProofs.lean:37:0: 'OmegaCellular.TuringFeinbergCRNT.O13_turing_requires_opposite_diagonal_signs' depends on axioms: [propext, Quot.sound]
-info: OmegaCellularProofs.lean:38:0: 'OmegaCellular.TuringFeinbergCRNT.O14_turing_requires_faster_inhibitor_diffusion' depends on axioms: [propext,
+'OmegaCellular.TuringFeinbergCRNT.O12_turing_equal_diffusion_impossibility' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.TuringFeinbergCRNT.O13_turing_requires_opposite_diagonal_signs' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.TuringFeinbergCRNT.O14_turing_requires_faster_inhibitor_diffusion' depends on axioms: [propext,
  Quot.sound]
-info: OmegaCellularProofs.lean:39:0: 'OmegaCellular.TuringFeinbergCRNT.O15_turing_instability_concrete_witness' does not depend on any axioms
-info: OmegaCellularProofs.lean:42:0: 'OmegaCellular.TURSpeedLimitsTopo.O16_tur_halving_jitter_quadruples_entropy' depends on axioms: [propext]
-info: OmegaCellularProofs.lean:43:0: 'OmegaCellular.TURSpeedLimitsTopo.O17_tur_precision_entropy_monotone' depends on axioms: [propext, Quot.sound]
-info: OmegaCellularProofs.lean:44:0: 'OmegaCellular.TURSpeedLimitsTopo.O18_thermodynamic_speed_limit_scaling' depends on axioms: [propext]
-info: OmegaCellularProofs.lean:45:0: 'OmegaCellular.TURSpeedLimitsTopo.O19_poincare_hopf_sphere_defect_impossibility' does not depend on any axioms
-info: OmegaCellularProofs.lean:46:0: 'OmegaCellular.TURSpeedLimitsTopo.O20_poincare_hopf_defect_fusion_conservation' depends on axioms: [propext, Quot.sound]
-info: OmegaCellularProofs.lean:47:0: 'OmegaCellular.TURSpeedLimitsTopo.O21_willmore_clifford_torus_ratio' depends on axioms: [propext, Quot.sound]
-info: OmegaCellularProofs.lean:50:0: 'OmegaCellular.CytoskeletonMotorsLLPS.O22_dogterom_leibler_phase_transition' depends on axioms: [propext,
+'OmegaCellular.TuringFeinbergCRNT.O15_turing_instability_concrete_witness' does not depend on any axioms
+'OmegaCellular.TURSpeedLimitsTopo.O16_tur_halving_jitter_quadruples_entropy' depends on axioms: [propext]
+'OmegaCellular.TURSpeedLimitsTopo.O17_tur_precision_entropy_monotone' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.TURSpeedLimitsTopo.O18_thermodynamic_speed_limit_scaling' depends on axioms: [propext]
+'OmegaCellular.TURSpeedLimitsTopo.O19_poincare_hopf_sphere_defect_impossibility' does not depend on any axioms
+'OmegaCellular.TURSpeedLimitsTopo.O20_poincare_hopf_defect_fusion_conservation' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.TURSpeedLimitsTopo.O21_willmore_clifford_torus_ratio' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.CytoskeletonMotorsLLPS.O22_dogterom_leibler_phase_transition' depends on axioms: [propext,
  Classical.choice,
  Quot.sound]
-info: OmegaCellularProofs.lean:51:0: 'OmegaCellular.CytoskeletonMotorsLLPS.O23_mota5_motb2_cogwheel_36_degree_step' does not depend on any axioms
-info: OmegaCellularProofs.lean:52:0: 'OmegaCellular.CytoskeletonMotorsLLPS.O24_f1f0_cring_gearbox_monotonicity' does not depend on any axioms
-info: OmegaCellularProofs.lean:53:0: 'OmegaCellular.CytoskeletonMotorsLLPS.O25_tug_of_war_velocity_direction' depends on axioms: [propext,
+'OmegaCellular.CytoskeletonMotorsLLPS.O23_mota5_motb2_cogwheel_36_degree_step' does not depend on any axioms
+'OmegaCellular.CytoskeletonMotorsLLPS.O24_f1f0_cring_gearbox_monotonicity' does not depend on any axioms
+'OmegaCellular.CytoskeletonMotorsLLPS.O25_tug_of_war_velocity_direction' depends on axioms: [propext,
  Classical.choice,
  Quot.sound]
-info: OmegaCellularProofs.lean:54:0: 'OmegaCellular.CytoskeletonMotorsLLPS.O26_llps_active_ostwald_arrest_radius' depends on axioms: [propext, Quot.sound]
-info: OmegaCellularProofs.lean:57:0: 'OmegaCellular.TardigradeVirosphereOmega.O27_tardigrade_walking_head_budget_le_1000' does not depend on any axioms
-info: OmegaCellularProofs.lean:58:0: 'OmegaCellular.TardigradeVirosphereOmega.O28_megaphragma_anucleate_neuron_compression' depends on axioms: [propext,
+'OmegaCellular.CytoskeletonMotorsLLPS.O26_llps_active_ostwald_arrest_radius' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.TardigradeVirosphereOmega.O27_tardigrade_walking_head_budget_le_1000' does not depend on any axioms
+'OmegaCellular.TardigradeVirosphereOmega.O28_megaphragma_anucleate_neuron_compression' depends on axioms: [propext,
  Quot.sound]
-info: OmegaCellularProofs.lean:59:0: 'OmegaCellular.TardigradeVirosphereOmega.O29_tardigrade_3tier_radiotolerance_amplification' depends on axioms: [propext,
+'OmegaCellular.TardigradeVirosphereOmega.O29_tardigrade_3tier_radiotolerance_amplification' depends on axioms: [propext,
  Quot.sound]
-info: OmegaCellularProofs.lean:60:0: 'OmegaCellular.TardigradeVirosphereOmega.O30_mavirus_virophage_host_rescue' depends on axioms: [propext,
+'OmegaCellular.TardigradeVirosphereOmega.O30_mavirus_virophage_host_rescue' depends on axioms: [propext,
  Classical.choice,
  Quot.sound]
-info: OmegaCellularProofs.lean:61:0: 'OmegaCellular.TardigradeVirosphereOmega.O31_lynch_marinov_translation_atp_dominance' depends on axioms: [propext,
+'OmegaCellular.TardigradeVirosphereOmega.O31_lynch_marinov_translation_atp_dominance' depends on axioms: [propext,
  Classical.choice,
  Quot.sound]
-info: OmegaCellularProofs.lean:62:0: 'OmegaCellular.TardigradeVirosphereOmega.O32_odd_elastic_cyclic_work_extraction' depends on axioms: [propext,
+'OmegaCellular.TardigradeVirosphereOmega.O32_odd_elastic_cyclic_work_extraction' depends on axioms: [propext,
  Quot.sound]
-info: OmegaCellularProofs.lean:65:0: 'OmegaCellular.OpenProliferationWeb.O33_flavin_electron_bifurcation_energy_balance' depends on axioms: [propext,
+'OmegaCellular.OpenProliferationWeb.O33_flavin_electron_bifurcation_energy_balance' depends on axioms: [propext,
  Classical.choice,
  Quot.sound]
-info: OmegaCellularProofs.lean:66:0: 'OmegaCellular.OpenProliferationWeb.O34_russian_doll_3genome_assembly_closure' depends on axioms: [propext,
+'OmegaCellular.OpenProliferationWeb.O34_russian_doll_3genome_assembly_closure' depends on axioms: [propext,
  Classical.choice,
  Quot.sound]
-info: OmegaCellularProofs.lean:67:0: 'OmegaCellular.OpenProliferationWeb.O35_cryptist_4genome_additive_information' depends on axioms: [propext, Quot.sound]
-info: OmegaCellularProofs.lean:68:0: 'OmegaCellular.OpenProliferationWeb.O36_continuous_12axis_morphospace_unbounded_novelty' does not depend on any axioms
-info: OmegaCellularProofs.lean:69:0: 'OmegaCellular.OpenProliferationWeb.O37_oxytricha_genome_unscrambling_compression' depends on axioms: [propext,
+'OmegaCellular.OpenProliferationWeb.O35_cryptist_4genome_additive_information' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.OpenProliferationWeb.O36_continuous_12axis_morphospace_unbounded_novelty' does not depend on any axioms
+'OmegaCellular.OpenProliferationWeb.O37_oxytricha_genome_unscrambling_compression' depends on axioms: [propext,
  Classical.choice,
  Quot.sound]
-info: OmegaCellularProofs.lean:70:0: 'OmegaCellular.OpenProliferationWeb.O38_cable_bacteria_long_range_redox_bridge' depends on axioms: [propext, Quot.sound]
-info: OmegaCellularProofs.lean:71:0: 'OmegaCellular.OpenProliferationWeb.O39_open_proliferation_novelty_monotone' depends on axioms: [propext,
+'OmegaCellular.OpenProliferationWeb.O38_cable_bacteria_long_range_redox_bridge' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.OpenProliferationWeb.O39_open_proliferation_novelty_monotone' depends on axioms: [propext,
  Classical.choice,
  Quot.sound]
-info: OmegaCellularProofs.lean:72:0: 'OmegaCellular.OpenProliferationWeb.O40_five_repo_ecosystem_bidirectional_closure' depends on axioms: [propext,
+'OmegaCellular.OpenProliferationWeb.O40_five_repo_ecosystem_bidirectional_closure' depends on axioms: [propext,
  Quot.sound]
-info: OmegaCellularProofs.lean:75:0: 'OmegaCellular.BioInteractionNets.O41_linear_single_ownership_conservation' depends on axioms: [propext, Quot.sound]
-info: OmegaCellularProofs.lean:76:0: 'OmegaCellular.BioInteractionNets.O41b_linear_trace_conservation' depends on axioms: [propext, Quot.sound]
-info: OmegaCellularProofs.lean:77:0: 'OmegaCellular.BioInteractionNets.O42_active_pair_diamond_strong_confluence' depends on axioms: [propext, Quot.sound]
-info: OmegaCellularProofs.lean:78:0: 'OmegaCellular.BioInteractionNets.O43_zero_power_cryptobiotic_port_freezing' depends on axioms: [propext]
-info: OmegaCellularProofs.lean:79:0: 'OmegaCellular.BioInteractionNets.O44_nested_russian_doll_box_isolation' depends on axioms: [propext, Quot.sound]
-info: OmegaCellularProofs.lean:80:0: 'OmegaCellular.BioInteractionNets.O45_gap_junction_laplacian_conservation' depends on axioms: [propext,
+'OmegaCellular.BioInteractionNets.O41_linear_single_ownership_conservation' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.BioInteractionNets.O41b_linear_trace_conservation' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.BioInteractionNets.O42_active_pair_diamond_strong_confluence' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.BioInteractionNets.O43_zero_power_cryptobiotic_port_freezing' depends on axioms: [propext]
+'OmegaCellular.BioInteractionNets.O44_nested_russian_doll_box_isolation' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.BioInteractionNets.O45_gap_junction_laplacian_conservation' depends on axioms: [propext,
  Classical.choice,
  Quot.sound]
-info: OmegaCellularProofs.lean:81:0: 'OmegaCellular.BioInteractionNets.O46_ssin_hybrid_arbiter_conservation_and_dominance' depends on axioms: [propext,
+'OmegaCellular.BioInteractionNets.O46_ssin_hybrid_arbiter_conservation_and_dominance' depends on axioms: [propext,
  Classical.choice,
  Quot.sound]
-info: OmegaCellularProofs.lean:84:0: 'OmegaCellular.DeepStrataFrontier.O47_ciss_chiral_symmetry_breaking_amplification' depends on axioms: [propext,
+'OmegaCellular.DeepStrataFrontier.O47_ciss_chiral_symmetry_breaking_amplification' depends on axioms: [propext,
  Quot.sound]
-info: OmegaCellularProofs.lean:85:0: 'OmegaCellular.DeepStrataFrontier.O48_oxytricha_macronucleus_unscrambling_bijection' depends on axioms: [propext,
+'OmegaCellular.DeepStrataFrontier.O48_oxytricha_macronucleus_unscrambling_bijection' depends on axioms: [propext,
  Quot.sound]
-info: OmegaCellularProofs.lean:86:0: 'OmegaCellular.DeepStrataFrontier.O49_cohesin_tad_loop_extrusion_contact_gain' depends on axioms: [propext,
+'OmegaCellular.DeepStrataFrontier.O49_cohesin_tad_loop_extrusion_contact_gain' depends on axioms: [propext,
  Classical.choice,
  Quot.sound]
-info: OmegaCellularProofs.lean:87:0: 'OmegaCellular.DeepStrataFrontier.O50_three_genome_nested_assembly_conservation' depends on axioms: [propext,
+'OmegaCellular.DeepStrataFrontier.O50_three_genome_nested_assembly_conservation' depends on axioms: [propext,
  Classical.choice,
  Quot.sound]
-info: OmegaCellularProofs.lean:88:0: 'OmegaCellular.DeepStrataFrontier.O51_cnidocyte_osmotic_acceleration_exceeds_million_g' does not depend on any axioms
-info: OmegaCellularProofs.lean:89:0: 'OmegaCellular.DeepStrataFrontier.O52_levin_bioelectric_bistable_memory_without_dna_mutation' depends on axioms: [propext]
-info: OmegaCellularProofs.lean:90:0: 'OmegaCellular.DeepStrataFrontier.O53_wireless_neuropeptide_connectome_reachability_expansion' depends on axioms: [propext,
+'OmegaCellular.DeepStrataFrontier.O51_cnidocyte_osmotic_acceleration_exceeds_million_g' does not depend on any axioms
+'OmegaCellular.DeepStrataFrontier.O52_levin_bioelectric_bistable_memory_without_dna_mutation' depends on axioms: [propext]
+'OmegaCellular.DeepStrataFrontier.O53_wireless_neuropeptide_connectome_reachability_expansion' depends on axioms: [propext,
  Classical.choice,
  Quot.sound]
-info: OmegaCellularProofs.lean:91:0: 'OmegaCellular.DeepStrataFrontier.O54_microparasite_minimal_cell_floor' depends on axioms: [propext,
+'OmegaCellular.DeepStrataFrontier.O54_microparasite_minimal_cell_floor' depends on axioms: [propext,
  Classical.choice,
  Quot.sound]
-info: OmegaCellularProofs.lean:94:0: 'OmegaCellular.VirtualCellManifold.O55_waddington_zonation_gradient_interpolation' depends on axioms: [propext,
+'OmegaCellular.VirtualCellManifold.O55_waddington_zonation_gradient_interpolation' depends on axioms: [propext,
  Classical.choice,
  Quot.sound]
-info: OmegaCellularProofs.lean:95:0: 'OmegaCellular.VirtualCellManifold.O56_virtual_cell_physics_projection_conservation' depends on axioms: [propext,
+'OmegaCellular.VirtualCellManifold.O56_virtual_cell_physics_projection_conservation' depends on axioms: [propext,
  Quot.sound]
-info: OmegaCellularProofs.lean:96:0: 'OmegaCellular.VirtualCellManifold.O57_jcvi_syn3a_dark_proteome_essential_fraction' depends on axioms: [propext,
+'OmegaCellular.VirtualCellManifold.O57_jcvi_syn3a_dark_proteome_essential_fraction' depends on axioms: [propext,
  Quot.sound]
-info: OmegaCellularProofs.lean:97:0: 'OmegaCellular.VirtualCellManifold.O58_six_tier_stack_end_to_end_closure' depends on axioms: [propext, Quot.sound]
-info: OmegaCellularProofs.lean:98:0: 'OmegaCellular.VerifyTraceReceipt.O59_c11_differential_trace_conservation' depends on axioms: [propext,
+'OmegaCellular.VirtualCellManifold.O58_six_tier_stack_end_to_end_closure' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.VerifyTraceReceipt.O59_c11_differential_trace_conservation' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.VerifyTraceReceipt.O59b_cryptobiotic_frozen_trace_invariance' depends on axioms: [propext]
+'OmegaCellular.CytoskeletonMotorsLLPS.O60_euler_buckling_near_wall_dominance' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.OpenProliferationWeb.O61_xenocellular_cring_pmf_threshold' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.DeepStrataFrontier.O62_cohesin_excluded_volume_order_preservation' depends on axioms: [propext,
  Classical.choice,
  Quot.sound]
-Build completed successfully (14 jobs).
+'OmegaCellular.VerifyTraceReceipt.O63_live_c11_receipt_verified' depends on axioms: [propext, Quot.sound]

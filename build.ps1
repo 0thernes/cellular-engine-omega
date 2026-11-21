@@ -1,4 +1,4 @@
-param(
+﻿param(
     [switch]$SkipTests,
     [switch]$SkipLean
 )
@@ -28,7 +28,7 @@ $core = @(
 )
 
 $cflags = @(
-    "-O3", "-std=c11", "-Wall", "-Wextra", "-Wshadow", "-Wno-unused-parameter",
+    "-O3", "-std=c11", "-Wall", "-Wextra", "-Wshadow", "-Werror", "-Wno-unused-parameter",
     "-march=native", "-mavx2", "-mbmi", "-mbmi2", "-mpopcnt",
     "--target=x86_64-w64-windows-gnu",
     "-DOMEGA_BARE_WIN64",
@@ -64,7 +64,7 @@ if (Test-Path -LiteralPath $ar) {
 }
 
 if (-not $SkipTests) {
-    Write-Host "`nRunning 43-Gate Lab-Grade Falsification Suite + 10 Planted Mutants..."
+    Write-Host "`nRunning 54-Gate Lab-Grade Falsification Suite + 16/16 Planted Mutants + 10-Seed Sweep..."
     $falsOut = & "$proj\bin\test_omega_falsification.exe" 2>&1
     $rc = $LASTEXITCODE
     $falsOut
@@ -80,15 +80,61 @@ if (-not $SkipTests) {
 }
 
 if (-not $SkipLean -and (Test-Path -LiteralPath $lake)) {
-    Write-Host "`nVerifying 61 Pure Lean 4 Frontier Theorems (O01-O59 + O01b + O41b)..."
+    Write-Host "`nExporting Live C11 Runtime Trace Receipt -> lean\OmegaCellularProofs\LiveC11Receipt.lean ..."
+    & "$proj\bin\omega_cell.exe" --export-lean-trace "$proj\lean\OmegaCellularProofs\LiveC11Receipt.lean" --seed 2026001
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+    Write-Host "`nVerifying 66 Pure Lean 4 Frontier Theorems (O01-O63 + O01b + O41b + O59b)..."
     Push-Location -LiteralPath "$proj\lean"
-    $leanOut = & $lake build 2>&1
+    $buildOut = & $lake build 2>&1
     $lrc = $LASTEXITCODE
+    $axiomOut = @()
+    $arc = 0
+    if ($lrc -eq 0) {
+        $axiomOut = & $lake env lean OmegaCellularProofs.lean 2>&1
+        $arc = $LASTEXITCODE
+    }
     Pop-Location
-    $leanOut
-    $leanOut | Set-Content -LiteralPath "$proj\results\lean4-omega-audit.txt" -Encoding utf8
+
+    $buildOut
     if ($lrc -ne 0) { exit $lrc }
-    Write-Host "Lean 4 Formal Verification PASSED (61 theorems, 0 sorryAx, 0 custom axioms)!"
+    $axiomOut | Set-Content -LiteralPath "$proj\results\lean4-omega-audit.txt" -Encoding utf8
+    if ($arc -ne 0) {
+        $axiomOut
+        exit $arc
+    }
+
+    $combinedText = (($buildOut | Out-String) + "`n" + ($axiomOut | Out-String))
+    if ($combinedText -match "sorryAx|declaration uses 'sorry'|warning:|Lean\.ofReduceBool|Lean\.trustCompiler|_native\.bv_decide") {
+        throw "Lean 4 audit failed: sorryAx, compiler/SAT axiom, or warning detected!"
+    }
+
+    $axiomText = ($axiomOut | Out-String)
+    $rx = [regex]"'(OmegaCellular\.[^']+)' (depends on axioms:\s*\[([^\]]+)\]|does not depend on any axioms)"
+    $matches = $rx.Matches($axiomText)
+    $seen = New-Object 'System.Collections.Generic.HashSet[string]'
+    $badAxioms = @()
+    foreach ($m in $matches) {
+        [void]$seen.Add($m.Groups[1].Value)
+        if ($m.Groups[3].Success) {
+            foreach ($ax in ($m.Groups[3].Value -split ",")) {
+                $t = $ax.Trim()
+                if ($t -and ($t -notin @("propext", "Classical.choice", "Quot.sound"))) {
+                    $badAxioms += "$($m.Groups[1].Value):$t"
+                }
+            }
+        }
+    }
+    if ($badAxioms.Count -gt 0) {
+        throw ("Lean 4 audit failed: unauthorized axiom(s) detected: " + ($badAxioms -join ", "))
+    }
+    if ($seen.Count -ne 66) {
+        throw "Lean 4 audit failed: expected 66 unique audited theorems, found $($seen.Count)!"
+    }
+    if (-not $seen.Contains("OmegaCellular.VerifyTraceReceipt.O63_live_c11_receipt_verified")) {
+        throw "Lean 4 audit failed: O63_live_c11_receipt_verified missing from axiom audit!"
+    }
+    Write-Host "Lean 4 Formal Verification PASSED (66/66 theorems incl. Live C11 O63, 0 sorryAx, 0 custom axioms, 0 warnings)!"
 }
 
-Write-Host "`nCELLULAR ENGINE OMEGA v4.2 (DEEP STRATA & VIRTUAL-CELL SINGULARITY) BUILD & VERIFICATION COMPLETE."
+Write-Host "`nCELLULAR ENGINE OMEGA v5.0 (FORENSIC HARDENED · LIVE C11->LEAN O63 · 66 PROOFS · 54 GATES · 16/16 MUTANTS) COMPLETE."

@@ -1,7 +1,8 @@
 /-
-  CELLULAR ENGINE OMEGA v4.0 — Root Formal Verification & Axiom Audit Module
-  Machine-checks all 60 pure frontier theorems (O01–O58 + O01b + O41b) under Lean 4 v4.35.0
-  with zero Mathlib dependencies, zero `sorryAx`, and zero custom axioms.
+  CELLULAR ENGINE OMEGA v5.0 — Root Formal Verification & Axiom Audit Module
+  Machine-checks all 66 pure frontier theorems (O01–O63 + O01b + O41b + O59b) under Lean 4 v4.35.0
+  with zero Mathlib dependencies, zero `sorryAx`, and zero custom axioms, including `O63`
+  kernel-checking the live C11 trace receipt exported by `omega_cell --export-lean-trace`.
 -/
 
 import OmegaCellularProofs.PurcellGaugeGeometry
@@ -90,9 +91,14 @@ import OmegaCellularProofs.VerifyTraceReceipt
 #print axioms OmegaCellular.DeepStrataFrontier.O53_wireless_neuropeptide_connectome_reachability_expansion
 #print axioms OmegaCellular.DeepStrataFrontier.O54_microparasite_minimal_cell_floor
 
--- Module 10: Continuous Gradients & Virtual Cell AI Manifold (O55–O58)
+-- Module 10 & 11: Continuous Gradients, Virtual Cell AI Manifold, Differential Trace & v5.0 Frontier (O55–O63 + O59b)
 #print axioms OmegaCellular.VirtualCellManifold.O55_waddington_zonation_gradient_interpolation
 #print axioms OmegaCellular.VirtualCellManifold.O56_virtual_cell_physics_projection_conservation
 #print axioms OmegaCellular.VirtualCellManifold.O57_jcvi_syn3a_dark_proteome_essential_fraction
 #print axioms OmegaCellular.VirtualCellManifold.O58_six_tier_stack_end_to_end_closure
 #print axioms OmegaCellular.VerifyTraceReceipt.O59_c11_differential_trace_conservation
+#print axioms OmegaCellular.VerifyTraceReceipt.O59b_cryptobiotic_frozen_trace_invariance
+#print axioms OmegaCellular.CytoskeletonMotorsLLPS.O60_euler_buckling_near_wall_dominance
+#print axioms OmegaCellular.OpenProliferationWeb.O61_xenocellular_cring_pmf_threshold
+#print axioms OmegaCellular.DeepStrataFrontier.O62_cohesin_excluded_volume_order_preservation
+#print axioms OmegaCellular.VerifyTraceReceipt.O63_live_c11_receipt_verified
