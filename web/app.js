@@ -59,7 +59,7 @@ function renderAllStatic() {
   ];
   bEl.innerHTML =
     `<div class="badge info">C11 Runtime: ${d.elapsed_ms.toFixed(2)} ms · ${d.feral ? 'FERAL HW ENTROPY' : 'Seed ' + esc(d.seed)}${d.mutant ? ' · M' + d.mutant : ''}</div>` +
-    `<div class="badge">Lean 4: 60 / 60 PROVEN (148 Ecosystem · 0 sorryAx)</div>` +
+    `<div class="badge">Lean 4: 61 / 61 PROVEN (150 Ecosystem · 0 sorryAx)</div>` +
     gates.map(([lbl, ok]) => `<div class="badge ${ok ? '' : 'fail'}">${ok ? 'PASS' : 'MUTANT CAUGHT'}: ${esc(lbl)}</div>`).join('');
 
   // TB15 Deep Strata Frontier metrics

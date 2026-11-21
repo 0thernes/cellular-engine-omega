@@ -1,5 +1,15 @@
-✔ [12/14] Built OmegaCellularProofs.VerifyTraceReceipt (780ms)
-ℹ [13/14] Built OmegaCellularProofs (680ms)
+✔ [2/14] Built OmegaCellularProofs.PurcellGaugeGeometry (1.7s)
+✔ [3/14] Built OmegaCellularProofs.EigenProofreadingInfo (1.7s)
+✔ [4/14] Built OmegaCellularProofs.TuringFeinbergCRNT (1.7s)
+✔ [5/14] Built OmegaCellularProofs.TURSpeedLimitsTopo (1.6s)
+✔ [6/14] Built OmegaCellularProofs.CytoskeletonMotorsLLPS (1.7s)
+✔ [7/14] Built OmegaCellularProofs.TardigradeVirosphereOmega (1.7s)
+✔ [8/14] Built OmegaCellularProofs.OpenProliferationWeb (1.7s)
+✔ [9/14] Built OmegaCellularProofs.BioInteractionNets (1.7s)
+✔ [10/14] Built OmegaCellularProofs.DeepStrataFrontier (1.7s)
+✔ [11/14] Built OmegaCellularProofs.VirtualCellManifold (1.7s)
+✔ [12/14] Built OmegaCellularProofs.VerifyTraceReceipt (1.7s)
+ℹ [13/14] Built OmegaCellularProofs (617ms)
 info: OmegaCellularProofs.lean:20:0: 'OmegaCellular.PurcellGaugeGeometry.O01_purcell_1dof_reciprocal_cycle_zero' depends on axioms: [propext, Quot.sound]
 info: OmegaCellularProofs.lean:21:0: 'OmegaCellular.PurcellGaugeGeometry.O01b_purcell_multistep_reciprocal_zero' depends on axioms: [propext, Quot.sound]
 info: OmegaCellularProofs.lean:22:0: 'OmegaCellular.PurcellGaugeGeometry.O02_purcell_2dof_nonreciprocal_area_positive' depends on axioms: [propext,

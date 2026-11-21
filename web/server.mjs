@@ -73,7 +73,7 @@ const server = http.createServer((req, res) => {
 
   if (url.pathname === '/api/health') {
     res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
-    res.end(JSON.stringify({ ok: true, version: '4.0', port: PORT, testbeds: 16, lean_theorems: 60, gates: 43, mutants: 10 }));
+    res.end(JSON.stringify({ ok: true, version: '4.2', port: PORT, testbeds: 16, lean_theorems: 61, gates: 43, mutants: 10 }));
     return;
   }
 
@@ -96,5 +96,5 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, '127.0.0.1', () => {
-  console.log(`CELLULAR ENGINE OMEGA v4.0 (Deep Strata · Bio-Frostbite INet · Virtual-Cell AI · 16 Testbeds · 60 Lean 4 Proofs) running at http://127.0.0.1:${PORT}`);
+  console.log(`CELLULAR ENGINE OMEGA v4.2 (Deep Strata · Bio-Frostbite INet · Virtual-Cell AI · 16 Testbeds · 61 Lean 4 Proofs) running at http://127.0.0.1:${PORT}`);
 });
