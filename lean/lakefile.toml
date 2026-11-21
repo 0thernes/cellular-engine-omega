@@ -1,0 +1,6 @@
+name = "OmegaCellularProofs"
+version = "2.0.0"
+defaultTargets = ["OmegaCellularProofs"]
+
+[[lean_lib]]
+name = "OmegaCellularProofs"

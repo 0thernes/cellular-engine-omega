@@ -1,0 +1,296 @@
+#include "omega_bare_crt.h"
+#include "omega_abi.h"
+
+static void make_demo_autophage_dna(uint64_t seed, uint8_t dna[256]) {
+    OmegaRng rng; omega_rng_seed(&rng, seed ^ 0xA070F46EULL);
+    for (int i = 0; i < 256; ++i) dna[i] = (uint8_t)(omega_rng_u32(&rng) & 0xFFu);
+}
+
+static void print_float_array(const float* arr, int n) {
+    putchar('[');
+    for (int i = 0; i < n; ++i) {
+        if (i) putchar(',');
+        printf("%.3f", (double)arr[i]);
+    }
+    putchar(']');
+}
+
+static void print_double_array(const double* arr, int n) {
+    putchar('[');
+    for (int i = 0; i < n; ++i) {
+        if (i) putchar(',');
+        printf("%.5f", arr[i]);
+    }
+    putchar(']');
+}
+
+static void print_u8_array(const uint8_t* arr, int n) {
+    putchar('[');
+    for (int i = 0; i < n; ++i) {
+        if (i) putchar(',');
+        printf("%u", (unsigned)arr[i]);
+    }
+    putchar(']');
+}
+
+static void emit_json_all(uint64_t seed, int mutant, int feral) {
+    uint8_t dna[256]; make_demo_autophage_dna(seed, dna);
+    TB01Result r1; TB02Result r2; TB03Result r3; TB04Result r4;
+    TB05Result r5; TB06Result r6; TB07Result r7; TB08Result r8;
+    TB09Result r9; TB10Result r10; TB11Result r11; TB12Result r12;
+    TB13Result r13; TB14Result r14; TB15Result r15; TB16Result r16;
+
+    double t0 = omega_time_sec();
+    omega_run_tb01(seed, mutant, &r1);
+    omega_run_tb02(seed, mutant, &r2);
+    omega_run_tb03(seed, mutant, &r3);
+    omega_run_tb04(seed, mutant, &r4);
+    omega_run_tb05(seed, mutant, &r5);
+    omega_run_tb06(seed, mutant, &r6);
+    omega_run_tb07(seed, mutant, &r7);
+    omega_run_tb08(seed, mutant, &r8);
+    omega_run_tb09(seed, mutant, &r9);
+    omega_run_tb10(seed, mutant, &r10);
+    omega_run_tb11(seed, mutant, &r11);
+    omega_run_tb12(seed, mutant, dna, &r12);
+    omega_run_tb13(seed, mutant, feral, &r13);
+    omega_run_tb14(seed, mutant, feral, &r14);
+    omega_run_tb15(seed, mutant, &r15);
+    omega_run_tb16(seed, mutant, &r16);
+    double elapsed_ms = (omega_time_sec() - t0) * 1000.0;
+
+    printf("{\n");
+    printf("  \"seed\": %llu, \"mutant\": %d, \"feral\": %d, \"elapsed_ms\": %.3f,\n", (unsigned long long)seed, mutant, feral, elapsed_ms);
+    printf("  \"tb01\": {\"scallop_net_disp\": %.12f, \"scallop_peak\": %.6f, \"purcell_2dof_disp\": %.6f, \"loop_area\": %.4f, \"mota5_disp\": %.4f, \"mota5_steps\": %d, \"mutant_disp\": %.6f, \"sha256\": \"%s\"},\n",
+           r1.scallop_net_disp, r1.scallop_peak_excursion, r1.purcell_2dof_disp, r1.purcell_loop_area, r1.mota5_helical_disp, r1.mota5_proton_steps, r1.mutant_disp, r1.sha256);
+    printf("  \"tb02\": {\"shannon_no_phage\": %.4f, \"shannon_with_phage\": %.4f, \"top_no_phage\": %.4f, \"top_with_phage\": %.4f, \"phikz_no_shell\": %.4f, \"phikz_shell\": %.4f, \"amoeba_no_mavirus\": %.4f, \"amoeba_with_mavirus\": %.4f, \"orfans\": %d, \"obelisks\": %d, \"sha256\": \"%s\"},\n",
+           r2.shannon_no_phage, r2.shannon_with_phage, r2.top_strain_no_phage, r2.top_strain_with_phage,
+           r2.phikz_survival_no_shell, r2.phikz_survival_shell, r2.amoeba_no_mavirus, r2.amoeba_with_mavirus,
+           r2.orfan_genes_invented, r2.obelisk_colonized_cells, r2.sha256);
+    printf("  \"tb03\": {\"centrosome_init\": %.4f, \"centrosome_final\": %.4f, \"centrosome_xy\": [%.3f,%.3f], \"mt_before_ca\": %.4f, \"mt_after_ca\": %.4f, \"mt_captured\": %d, \"kin_dom\": %.4f, \"dyn_dom\": %.4f, \"parked_ca\": %.5f, \"arp23_pN\": %.4f, \"lacry_ratio\": %.2f, \"lacry_strain\": %.5f, \"ray_before\": ",
+           r3.centrosome_init_err, r3.centrosome_final_err, (double)r3.centrosome_xy[0], (double)r3.centrosome_xy[1],
+           r3.mt_mean_len_before_ca, r3.mt_mean_len_after_ca, r3.mt_captured_count,
+           r3.cargo_net_kinesin_dom, r3.cargo_net_dynein_dom, r3.cargo_parked_high_ca,
+           r3.arp23_70deg_thrust_pN, r3.lacrymaria_max_ratio, r3.lacrymaria_mem_strain);
+    print_float_array(r3.ray_len_before_ca, 32);
+    printf(", \"ray_after\": ");
+    print_float_array(r3.ray_len_after_ca, 32);
+    printf(", \"ray_captured\": ");
+    print_u8_array(r3.ray_captured, 32);
+    printf(", \"sha256\": \"%s\"},\n", r3.sha256);
+    printf("  \"tb04\": {\"eq_droplets\": %d, \"eq_radius\": %.4f, \"active_droplets\": %d, \"active_radius\": %.4f, \"mass_drift\": %.12f, \"eq_field\": ",
+           r4.eq_droplet_count, r4.eq_mean_radius, r4.active_droplet_count, r4.active_mean_radius, r4.mass_drift_eq);
+    print_float_array(r4.eq_field, 1024);
+    printf(", \"active_field\": ");
+    print_float_array(r4.active_field, 1024);
+    printf(", \"sha256\": \"%s\"},\n", r4.sha256);
+    printf("  \"tb05\": {\"n_vertices\": %d, \"init_charge\": %.10f, \"final_charge\": %.10f, \"init_half_defects\": %d, \"final_organizers\": %d, \"max_err\": %.12f, \"nematic_S\": %.4f, \"defects\": ",
+           r5.n_vertices, r5.init_charge_sum, r5.final_charge_sum, r5.init_half_defects, r5.final_polar_organizers, r5.max_charge_error, r5.nematic_order_S);
+    print_double_array(r5.defect_coords, 12);
+    printf(", \"sha256\": \"%s\"},\n", r5.sha256);
+    printf("  \"tb06\": {\"eq_L100\": %.5f, \"eq_L600\": %.5f, \"kp1_L600\": %.5f, \"kp2_L3200\": %.5f, \"gtp_diss\": %.1f, \"L\": ",
+           r6.master_eq_L100, r6.master_eq_L600, r6.master_kp1_L600, r6.master_kp2_L3200, r6.gtp_dissipation_kp2);
+    print_double_array(r6.curve_L, 7);
+    printf(", \"eq\": "); print_double_array(r6.curve_eq, 7);
+    printf(", \"kp1\": "); print_double_array(r6.curve_kp1, 7);
+    printf(", \"kp2\": "); print_double_array(r6.curve_kp2, 7);
+    printf(", \"sha256\": \"%s\"},\n", r6.sha256);
+    printf("  \"tb07\": {\"eq_diff_std\": %.6f, \"fast_inh_std\": %.6f, \"feinberg_d0_amp\": %.8f, \"feinberg_d1_amp\": %.6f, \"turing_field\": ",
+           r7.turing_eq_diff_std, r7.turing_fast_inh_std, r7.feinberg_d0_osc_amp, r7.feinberg_d1_osc_amp);
+    print_float_array(r7.turing_field, 1024);
+    printf(", \"sha256\": \"%s\"},\n", r7.sha256);
+    printf("  \"tb08\": {\"tur_min\": %.4f, \"tur_jitter_ratio\": %.4f, \"drives\": ", r8.tur_product_min, r8.tur_jitter_ratio);
+    print_double_array(r8.tur_drives, 5);
+    printf(", \"products\": "); print_double_array(r8.tur_products, 5);
+    printf(", \"adapt_err\": %.6f, \"drift_gain\": %.4f, \"stentor_tier\": %d, \"stentor_escaped\": %d, \"sha256\": \"%s\"},\n",
+           r8.chemotaxis_adapt_err, r8.chemotaxis_drift_gain, r8.stentor_max_tier, r8.stentor_escaped, r8.sha256);
+    printf("  \"tb09\": {\"total_cells\": %d, \"organs\": [%d,%d,%d,%d,%d,%d,%d], \"gut_sealed\": %d, \"hox\": %d, \"axons_wired\": %d, \"axons_pruned\": %d, \"cpg_walk\": %.4f, \"food_gain\": %.4f, \"bioglass_chi\": %.4f, \"intact_surv\": %.2f, \"ko_surv\": %.2f, \"mega_neurons\": %d, \"mega_nuclei\": %d, \"sha256\": \"%s\"},\n",
+           r9.total_cells, r9.organ_counts[0], r9.organ_counts[1], r9.organ_counts[2], r9.organ_counts[3],
+           r9.organ_counts[4], r9.organ_counts[5], r9.organ_counts[6], r9.gut_lumen_sealed, r9.hox_genes_active,
+           r9.axons_wired, r9.axons_pruned, r9.cpg_walk_distance, r9.cpg_food_bias_gain, r9.cahs_bioglass_chi,
+           r9.intact_survival_pct, r9.ko_survival_pct, r9.megaphragma_neurons, r9.megaphragma_nuclei, r9.sha256);
+    printf("  \"tb10\": {\"passive_work\": %.8f, \"odd_work\": %.6f, \"theory_odd_work\": %.6f, \"recip_vel\": %.6f, \"nonrecip_vel\": %.6f, \"psi6\": %.4f, \"sha256\": \"%s\"},\n",
+           r10.passive_cycle_work, r10.odd_cycle_work, r10.theoretical_odd_work, r10.reciprocal_chase_vel,
+           r10.nonrecip_chase_vel, r10.crystal_hex_order, r10.sha256);
+    printf("  \"tb11\": {\"prok_bigNe\": %.2f, \"prok_smallNe\": %.2f, \"euk_bigNe\": %.2f, \"euk_smallNe\": %.2f, \"gen_bigNe\": %.1f, \"gen_smallNe\": %.1f, \"trans_atp_share\": %.4f, \"nitro_sync\": %.4f, \"nitro_n2\": %d, \"sha256\": \"%s\"},\n",
+           r11.max_vol_prok_largeNe, r11.max_vol_prok_smallNe, r11.max_vol_euk_largeNe, r11.max_vol_euk_smallNe,
+           r11.genome_kb_euk_largeNe, r11.genome_kb_euk_smallNe, r11.translation_atp_share,
+           r11.nitroplast_sync_ratio, r11.nitroplast_n2_fixed, r11.sha256);
+    printf("  \"tb12\": {\"trackA_tumors\": %d, \"trackB_tumors\": %d, \"ovi_feral\": %.2f, \"ovi_50pct\": %.2f, \"ovi_100pct\": %.2f, \"escapes_50pct\": %d, \"asmo_mean\": %.4f, \"asmo_std\": %.4f, \"asmo_112\": ",
+           r12.trackA_tumors, r12.trackB_tumors, r12.ovi_feral_baseline, r12.ovi_restraint_50pct,
+           r12.ovi_restraint_100pct, r12.escape_mutations_50pct, r12.asmodensius_mean, r12.asmodensius_std);
+    print_float_array(r12.asmodensius_112, 112);
+    printf(", \"sha256\": \"%s\"},\n", r12.sha256);
+    printf("  \"tb13\": {\"epochs\": %d, \"lineages\": %d, \"niches\": %d, \"nov1\": %d, \"nov2\": %d, \"chimeras\": %d, \"swarms\": %d, \"creatures\": %d, \"outliers\": %d, \"vol\": %.4f, \"world_shift\": %.3f, \"flux\": %.1f, \"mass_res\": %.12f, \"apex\": \"%s\", \"axis_means\": ",
+           r13.epochs_run, r13.active_lineages, r13.unique_niches_found, r13.novelty_first_half,
+           r13.novelty_second_half, r13.russian_doll_chimeras, r13.swarm_colonies_formed,
+           r13.organ_creatures_born, r13.wild_outliers_spawned, r13.morphospace_volume,
+           r13.world_niche_shift, r13.repo_5layer_flux, r13.global_mass_residual, r13.apex_archetype);
+    print_double_array(r13.axis_means, 12);
+    printf(", \"axis_spans\": ");
+    print_double_array(r13.axis_spans, 12);
+    printf(", \"sha256\": \"%s\"},\n", r13.sha256);
+    printf("  \"tb14\": {\"nodes_init\": %d, \"rewrites_fifo\": %d, \"rewrites_lifo\": %d, \"rewrites_random\": %d, \"layer_rewrites\": [%d,%d,%d,%d], \"confluence_match\": %d, \"init_mass\": %lld, \"mass_drift_fifo\": %lld, \"mass_drift_lifo\": %lld, \"mass_drift_random\": %lld, \"gap_charge_drift\": %lld, \"wire_errors\": %d, \"max_depth\": %d, \"tun_dry_pairs\": %d, \"tun_dry_power\": %lld, \"tun_rehyd_rewrites\": %d, \"ssin_arbiter\": %d, \"ssin_confluent\": %d, \"ssin_confluent_pct\": %.2f, \"rewrites_per_sec\": %.1f, \"sha_fifo\": \"%s\", \"sha_lifo\": \"%s\", \"sha_random\": \"%s\", \"sha256\": \"%s\"},\n",
+           r14.total_nodes_init, r14.rewrites_fifo, r14.rewrites_lifo, r14.rewrites_random,
+           r14.layer_rewrites[0], r14.layer_rewrites[1], r14.layer_rewrites[2], r14.layer_rewrites[3],
+           r14.confluence_exact_match, (long long)r14.init_mass_q,
+           (long long)r14.mass_drift_fifo, (long long)r14.mass_drift_lifo, (long long)r14.mass_drift_random,
+           (long long)r14.gap_charge_drift, r14.wire_ownership_errors, r14.russian_doll_max_depth,
+           r14.tun_active_pairs_dry, (long long)r14.tun_power_burn_dry, r14.tun_rewrites_rehyd,
+           r14.ssin_arbiter_pairings, r14.ssin_confluent_rewrites, r14.ssin_confluent_pct,
+           r14.rewrites_per_sec, r14.sha_fifo, r14.sha_lifo, r14.sha_random, r14.sha256);
+    printf("  \"tb15\": {\"ciss_racemic_ee\": %.6f, \"ciss_magnetite_ee\": %.6f, \"raf_rxns\": %d, \"raf_mass_res\": %.12f, \"oxy_mds\": %d, \"oxy_ies_pct\": %.2f, \"tad_gain\": %.3f, \"tad_insul\": %.3f, \"aa_codons\": %d, \"trp_qy_gain\": %.3f, \"trp_subrad\": %.2f, \"ocelloid_gain\": %.3f, \"cnidocyte_g\": %.1f, \"magnetosome_cos\": %.4f, \"three_gen_drift\": %lld, \"klepto_gain\": %.3f, \"levin_wild_heads\": %d, \"levin_reprog_heads\": %d, \"levin_dna_mut\": %d, \"somite_cycles\": %d, \"emt_switches\": %d, \"wired_reach\": %.4f, \"wireless_reach\": %.4f, \"rhombozoa_cells\": %d, \"henneguya_mt\": %d, \"vmem_wild\": ",
+           r15.ciss_racemic_ee, r15.ciss_magnetite_ee, r15.raf_closed_reactions, r15.raf_mass_residual,
+           r15.oxytricha_mds_unscrambled, r15.oxytricha_ies_deleted_pct, r15.tad_contact_gain, r15.tad_ctcf_insulation,
+           r15.expanded_aa_codons, r15.trp_superradiant_qy_gain, r15.trp_subradiant_ratio,
+           r15.ocelloid_focal_gain, r15.cnidocyte_peak_accel_g, r15.magnetosome_align_cos,
+           (long long)r15.three_genome_mass_drift, r15.kleptoplasty_surv_gain,
+           r15.levin_wild_heads, r15.levin_reprog_heads, r15.levin_dna_mutations,
+           r15.somite_clock_cycles, r15.emt_reversible_switches,
+           r15.connectome_wired_reach, r15.connectome_wireless_reach,
+           r15.rhombozoa_cells, r15.henneguya_mt_genes);
+    print_float_array(r15.levin_vmem_wild, 32);
+    printf(", \"vmem_2head\": ");
+    print_float_array(r15.levin_vmem_2head, 32);
+    printf(", \"cnid_curve\": ");
+    print_float_array(r15.cnidocyte_accel_curve, 32);
+    printf(", \"tad_profile\": ");
+    print_float_array(r15.tad_contact_profile, 32);
+    printf(", \"sha256\": \"%s\"},\n", r15.sha256);
+    printf("  \"tb16\": {\"manifold_dim\": %d, \"zones\": %d, \"zonation_mono\": %.5f, \"raw_r2\": %.5f, \"perturb_r2\": %.5f, \"essential_auroc\": %.5f, \"syn3a_total\": %d, \"syn3a_dark\": %d, \"syn3a_discovered\": %d, \"raw_ai_halluc\": %.6f, \"proj_mass_res\": %.12f, \"six_tier_err\": %.12f, \"z_o2\": ",
+           r16.manifold_dim, r16.zonation_zones, r16.zonation_monotonicity, r16.zeroshot_raw_r2, r16.zeroshot_perturb_r2,
+           r16.zeroshot_essential_auroc, r16.syn3a_total_genes, r16.syn3a_dark_genes, r16.syn3a_dark_discovered,
+           r16.raw_ai_mass_hallucination, r16.projected_mass_residual, r16.six_tier_closure_err);
+    print_float_array(r16.zonation_o2, 32);
+    printf(", \"z_gluconeo\": ");
+    print_float_array(r16.zonation_gluconeo, 32);
+    printf(", \"z_glycolysis\": ");
+    print_float_array(r16.zonation_glycolysis, 32);
+    printf(", \"ko_hist\": ");
+    print_float_array(r16.syn3a_ko_flux_hist, 32);
+    printf(", \"sha256\": \"%s\"}\n}\n", r16.sha256);
+}
+
+static void run_human_all(uint64_t seed, int mutant, int feral) {
+    uint8_t dna[256]; make_demo_autophage_dna(seed, dna);
+    TB01Result r1; TB02Result r2; TB03Result r3; TB04Result r4;
+    TB05Result r5; TB06Result r6; TB07Result r7; TB08Result r8;
+    TB09Result r9; TB10Result r10; TB11Result r11; TB12Result r12;
+    TB13Result r13; TB14Result r14; TB15Result r15; TB16Result r16;
+
+    double t0 = omega_time_sec();
+    omega_run_tb01(seed, mutant, &r1);
+    omega_run_tb02(seed, mutant, &r2);
+    omega_run_tb03(seed, mutant, &r3);
+    omega_run_tb04(seed, mutant, &r4);
+    omega_run_tb05(seed, mutant, &r5);
+    omega_run_tb06(seed, mutant, &r6);
+    omega_run_tb07(seed, mutant, &r7);
+    omega_run_tb08(seed, mutant, &r8);
+    omega_run_tb09(seed, mutant, &r9);
+    omega_run_tb10(seed, mutant, &r10);
+    omega_run_tb11(seed, mutant, &r11);
+    omega_run_tb12(seed, mutant, dna, &r12);
+    omega_run_tb13(seed, mutant, feral, &r13);
+    omega_run_tb14(seed, mutant, feral, &r14);
+    omega_run_tb15(seed, mutant, &r15);
+    omega_run_tb16(seed, mutant, &r16);
+    double dt_ms = (omega_time_sec() - t0) * 1000.0;
+
+    printf("================================================================================\n");
+    if (mutant > 0) {
+        printf(" CELLULAR ENGINE OMEGA v4.0 — 16-TESTBED LEDGER (Seed %llu, MUTANT M%d%s)\n",
+               (unsigned long long)seed, mutant, feral ? ", FERAL-HW" : "");
+    } else {
+        printf(" CELLULAR ENGINE OMEGA v4.0 — 16-TESTBED DEEP-STRATA & VIRTUAL-CELL LEDGER (Seed %llu%s)\n",
+               (unsigned long long)seed, feral ? ", FERAL-HW" : "");
+    }
+    printf("================================================================================\n");
+    printf("[TB01] Purcell Scallop & MotA5  | Scallop=%.2e (Peak=%.3f) | 2-DOF=%.4f (Area=%.2f) | MotA5=%.2f um (%d H+ steps)\n",
+           r1.scallop_net_disp, r1.scallop_peak_excursion, r1.purcell_2dof_disp, r1.purcell_loop_area, r1.mota5_helical_disp, r1.mota5_proton_steps);
+    printf("[TB02] Virosphere Ecosystem     | Shannon: %.3f->%.3f | PhiKZ Shell: %.3f->%.3f | Mavirus Rescue: %.2f->%.2f | ORFans=%d Obelisks=%d\n",
+           r2.shannon_no_phage, r2.shannon_with_phage, r2.phikz_survival_no_shell, r2.phikz_survival_shell,
+           r2.amoeba_no_mavirus, r2.amoeba_with_mavirus, r2.orfan_genes_invented, r2.obelisk_colonized_cells);
+    printf("[TB03] Cytoskeleton & Motors    | CenterErr: %.2f->%.2f um | Ca2+ Melt: %.2f->%.2f um | Kin=+%.2f Dyn=%.2f | Arp2/3=%.1fpN | Lacry=%.1fx\n",
+           r3.centrosome_init_err, r3.centrosome_final_err, r3.mt_mean_len_before_ca, r3.mt_mean_len_after_ca,
+           r3.cargo_net_kinesin_dom, r3.cargo_net_dynein_dom, r3.arp23_70deg_thrust_pN, r3.lacrymaria_max_ratio);
+    printf("[TB04] Active-Arrested LLPS     | Eq Ostwald: %d drops (R=%.2f, drift=%.1e) | Active ATP: %d drops (R=%.2f)\n",
+           r4.eq_droplet_count, r4.eq_mean_radius, r4.mass_drift_eq, r4.active_droplet_count, r4.active_mean_radius);
+    printf("[TB05] Poincare-Hopf Sphere     | V=%d | Sum(q): %.8f -> %.8f (maxErr=%.2e) | Organizers=%d | S=%.3f\n",
+           r5.n_vertices, r5.init_charge_sum, r5.final_charge_sum, r5.max_charge_error, r5.final_polar_organizers, r5.nematic_order_S);
+    printf("[TB06] Eigen & Proofreading     | Eq(L=100)=%.3f Eq(L=600)=%.5f | KP1(L=600)=%.3f | KP2(L=3200)=%.4f\n",
+           r6.master_eq_L100, r6.master_eq_L600, r6.master_kp1_L600, r6.master_kp2_L3200);
+    printf("[TB07] Turing & Feinberg CRNT   | EqDiffStd=%.5f -> FastInhStd=%.4f | Feinberg d0=%.6f vs d1=%.3f\n",
+           r7.turing_eq_diff_std, r7.turing_fast_inh_std, r7.feinberg_d0_osc_amp, r7.feinberg_d1_osc_amp);
+    printf("[TB08] TUR, Bayes & Stentor     | TUR_min=%.3f (>=2.0) | JitterRatio=%.2fx | AdaptErr=%.5f | Stentor Tier=%d (Esc=%d)\n",
+           r8.tur_product_min, r8.tur_jitter_ratio, r8.chemotaxis_adapt_err, r8.stentor_max_tier, r8.stentor_escaped);
+    printf("[TB09] <=1000-Cell Tardigrade   | Cells=%d (4-Hox, GutSealed=%d) | Walk=%.2f | Bioglass=%.3f | Surv: %.1f%% vs %.2f%% KO | Mega=%d->%d\n",
+           r9.total_cells, r9.gut_lumen_sealed, r9.cpg_walk_distance, r9.cahs_bioglass_chi,
+           r9.intact_survival_pct, r9.ko_survival_pct, r9.megaphragma_neurons, r9.megaphragma_nuclei);
+    printf("[TB10] Odd Chiral & Chase       | PassiveW=%.2e vs OddW=%.4f (Theory=%.4f) | Recip=%.4f vs Chase=%.4f | psi6=%.3f\n",
+           r10.passive_cycle_work, r10.odd_cycle_work, r10.theoretical_odd_work,
+           r10.reciprocal_chase_vel, r10.nonrecip_chase_vel, r10.crystal_hex_order);
+    printf("[TB11] Lane vs Lynch + Nitro    | ProkV=%.1f vs EukV=%.1f | Gen(Ne400)=%.0f vs Gen(Ne40)=%.0f kb | TransATP=%.1f%% | NitroSync=%.2f\n",
+           r11.max_vol_prok_largeNe, r11.max_vol_euk_largeNe, r11.genome_kb_euk_largeNe,
+           r11.genome_kb_euk_smallNe, 100.0 * r11.translation_atp_share, r11.nitroplast_sync_ratio);
+    printf("[TB12] Track A/B + 4-Build      | Tumors: A=%d vs B=%d | OVI: %.1f / %.1f(50%%,%d esc) / %.1f(100%%) | Asmo112: mu=%.3f sd=%.3f\n",
+           r12.trackA_tumors, r12.trackB_tumors, r12.ovi_feral_baseline, r12.ovi_restraint_50pct,
+           r12.escape_mutations_50pct, r12.ovi_restraint_100pct, r12.asmodensius_mean, r12.asmodensius_std);
+    printf("[TB13] 5-Repo Open-Prolif 12D   | Niches=%d (H1=%d H2=%d) | Chimeras=%d Swarms=%d Creat=%d Outliers=%d | Res=%.1e | Apex=%s\n",
+           r13.unique_niches_found, r13.novelty_first_half, r13.novelty_second_half, r13.russian_doll_chimeras,
+           r13.swarm_colonies_formed, r13.organ_creatures_born, r13.wild_outliers_spawned,
+           r13.global_mass_residual, r13.apex_archetype);
+    printf("[TB14] Bio-Frostbite INet VM    | Rewrites=%d/%d/%d (L1=%d L2=%d L3=%d L4=%d) | Confluent=%s | Drift=%lld | QErr=%lld | Depth=%d | Tun0W=%d/%lld | SSIN=%.1f%%\n",
+           r14.rewrites_fifo, r14.rewrites_lifo, r14.rewrites_random,
+           r14.layer_rewrites[0], r14.layer_rewrites[1], r14.layer_rewrites[2], r14.layer_rewrites[3],
+           r14.confluence_exact_match ? "EXACT-5xSHA256" : "MISMATCH!",
+           (long long)r14.mass_drift_fifo, (long long)r14.gap_charge_drift,
+           r14.russian_doll_max_depth, r14.tun_active_pairs_dry, (long long)r14.tun_power_burn_dry,
+           r14.ssin_confluent_pct);
+    printf("[TB15] Deep Strata Frontier     | CISS=%.1f%% | TAD=%.1fx | TrpSR=%.2fx | Cnid=%.2fMg | Levin=%d->%dH (0-DNA) | Wire=%.1f%%->%.1f%% | 3GenDrift=%lld\n",
+           100.0 * r15.ciss_magnetite_ee, r15.tad_contact_gain, r15.trp_superradiant_qy_gain,
+           r15.cnidocyte_peak_accel_g / 1.0e6, r15.levin_wild_heads, r15.levin_reprog_heads,
+           100.0 * r15.connectome_wired_reach, 100.0 * r15.connectome_wireless_reach,
+           (long long)r15.three_genome_mass_drift);
+    printf("[TB16] Virtual-Cell AI & syn3A  | Zonation r=%.3f | ZeroShot R2=%.3f (Raw=%.3f) AUROC=%.3f | Dark=%d/%d | RawAI=%.3f -> ProjRes=%.1e | 6Tier=%.1e\n",
+           r16.zonation_monotonicity, r16.zeroshot_perturb_r2, r16.zeroshot_raw_r2, r16.zeroshot_essential_auroc,
+           r16.syn3a_dark_discovered, r16.syn3a_dark_genes,
+           r16.raw_ai_mass_hallucination, r16.projected_mass_residual, r16.six_tier_closure_err);
+
+    char concat[16 * 64 + 1];
+    memcpy(concat +  0*64, r1.sha256, 64);  memcpy(concat +  1*64, r2.sha256, 64);
+    memcpy(concat +  2*64, r3.sha256, 64);  memcpy(concat +  3*64, r4.sha256, 64);
+    memcpy(concat +  4*64, r5.sha256, 64);  memcpy(concat +  5*64, r6.sha256, 64);
+    memcpy(concat +  6*64, r7.sha256, 64);  memcpy(concat +  7*64, r8.sha256, 64);
+    memcpy(concat +  8*64, r9.sha256, 64);  memcpy(concat +  9*64, r10.sha256, 64);
+    memcpy(concat + 10*64, r11.sha256, 64); memcpy(concat + 11*64, r12.sha256, 64);
+    memcpy(concat + 12*64, r13.sha256, 64); memcpy(concat + 13*64, r14.sha256, 64);
+    memcpy(concat + 14*64, r15.sha256, 64); memcpy(concat + 15*64, r16.sha256, 64);
+    concat[16*64] = '\0';
+    char master_hash[65];
+    omega_sha256_hex(concat, 16 * 64, master_hash);
+    printf("--------------------------------------------------------------------------------\n");
+    printf(" ALL 16 TESTBEDS COMPLETE in %.2f ms | MASTER SHA-256: %s\n", dt_ms, master_hash);
+    printf("================================================================================\n");
+}
+
+int main(int argc, char** argv) {
+    uint64_t seed = 2026001ULL;
+    int mutant = 0, feral = 0;
+    const char* cmd = (argc >= 2) ? argv[1] : "all";
+    for (int i = 2; i < argc; ++i) {
+        if (strcmp(argv[i], "--seed") == 0 && i + 1 < argc) {
+            seed = strtoull(argv[++i], NULL, 10);
+        } else if (strcmp(argv[i], "--mutant") == 0 && i + 1 < argc) {
+            mutant = atoi(argv[++i]);
+        } else if (strcmp(argv[i], "--feral") == 0) {
+            feral = 1;
+        }
+    }
+    if (strcmp(cmd, "json") == 0) {
+        emit_json_all(seed, mutant, feral);
+    } else {
+        run_human_all(seed, mutant, feral);
+    }
+    return 0;
+}

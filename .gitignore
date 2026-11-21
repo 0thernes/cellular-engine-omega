@@ -1,0 +1,11 @@
+bin/
+*.exe
+*.dll
+*.so
+*.a
+*.o
+*.apbin
+lean/.lake/
+.lake/
+node_modules/
+__pycache__/

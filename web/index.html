@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CELLULAR ENGINE OMEGA v4.1 — Deep Strata, Bio-Frostbite INet &amp; Virtual-Cell Singularity Observatory</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div>
+      <h1>CELLULAR ENGINE OMEGA v4.1 — DEEP STRATA, BIO-FROSTBITE INET &amp; VIRTUAL-CELL OBSERVATORY</h1>
+      <div class="subtitle">Native C11+AVX2 16-Testbed Engine (Anti-Fraud Audited · Zero Oracle/Synthetic Shortcuts) · 60 Pure Lean 4 Proofs (0 sorryAx · 148 Ecosystem Total) · 43 Gates / 10 Mutants</div>
+    </div>
+    <div class="controls">
+      <label>Seed: <input id="seedInput" type="number" value="2026001" style="width:110px" /></label>
+      <label>Planted Mutant:
+        <select id="mutantSelect">
+          <option value="0">0 — Clean Physics (All Laws Intact)</option>
+          <option value="1">M1 — Break Purcell Stokes Law</option>
+          <option value="2">M2 — Knockout Mavirus Virophage</option>
+          <option value="3">M3 — Disable Hopfield-Ninio Proofreading</option>
+          <option value="4">M4 — Force Equal Diffusion (Du == Dv)</option>
+          <option value="5">M5 — Knockout Tardigrade CAHS/Dsup/DODA1/TRID1</option>
+          <option value="6">M6 — Disable Track-A Constitutional Apoptosis</option>
+          <option value="7">M7 — Freeze Feral Open Proliferation</option>
+          <option value="8">M8 — Shared-RAM Race (Breaks INet Confluence &amp; Linearity)</option>
+          <option value="9">M9 — Kill CISS Spin Bias &amp; Levin Vmem Memory</option>
+          <option value="10">M10 — Disable Virtual-Cell AI Physics Projection (Hallucination)</option>
+        </select>
+      </label>
+      <button id="runBtn">Run C11 Engine</button>
+      <button id="feralBtn">🔥 Feral HW Proliferation</button>
+      <button id="vmemBtn">⚡ Levin Vmem 1H↔2H</button>
+      <button id="harpoonBtn" class="warn">🎯 5.89M g Harpoon</button>
+      <button id="caShockBtn" class="warn">Ca²⁺ MT Melt</button>
+      <button id="tunBtn" class="warn">98% Dry / 4kGy Tun</button>
+      <a href="http://127.0.0.1:8790/" class="hub-link" target="_blank" rel="noopener">↗ 4-Tier Hub (:8790)</a>
+    </div>
+  </header>
+
+  <div class="badges" id="statusBadges"></div>
+
+  <section class="grid-vis">
+    <div class="card featured-strata">
+      <div class="card-hdr">
+        <div class="card-title">TB15 · Deep Strata: CISS → TAD → Trp Superradiance → Levin Vmem → Wireless Connectome</div>
+        <div class="card-tag" id="deepStrataTag">1-HEAD WILD (0-DNA)</div>
+      </div>
+      <canvas id="cvDeepStrata" width="420" height="220"></canvas>
+      <div class="metrics" id="mDeepStrata"></div>
+    </div>
+
+    <div class="card featured-vcell">
+      <div class="card-hdr">
+        <div class="card-title">TB16 · Virtual-Cell AI Manifold, Hepatic Zonation &amp; JCVI-syn3A Dark Proteome</div>
+        <div class="card-tag" id="vcellTag">PHYSICS-PROJECTED</div>
+      </div>
+      <canvas id="cvVirtualCell" width="420" height="220"></canvas>
+      <div class="metrics" id="mVirtualCell"></div>
+    </div>
+
+    <div class="card featured-inet">
+      <div class="card-hdr">
+        <div class="card-title">TB14 · 4-Layer Bio-Frostbite Interaction Net VM (Lafont + Hybrid SSIN)</div>
+        <div class="card-tag" id="inetTag">STRONG CONFLUENCE</div>
+      </div>
+      <canvas id="cvBioInet" width="420" height="220"></canvas>
+      <div class="metrics" id="mBioInet"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">TB13 · 12-Axis Continuous Morphospace &amp; 5-Repo Open Proliferation</div>
+        <div class="card-tag" id="prolifTag">UNBOUNDED NOVELTY</div>
+      </div>
+      <canvas id="cvMorpho12" width="420" height="220"></canvas>
+      <div class="metrics" id="mMorpho12"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">TB09 · 3D ≤1,000-Cell "Walking Head" Tardigrade &amp; CPG</div>
+        <div class="card-tag" id="tardiModeTag">ACTIVE WALKING</div>
+      </div>
+      <canvas id="cvTardigrade" width="420" height="220"></canvas>
+      <div class="metrics" id="mTardigrade"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">TB03 · Dynamic-Instability Microtubules + Kinesin/Dynein</div>
+        <div class="card-tag" id="mtModeTag">GTP CAP GROWING</div>
+      </div>
+      <canvas id="cvCytoskeleton" width="420" height="220"></canvas>
+      <div class="metrics" id="mCytoskeleton"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">TB05 · 3D Poincaré–Hopf Spherical Nematic Defects (χ = +2)</div>
+        <div class="card-tag">EXACT GAUSS–BONNET</div>
+      </div>
+      <canvas id="cvPoincare" width="420" height="220"></canvas>
+      <div class="metrics" id="mPoincare"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">TB04 · LLPS Condensates: Ostwald Eq vs. Active ATP Arrest</div>
+        <div class="card-tag">CAHN–HILLIARD 32×32</div>
+      </div>
+      <canvas id="cvLLPS" width="420" height="220"></canvas>
+      <div class="metrics" id="mLLPS"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">TB07 · Turing Instability Pattern (D_inh = 30·D_act)</div>
+        <div class="card-tag">SCHNAKENBERG PDE</div>
+      </div>
+      <canvas id="cvTuring" width="420" height="220"></canvas>
+      <div class="metrics" id="mTuring"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">TB06 &amp; TB08 · Eigen Proofreading Cliff + TUR ≥ 2.0</div>
+        <div class="card-tag">INFO THERMODYNAMICS</div>
+      </div>
+      <canvas id="cvEigenTur" width="420" height="220"></canvas>
+      <div class="metrics" id="mEigenTur"></div>
+    </div>
+  </section>
+
+  <section class="grid-12" id="ledgerCards"></section>
+
+  <div class="card">
+    <div class="card-hdr">
+      <div class="card-title">Build-1 AUTOPHAGE (256B DNA) → Cellular Omega v4.1 (Deep Strata + Bio-Frostbite + Virtual-Cell AI) → Build-3 Asmodensius [0, 1]¹¹² Phenotype Barcode</div>
+      <div class="card-tag" id="bridgeTag">6-TIER BRIDGE</div>
+    </div>
+    <canvas id="cvBarcode" class="barcode" width="900" height="42"></canvas>
+  </div>
+
+  <footer>CELLULAR ENGINE OMEGA v4.1 (Anti-Fraud Audited · Deep Strata · Bio-Frostbite INet · Virtual-Cell AI) · Zero-Dependency C11+AVX2 + 60 Pure Lean 4 Proofs (v4.35.0) · 148 Combined Lean 4 Proofs Across AUTOPHAGE, CELLULOGONIC MECHA &amp; OMEGA</footer>
+  <script src="app.js"></script>
+</body>
+</html>
