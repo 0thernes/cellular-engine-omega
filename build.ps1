@@ -30,25 +30,27 @@ $core = @(
 
 $cflags = @(
     "-O3", "-std=c11", "-Wall", "-Wextra", "-Wshadow", "-Werror", "-Wno-unused-parameter",
-    "-march=native", "-mavx2", "-mbmi", "-mbmi2", "-mpopcnt",
+    "-march=native", "-mavx2", "-mavxvnni", "-mbmi", "-mbmi2", "-mpopcnt",
+    "-ffp-contract=off",
     "--target=x86_64-w64-windows-gnu",
     "-DOMEGA_BARE_WIN64",
     "-I$proj\include",
     "-isystem", "$root\include\clang"
 )
+$lto = @("-flto=thin")
 $ldflags = @("-L$root\lib", "-fuse-ld=lld")
 $libs    = @("-lkernel32", "-lucrtbase", "-lm", "-lmingw32", "-lmingwex")
 
-Write-Host "[1/4] Building bin\omega_cell.exe ..."
-& $clang @cflags @core "$proj\src\omega_main_cli.c" -o "$proj\bin\omega_cell.exe" @ldflags @libs
+Write-Host "[1/4] Building bin\omega_cell.exe (Win64 AVX2/VNNI + ThinLTO) ..."
+& $clang @cflags @lto @core "$proj\src\omega_main_cli.c" -o "$proj\bin\omega_cell.exe" @ldflags @libs
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-Write-Host "[2/4] Building bin\omega_cell.dll (+ import lib) ..."
-& $clang @cflags -shared -DOMEGA_BUILD_DLL @core -o "$proj\bin\omega_cell.dll" "-Wl,--out-implib,$proj\bin\libomega_cell.dll.a" @ldflags @libs
+Write-Host "[2/4] Building bin\omega_cell.dll (+ import lib, ThinLTO) ..."
+& $clang @cflags @lto -shared -DOMEGA_BUILD_DLL @core -o "$proj\bin\omega_cell.dll" "-Wl,--out-implib,$proj\bin\libomega_cell.dll.a" @ldflags @libs
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-Write-Host "[3/4] Building bin\test_omega_falsification.exe ..."
-& $clang @cflags @core "$proj\test\test_omega_falsification.c" -o "$proj\bin\test_omega_falsification.exe" @ldflags @libs
+Write-Host "[3/4] Building bin\test_omega_falsification.exe (ThinLTO) ..."
+& $clang @cflags @lto @core "$proj\test\test_omega_falsification.c" -o "$proj\bin\test_omega_falsification.exe" @ldflags @libs
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 if (Test-Path -LiteralPath $ar) {

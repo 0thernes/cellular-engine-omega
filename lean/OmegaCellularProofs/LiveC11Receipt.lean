@@ -108,9 +108,9 @@ def liveReceipt : LiveReceipt :=
   , shaLifo           := "5cfbbf7e243887be921a890a016357b63250843e5d4f5a6e1a17ab4795eabb5d"
   , shaRandom         := "5cfbbf7e243887be921a890a016357b63250843e5d4f5a6e1a17ab4795eabb5d"
   , tb14Sha256        := "68f505b16299254ada1eba8196a1adb59e22ed18f240047c986072321941175e"
-  , tb16Sha256        := "d1319bf04ad6bd3d2320941f383dfffa8e4110527b36e4c2181dbf43cc62b4a3"
-  , cubeSha256        := "c0db85fa64e77d0b489ff73786e336170ef67f01473e80244e0e3c1e50c2a554"
-  , receiptSha256     := "e1769ffc73962c9763426cae0bb0dd096a445f23666e6db7894108275af4198e"
+  , tb16Sha256        := "7ce501caff54e5bdb1c655c3588471aabd2b4732754ea4e842e7120d6ca28f19"
+  , cubeSha256        := "0f158119d5de255656b86727eeb876b65b77f9a37cf852fb5125d384f6de130b"
+  , receiptSha256     := "12d58fa590f59aa052f243fcb0ea8b0d24c41b6fff55185c3671d0bc1b0941c2"
   }
 
 end OmegaCellular.LiveC11Receipt

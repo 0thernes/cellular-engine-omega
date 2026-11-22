@@ -4,19 +4,19 @@
 [TB01] Purcell Scallop & MotA5  | Scallop=4.32e-12 (Peak=0.209) | 2-DOF=0.3652 (Area=1.96) | MotA5=4.42 um (120 H+ steps)
 [TB02] Virosphere Ecosystem     | Shannon: 0.347->1.623 | PhiKZ Shell: 0.035->0.878 | Mavirus Rescue: 0.00->1.01 | ORFans=33 Obelisks=7
 [TB03] Cytoskeleton & Motors    | CenterErr: 4.33->1.13 um | Ca2+ Melt: 7.49->1.24 um | Kin=+0.57 Dyn=-0.47 | Arp2/3=47.2pN | Lacry=31.0x
-[TB04] Active-Arrested LLPS     | Eq Ostwald: 6 drops (R=4.36, drift=8.5e-14) | Active ATP: 9 drops (R=3.32)
+[TB04] Active-Arrested LLPS     | Eq Ostwald: 6 drops (R=4.36, drift=1.4e-13) | Active ATP: 9 drops (R=3.32)
 [TB05] Poincare-Hopf Sphere     | V=162 | Sum(q): 2.00000000 -> 2.00000000 (maxErr=4.44e-16) | Defects=4 | S=0.868
 [TB06] Eigen & Proofreading     | Eq(L=100)=0.296 Eq(L=600)=0.00000 | KP1(L=600)=0.933 | KP2(L=3200)=0.9963
 [TB07] Turing & Feinberg CRNT   | EqDiffStd=0.00000 -> FastInhStd=0.9116 | Feinberg d0=0.000000 vs d1=2.328
 [TB08] TUR, Bayes & Stentor     | TUR_min=2.099 (>=2.0) | JitterRatio=4.00x | AdaptErr=0.00000 | Stentor Tier=4 (Esc=1)
 [TB09] <=1000-Cell Tardigrade   | Cells=669 (4-Hox, GutSealed=1) | Walk=5.14 | Bioglass=0.998 | Surv: 78.2% vs 0.11% KO | Mega=7400->389
-[TB10] Odd Chiral & Chase       | PassiveW=1.00e-18 vs OddW=2.5133 (Theory=2.5133) | Recip=0.0000 vs Chase=1.1563 | psi6=0.990
+[TB10] Odd Chiral & Chase       | PassiveW=3.96e-19 vs OddW=2.5133 (Theory=2.5133) | Recip=0.0000 vs Chase=1.1563 | psi6=0.990
 [TB11] Lane vs Lynch + Nitro    | ProkV=295.9 vs EukV=1200.0 | Gen(Ne400)=14880 vs Gen(Ne40)=21180 kb | TransATP=62.8% | NitroSync=1.00
 [TB12] Track A/B + 4-Build      | Tumors: A=0 vs B=31 | OVI: 85.4 / 83.7(50%,323 esc) / 0.0(100%) | Asmo112: mu=0.492 sd=0.310
-[TB13] 5-Repo Open-Prolif 12D   | Niches=17848 (H1=9049 H2=8799) | Chimeras=166 Swarms=96 Creat=91 Outliers=1492 | Res=1.4e-11 | Apex=Radiotroph/Cable Eutelic-Creature (Ocelloid/Harpoon, D3)
+[TB13] 5-Repo Open-Prolif 12D   | Niches=17848 (H1=9049 H2=8799) | Chimeras=166 Swarms=96 Creat=91 Outliers=1492 | Res=1.5e-11 | Apex=Radiotroph/Cable Eutelic-Creature (Ocelloid/Harpoon, D3)
 [TB14] Bio-Frostbite INet VM    | Rewrites=144/144/144 (L1=58 L2=46 L3=18 L4=22, Causal=8h) | Confluent=EXACT-5xSHA256 | Drift=0 | QErr=0 | Depth=3 | Tun0W=0/0 | SSIN=95.3% (80a->16p)
 [TB15] Deep Strata Frontier     | CISS=100.0% | TAD=7.6x (Steric=39433) | TrpSR=6.24x | Cnid=5.75Mg | Levin=1->2H (0-DNA) | Wire=8.7%->98.0% | 3GenDrift=0 (KO=3/3)
-[TB16] Virtual-Cell AI & syn3A  | Zonation r=0.982 | ZeroShot R2=0.915 (Raw=0.915) AUROC=0.991 | Dark=85/92 | RawAI=0.358 -> ProjRes=2.3e-15 | 6Tier=4.6e-15
+[TB16] Virtual-Cell AI & syn3A  | Zonation r=0.982 | ZeroShot R2=0.915 (Raw=0.915) AUROC=0.991 | Dark=85/92 | RawAI=0.358 -> ProjRes=2.6e-15 | 6Tier=5.0e-15
 --------------------------------------------------------------------------------
- ALL 16 TESTBEDS COMPLETE in 60.24 ms | MASTER SHA-256: 3604e0353ffdde98f2dbafc02569d3254c278ac8ca12d145b43fb27873f10c15
+ ALL 16 TESTBEDS COMPLETE in 85.01 ms | MASTER SHA-256: a92641843e46736b04cd781181f34f1de8444859ce73db47d4204c5553364661
 ================================================================================
