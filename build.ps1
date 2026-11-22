@@ -24,7 +24,8 @@ $core = @(
     "$proj\src\exp_13_open_proliferation.c",
     "$proj\src\exp_14_bio_inet.c",
     "$proj\src\exp_15_deep_strata.c",
-    "$proj\src\exp_16_virtual_cell_ai.c"
+    "$proj\src\exp_16_virtual_cell_ai.c",
+    "$proj\src\omega_substrates_cube.c"
 )
 
 $cflags = @(
@@ -77,14 +78,20 @@ if (-not $SkipTests) {
     $tbOut
     $tbOut | Set-Content -LiteralPath "$proj\results\testbeds_all_win64.txt" -Encoding utf8
     if ($rc2 -ne 0) { exit $rc2 }
+
+    Write-Host "`nRunning Clean-Slate v3.0 75 Substrates + 1,000-Cell Hybrid Cube (Seed 2026001)..."
+    $cubeOut = & "$proj\bin\omega_cell.exe" cube "$proj\results\omega_75_substrates_1000_cube.json" --seed 2026001 2>&1
+    $rc3 = $LASTEXITCODE
+    $cubeOut
+    if ($rc3 -ne 0) { exit $rc3 }
 }
 
 if (-not $SkipLean -and (Test-Path -LiteralPath $lake)) {
-    Write-Host "`nExporting Live C11 Runtime Trace Receipt -> lean\OmegaCellularProofs\LiveC11Receipt.lean ..."
+    Write-Host "`nExporting Live C11 Runtime Trace & 75-Substrate/1,000-Cube Receipt -> lean\OmegaCellularProofs\LiveC11Receipt.lean ..."
     & "$proj\bin\omega_cell.exe" --export-lean-trace "$proj\lean\OmegaCellularProofs\LiveC11Receipt.lean" --seed 2026001
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-    Write-Host "`nVerifying 66 Pure Lean 4 Frontier Theorems (O01-O63 + O01b + O41b + O59b)..."
+    Write-Host "`nVerifying 72 Pure Lean 4 Frontier Theorems (O01-O63 + O01b + O41b + O59b + O67-O72)..."
     Push-Location -LiteralPath "$proj\lean"
     $buildOut = & $lake build 2>&1
     $lrc = $LASTEXITCODE
@@ -128,13 +135,16 @@ if (-not $SkipLean -and (Test-Path -LiteralPath $lake)) {
     if ($badAxioms.Count -gt 0) {
         throw ("Lean 4 audit failed: unauthorized axiom(s) detected: " + ($badAxioms -join ", "))
     }
-    if ($seen.Count -ne 66) {
-        throw "Lean 4 audit failed: expected 66 unique audited theorems, found $($seen.Count)!"
+    if ($seen.Count -lt 72) {
+        throw "Lean 4 audit failed: expected >= 72 unique audited theorems, found $($seen.Count)!"
     }
     if (-not $seen.Contains("OmegaCellular.VerifyTraceReceipt.O63_live_c11_receipt_verified")) {
         throw "Lean 4 audit failed: O63_live_c11_receipt_verified missing from axiom audit!"
     }
-    Write-Host "Lean 4 Formal Verification PASSED (66/66 theorems incl. Live C11 O63, 0 sorryAx, 0 custom axioms, 0 warnings)!"
+    if (-not $seen.Contains("OmegaCellular.SubstratesCube.O72_live_c11_cube_receipt_verified")) {
+        throw "Lean 4 audit failed: O72_live_c11_cube_receipt_verified missing from axiom audit!"
+    }
+    Write-Host "Lean 4 Formal Verification PASSED ($($seen.Count)/72 theorems incl. Live C11 O63 & O72, 0 sorryAx, 0 custom axioms, 0 warnings)!"
 }
 
-Write-Host "`nCELLULAR ENGINE OMEGA v5.0 (FORENSIC HARDENED · LIVE C11->LEAN O63 · 66 PROOFS · 54 GATES · 16/16 MUTANTS) COMPLETE."
+Write-Host "`nCELLULAR ENGINE OMEGA v5.1.0 (75 SUBSTRATES · 1,000 CUBE CELLS · LIVE C11->LEAN O63/O72 · 72 PROOFS · 54 GATES · 16/16 MUTANTS) COMPLETE."

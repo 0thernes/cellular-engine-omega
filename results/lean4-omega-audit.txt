@@ -108,3 +108,9 @@
  Classical.choice,
  Quot.sound]
 'OmegaCellular.VerifyTraceReceipt.O63_live_c11_receipt_verified' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.SubstratesCube.O67_substrates_75_exact' does not depend on any axioms
+'OmegaCellular.SubstratesCube.O68_hybrid_cube_1000_partition' does not depend on any axioms
+'OmegaCellular.SubstratesCube.O69_hybrid_cube_3axis_product' does not depend on any axioms
+'OmegaCellular.SubstratesCube.O70_quantum_cap_10_bytes_bound' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.SubstratesCube.O71_b158_5trits_fits_byte' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.SubstratesCube.O72_live_c11_cube_receipt_verified' does not depend on any axioms

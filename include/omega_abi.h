@@ -326,6 +326,76 @@ typedef struct OmegaTierLedger {
     double  t5_topology_charge_err;     /* Tier 5: Poincare-Hopf S^2 charge err (TB05) */
 } OmegaTierLedger;
 
+/* ============================================================================
+ * Clean-Slate v3.0 75 Substrates (PM01..25, MF01..25, GW01..25)
+ * & 10x10x10 (1,000-Cell) Hybrid Cube Native C11 Engine (v5.1.0)
+ * ============================================================================ */
+#define OMEGA_CUBE_OK    0
+#define OMEGA_CUBE_ADAPT 1
+#define OMEGA_CUBE_OVER  2
+#define OMEGA_CUBE_EXCL  3
+
+typedef struct OmegaPmMetric {
+    char   id[8];
+    char   name[56];
+    double bytes_per_syn;
+    double rmse;
+    int    passed;
+} OmegaPmMetric;
+
+typedef struct OmegaMfMetric {
+    char   id[8];
+    char   name[56];
+    double state_norm;
+    double energy_proxy;
+    int    passed;
+} OmegaMfMetric;
+
+typedef struct OmegaGwMetric {
+    char   id[8];
+    char   name[56];
+    double invariant_val;
+    double invariant_err;
+    int    passed;
+} OmegaGwMetric;
+
+typedef struct OmegaSubstratesCubeResult {
+    uint64_t seed;
+    int      pm_total;              /* 25 */
+    int      pm_passed;             /* 25 */
+    int      mf_total;              /* 25 */
+    int      mf_passed;             /* 25 */
+    int      gw_total;              /* 25 */
+    int      gw_passed;             /* 25 */
+    int      substrates_total;      /* 75 */
+    int      substrates_passed;     /* 75 */
+    int      cube_total;            /* 1000 */
+    int      cube_ok;               /* 661 */
+    int      cube_adapt;            /* 274 */
+    int      cube_over;             /* 20 */
+    int      cube_excl;             /* 45 */
+    int      cube_active_verified;  /* 935 (661 [OK] + 274 [ADAPT] with S2S adapter) */
+    int      cube_over_flagged;     /* 20 */
+    int      cube_excl_flagged;     /* 45 */
+    int      cube_verified_total;   /* 1000 */
+    double   pm_max_rmse;
+    double   pm18_kahan_rel_err;    /* Must be < 1e-12 */
+    double   mf_max_norm;           /* Must be < 1e4 */
+    double   gw_max_invariant_err;
+    double   cube_max_norm;         /* Must be < 1e4 */
+    int      quantum_cap_q;         /* 10 */
+    int      quantum_cap_bytes;     /* 16384 = 16 * 2^10 */
+    int      b158_trit_states;      /* 243 = 3^5 <= 256 */
+    OmegaPmMetric pm[25];
+    OmegaMfMetric mf[25];
+    OmegaGwMetric gw[25];
+    uint8_t  cube_badge[1000];      /* 0=OK, 1=ADAPT, 2=OVER, 3=EXCL */
+    uint8_t  cube_pass[1000];       /* 1 iff cell passed contract */
+    float    cube_norm[1000];       /* Measured L2 forward norm (0.0f for EXCL) */
+    char     sha256[65];            /* Bit-exact deterministic P4/P9 receipt */
+    double   elapsed_ms;            /* Wall-clock telemetry (placed AFTER sha256) */
+} OmegaSubstratesCubeResult;
+
 /* Public Runner Entry Points */
 OMEGA_API void omega_run_tb01(uint64_t seed, int mutant_mode, TB01Result* out);
 OMEGA_API void omega_run_tb02(uint64_t seed, int mutant_mode, TB02Result* out);
@@ -344,6 +414,7 @@ OMEGA_API void omega_run_tb14(uint64_t seed, int mutant_mode, int feral_hw_entro
 OMEGA_API void omega_run_tb15(uint64_t seed, int mutant_mode, TB15Result* out);
 OMEGA_API void omega_run_tb16(uint64_t seed, int mutant_mode, TB16Result* out);
 OMEGA_API void omega_run_tb16_coupled(uint64_t seed, int mutant_mode, const OmegaTierLedger* ledger, TB16Result* out);
+OMEGA_API void omega_run_substrates_75_and_cube_1000(uint64_t seed, OmegaSubstratesCubeResult* out);
 
 #ifdef __cplusplus
 }

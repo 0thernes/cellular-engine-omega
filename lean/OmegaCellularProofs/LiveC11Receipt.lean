@@ -1,9 +1,10 @@
 /-!
-# LiveC11Receipt.lean — Auto-Generated Live C11 Runtime Trace Receipt (v5.0)
+# LiveC11Receipt.lean — Auto-Generated Live C11 Runtime Trace Receipt (v5.1.0)
 
 Emitted directly by `omega_cell --export-lean-trace` executing real C11 `TB14`
 (Bio-Frostbite 4-Layer INet VM) + coupled `TB16` (Virtual-Cell AI & 6-Tier Closure)
-on deterministic Seed `2026001`. Verified inside the Lean 4 kernel by `O63_live_c11_receipt_verified`.
++ Clean-Slate v3.0 75 Substrates & 1,000-Cell Hybrid Cube (`omega_substrates_cube.c`)
+on deterministic Seed `2026001`. Verified inside the Lean 4 kernel by `O63` and `O72`.
 -/
 
 namespace OmegaCellular.LiveC11Receipt
@@ -39,11 +40,24 @@ structure LiveReceipt where
   syn3aDarkGenes     : Nat
   syn3aDarkDiscov    : Nat
   sixTierIntDrift    : Int
+  pmPassed           : Nat
+  mfPassed           : Nat
+  gwPassed           : Nat
+  cubeOk             : Nat
+  cubeAdapt          : Nat
+  cubeOver           : Nat
+  cubeExcl           : Nat
+  cubeActiveVerif    : Nat
+  cubeVerifiedTot    : Nat
+  quantumCapQ        : Nat
+  quantumCapBytes    : Nat
+  b158TritStates     : Nat
   shaFifo            : String
   shaLifo            : String
   shaRandom          : String
   tb14Sha256         : String
   tb16Sha256         : String
+  cubeSha256         : String
   receiptSha256      : String
   deriving Repr, DecidableEq
 
@@ -78,11 +92,24 @@ def liveReceipt : LiveReceipt :=
   , syn3aDarkGenes    := 92
   , syn3aDarkDiscov   := 85
   , sixTierIntDrift   := 0
+  , pmPassed          := 25
+  , mfPassed          := 25
+  , gwPassed          := 25
+  , cubeOk            := 661
+  , cubeAdapt         := 274
+  , cubeOver          := 20
+  , cubeExcl          := 45
+  , cubeActiveVerif   := 935
+  , cubeVerifiedTot   := 1000
+  , quantumCapQ       := 10
+  , quantumCapBytes   := 16384
+  , b158TritStates    := 243
   , shaFifo           := "5cfbbf7e243887be921a890a016357b63250843e5d4f5a6e1a17ab4795eabb5d"
   , shaLifo           := "5cfbbf7e243887be921a890a016357b63250843e5d4f5a6e1a17ab4795eabb5d"
   , shaRandom         := "5cfbbf7e243887be921a890a016357b63250843e5d4f5a6e1a17ab4795eabb5d"
   , tb14Sha256        := "68f505b16299254ada1eba8196a1adb59e22ed18f240047c986072321941175e"
   , tb16Sha256        := "d1319bf04ad6bd3d2320941f383dfffa8e4110527b36e4c2181dbf43cc62b4a3"
+  , cubeSha256        := "c0db85fa64e77d0b489ff73786e336170ef67f01473e80244e0e3c1e50c2a554"
   , receiptSha256     := "e1769ffc73962c9763426cae0bb0dd096a445f23666e6db7894108275af4198e"
   }
 

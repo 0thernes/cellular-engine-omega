@@ -56,5 +56,5 @@
   [PASS] G53  | TB15 Cohesin Excluded-Volume Steric Queuing (>100 blocks) & 3-Genome Knockout Closure Falsifiability (3/3 KO)
   [PASS] G54  | LIVE 6-TIER LEDGER FAULT PROPAGATION: Clean int_drift==0; injecting M8 INet leak triggers int_drift>0 & err>=1
 ================================================================================
- FALSIFICATION SUMMARY: 54 / 54 PASSED · 0 FAILED · 16/16 MUTANTS CAUGHT (0.564s)
+ FALSIFICATION SUMMARY: 54 / 54 PASSED · 0 FAILED · 16/16 MUTANTS CAUGHT (0.614s)
 ================================================================================

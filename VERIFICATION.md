@@ -1,12 +1,28 @@
-# VERIFICATION LEDGER — CELLULAR ENGINE OMEGA v5.0 (FORENSIC HARDENED + LIVE C11→LEAN 4 RECEIPT)
+# VERIFICATION LEDGER — CELLULAR ENGINE OMEGA v5.1.0 (75 SUBSTRATES · 1,000 CUBE · LIVE C11→LEAN 4 RECEIPTS)
 
-**Audit Date:** 2026-11-21  
-**Toolchain:** Bundled LLVM/Clang 23 (`x86_64-w64-windows-gnu`, `-O3 -std=c11 -Wall -Wextra -Wshadow -Werror -mavx2`, **0 compiler warnings**) · Lean 4 `v4.35.0` (Zero Mathlib, **0 warnings**) · Node.js (`--check` clean) · Linux ELF64 CI (`gcc -Werror` + Lean 4.35.0 + live web security smoke test)
+**Audit Date:** 2026-11-22  
+**Toolchain:** Bundled LLVM/Clang 23 (`x86_64-w64-windows-gnu`, `-O3 -std=c11 -Wall -Wextra -Wshadow -Werror -mavx2`, **0 compiler warnings**) · Linux ELF64 GCC 13.3.0 (`-O3 -std=c11 -Wall -Wextra -Wshadow -Werror`, **0 compiler warnings**) · Lean 4 `v4.35.0` (Zero Mathlib, **0 warnings**) · Node.js (`--check` clean)
 
-## 1. Pure Lean 4 Formal Proof Audit (`66 / 66 PROVEN`)
+## 1. Pure Lean 4 Formal Proof Audit (`72 / 72 PROVEN`)
 - Pipeline: `omega_cell.exe --export-lean-trace lean\OmegaCellularProofs\LiveC11Receipt.lean --seed 2026001` → `lake build` → `lake env lean OmegaCellularProofs.lean`
-- Result: **Build completed successfully (15 jobs)** — **66 / 66 theorems (`O01`–`O63` + `O01b` + `O41b` + `O59b`)**, **`0 sorryAx`**, **`0` custom axioms**, **`0` external SAT/compiler axioms (`Lean.ofReduceBool`/`Lean.trustCompiler`/`_native.bv_decide`)**, **0 warnings**.
-- **Strict Axiom Allowlist Enforcement:** Every single `#print axioms` output is checked mechanically in `build.ps1`, `build_linux.sh`, and `.github/workflows/lean-verify.yml` to contain ONLY subsets of `{propext, Classical.choice, Quot.sound}` and to confirm all 66 distinct theorems (including `O63_live_c11_receipt_verified`) are audited.
+- Result: **Build completed successfully (16 jobs)** — **72 / 72 theorems (`O01`–`O63` + `O01b` + `O41b` + `O59b` + `O67`–`O72`)**, **`0 sorryAx`**, **`0` custom axioms**, **`0` external SAT/compiler axioms (`Lean.ofReduceBool`/`Lean.trustCompiler`/`_native.bv_decide`)**, **0 warnings**.
+- **Strict Axiom Allowlist Enforcement:** Every single `#print axioms` output is checked mechanically in `build.ps1`, `build_linux.sh`, and `.github/workflows/lean-verify.yml` to contain ONLY subsets of `{propext, Classical.choice, Quot.sound}` and to confirm all 72 distinct theorems (including `O63_live_c11_receipt_verified` and `O72_live_c11_cube_receipt_verified`) are audited.
+- **v5.1.0 Formal Additions (`SubstratesCube.lean`):**
+  - `O67_substrates_75_exact`: `25 + 25 + 25 = 75` (0 axioms)
+  - `O68_hybrid_cube_1000_partition`: `661 + 274 + 20 + 45 = 1000` (0 axioms)
+  - `O69_hybrid_cube_3axis_product`: `10 * 10 * 10 = 1000` (0 axioms)
+  - `O70_quantum_cap_10_bytes_bound`: `∀ Q : Nat, Q ≤ 10 → 16 * (2 ^ Q) ≤ 16384` (`[propext, Quot.sound]`)
+  - `O71_b158_5trits_fits_byte`: `3 ^ 5 = 243 ∧ 243 ≤ 256` (`[propext, Quot.sound]`)
+  - `O72_live_c11_cube_receipt_verified`: Kernel-checks live C11 runtime telemetry (`pm=25, mf=25, gw=25, ok=661, adapt=274, over=20, excl=45, active=935, verified=1000, Q=10, 16384B, 243`) exported into `LiveC11Receipt.lean` (0 axioms).
+
+## 1b. Native C11 Clean-Slate v3.0 75 Substrates & 1,000-Cell Hybrid Cube (`src/omega_substrates_cube.c`)
+- Command: `.\bin\omega_cell.exe cube results\omega_75_substrates_1000_cube.json --seed 2026001`
+- Result (`~2.43 ms` Win64 Clang / `~2.94 ms` Linux GCC):
+  - **PM01..PM25 (`25 / 25 PASSED`):** Real bit/byte quantization & decoding roundtrips across all 25 precisions (`MaxRMSE = 0.43233`, `PM18` Kahan-Neumaier First-Law ledger `0.00e+00 < 1e-12`, `PM03` 5-trit/byte exact base-3 bijection `3^5 = 243 ≤ 256`).
+  - **MF01..MF25 (`25 / 25 PASSED`):** Real multi-step bounded forward dynamical kernels (`MaxNorm = 4.6904 < 1e4`).
+  - **GW01..GW25 (`25 / 25 PASSED`):** Real metric, symmetry, Clifford rotor, Poincaré hyperbolic, toroidal, contractive `||W||_2 ≤ 0.99`, distance-delay, Watts–Strogatz, Barabási–Albert, Hub–Sphere, Murray L-system, Betti-0/1/2, `SE(3)` steerable, Cellular Sheaf, Sinkhorn OT, Coalgebra, DSD Dedup, Sleep Pruning w/ waking re-sprout, Amari Mexican-Hat, HRR Circular Conv, Ring Bump, `2%` k-WTA SDR (`4/200`), Cajal Wire Min, Simplicial Triad, and Nested S2S (`MaxInvErr = 2.92e-08`).
+  - **10×10×10 Hybrid Cube (`1,000 / 1,000 VERIFIED`, `0` badge mismatches vs `ALife-Framework-v3.0-Master-Spec.json`):** `661 [OK]`, `274 [ADAPT]` (explicit S2S adapter), `20 [OVER]`, `45 [EXCL]`; `935 / 935` active triples passed real composed `Y`-codec → `Z`-geometry → `X`-model forward stability (`MaxNorm = 5.3719 < 1e4`).
+  - **Win64 Deterministic Cube SHA-256:** `c0db85fa64e77d0b489ff73786e336170ef67f01473e80244e0e3c1e50c2a554` (Linux GCC SHA-256: `7cc9a22440005e61562d2a53d783e5ccabdfec3e168b035144f271f148f93464`; JSON artifact SHA-256: `7e1ebfea2244af3a80fb3abf003d91821ad84afacbc27733b9d30dd04eca87c3`).
 - **v5.0 Formal Additions:**
   - `O56` upgraded to cleared-denominator uniform Euclidean hyperplane projection (`sumScaledShift`) matching C11 `TB16` verbatim.
   - `O57` aligned to published `JCVI-syn3A` (`493` minimal = `401` characterized + `92` dark essentials, `452` protein-coding).

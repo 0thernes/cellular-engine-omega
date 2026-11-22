@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# CELLULAR ENGINE OMEGA v5.0 — Native Linux ELF64 Zero-Dependency Build & Verification
+# CELLULAR ENGINE OMEGA v5.1.0 — Native Linux ELF64 Zero-Dependency Build & Verification
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CC="${CC:-gcc}"
 mkdir -p "$SCRIPT_DIR/bin" "$SCRIPT_DIR/results"
@@ -14,6 +14,7 @@ CORE=(
   "$SCRIPT_DIR/src/exp_14_bio_inet.c"
   "$SCRIPT_DIR/src/exp_15_deep_strata.c"
   "$SCRIPT_DIR/src/exp_16_virtual_cell_ai.c"
+  "$SCRIPT_DIR/src/omega_substrates_cube.c"
 )
 
 CFLAGS=(-O3 -std=c11 -Wall -Wextra -Wshadow -Werror -Wno-unused-parameter "-I$SCRIPT_DIR/include")
@@ -47,7 +48,11 @@ echo "Running 16-Testbed Suite (Seed 2026001)..."
 "$SCRIPT_DIR/bin/omega_cell" all --seed 2026001 | tee "$SCRIPT_DIR/results/testbeds_all_linux.txt"
 
 echo ""
-echo "Exporting Live C11 Runtime Trace Receipt -> lean/OmegaCellularProofs/LiveC11Receipt.lean ..."
+echo "Running Clean-Slate v3.0 75 Substrates + 1,000-Cell Hybrid Cube (Seed 2026001)..."
+"$SCRIPT_DIR/bin/omega_cell" cube "$SCRIPT_DIR/results/omega_75_substrates_1000_cube.json" --seed 2026001
+
+echo ""
+echo "Exporting Live C11 Runtime Trace & Cube Receipt -> lean/OmegaCellularProofs/LiveC11Receipt.lean ..."
 "$SCRIPT_DIR/bin/omega_cell" --export-lean-trace "$SCRIPT_DIR/lean/OmegaCellularProofs/LiveC11Receipt.lean" --seed 2026001
 
 if command -v node >/dev/null 2>&1; then
@@ -71,7 +76,7 @@ fi
 
 if command -v lake >/dev/null 2>&1; then
   echo ""
-  echo "Verifying 66 Pure Lean 4 Proofs (incl. Live C11 O63) & Strict Axiom Allowlist..."
+  echo "Verifying 72 Pure Lean 4 Proofs (incl. Live C11 O63 & O72) & Strict Axiom Allowlist..."
   (
     cd "$SCRIPT_DIR/lean"
     lake build 2>&1 | tee "$SCRIPT_DIR/results/lean4-build-linux.log"
@@ -95,15 +100,18 @@ for m in re.finditer(r"'(OmegaCellular\.[^']+)' (depends on axioms:\s*\[([^\]]+)
         if bad:
             print(f"ERROR: Unauthorized axiom(s) {bad} in {m.group(1)}", file=sys.stderr)
             sys.exit(1)
-if len(seen) != 66:
-    print(f"ERROR: Expected 66 unique audited theorems, found {len(seen)}", file=sys.stderr)
+if len(seen) < 72:
+    print(f"ERROR: Expected >= 72 unique audited theorems, found {len(seen)}", file=sys.stderr)
     sys.exit(1)
 if "OmegaCellular.VerifyTraceReceipt.O63_live_c11_receipt_verified" not in seen:
     print("ERROR: Missing O63_live_c11_receipt_verified in axiom audit!", file=sys.stderr)
     sys.exit(1)
-print(f"PASS: All {len(seen)}/66 OmegaCellularProofs theorems verified (0 sorryAx, 0 custom axioms, 0 warnings).")
+if "OmegaCellular.SubstratesCube.O72_live_c11_cube_receipt_verified" not in seen:
+    print("ERROR: Missing O72_live_c11_cube_receipt_verified in axiom audit!", file=sys.stderr)
+    sys.exit(1)
+print(f"PASS: All {len(seen)}/72 OmegaCellularProofs theorems verified (0 sorryAx, 0 custom axioms, 0 warnings).")
 PY
 fi
 
 echo ""
-echo "CELLULAR ENGINE OMEGA v5.0 LINUX ELF64 BUILD & VERIFICATION COMPLETE."
+echo "CELLULAR ENGINE OMEGA v5.1.0 LINUX ELF64 BUILD & VERIFICATION COMPLETE."

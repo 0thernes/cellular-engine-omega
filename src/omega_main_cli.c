@@ -74,6 +74,7 @@ static int export_lean_trace(const char* out_path, uint64_t seed) {
     TB15Result r15;
     TB16Result r16;
     OmegaTierLedger ledger;
+    OmegaSubstratesCubeResult sc;
 
     omega_run_tb04(seed, 0, &r4);
     omega_run_tb05(seed, 0, &r5);
@@ -82,6 +83,7 @@ static int export_lean_trace(const char* out_path, uint64_t seed) {
     omega_run_tb15(seed, 0, &r15);
     build_tier_ledger(&r4, &r5, &r13, &r14, &r15, &ledger);
     omega_run_tb16_coupled(seed, 0, &ledger, &r16);
+    omega_run_substrates_75_and_cube_1000(seed, &sc);
 
     char concat[2 * 64 + 1];
     memcpy(concat,      r14.sha256, 64);
@@ -104,10 +106,11 @@ static int export_lean_trace(const char* out_path, uint64_t seed) {
     }
 
     fprintf(fp, "/-!\n");
-    fprintf(fp, "# LiveC11Receipt.lean — Auto-Generated Live C11 Runtime Trace Receipt (v5.0)\n\n");
+    fprintf(fp, "# LiveC11Receipt.lean — Auto-Generated Live C11 Runtime Trace Receipt (v5.1.0)\n\n");
     fprintf(fp, "Emitted directly by `omega_cell --export-lean-trace` executing real C11 `TB14`\n");
     fprintf(fp, "(Bio-Frostbite 4-Layer INet VM) + coupled `TB16` (Virtual-Cell AI & 6-Tier Closure)\n");
-    fprintf(fp, "on deterministic Seed `%llu`. Verified inside the Lean 4 kernel by `O63_live_c11_receipt_verified`.\n",
+    fprintf(fp, "+ Clean-Slate v3.0 75 Substrates & 1,000-Cell Hybrid Cube (`omega_substrates_cube.c`)\n");
+    fprintf(fp, "on deterministic Seed `%llu`. Verified inside the Lean 4 kernel by `O63` and `O72`.\n",
             (unsigned long long)seed);
     fprintf(fp, "-/\n\n");
     fprintf(fp, "namespace OmegaCellular.LiveC11Receipt\n\n");
@@ -142,11 +145,24 @@ static int export_lean_trace(const char* out_path, uint64_t seed) {
     fprintf(fp, "  syn3aDarkGenes     : Nat\n");
     fprintf(fp, "  syn3aDarkDiscov    : Nat\n");
     fprintf(fp, "  sixTierIntDrift    : Int\n");
+    fprintf(fp, "  pmPassed           : Nat\n");
+    fprintf(fp, "  mfPassed           : Nat\n");
+    fprintf(fp, "  gwPassed           : Nat\n");
+    fprintf(fp, "  cubeOk             : Nat\n");
+    fprintf(fp, "  cubeAdapt          : Nat\n");
+    fprintf(fp, "  cubeOver           : Nat\n");
+    fprintf(fp, "  cubeExcl           : Nat\n");
+    fprintf(fp, "  cubeActiveVerif    : Nat\n");
+    fprintf(fp, "  cubeVerifiedTot    : Nat\n");
+    fprintf(fp, "  quantumCapQ        : Nat\n");
+    fprintf(fp, "  quantumCapBytes    : Nat\n");
+    fprintf(fp, "  b158TritStates     : Nat\n");
     fprintf(fp, "  shaFifo            : String\n");
     fprintf(fp, "  shaLifo            : String\n");
     fprintf(fp, "  shaRandom          : String\n");
     fprintf(fp, "  tb14Sha256         : String\n");
     fprintf(fp, "  tb16Sha256         : String\n");
+    fprintf(fp, "  cubeSha256         : String\n");
     fprintf(fp, "  receiptSha256      : String\n");
     fprintf(fp, "  deriving Repr, DecidableEq\n\n");
     fprintf(fp, "def liveReceipt : LiveReceipt :=\n");
@@ -180,19 +196,156 @@ static int export_lean_trace(const char* out_path, uint64_t seed) {
     fprintf(fp, "  , syn3aDarkGenes    := %d\n",   r16.syn3a_dark_genes);
     fprintf(fp, "  , syn3aDarkDiscov   := %d\n",   r16.syn3a_dark_discovered);
     fprintf(fp, "  , sixTierIntDrift   := %lld\n", (long long)r16.six_tier_int_drift);
+    fprintf(fp, "  , pmPassed          := %d\n",   sc.pm_passed);
+    fprintf(fp, "  , mfPassed          := %d\n",   sc.mf_passed);
+    fprintf(fp, "  , gwPassed          := %d\n",   sc.gw_passed);
+    fprintf(fp, "  , cubeOk            := %d\n",   sc.cube_ok);
+    fprintf(fp, "  , cubeAdapt         := %d\n",   sc.cube_adapt);
+    fprintf(fp, "  , cubeOver          := %d\n",   sc.cube_over);
+    fprintf(fp, "  , cubeExcl          := %d\n",   sc.cube_excl);
+    fprintf(fp, "  , cubeActiveVerif   := %d\n",   sc.cube_active_verified);
+    fprintf(fp, "  , cubeVerifiedTot   := %d\n",   sc.cube_verified_total);
+    fprintf(fp, "  , quantumCapQ       := %d\n",   sc.quantum_cap_q);
+    fprintf(fp, "  , quantumCapBytes   := %d\n",   sc.quantum_cap_bytes);
+    fprintf(fp, "  , b158TritStates    := %d\n",   sc.b158_trit_states);
     fprintf(fp, "  , shaFifo           := \"%s\"\n", r14.sha_fifo);
     fprintf(fp, "  , shaLifo           := \"%s\"\n", r14.sha_lifo);
     fprintf(fp, "  , shaRandom         := \"%s\"\n", r14.sha_random);
     fprintf(fp, "  , tb14Sha256        := \"%s\"\n", r14.sha256);
     fprintf(fp, "  , tb16Sha256        := \"%s\"\n", r16.sha256);
+    fprintf(fp, "  , cubeSha256        := \"%s\"\n", sc.sha256);
     fprintf(fp, "  , receiptSha256     := \"%s\"\n", receipt_sha);
     fprintf(fp, "  }\n\n");
     fprintf(fp, "end OmegaCellular.LiveC11Receipt\n");
     fclose(fp);
 
-    printf("Exported Live C11 Lean 4 Trace Receipt -> %s (Seed=%llu, Rewrites=%d/%d/%d, Mass=%lld, Charge=%lld, 6TierDrift=%lld, SHA=%s)\n",
+    printf("Exported Live C11 Lean 4 Trace Receipt -> %s (Seed=%llu, Rewrites=%d/%d/%d, Mass=%lld, Charge=%lld, 6TierDrift=%lld, Substrates=%d/75, Cube=%d/%d/%d/%d, SHA=%s, CubeSHA=%s)\n",
            out_path, (unsigned long long)seed, r14.rewrites_fifo, r14.rewrites_lifo, r14.rewrites_random,
-           (long long)mass_before, (long long)charge_before, (long long)r16.six_tier_int_drift, receipt_sha);
+           (long long)mass_before, (long long)charge_before, (long long)r16.six_tier_int_drift,
+           sc.substrates_passed, sc.cube_ok, sc.cube_adapt, sc.cube_over, sc.cube_excl,
+           receipt_sha, sc.sha256);
+    return 0;
+}
+
+static const char* cube_badge_str(uint8_t badge) {
+    if (badge == OMEGA_CUBE_OK)    return "[OK]";
+    if (badge == OMEGA_CUBE_ADAPT) return "[ADAPT]";
+    if (badge == OMEGA_CUBE_OVER)  return "[OVER]";
+    return "[EXCL]";
+}
+
+static int run_cube_cli(uint64_t seed, const char* json_path) {
+    OmegaSubstratesCubeResult sc;
+    omega_run_substrates_75_and_cube_1000(seed, &sc);
+
+    printf("================================================================================\n");
+    printf(" CELLULAR ENGINE OMEGA v5.1.0 — 75 SUBSTRATES & 1,000-CELL HYBRID CUBE (Seed %llu)\n",
+           (unsigned long long)seed);
+    printf("================================================================================\n");
+    printf("[PM01..PM25] Numeric Precision Codecs  : %2d / %2d PASSED | MaxRMSE=%.5f | PM18 Kahan=%.2e (<1e-12) | b1.58=3^5=%d<=256\n",
+           sc.pm_passed, sc.pm_total, sc.pm_max_rmse, sc.pm18_kahan_rel_err, sc.b158_trit_states);
+    printf("[MF01..MF25] Model Family Kernels      : %2d / %2d PASSED | MaxNorm=%.4f (<1e4)\n",
+           sc.mf_passed, sc.mf_total, sc.mf_max_norm);
+    printf("[GW01..GW25] Geometry/Topology Builders: %2d / %2d PASSED | MaxInvErr=%.2e\n",
+           sc.gw_passed, sc.gw_total, sc.gw_max_invariant_err);
+    printf("[SUBSTRATES] Clean-Slate v3.0 Total    : %2d / %2d PASSED\n",
+           sc.substrates_passed, sc.substrates_total);
+    printf("[HYBRID-10³] 10x10x10 Partition        : %d [OK] | %d [ADAPT] | %d [OVER] | %d [EXCL] | Total=%d\n",
+           sc.cube_ok, sc.cube_adapt, sc.cube_over, sc.cube_excl, sc.cube_total);
+    printf("[RUNTIME]    Active Triples Verified   : %d / %d (OK+ADAPT w/ S2S) | OVER=%d | EXCL=%d | Total=%d/1000 | MaxNorm=%.4f\n",
+           sc.cube_active_verified, sc.cube_ok + sc.cube_adapt,
+           sc.cube_over_flagged, sc.cube_excl_flagged, sc.cube_verified_total, sc.cube_max_norm);
+    printf("[QUANTUM]    Coherent Qubit Cap        : Q<=%d -> 16*2^%d = %d B (16 KiB)\n",
+           sc.quantum_cap_q, sc.quantum_cap_q, sc.quantum_cap_bytes);
+    printf("--------------------------------------------------------------------------------\n");
+    printf(" COMPLETE in %.2f ms | CUBE SHA-256: %s\n", sc.elapsed_ms, sc.sha256);
+    printf("================================================================================\n");
+
+    if (json_path && json_path[0] != '\0') {
+        FILE* fp = fopen(json_path, "wb");
+        if (!fp) {
+            fprintf(stderr, "ERROR: Failed to open %s for writing cube JSON.\n", json_path);
+            return 1;
+        }
+        fprintf(fp, "{\n");
+        fprintf(fp, "  \"schema\": \"cellular-engine-omega-substrates-cube/v5.1.0\",\n");
+        fprintf(fp, "  \"version\": \"5.1.0\",\n");
+        fprintf(fp, "  \"seed\": %llu,\n", (unsigned long long)seed);
+        fprintf(fp, "  \"elapsed_ms\": %.3f,\n", sc.elapsed_ms);
+        fprintf(fp, "  \"sha256\": \"%s\",\n", sc.sha256);
+        fprintf(fp, "  \"quantum_cap_q\": %d,\n", sc.quantum_cap_q);
+        fprintf(fp, "  \"quantum_cap_bytes\": %d,\n", sc.quantum_cap_bytes);
+        fprintf(fp, "  \"b158_trit_states\": %d,\n", sc.b158_trit_states);
+        fprintf(fp, "  \"substrates_75\": {\n");
+        fprintf(fp, "    \"pm_passed\": %d, \"pm_total\": %d, \"pm_max_rmse\": %.8f, \"pm18_kahan_rel_err\": %.15e,\n",
+                sc.pm_passed, sc.pm_total, sc.pm_max_rmse, sc.pm18_kahan_rel_err);
+        fprintf(fp, "    \"mf_passed\": %d, \"mf_total\": %d, \"mf_max_norm\": %.8f,\n",
+                sc.mf_passed, sc.mf_total, sc.mf_max_norm);
+        fprintf(fp, "    \"gw_passed\": %d, \"gw_total\": %d, \"gw_max_invariant_err\": %.15e,\n",
+                sc.gw_passed, sc.gw_total, sc.gw_max_invariant_err);
+        fprintf(fp, "    \"total_passed\": %d, \"total\": %d,\n", sc.substrates_passed, sc.substrates_total);
+        fprintf(fp, "    \"pm\": [\n");
+        for (int i = 0; i < 25; ++i) {
+            fprintf(fp, "      {\"id\": \"%s\", \"name\": \"%s\", \"bytes_per_syn\": %.6f, \"rmse\": %.10f, \"passed\": %s}%s\n",
+                    sc.pm[i].id, sc.pm[i].name, sc.pm[i].bytes_per_syn, sc.pm[i].rmse,
+                    sc.pm[i].passed ? "true" : "false", (i + 1 < 25) ? "," : "");
+        }
+        fprintf(fp, "    ],\n");
+        fprintf(fp, "    \"mf\": [\n");
+        for (int i = 0; i < 25; ++i) {
+            fprintf(fp, "      {\"id\": \"%s\", \"name\": \"%s\", \"state_norm\": %.8f, \"energy_proxy\": %.8f, \"passed\": %s}%s\n",
+                    sc.mf[i].id, sc.mf[i].name, sc.mf[i].state_norm, sc.mf[i].energy_proxy,
+                    sc.mf[i].passed ? "true" : "false", (i + 1 < 25) ? "," : "");
+        }
+        fprintf(fp, "    ],\n");
+        fprintf(fp, "    \"gw\": [\n");
+        for (int i = 0; i < 25; ++i) {
+            fprintf(fp, "      {\"id\": \"%s\", \"name\": \"%s\", \"invariant_val\": %.8f, \"invariant_err\": %.12e, \"passed\": %s}%s\n",
+                    sc.gw[i].id, sc.gw[i].name, sc.gw[i].invariant_val, sc.gw[i].invariant_err,
+                    sc.gw[i].passed ? "true" : "false", (i + 1 < 25) ? "," : "");
+        }
+        fprintf(fp, "    ]\n");
+        fprintf(fp, "  },\n");
+        fprintf(fp, "  \"hybrid_cube_1000\": {\n");
+        fprintf(fp, "    \"total\": %d,\n", sc.cube_total);
+        fprintf(fp, "    \"ok\": %d,\n", sc.cube_ok);
+        fprintf(fp, "    \"adapt\": %d,\n", sc.cube_adapt);
+        fprintf(fp, "    \"over\": %d,\n", sc.cube_over);
+        fprintf(fp, "    \"excl\": %d,\n", sc.cube_excl);
+        fprintf(fp, "    \"active_verified\": %d,\n", sc.cube_active_verified);
+        fprintf(fp, "    \"over_flagged\": %d,\n", sc.cube_over_flagged);
+        fprintf(fp, "    \"excl_flagged\": %d,\n", sc.cube_excl_flagged);
+        fprintf(fp, "    \"verified_total\": %d,\n", sc.cube_verified_total);
+        fprintf(fp, "    \"max_norm\": %.8f,\n", sc.cube_max_norm);
+        fprintf(fp, "    \"cells_1000\": [\n");
+        for (int z = 0; z < 10; ++z) {
+            for (int y = 0; y < 10; ++y) {
+                for (int x = 0; x < 10; ++x) {
+                    int idx = z * 100 + y * 10 + x;
+                    fprintf(fp, "      {\"id\": \"X%dY%dZ%d\", \"x\": %d, \"y\": %d, \"z\": %d, \"badge\": \"%s\", \"norm\": %.5f, \"verified\": %s}%s\n",
+                            x, y, z, x, y, z, cube_badge_str(sc.cube_badge[idx]),
+                            (double)sc.cube_norm[idx], sc.cube_pass[idx] ? "true" : "false",
+                            (idx + 1 < 1000) ? "," : "");
+                }
+            }
+        }
+        fprintf(fp, "    ]\n");
+        fprintf(fp, "  }\n");
+        fprintf(fp, "}\n");
+        fclose(fp);
+        printf("Wrote 75-Substrate + 1,000-Cube JSON receipt -> %s\n", json_path);
+    }
+
+    int all_ok = (sc.pm_passed == 25 && sc.mf_passed == 25 && sc.gw_passed == 25 &&
+                  sc.substrates_passed == 75 &&
+                  sc.cube_ok == 661 && sc.cube_adapt == 274 && sc.cube_over == 20 && sc.cube_excl == 45 &&
+                  sc.cube_active_verified == 935 && sc.cube_over_flagged == 20 &&
+                  sc.cube_excl_flagged == 45 && sc.cube_verified_total == 1000 &&
+                  sc.pm18_kahan_rel_err < 1e-12 && sc.mf_max_norm < 1e4 && sc.cube_max_norm < 1e4);
+    if (!all_ok) {
+        fprintf(stderr, "FAIL: 75-Substrate / 1,000-Cube invariant verification failed!\n");
+        return 1;
+    }
     return 0;
 }
 
@@ -369,10 +522,10 @@ static void run_human_all(uint64_t seed, int mutant, int feral) {
 
     printf("================================================================================\n");
     if (mutant > 0) {
-        printf(" CELLULAR ENGINE OMEGA v5.0 — 16-TESTBED LEDGER (Seed %llu, MUTANT M%d%s)\n",
+        printf(" CELLULAR ENGINE OMEGA v5.1.0 — 16-TESTBED LEDGER (Seed %llu, MUTANT M%d%s)\n",
                (unsigned long long)seed, mutant, feral ? ", FERAL-HW" : "");
     } else {
-        printf(" CELLULAR ENGINE OMEGA v5.0 — 16-TESTBED DEEP-STRATA & VIRTUAL-CELL LEDGER (Seed %llu%s)\n",
+        printf(" CELLULAR ENGINE OMEGA v5.1.0 — 16-TESTBED DEEP-STRATA & VIRTUAL-CELL LEDGER (Seed %llu%s)\n",
                (unsigned long long)seed, feral ? ", FERAL-HW" : "");
     }
     printf("================================================================================\n");
@@ -450,6 +603,7 @@ int main(int argc, char** argv) {
     int mutant = 0, feral = 0;
     const char* cmd = "all";
     const char* export_path = NULL;
+    const char* cube_json_path = NULL;
 
     for (int i = 1; i < argc; ++i) {
         if (strcmp(argv[i], "--seed") == 0 && i + 1 < argc) {
@@ -460,6 +614,11 @@ int main(int argc, char** argv) {
             feral = 1;
         } else if (strcmp(argv[i], "--export-lean-trace") == 0 && i + 1 < argc) {
             export_path = argv[++i];
+        } else if (strcmp(argv[i], "cube") == 0) {
+            cmd = "cube";
+            if (i + 1 < argc && argv[i + 1][0] != '-') {
+                cube_json_path = argv[++i];
+            }
         } else if (strcmp(argv[i], "json") == 0 || strcmp(argv[i], "all") == 0) {
             cmd = argv[i];
         }
@@ -467,6 +626,9 @@ int main(int argc, char** argv) {
 
     if (export_path) {
         return export_lean_trace(export_path, seed);
+    }
+    if (strcmp(cmd, "cube") == 0) {
+        return run_cube_cli(seed, cube_json_path);
     }
     if (strcmp(cmd, "json") == 0) {
         emit_json_all(seed, mutant, feral);

@@ -174,14 +174,21 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  if (url.pathname === '/api/cube') {
+    serveFile(res, path.join(ROOT, 'results', 'omega_75_substrates_1000_cube.json'), headOnly);
+    return;
+  }
+
   if (url.pathname === '/api/health') {
     res.writeHead(200, secHeaders({ 'Content-Type': 'application/json; charset=utf-8' }));
     res.end(headOnly ? undefined : JSON.stringify({
       ok: true,
-      version: '5.0',
+      version: '5.1.0',
       port: PORT,
       testbeds: 16,
-      lean_theorems: 66,
+      substrates_75: 75,
+      hybrid_cube_1000: 1000,
+      lean_theorems: 72,
       gates: 54,
       mutants: 16
     }));
@@ -207,5 +214,5 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, '127.0.0.1', () => {
-  console.log(`CELLULAR ENGINE OMEGA v5.0 (Forensic Hardened · Live C11->Lean O63 · 16 Testbeds · 66 Lean 4 Proofs · 54 Gates / 16 Mutants) running at http://127.0.0.1:${PORT}`);
+  console.log(`CELLULAR ENGINE OMEGA v5.1.0 (75 Substrates · 1,000 Cube Cells · Live C11->Lean O63/O72 · 16 Testbeds · 72 Lean 4 Proofs · 54 Gates / 16 Mutants) running at http://127.0.0.1:${PORT}`);
 });

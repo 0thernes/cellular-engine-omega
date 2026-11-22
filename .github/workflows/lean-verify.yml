@@ -1,4 +1,4 @@
-name: Cellular Engine Omega v5.0 — Live C11→Lean 4 & Full Verification CI
+name: Cellular Engine Omega v5.1.0 — 75 Substrates, 1,000 Cube & Live C11→Lean 4 CI
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   c11-and-lean-verify:
-    name: C11 Linux ELF64 (-Werror) + 54 Gates / 16 Mutants + Live C11→Lean 4 (66 Proofs)
+    name: C11 Linux ELF64 (-Werror) + 75 Substrates / 1,000 Cube + 54 Gates / 16 Mutants + Live C11→Lean 4 (72 Proofs)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,7 +21,7 @@ jobs:
           set -euo pipefail
           curl https://elan.lean-lang.org/elan-init.sh -sSf | sh -s -- -y --default-toolchain leanprover/lean4:v4.35.0
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
-      - name: Build C11 (-Werror), Run 54 Gates / 16 Mutants / 10 Seeds, Export Live C11 Trace & Verify 66 Pure Lean 4 Theorems
+      - name: Build C11 (-Werror), Run 54 Gates / 16 Mutants / 75 Substrates / 1,000 Cube, Export Live C11 Trace & Verify 72 Pure Lean 4 Theorems
         shell: bash
         run: |
           set -euo pipefail
@@ -44,8 +44,12 @@ jobs:
               throw new Error("Missing X-Content-Type-Options: nosniff");
             }
             const h = await hRes.json();
-            if (!h.ok || h.version !== "5.0" || h.lean_theorems !== 66 || h.gates !== 54 || h.mutants !== 16) {
+            if (!h.ok || h.version !== "5.1.0" || h.lean_theorems !== 72 || h.substrates_75 !== 75 || h.hybrid_cube_1000 !== 1000 || h.gates !== 54 || h.mutants !== 16) {
               throw new Error("Health mismatch: " + JSON.stringify(h));
+            }
+            const c = await (await fetch("http://127.0.0.1:18791/api/cube")).json();
+            if (c.substrates_75.total_passed !== 75 || c.hybrid_cube_1000.ok !== 661 || c.hybrid_cube_1000.adapt !== 274 || c.hybrid_cube_1000.over !== 20 || c.hybrid_cube_1000.excl !== 45 || c.hybrid_cube_1000.verified_total !== 1000) {
+              throw new Error("Cube receipt mismatch");
             }
             const leak = await fetch("http://127.0.0.1:18791/server.mjs");
             if (leak.status !== 404) {
@@ -59,7 +63,7 @@ jobs:
             if (m12.tb04.active_droplets !== m12.tb04.eq_droplets) {
               throw new Error("Mutant M12 not reflected via /api/run");
             }
-            console.log("PASS: Web Observatory HTTP API & Security Controls verified cleanly.");
+            console.log("PASS: Web Observatory HTTP API, /api/cube & Security Controls verified cleanly.");
           }
           main().catch(e => { console.error(e); process.exit(1); });
           JS

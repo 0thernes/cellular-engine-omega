@@ -1,8 +1,8 @@
 /-
-  CELLULAR ENGINE OMEGA v5.0 — Root Formal Verification & Axiom Audit Module
-  Machine-checks all 66 pure frontier theorems (O01–O63 + O01b + O41b + O59b) under Lean 4 v4.35.0
-  with zero Mathlib dependencies, zero `sorryAx`, and zero custom axioms, including `O63`
-  kernel-checking the live C11 trace receipt exported by `omega_cell --export-lean-trace`.
+  CELLULAR ENGINE OMEGA v5.1.0 — Root Formal Verification & Axiom Audit Module
+  Machine-checks all 72 pure frontier theorems (O01–O63 + O01b + O41b + O59b + O67–O72) under Lean 4 v4.35.0
+  with zero Mathlib dependencies, zero `sorryAx`, and zero custom axioms, including `O63` and `O72`
+  kernel-checking the live C11 trace & 75-substrate/1,000-cube receipt exported by `omega_cell --export-lean-trace`.
 -/
 
 import OmegaCellularProofs.PurcellGaugeGeometry
@@ -16,6 +16,7 @@ import OmegaCellularProofs.BioInteractionNets
 import OmegaCellularProofs.DeepStrataFrontier
 import OmegaCellularProofs.VirtualCellManifold
 import OmegaCellularProofs.VerifyTraceReceipt
+import OmegaCellularProofs.SubstratesCube
 
 -- Module 1: Purcell Scallop Theorem & Stokes Gauge Geometry (O01–O05)
 #print axioms OmegaCellular.PurcellGaugeGeometry.O01_purcell_1dof_reciprocal_cycle_zero
@@ -102,3 +103,11 @@ import OmegaCellularProofs.VerifyTraceReceipt
 #print axioms OmegaCellular.OpenProliferationWeb.O61_xenocellular_cring_pmf_threshold
 #print axioms OmegaCellular.DeepStrataFrontier.O62_cohesin_excluded_volume_order_preservation
 #print axioms OmegaCellular.VerifyTraceReceipt.O63_live_c11_receipt_verified
+
+-- Module 12: Clean-Slate v3.0 75 Substrates & 10x10x10 Hybrid Cube (O67–O72)
+#print axioms OmegaCellular.SubstratesCube.O67_substrates_75_exact
+#print axioms OmegaCellular.SubstratesCube.O68_hybrid_cube_1000_partition
+#print axioms OmegaCellular.SubstratesCube.O69_hybrid_cube_3axis_product
+#print axioms OmegaCellular.SubstratesCube.O70_quantum_cap_10_bytes_bound
+#print axioms OmegaCellular.SubstratesCube.O71_b158_5trits_fits_byte
+#print axioms OmegaCellular.SubstratesCube.O72_live_c11_cube_receipt_verified
