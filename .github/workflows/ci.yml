@@ -68,6 +68,8 @@ jobs:
           python3 scripts/check_citations.py
           python3 scripts/generate_fair_metadata.py --verify
           python3 scripts/generate_checksums.py --verify
+          python3 scripts/timestamp_digicert.py --verify CHECKSUMS.sha256 timestamps/CHECKSUMS.sha256.tsr
+          python3 scripts/timestamp_digicert.py --verify dist/Donahue_2026_cellular_engine_omega.pdf timestamps/Donahue_2026_cellular_engine_omega.pdf.tsr
 
       - name: Compile AMS-LaTeX Monograph & Clean-Room arXiv Submission Tarball (Tectonic)
         shell: bash

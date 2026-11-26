@@ -241,7 +241,7 @@ def build_ro_crate() -> dict:
             "description": desc,
             "encodingFormat": mime,
         }
-        if p.exists() and rel not in ("CHECKSUMS.sha256", "croissant.json", "codemeta.json"):
+        if p.exists() and rel not in ("CHECKSUMS.sha256", "croissant.json", "codemeta.json", "lean/OmegaCellularProofs/LiveC11Receipt.lean"):
             digest, sz = sha256_and_size(rel)
             entry["sha256"] = digest
             entry["contentSize"] = sz

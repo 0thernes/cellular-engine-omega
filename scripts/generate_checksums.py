@@ -24,8 +24,8 @@ RELEASE_TARGETS = [
     "lean/comparator.json",
     "lean/formalization.yaml",
     "lean/OmegaCellularProofs/Spec.lean",
-    "lean/OmegaCellularProofs/LiveC11Receipt.lean",
     "lean/OmegaCellularProofs/AdversarialTests.lean",
+    "lean/VerifyAxioms.lean",
     "results/lean4-omega-audit.txt",
     "results/multiseed_stats.csv",
     "paper/main.tex",
@@ -37,7 +37,7 @@ RELEASE_TARGETS = [
 DATA_TARGETS = [
     "results/multiseed_stats.csv",
     "results/lean4-omega-audit.txt",
-    "lean/OmegaCellularProofs/LiveC11Receipt.lean",
+    "lean/VerifyAxioms.lean",
     "schema/omega_run.schema.json",
     "schema/omega_cube.schema.json",
 ]

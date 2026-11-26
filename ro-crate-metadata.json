@@ -129,9 +129,7 @@
       "@type": "File",
       "name": "LiveC11Receipt.lean",
       "description": "Auto-generated live C11 telemetry & SHA-256 kernel receipt (O63, O72)",
-      "encodingFormat": "text/plain",
-      "sha256": "d7b7ba2c83c3f9807a864c18a20a6b32e21aafb5b54c7bb821d5be3cb0ae987c",
-      "contentSize": 3910
+      "encodingFormat": "text/plain"
     },
     {
       "@id": "lean/OmegaCellularProofs/Spec.lean",
