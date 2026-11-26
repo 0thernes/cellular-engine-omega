@@ -8,7 +8,7 @@ Central navigation hub for every specification, ledger, verification audit, ADR,
 ## 1. Scientific & Verification Ledgers
 - [README.md](../README.md) — Quickstart, live receipts, verbatim `#print axioms`, and project overview
 - [CLAIMS.md](../CLAIMS.md) — Numbered claims matrix (`C01`–`C10`) with modalities and refutation criteria
-- [VERIFICATION.md](../VERIFICATION.md) — Complete 6-kernel Lean 4.35.0, C11 60-gate, and Python ladder audit
+- [VERIFICATION.md](../VERIFICATION.md) — Lean 4.35.0 kernel and independent-checker runs, C11 60-gate, and Python ladder audit
 - [LIMITATIONS.md](../LIMITATIONS.md) — Formal-vs-numerical boundary and honest real-vs-metaphor scope
 - [PREREGISTRATION.md](../PREREGISTRATION.md) — Locked `N = 20` confirmatory hypotheses (`H1`–`H8`)
 - [DEVIATIONS.md](../DEVIATIONS.md) — Full disclosure of deviations from preregistration & templates

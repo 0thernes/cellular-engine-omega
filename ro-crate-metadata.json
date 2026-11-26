@@ -236,8 +236,8 @@
       "name": "statement-fidelity.md",
       "description": "14-module Lean-vs-C11 statement fidelity audit (100 theorems)",
       "encodingFormat": "text/markdown",
-      "sha256": "9a5e52c9df9e32f2731ce37f2faf637b59d226f910759cc8fb10f814cb43e569",
-      "contentSize": 8127
+      "sha256": "aae3df275fb7112a8406c085503c815be3315fba50b117e75d468dc1178f0dfd",
+      "contentSize": 9065
     },
     {
       "@id": "docs/mega-atlas-cross-check.md",
@@ -245,8 +245,8 @@
       "name": "mega-atlas-cross-check.md",
       "description": "Honest 0/1,900 Mega-Atlas open-problem cross-check (22 adjacent open IDs)",
       "encodingFormat": "text/markdown",
-      "sha256": "e28b19a3be2922236e1cbc1c79efa9d342d7db40d74ebbadb4ab5e19c4962fa6",
-      "contentSize": 7669
+      "sha256": "616ccb319c38f5e8c6d307e6e0bc642c2d795b4f212b11af01ed3b3e4f409b72",
+      "contentSize": 7873
     },
     {
       "@id": "CLAIMS.md",
@@ -254,8 +254,8 @@
       "name": "CLAIMS.md",
       "description": "Numbered falsifiable claims ledger (C01-C10)",
       "encodingFormat": "text/markdown",
-      "sha256": "06ce721540e2277877cd09e10b2f9df13721a5b2e81e55256681caacc6f0b316",
-      "contentSize": 6874
+      "sha256": "99ca1f395ed8a2c68d582d0fff3b6126ae6f3bf0aafb7a2d539960cc2ce06c93",
+      "contentSize": 8255
     },
     {
       "@id": "VERIFICATION.md",

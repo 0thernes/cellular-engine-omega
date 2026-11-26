@@ -11,7 +11,7 @@
 - **Overarching Mega-Atlas Open Problems Solved or Retired:** **`0 / 1,900`**
 - **Directly Adjacent Parent Problems Mapped with Scoped Formal/Computational Sub-Models:** **`22` Atlas IDs (ALL remain `OPEN`)**
 
-CELLULAR ENGINE OMEGA (`v5.3.0`) **does not solve, close, or retire** any of the 1,900 open scientific, mathematical, or engineering problems in the Unsolved Problems Mega-Atlas. Rather, it supplies a **scoped, reproducible, multi-scale computational testbed (`16` testbeds, `75` substrates, `1,000`-cell Hybrid Cube)** paired with **`100` zero-Mathlib constructive Lean 4.35.0 algebraic invariants (`O01`–`O100`)** audited across all `6` independent kernels and live runtime verification receipts (`O63`, `O72`) touching 22 open frontier domains.
+CELLULAR ENGINE OMEGA (`v5.3.0`) **does not solve, close, or retire** any of the 1,900 open scientific, mathematical, or engineering problems in the Unsolved Problems Mega-Atlas. Rather, it supplies a **scoped, reproducible, multi-scale computational testbed (`16` testbeds, `75` substrates, `1,000`-cell Hybrid Cube)** paired with **`100` zero-Mathlib constructive Lean 4.35.0 lemmas (`O01`–`O100`)** that state discrete `Nat`/`Int`/`List` invariants of the engine's software model (several are closed arithmetic checks on hard-coded constants), checked by the reference kernel and four independent checkers, with a C11-generated receipt file re-checked by `O63` and `O72`. The work touches 22 open frontier domains and solves none of their problems.
 
 ---
 

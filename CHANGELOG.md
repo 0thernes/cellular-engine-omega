@@ -5,6 +5,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+### Changed (documentation, 2026-11-26 statement audit)
+- Corrected claim wording in `README.md`, `CLAIMS.md` (`C01`, `C05`, `C06`), `LIMITATIONS.md` and `docs/` to match the [2026-11-26 statement audit](https://github.com/0thernes/0thernes-research-archive/blob/main/docs/reviews/2026-11-26-statement-audit.md): the 100 Lean items are discrete `Nat`/`Int`/`List` lemmas about the software model (at least 16 are closed arithmetic checks on literals); the C11-to-Lean receipt is regenerated literals re-checked by `O63`/`O72`, not a cryptographic link; kernel checking is the reference kernel plus four independent checkers; the "negative kernel test" is a negative elaboration test.
+- The `5.3.0` entry below says all `32/32` DOIs were verified; the check confirms resolution only, and the DOI for Nüchter et al. (2006) names a different article (correct DOI `10.1016/j.cub.2006.03.089`). Recorded in `ERRATA.md` with the paper and Lean known issues; no code, Lean or paper file changed.
+
 - Future cross-architecture ARM64 (`aarch64`) reference build receipts and CBMC bounded model checking for C11 solvers.
 
 ## [5.3.0] - 2026-11-26
