@@ -1,6 +1,6 @@
 # CELLULAR ENGINE OMEGA v5.0 — FULL-STACK FORENSIC AUDIT, MULTI-LAYER COMPARATIVE CONTRAST ANALYSIS & REMEDIATION REPORT
 
-**Author:** Alexander Stephen Donahue (`Alexander S. Donahue`, ORCID [`0009-0006-8168-9648`](https://orcid.org/0009-0006-8168-9648)) · **0thernes LLC**, Spokane, WA, USA (`0_0@0thernes.art`)  
+**Author:** Alexander Stephen Donahue (`Alexander S. Donahue`, ORCID [`0009-0006-8168-9648`](https://orcid.org/0009-0006-8168-9648)) · **Independent Researcher**, Spokane, WA, USA (`0_0@0thernes.art`)  
 **Audit Date:** 2026-11-21  
 **Target Stack:** `Z:\[Vibe Coded (AI)]\ANTIGRAVITY\cellular-engine-omega` (**v4.2 → v5.0**) benchmarked against sibling repositories (`autophage`, `cellulogonic-mecha`, `omega-triscale-observatory`, `alife-singularity-omega-package`, `Asmodensius-Native`) and 2024–2026 academic state-of-the-art.
 
@@ -201,7 +201,7 @@ A complete cellular ALife engine must explicitly contrast **both physical media*
 
 ## Part IV — Honest Scientific & Epistemic Boundaries (What Remains Open)
 
-Per `0thernes LLC` scientific integrity standards, we explicitly distinguish **verified guarantees** from **remaining abstractions**:
+Per our scientific integrity standards, we explicitly distinguish **verified guarantees** from **remaining abstractions**:
 
 1. **Formal Proof vs. Compiled Binary Gap:** The **66 Pure Lean 4.35.0 proofs** verify the exact mathematical models, discrete rewrite confluence, linear conservation, parametric inequalities, and live exported C11 trace receipt (`LiveC11Receipt.lean` via `O63_live_c11_receipt_verified`) in pure logic (zero Mathlib, zero `sorryAx`, zero custom axioms). They do *not* formally verify Clang's x86-64 code generation or IEEE-754 rounding — that gap is guarded separately by the **54-gate C11 falsification suite**, **16/16 orthogonal negative mutants**, **10-seed adversarial sweep**, and **live `OmegaTierLedger` fault-propagation checks**.
 2. **Reduced-Order Mechanistic Surrogates vs. Atomistic Wet-Lab Fidelity:**

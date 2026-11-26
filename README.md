@@ -1,79 +1,132 @@
-# CELLULAR ENGINE OMEGA v5.1.0 — 75 CLEAN-SLATE v3.0 SUBSTRATES · 1,000-CELL HYBRID CUBE · LIVE C11→LEAN 4 RECEIPTS · DEEP STRATA, BIO-FROSTBITE & VIRTUAL-CELL SINGULARITY
+Zero-dependency C11 multi-scale cellular biophysics engine (16 quantitative testbeds, 75 computational substrates, 1,000-cell Hybrid Cube) cryptographically linked via live runtime receipts to 89 constructive zero-Mathlib Pure Lean 4.35.0 theorems audited across independent kernels.
 
-**Clean-Room Native C11+AVX2 16-Testbed End-to-End Biophysics, Bio-Frostbite INet VM, Physics-Projected Virtual-Cell AI, 75 Clean-Slate v3.0 Substrates (`PM01..25` + `MF01..25` + `GW01..25`) & 1,000-Cell Hybrid Cube (`661 [OK] · 274 [ADAPT] · 20 [OVER] · 45 [EXCL]`) · 72 Pure Lean 4 Frontier Theorems incl. Live C11 Receipts `O63` & `O72` (`0 sorryAx`, `0` custom axioms, `0` warnings) · 54-Gate Falsification Suite + 16/16 Planted Negative Mutants + 10-Seed Adversarial Sweep · Hardened Zero-Dependency Live Observatory (`:8791`)**
+# CELLULAR ENGINE OMEGA (`v5.2.0`)
 
-> **Author:** Alexander Stephen Donahue (`Alexander S. Donahue`, ORCID [`0009-0006-8168-9648`](https://orcid.org/0009-0006-8168-9648)) · **0thernes LLC**, Spokane, WA, USA (`0_0@0thernes.art`)  
-> End-to-End 6-Tier Scientific Stack uniting **Inorganic CISS Chemistry** → **`DNA/RNA` (`AUTOPHAGE` `:8787`)** → **`Organelles / Microtubules / Cells` (`CELLULOGONIC MECHA` `:8788` & `CELLULAR ENGINE OMEGA v5.1.0` `:8791`)** → **`Tiny Animals / Creatures / Environment` (`Asmodensius-Native` `:8794`)** → **Unified 4-Tier Observatory Hub (`:8790`)** + **Zeta-Omega Atlas (`:8790/zeta-omega/`)**.
+[![CI](https://img.shields.io/github/actions/workflow/status/0thernes/cellular-engine-omega/ci.yml?branch=main&label=CI%20Multi-OS%20%2B%206-Kernel%20Lean)](https://github.com/0thernes/cellular-engine-omega/actions/workflows/ci.yml)
+[![Lean 4.35.0](https://img.shields.io/badge/Lean%204.35.0-89%2F89%20Constructive%20(0%20Mathlib)-7c3aed)](blueprint/index.html)
+[![Falsification](https://img.shields.io/badge/C11%20Falsification-60%2F60%20Gates%20%C2%B7%2016%2F16%20Mutants-059669)](VERIFICATION.md)
+[![Substrates & Cube](https://img.shields.io/badge/Substrates%20%2B%20Cube-75%2F75%20%C2%B7%201%2C000%2F1%2C000%20(20%2F20%20Seeds)-0284c7)](results/omega_75_substrates_1000_cube.json)
+[![License: Apache-2.0 / CC BY 4.0](https://img.shields.io/badge/License-Apache--2.0%20%2F%20CC--BY--4.0-blue)](LICENSE)
+[![ORCID](https://img.shields.io/badge/ORCID-0009--0006--8168--9648-a6ce39)](https://orcid.org/0009-0006-8168-9648)
 
----
+**Status:** Active (`v5.2.0`, released `2026-11-25`) — actively maintained, clean-clone reproducible, Build Standard v1.2.0 compliant.  
+**Author:** Alexander Stephen Donahue · Independent Researcher, Spokane, WA, USA · ORCID [`0009-0006-8168-9648`](https://orcid.org/0009-0006-8168-9648) · `0_0@0thernes.art` · [0thernes.art](https://0thernes.art)  
+**White Paper & Blueprint:** [AMS-LaTeX PDF (`dist/Donahue_2026_cellular_engine_omega.pdf`)](dist/Donahue_2026_cellular_engine_omega.pdf) · [Interactive Lean Proof Blueprint (`blueprint/index.html`)](blueprint/index.html) · [GitHub Pages Showcase](https://0thernes.github.io/cellular-engine-omega/)
 
-## Verified Highlights (Measured on Win64 PE64 Clang 23 & Linux ELF64 GCC 13 `-Wall -Wextra -Wshadow -Werror` · Lean 4 v4.35.0)
-
-| Verification Pillar | Verified Result | Primary Evidence |
-| :--- | :--- | :--- |
-| **Pure Lean 4 Formal Proofs** | **72 / 72 PROVEN (`O01`–`O63` + `O01b` + `O41b` + `O59b` + `O67`–`O72`) · `0 sorryAx` · `0` custom axioms · `0` compiler/SAT axioms · `0` warnings · Zero Mathlib** *(strictly `{propext, Classical.choice, Quot.sound}`; includes **`O63_live_c11_receipt_verified`** and **`O72_live_c11_cube_receipt_verified`** kernel-checking the live C11 trace & 75-substrate/1,000-cube receipt exported by `omega_cell --export-lean-trace`, plus `O67` 75 substrates, `O68` `661+274+20+45=1000`, `O69` `10×10×10=1000`, `O70` `Q≤10 ⇒ 16·2^Q≤16384`, `O71` `3^5=243≤256`!)* | [`results/lean4-omega-audit.txt`](results/lean4-omega-audit.txt), [`lean/OmegaCellularProofs/SubstratesCube.lean`](lean/OmegaCellularProofs/SubstratesCube.lean), [`lean/OmegaCellularProofs/LiveC11Receipt.lean`](lean/OmegaCellularProofs/LiveC11Receipt.lean) |
-| **75 Clean-Slate v3.0 Substrates & 1,000-Cell Hybrid Cube** | **75 / 75 Substrates (`25/25 PM`, `25/25 MF`, `25/25 GW`) · `PM18` Kahan-Neumaier `0.00e+00 (<1e-12)` · `1,000 / 1,000` Hybrid Cube (`661 [OK] · 274 [ADAPT] w/ S2S · 20 [OVER] · 45 [EXCL]`, `935/935` active verified, `0` badge mismatches vs Master Spec) in `~2.4 ms`** · Win64 Cube SHA-256 `c0db85fa64e77d0b489ff73786e336170ef67f01473e80244e0e3c1e50c2a554` | [`src/omega_substrates_cube.c`](src/omega_substrates_cube.c), [`results/omega_75_substrates_1000_cube.json`](results/omega_75_substrates_1000_cube.json) |
-| **54-Gate Falsification + 16/16 Mutants + 10-Seed Sweep** | **54 / 54 PASSED · 0 FAILED · 16 / 16 Planted Mutants Caught (100% Testbed Coverage `TB01`–`TB16`) · 10 / 10 Adversarial Seeds Pass All Physical Invariants (`0.66s`)** | [`results/falsification_win64.txt`](results/falsification_win64.txt) |
-| **All 16 Frontier Testbeds (Seed `2026001`)** | **16 / 16 COMPLETE in `~58–68 ms`** · Bit-Exact Master SHA-256 `3604e0353ffdde98f2dbafc02569d3254c278ac8ca12d145b43fb27873f10c15` + `--feral` hardware `RDTSC` divergence verified across `TB13`–`TB15` | [`results/testbeds_all_win64.txt`](results/testbeds_all_win64.txt) |
-| **`TB01`–`TB12` Real Stochastic & PDE Solvers** | 10-state `MotA5MotB2` proton Markov ratchet · Euler-buckling MT centering + Hill `Ca²⁺`–Miro parking + *Lacrymaria* ODE (`M11`) · Passive & active ATP Cahn–Hilliard mass-exact (`M12`) · Unclamped `S²` geodesic Poincaré–Hopf (`Defects=4`, `maxErr=4.44e-16`, `M13`) · Hopfield–Ninio rate network (`M3`) · Schnakenberg Turing + Feinberg CRNT (`M4`) · 1600-traj Gillespie TUR `2.099` / `JitterRatio=4.00×` (`M14`) · `669`-cell 4-Hox Tardigrade + `7,400→389` *Megaphragma* (`M5`) · 37-disk chiral crystal `|ψ₆|=0.990` (`M15`) · Dynamic Lynch–Marinov ATP `62.8%` (`M16`) · 64-agent 80-gen evolutionary restraint escape (`M6`) | [`src/exp_01_06.c`](src/exp_01_06.c), [`src/exp_07_12.c`](src/exp_07_12.c) |
-| **`TB14` Bio-Frostbite INet VM** | **5-Schedule 0-Bit Strong Confluence (`FIFO == LIFO == 3×RAND`) · `144/144/144` rw (`L1=58 L2=46 L3=18 L4=22`, `8` true 4-layer causal hops) · `0` Mass/Charge/Wire Drift (`Mass=7120`, `Charge=-3160`) · Depth `3` · Native `H2O ⋈ TUN` VM Rehydration (`0W` Tun) · `95.3%` SSIN (`80` contended → `16` pairs, `2k ≤ m`) · `cj`-validated & total-order canonical hashing (`M8`)** | [`src/exp_14_bio_inet.c`](src/exp_14_bio_inet.c) |
-| **`TB15` Deep Strata Frontier** | **Seeded CISS `Fe₃O₄` `100.0%` ee · `4,500`-locus *Oxytricha* genuine 8-mer pointer-hash chain (`225/225` MDS, zero `mds_order` oracle, `95.0%` IES cut) · `256`-bin excluded-volume Cohesin/CTCF TAD (`7.6×`, `39,433` steric blocks) · `32`-Trp Jacobi Eigen-Solver (`6.24×` QY, guarded `λ_min`) · `128`-ray Snell/Fresnel *Ocelloid* · `1 ns` Operculum-Valve Cnidocyte ODE (`a(0)=0 → 5.75M g` peak inside ODE) · `256`-cell 3D Langevin Magnetosome · 3-Genome `0` int drift (`3/3` KO blocked) · 64B genome-buffer hash-popcnt Levin `1→2H` (`0` DNA muts) · Wireless Connectome `8.7%→98.0%` (`M9`)** | [`src/exp_15_deep_strata.c`](src/exp_15_deep_strata.c) |
-| **`TB16` Virtual-Cell AI & `JCVI-syn3A`** | **32-Zone Hepatic Sinusoid PDE (`r=0.982`) · Zero-Bias Coupled Nonlinear Michaelis–Menten Stoichiometry + Per-Gene Ridge Context-B (`Raw R²=0.915 → Proj R²=0.915`, ZERO DC-offset trick!) · Uniform Shuffled `593`-Gene / `543`-Reaction `JCVI-syn3A` Graph (`493` single-copy [`401` known + `92` dark] + `100` isozyme-pair controls, zero index splits, symmetric Gaussian noise, `AUROC=0.991`, `85/92` dark essentials) · O56 Projection `0.358 → 2.3e-15` · Real Coupled 6-Tier Closure `4.6e-15` (`int_drift=0`, `M10`)** | [`src/exp_16_virtual_cell_ai.c`](src/exp_16_virtual_cell_ai.c) |
-| **Hardened Live Observatory (`:8791`)** | Zero-dependency Node.js + HTML5 Canvas rendering **exact C11 trajectories** with `ALLOWED_STATIC` allowlist (`GET /server.mjs -> 404`), loopback `Host`/`Origin`/`Sec-Fetch-Site` enforcement, strict CSP/`nosniff`, `MAX_INFLIGHT=2` (`429`) + deterministic LRU cache (`feral=1` bypass), and `M1`–`M16` live mutant selector | [`web/server.mjs`](web/server.mjs), [`web/app.js`](web/app.js) |
+![CELLULAR ENGINE OMEGA v5.2.0 Verification Snapshot](docs/media/observatory_snapshot.png)
 
 ---
 
-## Honest Verification Boundaries
+## Quickstart
 
-- **Machine-Checked in Lean 4 Kernel (`66 / 66`, strictly `{propext, Classical.choice, Quot.sound}`):**
-  - Exact algebraic, combinatorial, and inductive theorems (`O01`–`O62`, `O01b`, `O41b`, `O59b`) governing Purcell gauge geometry, Hopfield–Ninio kinetic proofreading, Feinberg CRNT/Turing conditions, TUR scaling, Poincaré–Hopf defect conservation, Euler buckling, Lafont Interaction-Net linearity/confluence/box-isolation/SSIN arbitration, excluded-volume Cohesin ordering, and arbitrary-dimension cleared-denominator stoichiometric projection (`O56`).
-  - Live C11→Lean 4 trace receipt verification (**`O63_live_c11_receipt_verified`**): `omega_cell --export-lean-trace lean/OmegaCellularProofs/LiveC11Receipt.lean --seed 2026001` exports actual integer C11 runtime telemetry from `TB14` + coupled `TB16` (`Mass=7120`, `Charge=-3160`, `Rewrites=144/144/144`, `5×SHA-256`, `0` wire errors, `0W` Tun, `0` 6-tier integer drift), and Lean 4 kernel-verifies every invariant directly during `lake build`.
-- **Empirically Verified via C11 Falsification Suite (`54 / 54` Gates · `16 / 16` Mutants · `10 / 10` Seeds):**
-  - Floating-point IEEE-754 PDEs (Cahn–Hilliard, Schnakenberg, Hepatic Sinusoid, Levin `Vmem`), ODEs (*Lacrymaria*, Cnidocyte valve discharge, Lotka–Volterra virosphere, Elysia kleptoplasty), stochastic Gillespie/Langevin/Cohesin Monte Carlo solvers, cyclic Jacobi eigensolver, Snell ray tracer, and zero-bias Ridge regression are empirical numerical C11 simulations gated by falsification invariants and 16 orthogonal planted-mutant knockouts (`M1`–`M16`), not formally verified floating-point proofs.
+### Linux / macOS
+```bash
+git clone https://github.com/0thernes/cellular-engine-omega.git
+cd cellular-engine-omega
 
----
+# Build native C11 (-O3 -Werror -ffp-contract=off), run ASan/UBSan, 60 gates, 16/16 mutants,
+# 256 fuzz cases, 75 substrates + 1,000 Hybrid Cube, live C11->Lean export & 89 Lean 4.35.0 proofs
+OMEGA_SANITIZE=1 ./build_linux.sh
 
-## Complete Inventory
+# Isolated Challenge/Solution multi-kernel comparator (strict constructive allowlist)
+(cd lean && lake comparator --config comparator.json --paranoid)
 
-### 1. 6 Frontier Research & Forensic Audit Treatises (`docs/`)
-- [`docs/FULL_STACK_FORENSIC_AUDIT_AND_COMPARATIVE_ANALYSIS.md`](docs/FULL_STACK_FORENSIC_AUDIT_AND_COMPARATIVE_ANALYSIS.md) — **v5.0 Full-Stack Forensic Audit & Multi-Layer Contrast Comparative Analysis** (Breadth × Depth across Inorganic→Virtual-Cell AI, Gradients, Margins, Substrates, Spectrums, Taxonomies, Cross-Repo & Academic SOTA Adjacents, 20-Issue Defect Ledger & Honest Verification Boundaries).
-- [`docs/CELLULAR_ENGINE_MASTER_RESEARCH.md`](docs/CELLULAR_ENGINE_MASTER_RESEARCH.md) — Complete cellular science, organelles, Virosphere, locomotion/origami, Tardigrade, cytoskeleton & motors.
-- [`docs/CELLULAR_BLEEDING_EDGE_THEOREMS_CONJECTURES_AND_HARD_PROBLEMS.md`](docs/CELLULAR_BLEEDING_EDGE_THEOREMS_CONJECTURES_AND_HARD_PROBLEMS.md) — Proven mathematical laws, 2020–2026 breakthroughs, 18 hardest unsolved problems.
-- [`docs/EARTH_COMPLETE_CELL_TAXONOMY_AND_OPEN_PROLIFERATION.md`](docs/EARTH_COMPLETE_CELL_TAXONOMY_AND_OPEN_PROLIFERATION.md) — Earth complete cell taxonomy & 12-axis continuous morphospace.
-- [`docs/BIO_INTERACTION_NETS_FROSTBITE.md`](docs/BIO_INTERACTION_NETS_FROSTBITE.md) — Lafont Interaction Nets / Frostbite 4-layer biological isomorphism & Hybrid `SSIN`.
-- [`docs/BLEEDING_EDGE_2026_END_TO_END_FRONTIER_TREATISE.md`](docs/BLEEDING_EDGE_2026_END_TO_END_FRONTIER_TREATISE.md) — Inorganic CISS homochirality, TAD loop extrusion, Trp UV superradiance, Levin `Vmem`, Wireless Neuropeptide Connectomes, and Physics-Projected Virtual Cell AI (`JCVI-syn3A`).
-
-### 2. 72 Pure Lean 4 Formal Proofs (`lean/OmegaCellularProofs/`)
-1. `PurcellGaugeGeometry.lean` (`O01`, `O01b`, `O02`–`O05`)
-2. `EigenProofreadingInfo.lean` (`O06`–`O10`)
-3. `TuringFeinbergCRNT.lean` (`O11`–`O15`)
-4. `TURSpeedLimitsTopo.lean` (`O16`–`O21`)
-5. `CytoskeletonMotorsLLPS.lean` (`O22`–`O26`, `O60` Euler buckling near-wall dominance)
-6. `TardigradeVirosphereOmega.lean` (`O27`–`O32`)
-7. `OpenProliferationWeb.lean` (`O33`–`O40`, `O61` xenocellular c-ring PMF threshold)
-8. `BioInteractionNets.lean` (`O41`, `O41b`, `O42`–`O46`)
-9. `DeepStrataFrontier.lean` (`O47`–`O54`, `O62` excluded-volume Cohesin order preservation)
-10. `VirtualCellManifold.lean` (`O55`–`O58`: zonation convex bounds, cleared-denominator uniform Euclidean projection `O56`, `JCVI-syn3A` `493`/`92` partition `O57`, 6-tier closure `O58`)
-11. `LiveC11Receipt.lean` + `VerifyTraceReceipt.lean` (`O59`, `O59b`, **`O63_live_c11_receipt_verified`**): multi-compartment trace conservation, `0W` frozen trace invariance, and direct kernel verification of the live C11 trace receipt exported by `omega_cell --export-lean-trace`.
-12. `SubstratesCube.lean` (`O67`–`O71`, **`O72_live_c11_cube_receipt_verified`**): 75 substrates exact partition, 1,000-cell Hybrid Cube partition (`661+274+20+45=1000`), `10×10×10` product, `Q≤10 ⇒ 16·2^Q≤16384` quantum register cap, `3^5=243≤256` `b1.58` 5-trit/byte bound, and direct kernel verification of live C11 substrate & Hybrid Cube counts!
-
----
-
-## Quick Start
-
-```powershell
-# 1. Windows (Win64 PE64 · Clang 23 -Werror + 54 Gates / 16 Mutants + 75 Substrates / 1,000 Cube + Live C11->Lean O63/O72 + 72 Lean Proofs):
-.\build.ps1
-
-# 2. Run all 16 Testbeds & 75 Substrates / 1,000 Hybrid Cube directly from CLI:
-.\bin\omega_cell.exe all --seed 2026001
-.\bin\omega_cell.exe cube results\omega_75_substrates_1000_cube.json --seed 2026001
-.\bin\omega_cell.exe --export-lean-trace lean\OmegaCellularProofs\LiveC11Receipt.lean --seed 2026001
-
-# 3. Linux ELF64 (GCC -Werror + 54 Gates / 16 Mutants + 75 Substrates / 1,000 Cube + 72 Lean Proofs):
-chmod +x build_linux.sh && ./build_linux.sh
-
-# 4. Launch the Hardened Live Zero-Dependency Interactive Biophysics Observatory:
-node web\server.mjs
-# Open http://127.0.0.1:8791 in your browser (or GET /api/cube and /api/health)!
+# Independent Python verification ladder (35 tests, 1,200+ Hypothesis property cases, exact oracle)
+python3 -m pytest tests/ -v
 ```
+
+### Windows (PowerShell 7+)
+```powershell
+git clone https://github.com/0thernes/cellular-engine-omega.git
+cd cellular-engine-omega
+pwsh -File build.ps1
+python -m pytest tests/ -v
+pwsh -File scripts/Audit-Repo.ps1
+```
+
+---
+
+## Usage & Examples
+
+```bash
+# 1. Run all 16 multi-scale cellular biophysics testbeds (deterministic Seed 2026001)
+./bin/omega_cell all --seed 2026001
+
+# 2. Emit JSON validated against schema/omega_run.schema.json (or inject compiled mutant M1..M16)
+./bin/omega_cell json --seed 2026001
+./bin/omega_cell json --seed 2026001 --mutant 8
+
+# 3. Execute Clean-Slate v3.0 75 Substrates + 1,000-Cell Hybrid Cube JSON receipt
+./bin/omega_cell cube results/omega_75_substrates_1000_cube.json --seed 2026001
+
+# 4. Export live C11 runtime telemetry into lean/OmegaCellularProofs/LiveC11Receipt.lean
+./bin/omega_cell --export-lean-trace lean/OmegaCellularProofs/LiveC11Receipt.lean --seed 2026001
+
+# 5. Launch hardened loopback-only Web Observatory (http://127.0.0.1:8787)
+node web/server.mjs
+```
+
+Runnable consumer scripts live in [`examples/`](examples/):
+- [`examples/quickstart_demo.py`](examples/quickstart_demo.py) — Python JSON API client
+- [`examples/c11_abi_example.c`](examples/c11_abi_example.c) — Direct C11 static/shared ABI linkage (`include/omega_abi.h`)
+- [`examples/web_api_demo.mjs`](examples/web_api_demo.mjs) — Node.js client for `/api/health`, `/healthz`, and `/api/cube`
+
+---
+
+## Verified Key Metrics (`v5.2.0`, Seed `2026001`)
+
+| Layer | Verified Metric | Evidence Artifact |
+| :--- | :--- | :--- |
+| **C11 Falsification** | **`60 / 60` gates PASS · `16 / 16` planted mutants caught · `256 / 256` fuzz PASS** | [`results/falsification_win64.txt`](results/falsification_win64.txt) |
+| **Optimization Parity** | **`-O0` == `-O3` bit-exact Master SHA-256** (`a92641843e46736b...`, `90.7 ms` vs `340.7 ms`) | [`docs/benchmarks.md`](docs/benchmarks.md) |
+| **75 Substrates & 1,000 Cube** | **`75 / 75` (`25 PM + 25 MF + 25 GW`) · `661 [OK] / 274 [ADAPT] / 20 [OVER] / 45 [EXCL]` · `20 / 20` seeds** | [`results/omega_75_substrates_1000_cube.json`](results/omega_75_substrates_1000_cube.json) |
+| **Lean 4.35.0 Proofs** | **`89 / 89` strictly constructive (`17` axiom-free, `10` `[propext]`, `62` `[propext, Quot.sound]`, `0` `Classical.choice`, `0` Mathlib)** | [`results/lean4-omega-audit.txt`](results/lean4-omega-audit.txt) |
+| **Multi-Kernel Audit** | **`lean`, `leanchecker`, `leanchecker-paranoid`, `con-leche --verified` (`58,614` decls), `con-ron --verified`, Linux CI `lake comparator --paranoid`** | [`lean/comparator.json`](lean/comparator.json) |
+| **Python Ladder & Stats** | **`35 / 35` pytest (`1,200+` Hypothesis cases) · `8 / 8` preregistered `N=20` contrasts (`p_Holm = 0.0008 < 0.001`)** | [`results/multiseed_stats.csv`](results/multiseed_stats.csv) |
+| **Mega-Atlas Cross-Check** | **`0 / 1,900` overarching open problems retired (22 adjacent parent problems remain strictly OPEN)** | [`docs/mega-atlas-cross-check.md`](docs/mega-atlas-cross-check.md) |
+
+---
+
+## Verbatim Lean 4.35.0 `#print axioms` Excerpt (CI Drift-Checked)
+
+Audited mechanically by [`scripts/check_readme_axioms.py`](scripts/check_readme_axioms.py) against [`results/lean4-omega-audit.txt`](results/lean4-omega-audit.txt) (all 89 theorems strictly within `{propext, Quot.sound}` — zero `Classical.choice`, zero `sorryAx`, zero `native_decide`):
+
+<!-- LEAN_AXIOMS_START -->
+```text
+'OmegaCellular.PurcellGaugeGeometry.O01_purcell_1dof_reciprocal_cycle_zero' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.EigenProofreadingInfo.O06_hopfield_ninio_proofreading_beats_equilibrium' depends on axioms: [propext]
+'OmegaCellular.TuringFeinbergCRNT.O12_turing_equal_diffusion_impossibility' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.TURSpeedLimitsTopo.O19_poincare_hopf_sphere_defect_impossibility' does not depend on any axioms
+'OmegaCellular.BioInteractionNets.O42_active_pair_diamond_strong_confluence' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.VirtualCellManifold.O56_virtual_cell_physics_projection_conservation' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.VerifyTraceReceipt.O63_live_c11_receipt_verified' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.SubstratesCube.O72_live_c11_cube_receipt_verified' does not depend on any axioms
+'OmegaCellular.NonVacuity.O74_refute_1dof_nonzero_reciprocal_stroke' depends on axioms: [propext, Quot.sound]
+'OmegaCellular.NonVacuity.O89_refute_quantum_cap_11_fits_16kib' does not depend on any axioms
+```
+<!-- LEAN_AXIOMS_END -->
+
+---
+
+## Honest Verification Boundary & Limitations
+
+- **What IS formally proved in Lean 4.35.0:** Exact `Nat`/`Int`/`List` algebraic, combinatorial, and inductive cellular biophysics invariants (`O01`–`O62`, `O67`–`O71`), 17 non-vacuity and sharp negative-boundary refutations (`O73`–`O89`), and kernel verification of concrete integer/string fields in live C11 receipts (`O63`, `O72`).
+- **What is NOT proved in Lean:** IEEE-754 floating-point PDE convergence (Cahn–Hilliard, Schnakenberg, spherical nematic relaxation) and C11 compiler memory safety — these are verified empirically by 60 gates, 16 compiled structural knockouts, ASan/UBSan, a 256-case fuzz harness, `-O0` vs `-O3` parity, and an exact Python reference oracle.
+- **No Overclaimed Breakthroughs:** Cross-checked against all 1,900 problems in [`0thernes/unsolved-problems-mega-atlas`](https://github.com/0thernes/unsolved-problems-mega-atlas): **`0 / 1,900`** overarching open problems are solved. Full real-vs-metaphor audit in [`LIMITATIONS.md`](LIMITATIONS.md) and [`CLAIMS.md`](CLAIMS.md).
+- **AI-Assistance Transparency:** AI engineering tools assisted with implementation, tactic exploration, drafting, and red-team auditing under sole human direction and accountability ([`docs/AI_DISCLOSURE.md`](docs/AI_DISCLOSURE.md)).
+
+---
+
+## Documentation Map
+
+- **Core Ledgers:** [`CLAIMS.md`](CLAIMS.md) · [`LIMITATIONS.md`](LIMITATIONS.md) · [`VERIFICATION.md`](VERIFICATION.md) · [`PREREGISTRATION.md`](PREREGISTRATION.md) · [`REPLICATION.md`](REPLICATION.md) · [`HARDENING_LOG.md`](HARDENING_LOG.md) · [`ERRATA.md`](ERRATA.md) · [`DEVIATIONS.md`](DEVIATIONS.md)
+- **Technical Reference:** [`docs/architecture.md`](docs/architecture.md) · [`docs/statement-fidelity.md`](docs/statement-fidelity.md) · [`docs/mega-atlas-cross-check.md`](docs/mega-atlas-cross-check.md) · [`docs/benchmarks.md`](docs/benchmarks.md) · [`docs/threat-model.md`](docs/threat-model.md) · [`docs/operations.md`](docs/operations.md) · [`docs/configuration.md`](docs/configuration.md) · [`docs/faq.md`](docs/faq.md) · [`docs/glossary.md`](docs/glossary.md) · [`docs/adr/README.md`](docs/adr/README.md)
+- **White Paper & Blueprint:** [`paper/main.tex`](paper/main.tex) · [`dist/Donahue_2026_cellular_engine_omega.pdf`](dist/Donahue_2026_cellular_engine_omega.pdf) · [`blueprint/index.html`](blueprint/index.html)
+
+---
+
+## Citation & License
+
+- **Code, Lean 4 Proofs & Scripts:** [Apache License 2.0](LICENSE)
+- **White Paper, Figures, Datasets & Prose Docs:** [Creative Commons Attribution 4.0 International (CC BY 4.0)](LICENSE-DOCS)
+- **Citation Metadata:** See [`CITATION.cff`](CITATION.cff) and [`CITATION.bib`](CITATION.bib).

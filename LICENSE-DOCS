@@ -1,0 +1,43 @@
+Creative Commons Attribution 4.0 International (CC BY 4.0)
+==========================================================
+
+Copyright (c) 2026 Alexander Stephen Donahue
+ORCID: 0009-0006-8168-9648
+Affiliation: Independent Researcher, Spokane, WA, USA
+Web: https://0thernes.art | GitHub: https://github.com/0thernes/cellular-engine-omega
+
+DUAL-LICENSING NOTICE
+---------------------
+1. White Paper, PDFs, Vector Figures, Diagrams, Datasets, Research Treatises,
+   and Prose Documentation (`paper/`, `dist/`, `docs/`, `CLAIMS.md`, `LIMITATIONS.md`,
+   `REPLICATION.md`, `HARDENING_LOG.md`, `README.md`, `VERIFICATION.md`):
+   Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0).
+   Full legal code: https://creativecommons.org/licenses/by/4.0/legalcode
+
+2. Source Code, Headers, C11 Simulation Engine, Web Observatory, Lean 4.35.0
+   Formal Proof Modules, Verification Oracles, Test Suites, Build Recipes, and
+   CI Workflows (`src/`, `include/`, `test/`, `tests/`, `reference/`, `lean/`,
+   `web/`, `scripts/`, `examples/`, `.github/`, `build.ps1`, `build_linux.sh`,
+   `justfile`, `Makefile`):
+   Licensed under the Apache License, Version 2.0 (see `LICENSE`).
+
+You are free to:
+  * Share — copy and redistribute the material in any medium or format for any purpose,
+    even commercially.
+  * Adapt — remix, transform, and build upon the material for any purpose, even commercially.
+
+Under the following terms:
+  * Attribution — You must give appropriate credit, provide a link to the license, and
+    indicate if changes were made. Recommended attribution:
+
+      Donahue, Alexander Stephen (2026). CELLULAR ENGINE OMEGA (v5.2.0):
+      Zero-Dependency C11 Multi-Scale Cellular Biophysics Engine, 75-Substrate &
+      1,000-Cell Hybrid Cube, and Multi-Kernel Lean 4.35.0 Formal Verification Suite.
+      Independent Researcher, Spokane, WA, USA. ORCID: 0009-0006-8168-9648.
+      https://github.com/0thernes/cellular-engine-omega
+
+  * No additional restrictions — You may not apply legal terms or technological measures
+    that legally restrict others from doing anything the license permits.
+
+Disclaimer:
+The material is provided "as is", without warranty of any kind, express or implied.

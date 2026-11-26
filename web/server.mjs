@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: Apache-2.0
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -8,6 +9,18 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const BIN = path.join(ROOT, 'bin', process.platform === 'win32' ? 'omega_cell.exe' : 'omega_cell');
 const PORT = Number(process.env.PORT || 8791);
+const LOG_LEVEL = (process.env.OMEGA_LOG_LEVEL || 'info').toLowerCase();
+const VERSION = fs.existsSync(path.join(ROOT, 'VERSION'))
+  ? fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim()
+  : '5.2.0';
+
+function logEvent(level, event, fields = {}) {
+  if (LOG_LEVEL === 'silent') return;
+  if (level === 'debug' && LOG_LEVEL !== 'debug') return;
+  const line = JSON.stringify({ ts: new Date().toISOString(), level, event, version: VERSION, ...fields });
+  if (level === 'error') console.error(line);
+  else console.log(line);
+}
 
 const ALLOWED_STATIC = new Set(['index.html', 'app.js', 'styles.css']);
 const MAX_INFLIGHT = 2;
@@ -179,17 +192,18 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  if (url.pathname === '/api/health') {
+  if (url.pathname === '/api/health' || url.pathname === '/healthz') {
     res.writeHead(200, secHeaders({ 'Content-Type': 'application/json; charset=utf-8' }));
     res.end(headOnly ? undefined : JSON.stringify({
       ok: true,
-      version: '5.1.0',
+      version: VERSION,
       port: PORT,
       testbeds: 16,
       substrates_75: 75,
       hybrid_cube_1000: 1000,
-      lean_theorems: 72,
-      gates: 54,
+      lean_theorems: 89,
+      lean_kernels: 6,
+      gates: 60,
       mutants: 16
     }));
     return;
@@ -214,5 +228,13 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT, '127.0.0.1', () => {
-  console.log(`CELLULAR ENGINE OMEGA v5.1.0 (75 Substrates · 1,000 Cube Cells · Live C11->Lean O63/O72 · 16 Testbeds · 72 Lean 4 Proofs · 54 Gates / 16 Mutants) running at http://127.0.0.1:${PORT}`);
+  logEvent('info', 'observatory_started', {
+    url: `http://127.0.0.1:${PORT}`,
+    testbeds: 16,
+    substrates_75: 75,
+    hybrid_cube_1000: 1000,
+    lean_theorems: 89,
+    gates: 60,
+    mutants: 16
+  });
 });

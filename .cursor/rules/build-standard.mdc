@@ -1,0 +1,10 @@
+---
+description: "Canonical engineering and verification standards for CELLULAR ENGINE OMEGA (Build Standard v1.2.0)"
+alwaysApply: true
+---
+
+Follow `AGENTS.md` in the repository root as the canonical rule set:
+- Enforce Hard Rules `R1`–`R8` (direct to `main`, zero gates/hooks, zero fabrication, honest `Independent Researcher` attribution, 10 finding classes).
+- Keep `-ffp-contract=off` and `-Wall -Wextra -Wshadow -Werror` across Win64 Clang and Linux GCC builds.
+- Maintain zero-Mathlib Pure Lean 4.35.0 (`Spec.lean` -> `Challenge.lean` / `Solution.lean`, 89 theorems, `lake comparator --config comparator.json --paranoid`).
+- Regenerate `lean/OmegaCellularProofs/LiveC11Receipt.lean` via `omega_cell --export-lean-trace` whenever C11 outputs change, and run `scripts/Audit-Repo.ps1` before committing.

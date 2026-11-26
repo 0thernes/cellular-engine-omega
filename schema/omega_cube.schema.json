@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://0thernes.github.io/cellular-engine-omega/schema/omega_cube.schema.json",
+  "title": "CELLULAR ENGINE OMEGA 75-Substrate & 1,000-Cell Hybrid Cube JSON Contract (v5.2.0)",
+  "type": "object",
+  "required": [
+    "schema", "version", "seed", "elapsed_ms", "sha256",
+    "quantum_cap_q", "quantum_cap_bytes", "b158_trit_states",
+    "substrates_75", "hybrid_cube_1000"
+  ],
+  "properties": {
+    "schema": { "type": "string", "minLength": 1 },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "seed": { "type": "integer", "minimum": 1 },
+    "elapsed_ms": { "type": "number", "minimum": 0 },
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "quantum_cap_q": { "const": 10 },
+    "quantum_cap_bytes": { "const": 16384 },
+    "b158_trit_states": { "const": 243 },
+    "substrates_75": {
+      "type": "object",
+      "required": ["pm_passed", "pm_total", "mf_passed", "mf_total", "gw_passed", "gw_total", "total_passed", "total", "pm", "mf", "gw"],
+      "properties": {
+        "pm_total": { "const": 25 },
+        "mf_total": { "const": 25 },
+        "gw_total": { "const": 25 },
+        "total": { "const": 75 },
+        "pm": { "type": "array", "minItems": 25, "maxItems": 25 },
+        "mf": { "type": "array", "minItems": 25, "maxItems": 25 },
+        "gw": { "type": "array", "minItems": 25, "maxItems": 25 }
+      }
+    },
+    "hybrid_cube_1000": {
+      "type": "object",
+      "required": ["total", "ok", "adapt", "over", "excl", "active_verified", "verified_total", "cells_1000"],
+      "properties": {
+        "total": { "const": 1000 },
+        "ok": { "const": 661 },
+        "adapt": { "const": 274 },
+        "over": { "const": 20 },
+        "excl": { "const": 45 },
+        "active_verified": { "const": 935 },
+        "verified_total": { "const": 1000 },
+        "cells_1000": { "type": "array", "minItems": 1000, "maxItems": 1000 }
+      }
+    }
+  }
+}

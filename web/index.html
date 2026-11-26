@@ -3,19 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CELLULAR ENGINE OMEGA v5.1 — 16 Testbeds, 75 Substrates, 1,000-Cell Hybrid Cube &amp; 72 Pure Lean 4 Observatory</title>
+  <title>CELLULAR ENGINE OMEGA v5.2.0 — 16 Testbeds, 75 Substrates, 1,000-Cell Hybrid Cube &amp; 89 Pure Lean 4 Observatory</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header>
+  <a class="skip-link" href="#main-content">Skip to Observatory content</a>
+  <header role="banner">
     <div>
-      <h1>CELLULAR ENGINE OMEGA v5.1 — DEEP STRATA, 75 SUBSTRATES, 1,000-CELL CUBE &amp; VIRTUAL-CELL OBSERVATORY</h1>
-      <div class="subtitle">Native C11+AVX2 16-Testbed Engine + 75/75 Substrates + 1,000/1,000 Hybrid Cube (661 OK / 274 ADAPT / 20 OVER / 45 EXCL) · 72 Pure Lean 4 Proofs incl. Live C11 O63 &amp; O72 (0 sorryAx · 224 Ecosystem Total) · 54 Gates / 16 Mutants</div>
+      <h1>CELLULAR ENGINE OMEGA v5.2.0 — DEEP STRATA, 75 SUBSTRATES, 1,000-CELL CUBE &amp; VIRTUAL-CELL OBSERVATORY</h1>
+      <div class="subtitle">Native C11+AVX2 16-Testbed Engine + 75/75 Substrates + 1,000/1,000 Hybrid Cube (661 OK / 274 ADAPT / 20 OVER / 45 EXCL) · 89 Constructive Lean 4.35.0 Proofs across 6 Kernels incl. Live C11 O63 &amp; O72 (0 sorryAx · 0 Classical.choice) · 60 Gates / 16 Mutants</div>
     </div>
-    <div class="controls">
-      <label>Seed: <input id="seedInput" type="number" value="2026001" style="width:110px" /></label>
-      <label>Planted Mutant:
-        <select id="mutantSelect">
+    <nav class="controls" aria-label="Simulation controls">
+      <label for="seedInput">Seed: <input id="seedInput" type="number" min="1" value="2026001" style="width:110px" aria-label="Deterministic simulation seed" /></label>
+      <label for="mutantSelect">Planted Mutant:
+        <select id="mutantSelect" aria-label="Planted negative control mutant">
           <option value="0">0 — Clean Physics (All Laws Intact)</option>
           <option value="1">M1 — TB01 Break Purcell Stokes Law</option>
           <option value="2">M2 — TB02 Knockout Mavirus Virophage</option>
@@ -42,10 +43,11 @@
       <button id="caShockBtn" class="warn">Ca²⁺ MT Melt</button>
       <button id="tunBtn" class="warn">98% Dry / 4kGy Tun</button>
       <a href="http://127.0.0.1:8790/" class="hub-link" target="_blank" rel="noopener">↗ 4-Tier Hub (:8790)</a>
-    </div>
+    </nav>
   </header>
 
-  <div class="badges" id="statusBadges"></div>
+  <main id="main-content" tabindex="-1">
+  <div class="badges" id="statusBadges" role="status" aria-live="polite" aria-label="Live invariant status badges"></div>
 
   <section class="grid-vis">
     <div class="card featured-strata">
@@ -143,13 +145,14 @@
 
   <div class="card">
     <div class="card-hdr">
-      <div class="card-title">Build-1 AUTOPHAGE (256B DNA) → Cellular Omega v5.0 (Deep Strata + Bio-Frostbite + Virtual-Cell AI) → Build-3 Asmodensius [0, 1]¹¹² Phenotype Barcode</div>
+      <div class="card-title">Build-1 AUTOPHAGE (256B DNA) → Cellular Omega v5.2.0 (Deep Strata + Bio-Frostbite + Virtual-Cell AI + 75 Substrates) → Build-3 Asmodensius [0, 1]¹¹² Phenotype Barcode</div>
       <div class="card-tag" id="bridgeTag">6-TIER BRIDGE</div>
     </div>
-    <canvas id="cvBarcode" class="barcode" width="900" height="42"></canvas>
+    <canvas id="cvBarcode" class="barcode" width="900" height="42" role="img" aria-label="112-dimensional phenotype barcode visualization"></canvas>
   </div>
+  </main>
 
-  <footer>CELLULAR ENGINE OMEGA v5.0 (Forensic Hardened · 10-Seed Verified · Live C11→Lean O63 · Deep Strata · Bio-Frostbite INet · Virtual-Cell AI) · Zero-Dependency C11+AVX2 + 66 Pure Lean 4 Proofs (v4.35.0) · 155+ Combined Lean 4 Proofs Across AUTOPHAGE, CELLULOGONIC MECHA &amp; OMEGA</footer>
+  <footer role="contentinfo">CELLULAR ENGINE OMEGA v5.2.0 (Forensic Hardened · 60 Gates / 16 Mutants · 10-Seed Verified · 75 Substrates · 1,000-Cell Cube · Live C11→Lean O63 &amp; O72) · Zero-Dependency C11+AVX2 + 89 Constructive Pure Lean 4.35.0 Proofs across 6 Independent Kernels · Alexander S. Donahue (ORCID 0009-0006-8168-9648)</footer>
   <script src="app.js"></script>
 </body>
 </html>

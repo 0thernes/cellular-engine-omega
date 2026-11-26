@@ -1,8 +1,11 @@
+/* SPDX-License-Identifier: Apache-2.0 */
 #ifndef OMEGA_ABI_H
 #define OMEGA_ABI_H
 
 #include <stdint.h>
 #include <stddef.h>
+
+#define OMEGA_VERSION_STR "5.2.0"
 
 #if defined(_WIN32) && defined(OMEGA_BUILD_DLL)
 #define OMEGA_API __declspec(dllexport)
@@ -32,7 +35,7 @@ OMEGA_API double   omega_time_sec(void);
 OMEGA_API void     omega_sha256_hex(const void* data, size_t len, char out_hex[65]);
 
 /* ============================================================================
- * 16 Experimental Testbed Result Structures (CELLULAR ENGINE OMEGA v5.0)
+ * 16 Experimental Testbed Result Structures (CELLULAR ENGINE OMEGA v5.2.0)
  * ============================================================================ */
 
 /* TB01: Purcell Scallop Theorem & MotA5MotB2 Rotary Corkscrew */

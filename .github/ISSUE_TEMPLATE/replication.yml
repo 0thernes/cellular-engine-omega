@@ -1,0 +1,28 @@
+name: Independent Replication Report
+description: Submit an independent clean-clone replication receipt (pass or fail) for REPLICATION.md
+labels: ["replication"]
+body:
+  - type: dropdown
+    id: outcome
+    attributes:
+      label: Replication Outcome
+      options:
+        - PASS (Bit-exact SHA-256 + 60/60 gates + 89/89 Lean proofs)
+        - PARTIAL (Explain divergence below)
+        - FAIL (Attach full logs below)
+    validations:
+      required: true
+  - type: textarea
+    id: env
+    attributes:
+      label: Environment (OS, CPU, Compiler, Lean 4.35.0, Commit SHA)
+      placeholder: "e.g., Ubuntu 24.04 x86_64, GCC 13.2, Lean 4.35.0, commit <sha>"
+    validations:
+      required: true
+  - type: textarea
+    id: receipts
+    attributes:
+      label: Observed Receipts (Master SHA-256, Cube SHA-256, Kernel Results)
+      render: text
+    validations:
+      required: true

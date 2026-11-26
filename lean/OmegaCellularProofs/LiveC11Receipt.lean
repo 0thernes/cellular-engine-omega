@@ -1,5 +1,9 @@
+module
+-- SPDX-License-Identifier: Apache-2.0
+-- Copyright (c) 2026 Alexander Stephen Donahue
+
 /-!
-# LiveC11Receipt.lean — Auto-Generated Live C11 Runtime Trace Receipt (v5.1.0)
+# LiveC11Receipt.lean — Auto-Generated Live C11 Runtime Trace Receipt (v5.2.0)
 
 Emitted directly by `omega_cell --export-lean-trace` executing real C11 `TB14`
 (Bio-Frostbite 4-Layer INet VM) + coupled `TB16` (Virtual-Cell AI & 6-Tier Closure)
@@ -8,6 +12,8 @@ on deterministic Seed `2026001`. Verified inside the Lean 4 kernel by `O63` and 
 -/
 
 namespace OmegaCellular.LiveC11Receipt
+
+@[expose] public section
 
 structure LiveReceipt where
   seed               : Nat
@@ -109,8 +115,10 @@ def liveReceipt : LiveReceipt :=
   , shaRandom         := "5cfbbf7e243887be921a890a016357b63250843e5d4f5a6e1a17ab4795eabb5d"
   , tb14Sha256        := "68f505b16299254ada1eba8196a1adb59e22ed18f240047c986072321941175e"
   , tb16Sha256        := "7ce501caff54e5bdb1c655c3588471aabd2b4732754ea4e842e7120d6ca28f19"
-  , cubeSha256        := "0f158119d5de255656b86727eeb876b65b77f9a37cf852fb5125d384f6de130b"
+  , cubeSha256        := "c9fd6d3dfcf1492c2271e2fd7a6e30473ff02187ca17a9d664493df0fb0a55ab"
   , receiptSha256     := "12d58fa590f59aa052f243fcb0ea8b0d24c41b6fff55185c3671d0bc1b0941c2"
   }
+
+end
 
 end OmegaCellular.LiveC11Receipt

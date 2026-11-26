@@ -1,0 +1,36 @@
+# SPDX-License-Identifier: Apache-2.0
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cellular-engine-omega-verify"
+version = "5.2.0"
+description = "Verification oracle, test ladder, statistical sweep, figure generator, and blueprint tooling for CELLULAR ENGINE OMEGA"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.11"
+authors = [
+  { name = "Alexander Stephen Donahue", email = "0_0@0thernes.art" }
+]
+dependencies = [
+  "numpy>=1.26",
+  "scipy>=1.11",
+  "matplotlib>=3.8",
+  "jsonschema>=4.20",
+  "PyYAML>=6.0"
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest>=8.0",
+  "hypothesis>=6.100"
+]
+
+[project.urls]
+Homepage = "https://0thernes.github.io/cellular-engine-omega/"
+Repository = "https://github.com/0thernes/cellular-engine-omega"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

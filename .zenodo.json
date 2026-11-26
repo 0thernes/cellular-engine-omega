@@ -1,0 +1,42 @@
+{
+  "title": "CELLULAR ENGINE OMEGA v5.2.0: Zero-Dependency C11 Multi-Scale Cellular Biophysics Engine, 75-Substrate & 1,000-Cell Hybrid Cube, and Multi-Kernel Lean 4.35.0 Formal Verification Suite",
+  "upload_type": "software",
+  "version": "5.2.0",
+  "publication_date": "2026-11-25",
+  "creators": [
+    {
+      "name": "Donahue, Alexander Stephen",
+      "affiliation": "Independent Researcher, Spokane, WA, USA",
+      "orcid": "0009-0006-8168-9648"
+    }
+  ],
+  "description": "Zero-dependency C11 multi-scale cellular biophysics engine (16 testbeds, 75 substrates, 1,000-cell Hybrid Cube, 60 falsification gates, 16/16 planted mutants) coupled via live C11-to-Lean runtime receipts (O63, O72) to 89 zero-Mathlib Pure Lean 4.35.0 formal theorems audited across independent Lean 4 kernels, accompanied by an AMS-LaTeX technical white paper, Lean Proof Blueprint, Python verification ladder, and hardened loopback Web Observatory. AI assistance is transparently disclosed in docs/AI_DISCLOSURE.md; the human author takes full scholarly responsibility.",
+  "license": "Apache-2.0",
+  "access_right": "open",
+  "language": "eng",
+  "keywords": [
+    "cellular biophysics",
+    "artificial life",
+    "Lean 4",
+    "formal verification",
+    "interaction nets",
+    "Turing morphogenesis",
+    "thermodynamic uncertainty relation",
+    "tardigrade cryptobiosis",
+    "virtual cell",
+    "C11"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/0thernes/cellular-engine-omega",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://github.com/0thernes/0thernes-research-archive",
+      "relation": "isPartOf",
+      "scheme": "url"
+    }
+  ],
+  "notes": "Dual-licensed: Apache-2.0 for code, Lean proofs, and scripts; CC BY 4.0 for white paper, prose documentation, figures, and datasets. Preprint/software archive — not peer-reviewed."
+}

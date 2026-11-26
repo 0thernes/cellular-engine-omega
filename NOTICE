@@ -1,0 +1,12 @@
+CELLULAR ENGINE OMEGA
+Copyright 2026 Alexander Stephen Donahue
+
+This product includes original software and Lean 4 formal proofs developed by
+Alexander Stephen Donahue (ORCID 0009-0006-8168-9648), Independent Researcher,
+Spokane, WA, USA (https://0thernes.art · 0_0@0thernes.art).
+
+Dual License:
+- Source code (C11, Node.js/JS, HTML/CSS, Lean 4.35.0 proofs, build/audit scripts,
+  and CI workflows) is licensed under the Apache License, Version 2.0 (see LICENSE).
+- White paper, PDFs, diagrams, datasets, and prose documentation are licensed under
+  the Creative Commons Attribution 4.0 International License (see LICENSE-DOCS).

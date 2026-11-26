@@ -1,0 +1,45 @@
+# SPDX-License-Identifier: Apache-2.0
+name: Release Artifacts & SHA256SUMS
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Linux ELF64 release binaries & collect artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x build_linux.sh
+          ./build_linux.sh
+          mkdir -p release_bundle
+          cp bin/omega_cell bin/libomega_cell.a dist/Donahue_2026_cellular_engine_omega.pdf dist/arxiv_submission.tar.gz CHECKSUMS.sha256 release_bundle/
+          (cd release_bundle && sha256sum * > SHA256SUMS)
+          cat release_bundle/SHA256SUMS
+
+      - uses: actions/attest-build-provenance@v2
+        continue-on-error: true
+        with:
+          subject-path: "release_bundle/*"
+
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${GITHUB_REF_NAME}" release_bundle/* \
+            --title "CELLULAR ENGINE OMEGA ${GITHUB_REF_NAME}" \
+            --notes-file CHANGELOG.md || \
+          gh release upload "${GITHUB_REF_NAME}" release_bundle/* --clobber

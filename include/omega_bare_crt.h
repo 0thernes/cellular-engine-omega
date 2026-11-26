@@ -5,10 +5,10 @@
 #define _POSIX_C_SOURCE 200809L
 #endif
 
-/*
- * CELLULAR ENGINE OMEGA v5.0 — Minimal Zero-Dependency CRT & OS Portability Layer
+/* SPDX-License-Identifier: Apache-2.0
+ * CELLULAR ENGINE OMEGA v5.2.0 — Minimal Zero-Dependency CRT & OS Portability Layer
  * Compiles cleanly with zero external SDK under bundled LLVM/Clang 23 (Win64 PE64)
- * and standard GCC/Clang on Linux ELF64.
+ * and standard GCC/Clang on Linux ELF64 / macOS.
  */
 
 #include <stdint.h>

@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+title: "CELLULAR ENGINE OMEGA: Zero-Dependency C11 Multi-Scale Cellular Biophysics Engine, 75-Substrate & 1,000-Cell Hybrid Cube, and Multi-Kernel Lean 4.35.0 Formal Verification Suite"
+message: "If you use this software, formal verification suite, or accompanying technical report, please cite it using the metadata below."
+type: software
+version: "5.2.0"
+date-released: "2026-11-25"
+license: "Apache-2.0"
+repository-code: "https://github.com/0thernes/cellular-engine-omega"
+url: "https://0thernes.github.io/cellular-engine-omega/"
+abstract: >-
+  CELLULAR ENGINE OMEGA v5.2.0 is a zero-dependency C11 multi-scale cellular biophysics
+  simulation engine (16 quantitative testbeds, 75 computational substrates, 1,000-cell
+  Hybrid Cube, 60 falsification gates, 16/16 planted mutants, 256-case fuzz/property harness)
+  coupled via live runtime trace receipts (O63, O72) to 89 zero-Mathlib Pure Lean 4.35.0
+  formal theorems checked across multiple independent Lean 4 kernels under isolated
+  Challenge/Solution comparator verification.
+authors:
+  - family-names: "Donahue"
+    given-names: "Alexander Stephen"
+    orcid: "https://orcid.org/0009-0006-8168-9648"
+    affiliation: "Independent Researcher, Spokane, WA, USA"
+    email: "0_0@0thernes.art"
+    website: "https://0thernes.art"
+keywords:
+  - cellular-biophysics
+  - artificial-life
+  - formal-verification
+  - lean4
+  - interaction-nets
+  - turing-morphogenesis
+  - thermodynamic-uncertainty-relation
+  - liquid-liquid-phase-separation
+  - tardigrade-cryptobiosis
+  - virtual-cell
+  - c11
+  - reproducible-research

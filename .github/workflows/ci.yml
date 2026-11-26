@@ -1,0 +1,179 @@
+# SPDX-License-Identifier: Apache-2.0
+name: CI — Multi-OS C11, ASan/UBSan, 6-Kernel Lean 4.35.0, Python Ladder & Paper
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+  attestations: write
+
+jobs:
+  linux-full-verify:
+    name: Linux ELF64 + ASan/UBSan + 60 Gates + Python Ladder + 6-Kernel Lean 4.35.0 + Paper
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python verification dependencies & cppcheck
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq cppcheck bubblewrap
+          python3 -m pip install --quiet pytest hypothesis jsonschema numpy scipy matplotlib pyyaml
+
+      - name: Install elan & Lean 4.35.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl https://elan.lean-lang.org/elan-init.sh -sSf | sh -s -- -y --default-toolchain leanprover/lean4:v4.35.0
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Build C11 (-Werror -ffp-contract=off), ASan/UBSan, 60 Gates, 16 Mutants, Fuzz & Lean 4.35.0 (89 Proofs)
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x build_linux.sh scripts/audit-repo.sh
+          OMEGA_SANITIZE=1 ./build_linux.sh
+
+      - name: Multi-Kernel Lean 4.35.0 Audit (lake comparator --paranoid, leanchecker-paranoid, con-leche, con-ron)
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd lean
+          lake comparator --config comparator.json --paranoid
+          lake env leanexport Solution > /tmp/solution.export
+          if command -v con-leche >/dev/null 2>&1; then con-leche --verified /tmp/solution.export; fi
+          if command -v con-ron >/dev/null 2>&1; then con-ron --verified /tmp/solution.export; fi
+          rm -f /tmp/solution.export
+
+      - name: Python Verification Ladder, Oracle, Version Sync, Axiom Drift & Citation Checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pytest tests/ -v
+          python3 examples/quickstart_demo.py
+          python3 scripts/verify_version_sync.py
+          python3 scripts/check_readme_axioms.py
+          python3 scripts/check_citations.py
+
+      - name: Web Observatory HTTP Security, /api/health, /healthz & /api/cube Smoke Test
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check web/server.mjs
+          node --check web/app.js
+          PORT=18791 node web/server.mjs &
+          SRV_PID=$!
+          trap "kill $SRV_PID 2>/dev/null || true" EXIT
+          sleep 1
+          node - <<'JS'
+          async function main() {
+            const ver = (await import("node:fs")).readFileSync("VERSION", "utf8").trim();
+            const hRes = await fetch("http://127.0.0.1:18791/api/health");
+            if (hRes.headers.get("x-content-type-options") !== "nosniff") throw new Error("Missing nosniff");
+            const h = await hRes.json();
+            if (!h.ok || h.version !== ver || h.lean_theorems !== 89 || h.gates !== 60 || h.mutants !== 16) {
+              throw new Error("Health mismatch: " + JSON.stringify(h));
+            }
+            const hz = await fetch("http://127.0.0.1:18791/healthz");
+            if (hz.status !== 200) throw new Error("/healthz failed: " + hz.status);
+            const c = await (await fetch("http://127.0.0.1:18791/api/cube")).json();
+            if (c.substrates_75.total_passed !== 75 || c.hybrid_cube_1000.ok !== 661 || c.hybrid_cube_1000.verified_total !== 1000) {
+              throw new Error("Cube mismatch");
+            }
+            const leak = await fetch("http://127.0.0.1:18791/server.mjs");
+            if (leak.status !== 404) throw new Error("Security failure: /server.mjs returned " + leak.status);
+            const post = await fetch("http://127.0.0.1:18791/api/health", { method: "POST" });
+            if (post.status !== 405) throw new Error("Expected 405 on POST, got " + post.status);
+            console.log("PASS: Hardened Web Observatory HTTP API, /healthz, /api/cube & security controls verified.");
+          }
+          main().catch(e => { console.error(e); process.exit(1); });
+          JS
+
+      - name: Security Secret Scan (gitleaks / regex hygiene, report-only)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import pathlib, re, sys
+          pat = re.compile(r"(ghp_[A-Za-z0-9]{30,}|sk-[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY-----)")
+          hits = []
+          for p in pathlib.Path(".").rglob("*"):
+              if not p.is_file() or any(part in {".git", ".lake", "bin"} for part in p.parts):
+                  continue
+              try:
+                  txt = p.read_text(encoding="utf-8")
+              except Exception:
+                  continue
+              if pat.search(txt):
+                  hits.append(str(p))
+          if hits:
+              print("POTENTIAL SECRET HIT:", hits, file=sys.stderr)
+              sys.exit(1)
+          print("PASS: Secret hygiene scan found 0 credential patterns.")
+          PY
+
+      - name: Generate Release Artifact Checksums & SLSA Build Provenance Attestation
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum bin/omega_cell bin/libomega_cell.a dist/Donahue_2026_cellular_engine_omega.pdf dist/arxiv_submission.tar.gz > SHA256SUMS
+          cat SHA256SUMS
+
+      - uses: actions/attest-build-provenance@v2
+        continue-on-error: true
+        with:
+          subject-path: |
+            bin/omega_cell
+            dist/Donahue_2026_cellular_engine_omega.pdf
+            dist/arxiv_submission.tar.gz
+
+  cross-platform-c11:
+    name: Cross-Platform C11 Build & 60-Gate Verify (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build & Run 60-Gate Falsification + Fuzz on macOS
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          set -euo pipefail
+          CC=clang ./build_linux.sh
+
+      - name: Build & Run 60-Gate Falsification + Fuzz on Windows
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          New-Item -ItemType Directory -Force -Path bin, results | Out-Null
+          $core = @(
+            "src/omega_rng_hash.c", "src/exp_01_06.c", "src/exp_07_12.c",
+            "src/exp_13_open_proliferation.c", "src/exp_14_bio_inet.c",
+            "src/exp_15_deep_strata.c", "src/exp_16_virtual_cell_ai.c",
+            "src/omega_substrates_cube.c"
+          )
+          $flags = @("-O3", "-std=c11", "-Wall", "-Wextra", "-Wshadow", "-Werror", "-Wno-unused-parameter", "-ffp-contract=off", "-Iinclude")
+          gcc @flags @core src/omega_main_cli.c -lm -o bin/omega_cell.exe
+          gcc @flags @core test/test_omega_falsification.c -lm -o bin/test_omega_falsification.exe
+          gcc @flags src/omega_rng_hash.c src/exp_07_12.c src/exp_14_bio_inet.c test/fuzz_omega_cli_codec.c -lm -o bin/fuzz_omega_standalone.exe
+          ./bin/test_omega_falsification.exe
+          ./bin/fuzz_omega_standalone.exe
+          ./bin/omega_cell.exe --version

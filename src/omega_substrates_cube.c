@@ -799,19 +799,29 @@ static double pm_codec_roundtrip(int pm_idx, const double* in_vec, double* out_v
         break;
     }
     case 20: { /* PM21: [Modifier] Keyed Stochastic Rounding (eliminates small-step stagnation) */
+        /* 16-trial unbiased Monte Carlo estimator of 256-step stochastic rounding:
+         * E[acc_sr] = 256 * 0.003 = 0.768; single-trial sigma = sqrt(256*0.06*0.94)*0.05 = 0.190;
+         * 16-trial mean sigma = 0.0475, making tolerance 0.25 a 5.26-sigma band (p_fail < 1.5e-7),
+         * while deterministic RTN stagnates identically at 0.0 across every trial. */
         double step_sz = 0.05;
-        double acc_sr = 0.0;
-        double acc_rtn = 0.0;
-        for (int k = 0; k < 256; ++k) {
-            double v_sr = (acc_sr + 0.003) / step_sz;
-            double fl = floor(v_sr);
-            double frac = v_sr - fl;
-            double u = omega_rng_f64(rng);
-            acc_sr = (fl + ((u < frac) ? 1.0 : 0.0)) * step_sz;
-            acc_rtn = sc_round((acc_rtn + 0.003) / step_sz) * step_sz;
+        double acc_sr_sum = 0.0;
+        double acc_rtn_max = 0.0;
+        for (int tr = 0; tr < 16; ++tr) {
+            double acc_sr = 0.0;
+            double acc_rtn = 0.0;
+            for (int k = 0; k < 256; ++k) {
+                double v_sr = (acc_sr + 0.003) / step_sz;
+                double fl = floor(v_sr);
+                double frac = v_sr - fl;
+                double u = omega_rng_f64(rng);
+                acc_sr = (fl + ((u < frac) ? 1.0 : 0.0)) * step_sz;
+                acc_rtn = sc_round((acc_rtn + 0.003) / step_sz) * step_sz;
+            }
+            acc_sr_sum += acc_sr;
+            if (fabs(acc_rtn) > acc_rtn_max) acc_rtn_max = fabs(acc_rtn);
         }
-        /* True sum = 256 * 0.003 = 0.768; RTN stagnates at 0.0, SR tracks ~0.768 */
-        if (!(acc_rtn == 0.0 && fabs(acc_sr - 0.768) < 0.25)) ok_flag = 0;
+        double acc_sr_mean = acc_sr_sum / 16.0;
+        if (!(acc_rtn_max == 0.0 && fabs(acc_sr_mean - 0.768) < 0.25)) ok_flag = 0;
         double amax = 0.0;
         for (int i = 0; i < len; ++i) {
             double a = fabs(in_vec[i]);

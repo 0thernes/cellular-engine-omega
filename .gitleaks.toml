@@ -1,0 +1,18 @@
+# SPDX-License-Identifier: Apache-2.0
+title = "CELLULAR ENGINE OMEGA Gitleaks Configuration"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Allow deterministic cryptographic test receipts (SHA-256 digests) and ORCID identifiers"
+regexes = [
+  '''0009-0006-8168-9648''',
+  '''[0-9a-f]{64}'''
+]
+paths = [
+  '''results/''',
+  '''CHECKSUMS\.sha256''',
+  '''data/MANIFEST\.sha256''',
+  '''lean/OmegaCellularProofs/LiveC11Receipt\.lean'''
+]

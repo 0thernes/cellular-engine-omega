@@ -1,0 +1,18 @@
+name: Feature or Formalization Proposal
+description: Propose a new biophysics testbed, substrate, Lean 4 theorem, or verification test
+labels: ["gap", "triage"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Scientific or Engineering Motivation
+      placeholder: "What physical law, formal invariant, or verification gap does this address?"
+    validations:
+      required: true
+  - type: textarea
+    id: falsification
+    attributes:
+      label: Proposed Falsification Gate & Planted Mutant
+      placeholder: "How could this new feature fail or be refuted?"
+    validations:
+      required: true

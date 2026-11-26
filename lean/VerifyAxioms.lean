@@ -1,0 +1,129 @@
+module
+-- SPDX-License-Identifier: Apache-2.0
+-- Copyright (c) 2026 Alexander Stephen Donahue
+
+public import Solution
+
+/-!
+# VerifyAxioms.lean — Standalone Axiom Audit Script (CELLULAR ENGINE OMEGA v5.2.0)
+
+Prints `#print axioms` for ALL 89 machine-checked theorems exported by `Solution`.
+Every declaration MUST depend strictly on subsets of `[propext, Classical.choice, Quot.sound]`
+(in v5.2.0 constructively within `[propext, Quot.sound]` or zero axioms) with ZERO `sorryAx`,
+`Lean.ofReduceBool`, `Lean.trustCompiler`, `_native`, or custom axioms.
+-/
+
+-- Module 1: Purcell Scallop Theorem & Stokes Gauge Geometry (6)
+#print axioms OmegaCellular.PurcellGaugeGeometry.O01_purcell_1dof_reciprocal_cycle_zero
+#print axioms OmegaCellular.PurcellGaugeGeometry.O01b_purcell_multistep_reciprocal_zero
+#print axioms OmegaCellular.PurcellGaugeGeometry.O02_purcell_2dof_nonreciprocal_area_positive
+#print axioms OmegaCellular.PurcellGaugeGeometry.O03_helical_chiral_rotation_beats_scallop
+#print axioms OmegaCellular.PurcellGaugeGeometry.O04_stokes_linearity_rate_invariance
+#print axioms OmegaCellular.PurcellGaugeGeometry.O05_viscous_power_strictly_positive
+
+-- Module 2: Eigen Error Threshold & Hopfield–Ninio Kinetic Proofreading (5)
+#print axioms OmegaCellular.EigenProofreadingInfo.O06_hopfield_ninio_proofreading_beats_equilibrium
+#print axioms OmegaCellular.EigenProofreadingInfo.O07_hopfield_ninio_quadratic_and_cubic_witness
+#print axioms OmegaCellular.EigenProofreadingInfo.O08_eigen_error_threshold_expansion
+#print axioms OmegaCellular.EigenProofreadingInfo.O09_rna_virus_vs_dna_cell_genome_separation
+#print axioms OmegaCellular.EigenProofreadingInfo.O10_kinetic_proofreading_dissipation_strict
+
+-- Module 3: Feinberg CRNT Deficiency & Turing Instability Theorems (5)
+#print axioms OmegaCellular.TuringFeinbergCRNT.O11_feinberg_deficiency_nonneg
+#print axioms OmegaCellular.TuringFeinbergCRNT.O12_turing_equal_diffusion_impossibility
+#print axioms OmegaCellular.TuringFeinbergCRNT.O13_turing_requires_opposite_diagonal_signs
+#print axioms OmegaCellular.TuringFeinbergCRNT.O14_turing_requires_faster_inhibitor_diffusion
+#print axioms OmegaCellular.TuringFeinbergCRNT.O15_turing_instability_concrete_witness
+
+-- Module 4: TUR, Thermodynamic Speed Limits, Poincaré–Hopf & Willmore (6)
+#print axioms OmegaCellular.TURSpeedLimitsTopo.O16_tur_halving_jitter_quadruples_entropy
+#print axioms OmegaCellular.TURSpeedLimitsTopo.O17_tur_precision_entropy_monotone
+#print axioms OmegaCellular.TURSpeedLimitsTopo.O18_thermodynamic_speed_limit_scaling
+#print axioms OmegaCellular.TURSpeedLimitsTopo.O19_poincare_hopf_sphere_defect_impossibility
+#print axioms OmegaCellular.TURSpeedLimitsTopo.O20_poincare_hopf_defect_fusion_conservation
+#print axioms OmegaCellular.TURSpeedLimitsTopo.O21_willmore_clifford_torus_ratio
+
+-- Module 5: Microtubule Dynamic Instability, MotA5MotB2, F1F0, Motors, LLPS & Euler Buckling (6)
+#print axioms OmegaCellular.CytoskeletonMotorsLLPS.O22_dogterom_leibler_phase_transition
+#print axioms OmegaCellular.CytoskeletonMotorsLLPS.O23_mota5_motb2_cogwheel_36_degree_step
+#print axioms OmegaCellular.CytoskeletonMotorsLLPS.O24_f1f0_cring_gearbox_monotonicity
+#print axioms OmegaCellular.CytoskeletonMotorsLLPS.O25_tug_of_war_velocity_direction
+#print axioms OmegaCellular.CytoskeletonMotorsLLPS.O26_llps_active_ostwald_arrest_radius
+#print axioms OmegaCellular.CytoskeletonMotorsLLPS.O60_euler_buckling_near_wall_dominance
+
+-- Module 6: Tardigrade Walking Head, Megaphragma, Radiotolerance, Mavirus & Odd Elasticity (6)
+#print axioms OmegaCellular.TardigradeVirosphereOmega.O27_tardigrade_walking_head_budget_le_1000
+#print axioms OmegaCellular.TardigradeVirosphereOmega.O28_megaphragma_anucleate_neuron_compression
+#print axioms OmegaCellular.TardigradeVirosphereOmega.O29_tardigrade_3tier_radiotolerance_amplification
+#print axioms OmegaCellular.TardigradeVirosphereOmega.O30_mavirus_virophage_host_rescue
+#print axioms OmegaCellular.TardigradeVirosphereOmega.O31_lynch_marinov_translation_atp_dominance
+#print axioms OmegaCellular.TardigradeVirosphereOmega.O32_odd_elastic_cyclic_work_extraction
+
+-- Module 7: 12-Axis Morphospace, Bifurcation, Symbiosis, Xenocellular PMF & 5-Repo Closure (9)
+#print axioms OmegaCellular.OpenProliferationWeb.O33_flavin_electron_bifurcation_energy_balance
+#print axioms OmegaCellular.OpenProliferationWeb.O34_russian_doll_3genome_assembly_closure
+#print axioms OmegaCellular.OpenProliferationWeb.O35_cryptist_4genome_additive_information
+#print axioms OmegaCellular.OpenProliferationWeb.O36_continuous_12axis_morphospace_unbounded_novelty
+#print axioms OmegaCellular.OpenProliferationWeb.O37_oxytricha_genome_unscrambling_compression
+#print axioms OmegaCellular.OpenProliferationWeb.O38_cable_bacteria_long_range_redox_bridge
+#print axioms OmegaCellular.OpenProliferationWeb.O39_open_proliferation_novelty_monotone
+#print axioms OmegaCellular.OpenProliferationWeb.O40_five_repo_ecosystem_bidirectional_closure
+#print axioms OmegaCellular.OpenProliferationWeb.O61_xenocellular_cring_pmf_threshold
+
+-- Module 8: Lafont Bio-Interaction Nets ("Bio-Frostbite") & Hybrid SSIN (7)
+#print axioms OmegaCellular.BioInteractionNets.O41_linear_single_ownership_conservation
+#print axioms OmegaCellular.BioInteractionNets.O41b_linear_trace_conservation
+#print axioms OmegaCellular.BioInteractionNets.O42_active_pair_diamond_strong_confluence
+#print axioms OmegaCellular.BioInteractionNets.O43_zero_power_cryptobiotic_port_freezing
+#print axioms OmegaCellular.BioInteractionNets.O44_nested_russian_doll_box_isolation
+#print axioms OmegaCellular.BioInteractionNets.O45_gap_junction_laplacian_conservation
+#print axioms OmegaCellular.BioInteractionNets.O46_ssin_hybrid_arbiter_conservation_and_dominance
+
+-- Module 9: Deep Strata Frontier (9)
+#print axioms OmegaCellular.DeepStrataFrontier.O47_ciss_chiral_symmetry_breaking_amplification
+#print axioms OmegaCellular.DeepStrataFrontier.O48_oxytricha_macronucleus_unscrambling_bijection
+#print axioms OmegaCellular.DeepStrataFrontier.O49_cohesin_tad_loop_extrusion_contact_gain
+#print axioms OmegaCellular.DeepStrataFrontier.O50_three_genome_nested_assembly_conservation
+#print axioms OmegaCellular.DeepStrataFrontier.O51_cnidocyte_osmotic_acceleration_exceeds_million_g
+#print axioms OmegaCellular.DeepStrataFrontier.O52_levin_bioelectric_bistable_memory_without_dna_mutation
+#print axioms OmegaCellular.DeepStrataFrontier.O53_wireless_neuropeptide_connectome_reachability_expansion
+#print axioms OmegaCellular.DeepStrataFrontier.O54_microparasite_minimal_cell_floor
+#print axioms OmegaCellular.DeepStrataFrontier.O62_cohesin_excluded_volume_order_preservation
+
+-- Module 10: Virtual-Cell Manifold, Projection, JCVI-syn3A & 6-Tier Closure (4)
+#print axioms OmegaCellular.VirtualCellManifold.O55_waddington_zonation_gradient_interpolation
+#print axioms OmegaCellular.VirtualCellManifold.O56_virtual_cell_physics_projection_conservation
+#print axioms OmegaCellular.VirtualCellManifold.O57_jcvi_syn3a_dark_proteome_essential_fraction
+#print axioms OmegaCellular.VirtualCellManifold.O58_six_tier_stack_end_to_end_closure
+
+-- Module 11: Multi-Compartment Trace Receipt & Live C11 Receipt Verification (3)
+#print axioms OmegaCellular.VerifyTraceReceipt.O59_c11_differential_trace_conservation
+#print axioms OmegaCellular.VerifyTraceReceipt.O59b_cryptobiotic_frozen_trace_invariance
+#print axioms OmegaCellular.VerifyTraceReceipt.O63_live_c11_receipt_verified
+
+-- Module 12: Clean-Slate v3.0 75 Substrates & 10x10x10 Hybrid Cube (6)
+#print axioms OmegaCellular.SubstratesCube.O67_substrates_75_exact
+#print axioms OmegaCellular.SubstratesCube.O68_hybrid_cube_1000_partition
+#print axioms OmegaCellular.SubstratesCube.O69_hybrid_cube_3axis_product
+#print axioms OmegaCellular.SubstratesCube.O70_quantum_cap_10_bytes_bound
+#print axioms OmegaCellular.SubstratesCube.O71_b158_5trits_fits_byte
+#print axioms OmegaCellular.SubstratesCube.O72_live_c11_cube_receipt_verified
+
+-- Module 13: Non-Vacuity Witnesses & Sharp Negative-Boundary Refutations (17)
+#print axioms OmegaCellular.NonVacuity.O73_nonvacuous_purcell_antisymmetric_witness
+#print axioms OmegaCellular.NonVacuity.O74_refute_1dof_nonzero_reciprocal_stroke
+#print axioms OmegaCellular.NonVacuity.O75_nonvacuous_eigen_proofreading_witness
+#print axioms OmegaCellular.NonVacuity.O76_nonvacuous_feinberg_deficiency_zero_and_one
+#print axioms OmegaCellular.NonVacuity.O77_refute_turing_equal_diffusion_instability
+#print axioms OmegaCellular.NonVacuity.O78_nonvacuous_tur_precision_and_speed_limit
+#print axioms OmegaCellular.NonVacuity.O79_refute_defect_free_sphere_and_fusion_drift
+#print axioms OmegaCellular.NonVacuity.O80_nonvacuous_euler_buckling_and_llps_arrest
+#print axioms OmegaCellular.NonVacuity.O81_nonvacuous_radiotolerance_and_cring_xenocell
+#print axioms OmegaCellular.NonVacuity.O82_nonvacuous_three_genome_and_bifurcation
+#print axioms OmegaCellular.NonVacuity.O83_nonvacuous_bio_inet_trace_and_confluence
+#print axioms OmegaCellular.NonVacuity.O84_refute_cryptobiotic_dry_power_positive
+#print axioms OmegaCellular.NonVacuity.O85_nonvacuous_ssin_arbiter_and_gap_laplacian
+#print axioms OmegaCellular.NonVacuity.O86_nonvacuous_ciss_oxytricha_cohesin_witness
+#print axioms OmegaCellular.NonVacuity.O87_nonvacuous_virtual_cell_projection_hallucination
+#print axioms OmegaCellular.NonVacuity.O88_nonvacuous_trace_replay_and_frozen_invariance
+#print axioms OmegaCellular.NonVacuity.O89_refute_quantum_cap_11_fits_16kib

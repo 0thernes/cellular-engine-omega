@@ -105,8 +105,11 @@ static int export_lean_trace(const char* out_path, uint64_t seed) {
         return 1;
     }
 
+    fprintf(fp, "module\n");
+    fprintf(fp, "-- SPDX-License-Identifier: Apache-2.0\n");
+    fprintf(fp, "-- Copyright (c) 2026 Alexander Stephen Donahue\n\n");
     fprintf(fp, "/-!\n");
-    fprintf(fp, "# LiveC11Receipt.lean — Auto-Generated Live C11 Runtime Trace Receipt (v5.1.0)\n\n");
+    fprintf(fp, "# LiveC11Receipt.lean — Auto-Generated Live C11 Runtime Trace Receipt (v%s)\n\n", OMEGA_VERSION_STR);
     fprintf(fp, "Emitted directly by `omega_cell --export-lean-trace` executing real C11 `TB14`\n");
     fprintf(fp, "(Bio-Frostbite 4-Layer INet VM) + coupled `TB16` (Virtual-Cell AI & 6-Tier Closure)\n");
     fprintf(fp, "+ Clean-Slate v3.0 75 Substrates & 1,000-Cell Hybrid Cube (`omega_substrates_cube.c`)\n");
@@ -114,6 +117,7 @@ static int export_lean_trace(const char* out_path, uint64_t seed) {
             (unsigned long long)seed);
     fprintf(fp, "-/\n\n");
     fprintf(fp, "namespace OmegaCellular.LiveC11Receipt\n\n");
+    fprintf(fp, "@[expose] public section\n\n");
     fprintf(fp, "structure LiveReceipt where\n");
     fprintf(fp, "  seed               : Nat\n");
     fprintf(fp, "  nodesInit          : Nat\n");
@@ -216,6 +220,7 @@ static int export_lean_trace(const char* out_path, uint64_t seed) {
     fprintf(fp, "  , cubeSha256        := \"%s\"\n", sc.sha256);
     fprintf(fp, "  , receiptSha256     := \"%s\"\n", receipt_sha);
     fprintf(fp, "  }\n\n");
+    fprintf(fp, "end\n\n");
     fprintf(fp, "end OmegaCellular.LiveC11Receipt\n");
     fclose(fp);
 
@@ -239,8 +244,8 @@ static int run_cube_cli(uint64_t seed, const char* json_path) {
     omega_run_substrates_75_and_cube_1000(seed, &sc);
 
     printf("================================================================================\n");
-    printf(" CELLULAR ENGINE OMEGA v5.1.0 — 75 SUBSTRATES & 1,000-CELL HYBRID CUBE (Seed %llu)\n",
-           (unsigned long long)seed);
+    printf(" CELLULAR ENGINE OMEGA v%s — 75 SUBSTRATES & 1,000-CELL HYBRID CUBE (Seed %llu)\n",
+           OMEGA_VERSION_STR, (unsigned long long)seed);
     printf("================================================================================\n");
     printf("[PM01..PM25] Numeric Precision Codecs  : %2d / %2d PASSED | MaxRMSE=%.5f | PM18 Kahan=%.2e (<1e-12) | b1.58=3^5=%d<=256\n",
            sc.pm_passed, sc.pm_total, sc.pm_max_rmse, sc.pm18_kahan_rel_err, sc.b158_trit_states);
@@ -268,8 +273,8 @@ static int run_cube_cli(uint64_t seed, const char* json_path) {
             return 1;
         }
         fprintf(fp, "{\n");
-        fprintf(fp, "  \"schema\": \"cellular-engine-omega-substrates-cube/v5.1.0\",\n");
-        fprintf(fp, "  \"version\": \"5.1.0\",\n");
+        fprintf(fp, "  \"schema\": \"cellular-engine-omega-substrates-cube/v%s\",\n", OMEGA_VERSION_STR);
+        fprintf(fp, "  \"version\": \"%s\",\n", OMEGA_VERSION_STR);
         fprintf(fp, "  \"seed\": %llu,\n", (unsigned long long)seed);
         fprintf(fp, "  \"elapsed_ms\": %.3f,\n", sc.elapsed_ms);
         fprintf(fp, "  \"sha256\": \"%s\",\n", sc.sha256);
@@ -397,8 +402,8 @@ static void emit_json_all(uint64_t seed, int mutant, int feral) {
     printf(", \"ray_captured\": ");
     print_u8_array(r3.ray_captured, 32);
     printf(", \"sha256\": \"%s\"},\n", r3.sha256);
-    printf("  \"tb04\": {\"eq_droplets\": %d, \"eq_radius\": %.4f, \"active_droplets\": %d, \"active_radius\": %.4f, \"mass_drift\": %.12f, \"eq_field\": ",
-           r4.eq_droplet_count, r4.eq_mean_radius, r4.active_droplet_count, r4.active_mean_radius, r4.mass_drift_eq);
+    printf("  \"tb04\": {\"eq_droplets\": %d, \"eq_radius\": %.4f, \"active_droplets\": %d, \"active_radius\": %.4f, \"mass_drift\": %.12f, \"mass_drift_active\": %.12f, \"eq_field\": ",
+           r4.eq_droplet_count, r4.eq_mean_radius, r4.active_droplet_count, r4.active_mean_radius, r4.mass_drift_eq, r4.mass_drift_active);
     print_float_array(r4.eq_field, 1024);
     printf(", \"active_field\": ");
     print_float_array(r4.active_field, 1024);
@@ -522,11 +527,11 @@ static void run_human_all(uint64_t seed, int mutant, int feral) {
 
     printf("================================================================================\n");
     if (mutant > 0) {
-        printf(" CELLULAR ENGINE OMEGA v5.1.0 — 16-TESTBED LEDGER (Seed %llu, MUTANT M%d%s)\n",
-               (unsigned long long)seed, mutant, feral ? ", FERAL-HW" : "");
+        printf(" CELLULAR ENGINE OMEGA v%s — 16-TESTBED LEDGER (Seed %llu, MUTANT M%d%s)\n",
+               OMEGA_VERSION_STR, (unsigned long long)seed, mutant, feral ? ", FERAL-HW" : "");
     } else {
-        printf(" CELLULAR ENGINE OMEGA v5.1.0 — 16-TESTBED DEEP-STRATA & VIRTUAL-CELL LEDGER (Seed %llu%s)\n",
-               (unsigned long long)seed, feral ? ", FERAL-HW" : "");
+        printf(" CELLULAR ENGINE OMEGA v%s — 16-TESTBED DEEP-STRATA & VIRTUAL-CELL LEDGER (Seed %llu%s)\n",
+               OMEGA_VERSION_STR, (unsigned long long)seed, feral ? ", FERAL-HW" : "");
     }
     printf("================================================================================\n");
     printf("[TB01] Purcell Scallop & MotA5  | Scallop=%.2e (Peak=%.3f) | 2-DOF=%.4f (Area=%.2f) | MotA5=%.2f um (%d H+ steps)\n",
@@ -598,6 +603,41 @@ static void run_human_all(uint64_t seed, int mutant, int feral) {
     printf("================================================================================\n");
 }
 
+static int parse_u64_strict(const char* s, uint64_t* out) {
+    if (!s || s[0] == '\0' || s[0] == '-' || s[0] == '+') return 0;
+    uint64_t acc = 0ULL;
+    for (size_t i = 0; s[i] != '\0'; ++i) {
+        if (s[i] < '0' || s[i] > '9') return 0;
+        uint64_t d = (uint64_t)(s[i] - '0');
+        if (acc > (UINT64_MAX - d) / 10ULL) return 0;
+        acc = acc * 10ULL + d;
+    }
+    if (acc == 0ULL) return 0;
+    *out = acc;
+    return 1;
+}
+
+static int parse_mutant_strict(const char* s, int* out) {
+    if (!s || s[0] == '\0') return 0;
+    int acc = 0;
+    for (size_t i = 0; s[i] != '\0'; ++i) {
+        if (s[i] < '0' || s[i] > '9') return 0;
+        acc = acc * 10 + (int)(s[i] - '0');
+        if (acc > 16) return 0;
+    }
+    *out = acc;
+    return 1;
+}
+
+static void print_cli_usage(FILE* fp) {
+    fprintf(fp,
+            "CELLULAR ENGINE OMEGA v%s\n"
+            "Usage: omega_cell [all | json | cube [out.json]] [--seed N] [--mutant 0..16] [--feral]\n"
+            "       omega_cell --export-lean-trace <LiveC11Receipt.lean> [--seed N]\n"
+            "       omega_cell --version | --help\n",
+            OMEGA_VERSION_STR);
+}
+
 int main(int argc, char** argv) {
     uint64_t seed = 2026001ULL;
     int mutant = 0, feral = 0;
@@ -606,13 +646,31 @@ int main(int argc, char** argv) {
     const char* cube_json_path = NULL;
 
     for (int i = 1; i < argc; ++i) {
-        if (strcmp(argv[i], "--seed") == 0 && i + 1 < argc) {
-            seed = strtoull(argv[++i], NULL, 10);
-        } else if (strcmp(argv[i], "--mutant") == 0 && i + 1 < argc) {
-            mutant = atoi(argv[++i]);
+        if (strcmp(argv[i], "--version") == 0 || strcmp(argv[i], "-v") == 0) {
+            printf("cellular-engine-omega %s\n", OMEGA_VERSION_STR);
+            return 0;
+        } else if (strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0) {
+            print_cli_usage(stdout);
+            return 0;
+        } else if (strcmp(argv[i], "--seed") == 0) {
+            if (i + 1 >= argc || !parse_u64_strict(argv[i + 1], &seed)) {
+                fprintf(stderr, "ERROR: --seed requires a positive 64-bit integer (>= 1).\n");
+                return 2;
+            }
+            ++i;
+        } else if (strcmp(argv[i], "--mutant") == 0) {
+            if (i + 1 >= argc || !parse_mutant_strict(argv[i + 1], &mutant)) {
+                fprintf(stderr, "ERROR: --mutant requires an integer in [0, 16].\n");
+                return 2;
+            }
+            ++i;
         } else if (strcmp(argv[i], "--feral") == 0) {
             feral = 1;
-        } else if (strcmp(argv[i], "--export-lean-trace") == 0 && i + 1 < argc) {
+        } else if (strcmp(argv[i], "--export-lean-trace") == 0) {
+            if (i + 1 >= argc || argv[i + 1][0] == '\0' || argv[i + 1][0] == '-') {
+                fprintf(stderr, "ERROR: --export-lean-trace requires an output file path.\n");
+                return 2;
+            }
             export_path = argv[++i];
         } else if (strcmp(argv[i], "cube") == 0) {
             cmd = "cube";
@@ -621,6 +679,10 @@ int main(int argc, char** argv) {
             }
         } else if (strcmp(argv[i], "json") == 0 || strcmp(argv[i], "all") == 0) {
             cmd = argv[i];
+        } else {
+            fprintf(stderr, "ERROR: Unknown argument '%s'.\n", argv[i]);
+            print_cli_usage(stderr);
+            return 2;
         }
     }
 

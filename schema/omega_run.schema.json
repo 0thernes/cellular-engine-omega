@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://0thernes.github.io/cellular-engine-omega/schema/omega_run.schema.json",
+  "title": "CELLULAR ENGINE OMEGA 16-Testbed JSON Output Contract (v5.2.0)",
+  "type": "object",
+  "required": [
+    "seed", "mutant", "feral", "elapsed_ms",
+    "tb01", "tb02", "tb03", "tb04", "tb05", "tb06", "tb07", "tb08",
+    "tb09", "tb10", "tb11", "tb12", "tb13", "tb14", "tb15", "tb16"
+  ],
+  "properties": {
+    "seed": { "type": "integer", "minimum": 1 },
+    "mutant": { "type": "integer", "minimum": 0, "maximum": 16 },
+    "feral": { "type": "integer", "enum": [0, 1] },
+    "elapsed_ms": { "type": "number", "minimum": 0 },
+    "tb01": {
+      "type": "object",
+      "required": ["scallop_net_disp", "scallop_peak", "purcell_2dof_disp", "loop_area", "mota5_disp", "mota5_steps", "sha256"],
+      "properties": {
+        "scallop_net_disp": { "type": "number" },
+        "mota5_steps": { "type": "integer", "minimum": 1 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "tb02": { "$ref": "#/$defs/shaBlock" },
+    "tb03": { "$ref": "#/$defs/shaBlock" },
+    "tb04": {
+      "allOf": [
+        { "$ref": "#/$defs/shaBlock" },
+        {
+          "required": ["eq_droplets", "active_droplets", "mass_drift", "mass_drift_active"],
+          "properties": {
+            "mass_drift": { "type": "number", "minimum": 0 },
+            "mass_drift_active": { "type": "number", "minimum": 0 }
+          }
+        }
+      ]
+    },
+    "tb05": {
+      "allOf": [
+        { "$ref": "#/$defs/shaBlock" },
+        { "required": ["n_vertices", "init_charge", "final_charge", "max_err"] }
+      ]
+    },
+    "tb06": { "$ref": "#/$defs/shaBlock" },
+    "tb07": { "$ref": "#/$defs/shaBlock" },
+    "tb08": {
+      "allOf": [
+        { "$ref": "#/$defs/shaBlock" },
+        { "required": ["tur_min", "tur_jitter_ratio", "adapt_err"] }
+      ]
+    },
+    "tb09": {
+      "allOf": [
+        { "$ref": "#/$defs/shaBlock" },
+        { "required": ["total_cells", "organs", "gut_sealed", "intact_surv", "ko_surv"] }
+      ]
+    },
+    "tb10": { "$ref": "#/$defs/shaBlock" },
+    "tb11": { "$ref": "#/$defs/shaBlock" },
+    "tb12": { "$ref": "#/$defs/shaBlock" },
+    "tb13": { "$ref": "#/$defs/shaBlock" },
+    "tb14": {
+      "allOf": [
+        { "$ref": "#/$defs/shaBlock" },
+        {
+          "required": [
+            "nodes_init", "rewrites_fifo", "rewrites_lifo", "rewrites_random",
+            "confluence_match", "mass_drift_fifo", "gap_charge_drift", "wire_errors",
+            "causal_hops", "sha_fifo", "sha_lifo", "sha_random"
+          ],
+          "properties": {
+            "sha_fifo": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+            "sha_lifo": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+            "sha_random": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+          }
+        }
+      ]
+    },
+    "tb15": { "$ref": "#/$defs/shaBlock" },
+    "tb16": {
+      "allOf": [
+        { "$ref": "#/$defs/shaBlock" },
+        {
+          "required": [
+            "manifold_dim", "zonation_mono", "perturb_r2", "essential_auroc",
+            "syn3a_total", "syn3a_dark", "syn3a_discovered",
+            "raw_ai_halluc", "proj_mass_res", "six_tier_int_drift"
+          ]
+        }
+      ]
+    }
+  },
+  "$defs": {
+    "shaBlock": {
+      "type": "object",
+      "required": ["sha256"],
+      "properties": {
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    }
+  }
+}

@@ -1,6 +1,19 @@
+# SPDX-License-Identifier: Apache-2.0
 name = "OmegaCellularProofs"
-version = "2.0.0"
-defaultTargets = ["OmegaCellularProofs"]
+version = "5.2.0"
+defaultTargets = ["OmegaCellularProofs", "Solution"]
+
+[leanOptions]
+autoImplicit = false
+relaxedAutoImplicit = false
+linter.unusedVariables = true
+linter.deprecated = true
 
 [[lean_lib]]
 name = "OmegaCellularProofs"
+
+[[lean_lib]]
+name = "Challenge"
+
+[[lean_lib]]
+name = "Solution"

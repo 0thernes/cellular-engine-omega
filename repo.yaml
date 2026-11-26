@@ -1,0 +1,58 @@
+# SPDX-License-Identifier: Apache-2.0
+# Project manifest for Build Standard for LLMs v1.2.0. Read by scripts/Audit-Repo.ps1 & scripts/audit-repo.sh.
+standard: "1.2.0"
+name: "cellular-engine-omega"
+version: "5.2.0"
+description: "Zero-dependency C11 multi-scale cellular biophysics engine (16 testbeds, 75 substrates, 1,000-cell Hybrid Cube, 60 gates, 16/16 mutants) coupled via live receipts to 89 constructive zero-Mathlib Pure Lean 4.35.0 theorems across independent kernels, AMS-LaTeX white paper, and hardened Web Observatory."
+owner: "0thernes"
+author: "Alexander Stephen Donahue"
+orcid: "0009-0006-8168-9648"
+repository: "https://github.com/0thernes/cellular-engine-omega"
+status: "active"
+license_code: "Apache-2.0"
+license_docs: "CC-BY-4.0"
+year: 2026
+project_type: research
+stack: [c11, lean, python, javascript, html, latex]
+flags:
+  public: true
+  package: true
+  visual: true
+  ui: true
+  native: true
+  ai: false
+  personal_data: false
+  service: true
+  deployed: true
+  api: true
+  perf: true
+  concurrent: false
+  numeric: true
+  experimental: true
+  ml: true
+  formal: true
+items:
+  A19: {status: done, evidence: "GitHub About description, GitHub Pages homepage URL, and 15 curated topics configured on 0thernes/cellular-engine-omega"}
+  A34: {status: done, evidence: "Hardened web/server.mjs exposes /api/health and /healthz probes, structured JSON stdout/stderr request/error logging, and bounded MAX_INFLIGHT=2 error handling"}
+  A37: {status: done, evidence: "Explicit runtime latency (<500ms 16-testbed, <20ms 75-sub/1000-cube, <2s 60-gate suite) and artifact-size budgets documented and verified in docs/benchmarks.md"}
+  A38: {status: done, evidence: "WCAG 2.2 AA upgrades in web/index.html & web/styles.css (skip-to-content link, main/nav landmarks, ARIA labels, role=status live region, :focus-visible rings, prefers-reduced-motion, UTF-8 en-US)"}
+  B03: {status: done, evidence: "Bit-exact SplitMix64 + FIPS 180-4 SHA-256 repeatability across runs verified by C11 G18/G27/G56 and pytest test_b03_bit_exact_repeatability"}
+  B05: {status: done, evidence: "Every claim C01..C10 in CLAIMS.md has executable falsification gates (G01..G60), pytest tests, and/or kernel-checked Lean proofs"}
+  B06: {status: done, evidence: "Negative CLI boundary tests (exit code 2 on invalid seed/mutant/flags), HTTP 403/404/405/429 Web Observatory security tests, and 6 Lean sharp negative-boundary refutations (O74, O77, O79, O84, O87, O89)"}
+  B07: {status: done, evidence: "Named regression tests for every fixed defect (G57 & test_b07_regression_pm21_multiseed_stochastic_rounding for PM21 seeds 2026003/2026006, test_b07_regression_tb04_active_mass_conservation_and_json_field)"}
+  B08: {status: done, evidence: "Golden snapshot tests in tests/test_omega_verification_ladder.py (test_b08_golden_lean_axiom_audit) + scripts/check_readme_axioms.py + CHECKSUMS.sha256"}
+  B09: {status: done, evidence: "JSON Schema Draft 2020-12 contracts (schema/omega_run.schema.json, schema/omega_cube.schema.json) validated in pytest plus live Web Observatory HTTP API contract checks in CI"}
+  B11: {status: done, evidence: "Differential verification comparing C11 outputs against independent Python Fraction/50-digit Decimal oracle (reference/biophysics_oracle.py) and live C11-to-Lean kernel replay (O63, O72)"}
+  B12: {status: done, evidence: "Independent reference/biophysics_oracle.py using Python fractions.Fraction, 50-digit decimal.Decimal, and hashlib.sha256 with zero shared code from src/ or lean/"}
+  B14: {status: done, evidence: "Metamorphic invariance tests in test_b14_metamorphic_seed_invariance_of_laws verifying seed-independence of topological chi=+2, strong confluence, conservation, and 1,000-cube partition"}
+  B20: {status: done, evidence: "Numeric edge-value stability (seed=1, UINT64_MAX, 0x00/0xFF DNA in G59 & test_b20_numeric_edge_seeds_finite_and_valid), -ffp-contract=off cross-OS parity, and -O0 vs -O3 differential stability check"}
+  B21: {status: done, evidence: "Failure injection verified via 16 compiled C11 structural fault mutants (M1..M16), G54 live 6-tier ledger fault propagation, and Web Observatory 403/404/405/429 fault probes"}
+  B23: {status: n/a, note: "All protocol/state-machine conservation, confluence, and isolation invariants are proved directly in Pure Lean 4.35.0 (O41..O46, O59, O59b) rather than TLA+/Alloy"}
+  B24: {status: done, evidence: "All 89 theorems (O01..O89) proved constructively in zero-Mathlib Pure Lean 4.35.0 strictly within {propext, Quot.sound}, audited across lean, leanchecker, leanchecker-paranoid, con-leche --verified, con-ron --verified, and Linux CI lake comparator --paranoid + nanoda_bin"}
+  B25: {status: n/a, note: "C11 memory/UB safety is verified by -Wall -Wextra -Wshadow -Werror, ASan+UBSan (B16), and libFuzzer/256-case harness (B15); CBMC bounded model checking scheduled on ROADMAP.md for v5.3"}
+  B27: {status: done, evidence: "Report-only performance history logged across warmed runs in results/bench-history.csv by scripts/run_stats_and_benchmarks.py"}
+  B28: {status: done, evidence: "20-seed controlled experiments (2026001..2026020) comparing intact mechanisms vs matched compiled knockouts (M2, M3, M4, M5, M8, M11, M12, M16) archived in results/multiseed_stats.csv"}
+  B29: {status: done, evidence: "Exact/10,000-resample paired permutation tests across all 8 preregistered contrasts (H1..H8) computed by scripts/run_stats_and_benchmarks.py"}
+  B30: {status: done, evidence: "Paired Cohen's dz effect sizes, median ratios/differences, and 10,000-resample seeded bootstrap 95% CIs reported in results/multiseed_stats.csv and paper/main.tex"}
+  B31: {status: done, evidence: "Holm-Bonferroni family-wise error rate adjustment across all K=8 preregistered contrasts in scripts/run_stats_and_benchmarks.py"}
+  B33: {status: done, evidence: "TB16 Ridge perturbation model evaluated strictly on held-out test split (R2 >= 0.85, AUROC >= 0.95 across 20 seeds) with explicit leakage audit in test_b33_tb16_held_out_evaluation_and_no_leakage"}

@@ -1,0 +1,77 @@
+schema_version: "0.4"
+project: "CELLULAR ENGINE OMEGA"
+version: "5.2.0"
+repository: "https://github.com/0thernes/cellular-engine-omega"
+license_code: "Apache-2.0"
+license_docs: "CC-BY-4.0"
+author:
+  name: "Alexander Stephen Donahue"
+  orcid: "0009-0006-8168-9648"
+  affiliation: "Independent Researcher, Spokane, WA, USA"
+  email: "0_0@0thernes.art"
+  credit_roles:
+    - Conceptualization
+    - Methodology
+    - Software
+    - Formal analysis
+    - Validation
+    - Investigation
+    - Writing - original draft
+    - Writing - review & editing
+ai_assistance:
+  disclosed: true
+  disclosure_path: "docs/AI_DISCLOSURE.md"
+  human_responsibility: "Author directed architecture, audited every formal statement and proof boundary, executed verification suites, and assumes full scholarly accountability."
+toolchain: "leanprover/lean4:v4.35.0"
+mathlib_dependency: false
+module_system: true
+lean_root: "lean"
+spec_module: "lean/OmegaCellularProofs/Spec.lean"
+live_receipt_module: "lean/OmegaCellularProofs/LiveC11Receipt.lean"
+challenge_module: "lean/Challenge.lean"
+solution_module: "lean/Solution.lean"
+comparator_config: "lean/comparator.json"
+audit_entrypoint: "lean/VerifyAxioms.lean"
+permitted_axioms:
+  - propext
+  - Quot.sound
+  - Classical.choice
+forbidden_axioms:
+  - sorryAx
+  - Lean.ofReduceBool
+  - Lean.trustCompiler
+  - _native.bv_decide
+theorem_count: 89
+core_frontier_theorems: 72
+non_vacuity_and_negative_boundary_theorems: 17
+kernels:
+  - name: "Lean 4.35.0 reference kernel"
+    local_windows: true
+    ci_ubuntu: true
+  - name: "leanchecker --fresh"
+    local_windows: true
+    ci_ubuntu: true
+  - name: "leanchecker-paranoid --fresh"
+    local_windows: true
+    ci_ubuntu: true
+  - name: "nanoda_bin (Rust independent kernel)"
+    local_windows: true
+    ci_ubuntu: true
+  - name: "con-leche (--verified)"
+    local_windows: true
+    ci_ubuntu: true
+  - name: "con-ron (--verified)"
+    local_windows: true
+    ci_ubuntu: true
+  - name: "lean4lean (via lake check --paranoid & lake comparator)"
+    local_windows: false
+    ci_ubuntu: true
+scope_and_non_formalized_disclaimers:
+  formalized_in_lean:
+    - "Exact integer and natural-number algebraic, combinatorial, and inductive cellular biophysics invariants (O01-O62, O01b, O41b, O59b, O67-O71)"
+    - "Live C11 runtime telemetry kernel receipts for TB14+TB16 (O63) and 75-substrate/1,000-cell Hybrid Cube (O72)"
+    - "Explicit non-vacuity inhabitants and sharp negative-boundary refutations across all 12 domains (O73-O89)"
+  not_formalized_in_lean:
+    - "IEEE-754 floating-point PDE solvers (Cahn-Hilliard, Schnakenberg, Hepatic Sinusoid, Levin Vmem), ODE integrators, stochastic Gillespie/Langevin/Cohesin Monte Carlo loops, cyclic Jacobi eigensolver, Snell ray tracer, and Ridge regression in C11 (verified empirically by 60 gates, 16 planted mutants, 10-seed sweeps, and 256-case fuzz/property harness)"
+    - "C11 memory safety and compiler code generation (verified empirically by -Wall -Wextra -Wshadow -Werror, ASan/UBSan in CI, and libFuzzer-compatible harness)"
+statement_fidelity_audit: "docs/statement-fidelity.md"

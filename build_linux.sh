@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# CELLULAR ENGINE OMEGA v5.1.0 — Native Linux ELF64 Zero-Dependency Build & Verification
+# SPDX-License-Identifier: Apache-2.0
+# CELLULAR ENGINE OMEGA v5.2.0 — Native Linux ELF64 Zero-Dependency Build & Verification
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CC="${CC:-gcc}"
 mkdir -p "$SCRIPT_DIR/bin" "$SCRIPT_DIR/results"
@@ -17,19 +18,22 @@ CORE=(
   "$SCRIPT_DIR/src/omega_substrates_cube.c"
 )
 
-CFLAGS=(-O3 -std=c11 -Wall -Wextra -Wshadow -Werror -Wno-unused-parameter "-I$SCRIPT_DIR/include")
+CFLAGS=(-O3 -std=c11 -Wall -Wextra -Wshadow -Werror -Wno-unused-parameter -ffp-contract=off "-I$SCRIPT_DIR/include")
 LDFLAGS=(-lm)
 
-echo "[1/4] Building bin/omega_cell (Linux ELF64 via $CC) ..."
+echo "[1/5] Building bin/omega_cell (Linux ELF64 via $CC) ..."
 "$CC" "${CFLAGS[@]}" "${CORE[@]}" "$SCRIPT_DIR/src/omega_main_cli.c" -o "$SCRIPT_DIR/bin/omega_cell" "${LDFLAGS[@]}"
 
-echo "[2/4] Building bin/libomega_cell.so ..."
+echo "[2/5] Building bin/libomega_cell.so ..."
 "$CC" "${CFLAGS[@]}" -fPIC -shared "${CORE[@]}" -o "$SCRIPT_DIR/bin/libomega_cell.so" "${LDFLAGS[@]}"
 
-echo "[3/4] Building bin/test_omega_falsification ..."
+echo "[3/5] Building bin/test_omega_falsification ..."
 "$CC" "${CFLAGS[@]}" "${CORE[@]}" "$SCRIPT_DIR/test/test_omega_falsification.c" -o "$SCRIPT_DIR/bin/test_omega_falsification" "${LDFLAGS[@]}"
 
-echo "[4/4] Building static archive bin/libomega_cell.a ..."
+echo "[4/5] Building bin/fuzz_omega_standalone ..."
+"$CC" "${CFLAGS[@]}" "$SCRIPT_DIR/src/omega_rng_hash.c" "$SCRIPT_DIR/src/exp_07_12.c" "$SCRIPT_DIR/src/exp_14_bio_inet.c" "$SCRIPT_DIR/test/fuzz_omega_cli_codec.c" -o "$SCRIPT_DIR/bin/fuzz_omega_standalone" "${LDFLAGS[@]}"
+
+echo "[5/5] Building static archive bin/libomega_cell.a ..."
 OBJS=()
 for src in "${CORE[@]}"; do
   obj="$SCRIPT_DIR/bin/$(basename "${src%.c}.o")"
@@ -39,9 +43,28 @@ done
 ar rcs "$SCRIPT_DIR/bin/libomega_cell.a" "${OBJS[@]}"
 rm -f "${OBJS[@]}"
 
+if [ "${OMEGA_SANITIZE:-0}" = "1" ]; then
+  echo ""
+  echo "Building & running ASan+UBSan falsification + fuzz binary (-fsanitize=address,undefined)..."
+  "$CC" -O1 -g -std=c11 -Wall -Wextra -Wshadow -Werror -Wno-unused-parameter -fsanitize=address,undefined -fno-omit-frame-pointer "-I$SCRIPT_DIR/include" "${CORE[@]}" "$SCRIPT_DIR/test/test_omega_falsification.c" -o "$SCRIPT_DIR/bin/test_omega_asan" "${LDFLAGS[@]}"
+  "$SCRIPT_DIR/bin/test_omega_asan"
+  "$CC" -O1 -g -std=c11 -Wall -Wextra -Wshadow -Werror -Wno-unused-parameter -fsanitize=address,undefined -fno-omit-frame-pointer "-I$SCRIPT_DIR/include" "$SCRIPT_DIR/src/omega_rng_hash.c" "$SCRIPT_DIR/src/exp_07_12.c" "$SCRIPT_DIR/src/exp_14_bio_inet.c" "$SCRIPT_DIR/test/fuzz_omega_cli_codec.c" -o "$SCRIPT_DIR/bin/fuzz_omega_asan" "${LDFLAGS[@]}"
+  "$SCRIPT_DIR/bin/fuzz_omega_asan"
+fi
+
+if command -v cppcheck >/dev/null 2>&1; then
+  echo ""
+  echo "Running report-only static analysis via cppcheck..."
+  cppcheck --enable=warning,performance,portability --std=c11 -I"$SCRIPT_DIR/include" "$SCRIPT_DIR/src" "$SCRIPT_DIR/test" || true
+fi
+
 echo ""
-echo "Running 54-Gate Lab-Grade Falsification Suite + 16/16 Planted Mutants + 10-Seed Sweep..."
+echo "Running 60-Gate Falsification Suite + 16/16 Planted Mutants + 10-Seed Sweep + 75-Sub/1,000-Cube..."
 "$SCRIPT_DIR/bin/test_omega_falsification" | tee "$SCRIPT_DIR/results/falsification_linux.txt"
+
+echo ""
+echo "Running Standalone Fuzz + Property-Based Harness..."
+"$SCRIPT_DIR/bin/fuzz_omega_standalone"
 
 echo ""
 echo "Running 16-Testbed Suite (Seed 2026001)..."
@@ -76,11 +99,14 @@ fi
 
 if command -v lake >/dev/null 2>&1; then
   echo ""
-  echo "Verifying 72 Pure Lean 4 Proofs (incl. Live C11 O63 & O72) & Strict Axiom Allowlist..."
+  echo "Verifying 89 Pure Lean 4.35.0 Proofs (Palomar Challenge/Solution + Strict Axiom Allowlist)..."
   (
     cd "$SCRIPT_DIR/lean"
     lake build 2>&1 | tee "$SCRIPT_DIR/results/lean4-build-linux.log"
-    lake env lean OmegaCellularProofs.lean 2>&1 | tee "$SCRIPT_DIR/results/lean4-omega-audit-linux.txt"
+    lake build Challenge 2>&1 | tee "$SCRIPT_DIR/results/lean4-challenge-linux.log"
+    lake env lean VerifyAxioms.lean 2>&1 | tee "$SCRIPT_DIR/results/lean4-omega-audit-linux.txt"
+    lake env leanchecker --fresh Solution
+    lake env leanchecker-paranoid --fresh Solution
   )
   python3 - "$SCRIPT_DIR/results/lean4-build-linux.log" "$SCRIPT_DIR/results/lean4-omega-audit-linux.txt" <<'PY'
 import re, sys
@@ -100,8 +126,8 @@ for m in re.finditer(r"'(OmegaCellular\.[^']+)' (depends on axioms:\s*\[([^\]]+)
         if bad:
             print(f"ERROR: Unauthorized axiom(s) {bad} in {m.group(1)}", file=sys.stderr)
             sys.exit(1)
-if len(seen) < 72:
-    print(f"ERROR: Expected >= 72 unique audited theorems, found {len(seen)}", file=sys.stderr)
+if len(seen) < 89:
+    print(f"ERROR: Expected >= 89 unique audited theorems, found {len(seen)}", file=sys.stderr)
     sys.exit(1)
 if "OmegaCellular.VerifyTraceReceipt.O63_live_c11_receipt_verified" not in seen:
     print("ERROR: Missing O63_live_c11_receipt_verified in axiom audit!", file=sys.stderr)
@@ -109,9 +135,9 @@ if "OmegaCellular.VerifyTraceReceipt.O63_live_c11_receipt_verified" not in seen:
 if "OmegaCellular.SubstratesCube.O72_live_c11_cube_receipt_verified" not in seen:
     print("ERROR: Missing O72_live_c11_cube_receipt_verified in axiom audit!", file=sys.stderr)
     sys.exit(1)
-print(f"PASS: All {len(seen)}/72 OmegaCellularProofs theorems verified (0 sorryAx, 0 custom axioms, 0 warnings).")
+print(f"PASS: All {len(seen)}/89 OmegaCellularProofs theorems verified (0 sorryAx, 0 custom axioms, 0 warnings).")
 PY
 fi
 
 echo ""
-echo "CELLULAR ENGINE OMEGA v5.1.0 LINUX ELF64 BUILD & VERIFICATION COMPLETE."
+echo "CELLULAR ENGINE OMEGA v5.2.0 LINUX ELF64 BUILD & VERIFICATION COMPLETE."

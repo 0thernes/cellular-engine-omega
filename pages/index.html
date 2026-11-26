@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>CELLULAR ENGINE OMEGA v5.2.0 — Multi-Scale Cellular Biophysics & Lean 4.35.0 Verification</title>
+  <style>
+    :root { --bg:#080d1a; --card:#10182b; --border:#1f2a44; --text:#e2e8f0; --muted:#94a3b8; --accent:#38bdf8; --ok:#10b981; --warn:#f59e0b; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+    .skip { position:absolute; left:-9999px; top:0; background:#38bdf8; color:#080d1a; padding:.6rem 1rem; font-weight:700; }
+    .skip:focus { left:1rem; top:1rem; z-index:99; }
+    header { padding:3rem 1.5rem 2.2rem; border-bottom:1px solid var(--border); background:radial-gradient(circle at top right,#172554,#080d1a 60%); }
+    .wrap { max-width:1080px; margin:0 auto; }
+    h1 { margin:0 0 .5rem; font-size:2.1rem; letter-spacing:-.02em; }
+    .lead { color:#cbd5e1; max-width:780px; font-size:1.05rem; }
+    .cta { display:flex; flex-wrap:wrap; gap:.8rem; margin-top:1.4rem; }
+    .btn { display:inline-block; padding:.65rem 1.15rem; border-radius:8px; text-decoration:none; font-weight:600; font-size:.92rem; border:1px solid var(--border); color:#f8fafc; background:#15203b; }
+    .btn-primary { background:#0284c7; border-color:#38bdf8; }
+    .btn:focus-visible { outline:2px solid #38bdf8; outline-offset:2px; }
+    main { padding:2rem 1.5rem 3.5rem; }
+    .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1rem; margin-bottom:2rem; }
+    .stat { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.1rem; }
+    .stat strong { display:block; font-size:1.65rem; color:var(--accent); }
+    .stat span { font-size:.86rem; color:var(--muted); }
+    .panel { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:1.35rem 1.5rem; margin-bottom:1.4rem; }
+    h2 { margin-top:0; font-size:1.25rem; color:#f8fafc; }
+    pre { background:#060a14; border:1px solid var(--border); border-radius:8px; padding:1rem; overflow-x:auto; font-size:.85rem; color:#bae6fd; }
+    img { max-width:100%; border-radius:10px; border:1px solid var(--border); }
+    footer { border-top:1px solid var(--border); padding:1.5rem; color:var(--muted); font-size:.88rem; text-align:center; }
+    a { color:var(--accent); }
+    @media (prefers-reduced-motion: reduce) { * { transition:none !important; animation:none !important; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <div class="wrap">
+      <h1>CELLULAR ENGINE OMEGA <span style="color:#38bdf8">v5.2.0</span></h1>
+      <p class="lead">Zero-dependency C11 multi-scale cellular biophysics engine (16 quantitative testbeds, 75 computational substrates, 1,000-cell Hybrid Cube) cryptographically linked via live runtime receipts to <strong>89 constructive zero-Mathlib Pure Lean 4.35.0 theorems</strong> audited across independent kernels.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="blueprint/index.html">Open Lean 4.35.0 Proof Blueprint</a>
+        <a class="btn" href="Donahue_2026_cellular_engine_omega.pdf">Download White Paper (PDF)</a>
+        <a class="btn" href="https://github.com/0thernes/cellular-engine-omega">GitHub Source &amp; CI</a>
+      </div>
+    </div>
+  </header>
+  <main id="main" class="wrap">
+    <section class="stats" aria-label="Verified Key Metrics">
+      <div class="stat"><strong>60 / 60</strong><span>C11 Falsification Gates · 16/16 Planted Mutants · 256 Fuzz Cases</span></div>
+      <div class="stat"><strong style="color:#a78bfa">89 / 89</strong><span>Constructive Lean 4.35.0 Proofs · 0 Classical.choice · 0 Mathlib</span></div>
+      <div class="stat"><strong style="color:#10b981">75 + 1,000</strong><span>Substrates &amp; Hybrid Cube (661 OK · 274 ADAPT · 20/20 Seeds)</span></div>
+      <div class="stat"><strong style="color:#f59e0b">0 / 1,900</strong><span>Mega-Atlas Problems Retired (Honest Scope · 22 Adjacent Open)</span></div>
+    </section>
+
+    <section class="panel">
+      <h2>Verification Snapshot</h2>
+      <img src="observatory_snapshot.png" alt="CELLULAR ENGINE OMEGA v5.2.0 verification snapshot showing TB07 Turing pattern, 1,000-cell Hybrid Cube partition, and TB08 Gillespie TUR bound">
+    </section>
+
+    <section class="panel">
+      <h2>Honest Verification Boundary</h2>
+      <p><strong>What is proved in Lean 4.35.0:</strong> Exact integer, natural-number, and list algebraic/combinatorial cellular biophysics invariants (<code>O01</code>–<code>O62</code>, <code>O67</code>–<code>O71</code>), 17 non-vacuity and sharp negative-boundary refutations (<code>O73</code>–<code>O89</code>), and kernel-checked live C11 runtime telemetry receipts (<code>O63</code>, <code>O72</code>) strictly within <code>{propext, Quot.sound}</code>.</p>
+      <p><strong>What is NOT proved in Lean:</strong> IEEE-754 floating-point PDE convergence (Cahn–Hilliard, Schnakenberg, spherical nematic relaxation) and C11 memory safety — these are verified empirically via 60 gates, 16 compiled structural mutants, ASan/UBSan, a 256-case fuzz harness, 20-seed Holm–Bonferroni statistical sweeps, and an independent exact Python oracle. All 1,900 overarching open problems in <code>0thernes/unsolved-problems-mega-atlas</code> remain strictly <strong>OPEN</strong>.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Clean-Clone Reproduction</h2>
+      <pre>git clone https://github.com/0thernes/cellular-engine-omega.git
+cd cellular-engine-omega
+OMEGA_SANITIZE=1 ./build_linux.sh
+(cd lean &amp;&amp; lake comparator --config comparator.json --paranoid)
+python3 -m pytest tests/ -v</pre>
+    </section>
+  </main>
+  <footer>
+    Alexander Stephen Donahue · Independent Researcher, Spokane, WA, USA · ORCID <a href="https://orcid.org/0009-0006-8168-9648">0009-0006-8168-9648</a> · Code: Apache-2.0 · White Paper &amp; Docs: CC BY 4.0
+  </footer>
+</body>
+</html>

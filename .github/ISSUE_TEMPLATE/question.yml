@@ -1,0 +1,11 @@
+name: Question or Scientific Inquiry
+description: Ask about methodology, Lean 4 statement fidelity, or experimental boundaries
+labels: ["question"]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      placeholder: "Please reference specific theorem IDs (O01..O89), testbeds (TB01..TB16), or paper sections."
+    validations:
+      required: true

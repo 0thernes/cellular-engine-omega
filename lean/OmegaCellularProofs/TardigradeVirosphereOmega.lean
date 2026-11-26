@@ -1,15 +1,18 @@
-/-
-  CELLULAR ENGINE OMEGA v2.0 — Pure Lean 4 Formal Verification (Zero Mathlib)
-  Module 6: Tardigrade "Walking Head", Anucleate Compression, Radiotolerance, Mavirus & Odd Elasticity (O27–O32)
+module
+-- SPDX-License-Identifier: Apache-2.0
+-- Copyright (c) 2026 Alexander Stephen Donahue
+
+/-!
+  CELLULAR ENGINE OMEGA v5.2.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib)
+  Module 6: Tardigrade "Walking Head", Anucleate Compression, Radiotolerance, Mavirus & Odd Elasticity (`O27`–`O32`)
 -/
 
 namespace OmegaCellular.TardigradeVirosphereOmega
 
-/-- O27 (Tardigrade "Walking Head" 4-Hox Compressed 7-Organ Budget ≤ 1,000 Cells):
-    A complete 7-organ microscopic tardigrade (skin+8 lobopods 240, dorsal brain+4 ganglia 180,
-    musculature 110, stylet+pharynx+sealed gut 80, 3 Malpighian tubules 24, gonad 56,
-    hemocoel storage cells 90) totals 780 cells — satisfying every biological organ floor
-    while remaining strictly inside the ≤1,000-cell eutelic frontier. -/
+@[expose] public section
+
+/-- `O27` (Tardigrade "Walking Head" 4-Hox Compressed 7-Organ Budget ≤ 1,000 Cells):
+    7-organ eutelic tardigrade sums to `780 ≤ 1000` cells while satisfying every organ floor. -/
 theorem O27_tardigrade_walking_head_budget_le_1000 :
     let skin := (240 : Nat); let neuro := 180; let muscle := 110
     let gut := 80; let malpighian := 24; let gonad := 56; let storage := 90
@@ -18,20 +21,17 @@ theorem O27_tardigrade_walking_head_budget_le_1000 :
     skin ≥ 150 ∧ neuro ≥ 100 ∧ muscle ≥ 50 ∧ gut ≥ 20 ∧ malpighian ≥ 5 ∧ gonad ≥ 10 ∧ storage ≥ 20 := by
   decide
 
-/-- O28 (*Megaphragma* Anucleate-Neuron Nuclear Compression Bound — Universal + Witness):
-    For ANY CNS partition `kept + lysed = total` with `lysed > 0` and `kept * factor ≤ total`,
-    nuclear lysis strictly reduces somal count (`kept < total`) while preserving total active
-    neurons (`kept + lysed = total`); instantiated for *Megaphragma* (`7,400 -> 370`, 20×). -/
+/-- `O28` (*Megaphragma* Anucleate-Neuron Nuclear Compression Bound — Universal + Witness):
+    Nuclear lysis (`lysed > 0`) strictly reduces somal count (`kept < total`) while
+    preserving total active neurons (`7,400 -> 370`, `20×`). -/
 theorem O28_megaphragma_anucleate_neuron_compression
     (total kept lysed : Nat) (hPart : kept + lysed = total) (hL : 0 < lysed) :
     kept < total ∧
     ((7400 : Nat) * 5 / 100 = 370 ∧ 370 * 20 = 7400) := by
   refine ⟨by omega, by decide⟩
 
-/-- O29 (3-Tier Tardigrade Radiotolerance Multiplicative Shielding):
-    Combining independent damage-reduction layers `Dsup` (`d1 > 1`), `DODA1` betalains (`d2 > 1`),
-    and `TRID1` LLPS repair (`d3 > 1`) multiplies total protection `d1 * d2 * d3` strictly above
-    any single defense layer alone. -/
+/-- `O29` (3-Tier Tardigrade Radiotolerance Multiplicative Shielding):
+    Independent layers (`d1, d2, d3 > 1`) multiply protection strictly above any single layer. -/
 theorem O29_tardigrade_3tier_radiotolerance_amplification
     (d1 d2 d3 : Nat) (h1 : 1 < d1) (h2 : 1 < d2) (h3 : 1 < d3) :
     d1 < d1 * d2 * d3 ∧ d2 < d1 * d2 * d3 ∧ d3 < d1 * d2 * d3 := by
@@ -53,36 +53,32 @@ theorem O29_tardigrade_3tier_radiotolerance_amplification
     omega
   exact ⟨Nat.lt_trans h12 h123, Nat.lt_trans h2_12 h123, h3_123⟩
 
-/-- O30 (*Mavirus* Virophage Host-Clone Rescue Inequality):
-    When an unshielded Giant Virus burst `B_raw` kills host population (`B_raw > B_crit`),
-    an integrated *Mavirus* virophage suppressing effective burst to `B_sup < B_crit` strictly
-    guarantees `B_sup < B_raw` and saves the host population (`B_raw - B_sup ≥ 2`). -/
+/-- `O30` (*Mavirus* Virophage Host-Clone Rescue Inequality):
+    Suppressing burst below `B_crit` (`B_sup < B_crit < B_raw`) yields `B_sup + 2 ≤ B_raw`. -/
 theorem O30_mavirus_virophage_host_rescue
     (B_raw B_sup B_crit : Nat) (hRaw : B_crit < B_raw) (hSup : B_sup < B_crit) :
     B_sup < B_raw ∧ B_sup + 2 ≤ B_raw := by
-  omega
+  exact ⟨by omega, by omega⟩
 
-/-- O31 (Lynch–Marinov Cellular ATP Translation Dominance):
-    When protein translation consumes `cTrans ≥ 55` out of `100` total cellular ATP budget
-    (with `cTrans + cTx + cRep + cMaint = 100`), translation strictly exceeds half the entire
-    cell budget (`cTrans > 50`) and strictly exceeds all other cellular expenditures combined! -/
+/-- `O31` (Lynch–Marinov Cellular ATP Translation Dominance):
+    When protein translation consumes `cTrans ≥ 55` of `100` ATP units, translation strictly
+    exceeds `50` and strictly exceeds all other cellular expenditures combined. -/
 theorem O31_lynch_marinov_translation_atp_dominance
     (cTrans cTx cRep cMaint : Nat)
     (hSum : cTrans + cTx + cRep + cMaint = 100)
     (hDom : 55 ≤ cTrans) :
     50 < cTrans ∧ cTx + cRep + cMaint < cTrans := by
-  omega
+  exact ⟨by omega, by omega⟩
 
-/-- O32 (Odd Elasticity Non-Reciprocal Work Extraction Law):
-    In a living chiral crystal with odd elastic modulus `Ko > 0`, traversing a closed strain
-    cycle of positive signed area `Area > 0` extracts strictly positive work
-    `W_cycle = 2 * Ko * Area > 0` — strictly impossible for any passive even-elastic crystal
-    where `Ko = 0 → W_cycle = 0`! -/
+/-- `O32` (Odd Elasticity Non-Reciprocal Work Extraction Law):
+    With `Ko > 0` and `Area > 0`, `W_cycle = 2 * Ko * Area > 0`, whereas `Ko = 0 → W_cycle = 0`. -/
 theorem O32_odd_elastic_cyclic_work_extraction
     (Ko Area : Int) (hKo : 0 < Ko) (hA : 0 < Area) :
     0 < 2 * Ko * Area ∧ (2 * (0 : Int) * Area = 0) := by
   refine ⟨?_, by simp⟩
   have h2K : 0 < 2 * Ko := by omega
   exact Int.mul_pos h2K hA
+
+end
 
 end OmegaCellular.TardigradeVirosphereOmega

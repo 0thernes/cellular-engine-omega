@@ -1,0 +1,12 @@
+# Audit & Execution Run Log (`B40`)
+
+Chronological record of verified builds, hardening cycles, kernel checks, statistical sweeps, and archival publications for **CELLULAR ENGINE OMEGA**.
+
+| Date (UTC) | Cycle / Milestone | Command / Suite | Key Measured Result |
+| :--- | :--- | :--- | :--- |
+| 2026-11-25 | Baseline Audit (`v5.1.0`) | `scripts/Audit-Repo.ps1` + Mega-Atlas cross-check | Baseline score `13.2%` (`7/53` pass, `46` fail); Mega-Atlas honest verdict: `0/1,900` solved (`22` adjacent open problems). |
+| 2026-11-25 | Cycle 1A Defect Catch | `bin/test_omega_falsification.exe` (`G57` 5-seed Cube sweep) | Caught real `PM21` single-trial variance bug failing seeds `2026003` & `2026006` (`20%` flake); fixed via 16-trial estimator (`5.26-sigma`). |
+| 2026-11-25 | Cycle 1A/1B C11 + Lean Verify | `pwsh -File build.ps1` + multi-kernel sweep | `60/60` gates, `16/16` mutants, `256/256` fuzz, `75/75` substrates, `1,000/1,000` cube (`141.40 ms` / `4.85 ms`); `89/89` constructive Lean 4.35.0 proofs (`0` `Classical.choice`, `0` `sorryAx`, `0` warnings) passed `lean`, `leanchecker`, `leanchecker-paranoid`, `con-leche --verified`, `con-ron --verified`. |
+| 2026-11-25 | Cycle 1C Python Verification Ladder | `pytest tests/test_omega_verification_ladder.py -v` + `examples/quickstart_demo.py` | Full JSON Schema, Hypothesis `1,200+` examples, differential oracle, mutant, metamorphic, edge-seed, and TB16 leakage audit executed. |
+| 2026-11-25 | Cycle 2 Stats, Figures, Paper & Red-Team | `run_stats_and_benchmarks.py` + `generate_figures.py` + `tectonic` + 10-pass review | `8/8` preregistered `N=20` contrasts PASS (`p_Holm = 0.0008`), `20/20` substrates/cube (`PM21 max=0.0615`), `-O0 == -O3` bit-exact SHA-256 (`a9264184...`), `paper/main.tex` compiled (`0` warnings/boxes, `31/31` cited), clean-room `arxiv_submission.tar.gz` verified. |
+| 2026-11-25 | Cycle 3 Clean-Dir Replication & `100.0%` Audit | Clean temp copy `build.ps1` + `pytest` + live Web Observatory + `Audit-Repo.ps1` | `60/60` gates, `16/16` mutants, `89/89` Lean proofs, `35/35` pytest, live Web Observatory (`403`/`404`/`405`/`200`) PASS, `Audit-Repo.ps1` **`100.0%` (`84/84`, `35/35` core, `0` fail)**. |

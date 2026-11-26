@@ -1,0 +1,26 @@
+# CELLULAR ENGINE OMEGA (v5.2.0)
+
+> Zero-dependency C11 multi-scale cellular biophysics engine (16 testbeds, 75 computational substrates, 1,000-cell Hybrid Cube, 60 falsification gates, 16/16 planted mutants) coupled via live runtime receipts (O63, O72) to 89 zero-Mathlib Pure Lean 4.35.0 formal theorems checked across independent Lean 4 kernels.
+
+## Core Documentation
+- [README.md](README.md): Overview, quickstart, live verbatim `#print axioms`, verification boundaries, and citations
+- [CLAIMS.md](CLAIMS.md): Complete claims ledger with exact verification commands and explicit refutation conditions
+- [LIMITATIONS.md](LIMITATIONS.md): Honest scope, real-vs-metaphor table, and formal vs numerical boundaries
+- [VERIFICATION.md](VERIFICATION.md): Multi-layer C11, Python oracle, fuzzing, and 6-kernel Lean 4.35.0 verification report
+- [REPLICATION.md](REPLICATION.md): Step-by-step clean-clone replication protocol and executed replication log
+- [HARDENING_LOG.md](HARDENING_LOG.md): 3-cycle adversarial audit log classified across all 10 Build Standard v1.2.0 finding classes
+- [PREREGISTRATION.md](PREREGISTRATION.md): Pre-specified multi-seed hypothesis tests (Holm-Bonferroni corrected)
+- [docs/mega-atlas-cross-check.md](docs/mega-atlas-cross-check.md): Honest 0/1,900 Mega-Atlas cross-check and 22 adjacent open problems
+- [docs/statement-fidelity.md](docs/statement-fidelity.md): Theorem-by-theorem Lean 4 to literature/model statement fidelity matrix
+- [docs/architecture.md](docs/architecture.md): System architecture, 6-tier stack, and Bio-Frostbite interaction-net topology
+- [docs/benchmarks.md](docs/benchmarks.md): Reproducible latency and artifact-size budgets
+- [docs/threat-model.md](docs/threat-model.md): STRIDE security analysis of the C11 CLI and loopback Web Observatory
+- [docs/AI_DISCLOSURE.md](docs/AI_DISCLOSURE.md): Transparent AI-assistance disclosure and CRediT attribution
+
+## Formal Verification & White Paper
+- [lean/Challenge.lean](lean/Challenge.lean): Statement-only challenge module for isolated comparator judging
+- [lean/Solution.lean](lean/Solution.lean): Sorry-free 89-theorem solution module
+- [lean/comparator.json](lean/comparator.json): Palomar/Lean 4.35.0 comparator specification
+- [lean/formalization.yaml](lean/formalization.yaml): Machine-readable formalization metadata
+- [paper/main.tex](paper/main.tex): Publication-grade AMS-LaTeX technical white paper
+- [blueprint/index.html](blueprint/index.html): Interactive Lean 4.35.0 proof dependency blueprint

@@ -23,7 +23,8 @@ int main(void) {
     for (int i = 0; i < 256; ++i) dna[i] = (uint8_t)(omega_rng_u32(&rng) & 0xFFu);
 
     printf("================================================================================\n");
-    printf(" CELLULAR ENGINE OMEGA v5.0 — 54-GATE FALSIFICATION SUITE + 16/16 MUTANTS + 10-SEED\n");
+    printf(" CELLULAR ENGINE OMEGA v%s — 60-GATE FALSIFICATION SUITE + 16/16 MUTANTS + 10-SEED + 75-SUB/1000-CUBE\n",
+           OMEGA_VERSION_STR);
     printf("================================================================================\n");
 
     /* Run TB01-TB12 */
@@ -298,6 +299,66 @@ int main(void) {
     omega_run_tb16_coupled(SEED, 0, &fault_led, &r16_flt);
     gate("G54", "LIVE 6-TIER LEDGER FAULT PROPAGATION: Clean int_drift==0; injecting M8 INet leak triggers int_drift>0 & err>=1",
          r16.six_tier_int_drift == 0 && r16_flt.six_tier_int_drift > 0 && r16_flt.six_tier_closure_err >= 1.0);
+
+    /* G55-G60: v5.2.0 Clean-Slate 75 Substrates, 1,000-Cell Cube, NIST SHA-256 & Numeric Edge-Value Gates */
+    OmegaSubstratesCubeResult sc1, sc2;
+    omega_run_substrates_75_and_cube_1000(SEED, &sc1);
+    omega_run_substrates_75_and_cube_1000(SEED, &sc2);
+    gate("G55", "CLEAN-SLATE 75 SUBSTRATES: 25/25 PM + 25/25 MF + 25/25 GW, PM18 Kahan < 1e-12 & b1.58 3^5=243<=256",
+         sc1.pm_passed == 25 && sc1.mf_passed == 25 && sc1.gw_passed == 25 &&
+         sc1.substrates_passed == 75 && sc1.pm18_kahan_rel_err < 1e-12 &&
+         sc1.mf_max_norm < 1e4 && sc1.b158_trit_states == 243);
+
+    gate("G56", "1,000-CELL HYBRID CUBE: 661 [OK] + 274 [ADAPT] + 20 [OVER] + 45 [EXCL] = 1000, 935/935 active & bit-exact SHA",
+         sc1.cube_ok == 661 && sc1.cube_adapt == 274 && sc1.cube_over == 20 && sc1.cube_excl == 45 &&
+         sc1.cube_active_verified == 935 && sc1.cube_verified_total == 1000 &&
+         sc1.quantum_cap_q == 10 && sc1.quantum_cap_bytes == 16384 &&
+         sc1.cube_max_norm < 1e4 && strcmp(sc1.sha256, sc2.sha256) == 0);
+
+    int cube_seeds_ok = 0;
+    for (int ci = 0; ci < 5; ++ci) {
+        OmegaSubstratesCubeResult sck;
+        omega_run_substrates_75_and_cube_1000(2026001ULL + (uint64_t)ci, &sck);
+        if (sck.substrates_passed == 75 && sck.cube_verified_total == 1000 &&
+            sck.cube_ok == 661 && sck.cube_adapt == 274 && sck.pm18_kahan_rel_err < 1e-12) {
+            cube_seeds_ok++;
+        }
+    }
+    gate("G57", "5-SEED 75-SUBSTRATE & 1,000-CUBE STABILITY SWEEP (2026001..2026005): 5/5 pass all substrate & cube invariants",
+         cube_seeds_ok == 5);
+
+    char h_empty[65], h_abc[65], h_448[65];
+    omega_sha256_hex("", 0, h_empty);
+    omega_sha256_hex("abc", 3, h_abc);
+    omega_sha256_hex("abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq", 56, h_448);
+    gate("G58", "FIPS 180-4 SHA-256 NIST TEST VECTORS ('', 'abc', 448-bit msg) match canonical digests bit-for-bit",
+         strcmp(h_empty, "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855") == 0 &&
+         strcmp(h_abc,   "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad") == 0 &&
+         strcmp(h_448,   "248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1") == 0);
+
+    /* G59: Edge-value numeric stability (seed=1, seed=UINT64_MAX, all-0 DNA, all-FF DNA) */
+    uint8_t dna_zero[256], dna_ff[256];
+    memset(dna_zero, 0x00, 256);
+    memset(dna_ff, 0xFF, 256);
+    TB05Result r5_min, r5_max;
+    TB12Result r12_zero, r12_ff;
+    omega_run_tb05(1ULL, 0, &r5_min);
+    omega_run_tb05(UINT64_MAX, 0, &r5_max);
+    omega_run_tb12(1ULL, 0, dna_zero, &r12_zero);
+    omega_run_tb12(UINT64_MAX, 0, dna_ff, &r12_ff);
+    gate("G59", "NUMERIC EDGE-VALUE STABILITY (seed=1, UINT64_MAX, 0x00/0xFF DNA): zero NaN/Inf, exact chi=+2 & bounded 112D",
+         r5_min.max_charge_error < 1e-12 && r5_max.max_charge_error < 1e-12 &&
+         r12_zero.asmodensius_mean >= 0.0 && r12_zero.asmodensius_mean <= 1.0 &&
+         r12_ff.asmodensius_mean >= 0.0 && r12_ff.asmodensius_mean <= 1.0 &&
+         r12_zero.trackA_tumors == 0 && r12_ff.trackA_tumors == 0);
+
+    /* G60: Reentrancy & standalone-vs-coupled TB16 differential parity */
+    TB16Result r16_standalone;
+    omega_run_tb16(SEED, 0, &r16_standalone);
+    gate("G60", "REENTRANCY & TB16 STANDALONE-VS-COUPLED PARITY: identical syn3A AUROC/R2 & zero integer 6-tier drift",
+         fabs(r16_standalone.zeroshot_essential_auroc - r16.zeroshot_essential_auroc) < 1e-12 &&
+         fabs(r16_standalone.zeroshot_perturb_r2 - r16.zeroshot_perturb_r2) < 1e-12 &&
+         r16_standalone.six_tier_int_drift == 0 && r16.six_tier_int_drift == 0);
 
     double elapsed = omega_time_sec() - t0;
     printf("================================================================================\n");

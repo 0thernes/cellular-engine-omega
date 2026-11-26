@@ -1,53 +1,54 @@
-/-
-  CELLULAR ENGINE OMEGA v2.0 — Pure Lean 4 Formal Verification (Zero Mathlib)
-  Module 5: Dynamic Instability, MotA5MotB2 Cogwheel, F1F0 Gearbox, Motor Tug-of-War & Active LLPS (O22–O26)
+module
+-- SPDX-License-Identifier: Apache-2.0
+-- Copyright (c) 2026 Alexander Stephen Donahue
+
+/-!
+  CELLULAR ENGINE OMEGA v5.2.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib)
+  Module 5: Dynamic Instability, MotA5MotB2 Cogwheel, F1F0 Gearbox, Motors, Active LLPS & Euler Buckling (`O22`–`O26`, `O60`)
 -/
 
 namespace OmegaCellular.CytoskeletonMotorsLLPS
 
-/-- O22 (Dogterom–Leibler Microtubule Bounded vs. Unbounded Phase Transition):
+@[expose] public section
+
+/-- `O22` (Dogterom–Leibler Microtubule Bounded vs. Unbounded Phase Transition):
     In the 2-state microtubule dynamic-instability model (`J = vg*fres - vs*fcat`),
-    bounded search-and-capture holds (`J < 0`) iff `vg * fres < vs * fcat` (giving a
-    strictly positive denominator for finite mean length `<L>`), while crossing into
-    `vg * fres > vs * fcat` switches strictly to unbounded polarized growth (`J > 0`). -/
+    bounded search-and-capture holds iff `vg * fres < vs * fcat`, and unbounded growth
+    holds iff `vs * fcat < vg * fres`. -/
 theorem O22_dogterom_leibler_phase_transition (vg vs fres fcat : Int) :
     (vg * fres - vs * fcat < 0 ↔ vg * fres < vs * fcat) ∧
     (0 < vg * fres - vs * fcat ↔ vs * fcat < vg * fres) := by
-  omega
+  exact ⟨⟨fun h => by omega, fun h => by omega⟩, ⟨fun h => by omega, fun h => by omega⟩⟩
 
-/-- O23 (Bacterial Flagellar Stator `MotA₅MotB₂` Coprime 5:2 Cogwheel `36°` Step Law):
-    Because `gcd(5, 2) = 1`, the asymmetric 5-subunit `MotA` rotor wheel around the 2-subunit
-    `MotB` axle exhibits `5 × 2 = 10` distinct proton-gated states per full `360°` turn,
-    yielding an exact `36°` step per proton translocation! -/
+/-- `O23` (Bacterial Flagellar Stator `MotA₅MotB₂` Coprime 5:2 Cogwheel `36°` Step Law):
+    `gcd(5, 2) = 1`, `5 × 2 = 10` proton-gated states per `360°` turn (`36°` per proton). -/
 theorem O23_mota5_motb2_cogwheel_36_degree_step :
     Nat.gcd 5 2 = 1 ∧ 5 * 2 = 10 ∧ 10 * 36 = 360 := by
   decide
 
-/-- O24 (`F₁F₀` ATP Synthase Variable `c`-Ring Gearbox Monotonicity — Universal + Concrete):
-    For ANY positive turn count `turns > 0` and ANY two `c`-ring stoichiometries `c1 < c2`,
-    larger `c`-rings strictly require more protons per `3 * turns` ATP (`c1 * turns < c2 * turns`),
-    instantiated across mammalian (`c8`), bacterial/yeast (`c10`), chloroplast (`c14`), and
-    extreme alkaliphile (`c17`) gearboxes. -/
+/-- `O24` (`F₁F₀` ATP Synthase Variable `c`-Ring Gearbox Monotonicity — Universal + Concrete):
+    Larger `c`-rings (`c1 < c2`) strictly require more protons per `3 * turns` ATP
+    (`c8 < c10 < c14 < c17`). -/
 theorem O24_f1f0_cring_gearbox_monotonicity
     (c1 c2 turns : Nat) (ht : 0 < turns) (hLt : c1 < c2) :
     c1 * turns < c2 * turns ∧
     ((8 : Nat) < 10 ∧ (10 : Nat) < 14 ∧ (14 : Nat) < 17) := by
   exact ⟨Nat.mul_lt_mul_of_pos_right hLt ht, by decide⟩
 
-/-- O25 (Müller–Klumpp–Lipowsky Kinesin/Dynein Tug-of-War Velocity Sign Law):
-    With positive composite drag denominator, net cargo velocity numerator
-    `F_net = nPlus * FsPlus - nMinus * FsMinus` drives outward `(+)` transport iff
-    `nPlus * FsPlus > nMinus * FsMinus`, inward `(-)` transport iff reversed, and stalls iff equal. -/
+/-- `O25` (Müller–Klumpp–Lipowsky Kinesin/Dynein Tug-of-War Velocity Sign Law):
+    Net cargo velocity numerator `nPlus * FsPlus - nMinus * FsMinus` determines outward,
+    inward, or stalled transport strictly by sign comparison. -/
 theorem O25_tug_of_war_velocity_direction (nP FsP nM FsM : Int) :
     (0 < nP * FsP - nM * FsM ↔ nM * FsM < nP * FsP) ∧
     (nP * FsP - nM * FsM < 0 ↔ nP * FsP < nM * FsM) ∧
     (nP * FsP - nM * FsM = 0 ↔ nP * FsP = nM * FsM) := by
-  omega
+  exact ⟨⟨fun h => by omega, fun h => by omega⟩,
+         ⟨fun h => by omega, fun h => by omega⟩,
+         ⟨fun h => by omega, fun h => by omega⟩⟩
 
-/-- O26 (Active-Turnover LLPS Ostwald-Ripening Arrest Scaling):
+/-- `O26` (Active-Turnover LLPS Ostwald-Ripening Arrest Scaling):
     Under ATP-driven chemical switching (`R_max² * k_rev = D * dC`), strictly increasing
-    active chemical turnover `k1 < k2` (`0 < k1`) strictly shrinks the maximum arrested
-    droplet radius squared (`R2_sq < R1_sq`), preventing equilibrium coarsening into one giant blob! -/
+    active chemical turnover `k1 < k2` strictly shrinks maximum arrested droplet radius squared. -/
 theorem O26_llps_active_ostwald_arrest_radius
     (R1sq R2sq k1 k2 flux : Nat)
     (hR2 : 0 < R2sq) (_hk1 : 0 < k1) (hklt : k1 < k2)
@@ -62,12 +63,10 @@ theorem O26_llps_active_ostwald_arrest_radius
       exact Nat.lt_of_le_of_lt ha hb
     omega
 
-/-- O60 (Holy–Dogterom–Leibler Euler Buckling Near-Wall Centering Law):
-    For ANY near-wall microtubule length `0 < Lnear < Lfar` and flexural stiffness `kappa`,
-    if Euler critical buckling forces satisfy `Fnear * (Lnear * Lnear) = kappa` and
-    `Ffar * (Lfar * Lfar) = kappa` (`0 < Ffar`), then strictly `Ffar < Fnear`:
-    short microtubules against the near wall exert strictly larger restoring force
-    than long microtubules against the far wall, robustly centering the centrosome! -/
+/-- `O60` (Holy–Dogterom–Leibler Euler Buckling Near-Wall Centering Law):
+    For `0 < Lnear < Lfar` with `Fnear * Lnear² = kappa = Ffar * Lfar²` (`0 < Ffar`),
+    strictly `Ffar < Fnear`: short microtubules against the near wall exert larger
+    restoring force than long microtubules against the far wall. -/
 theorem O60_euler_buckling_near_wall_dominance
     (Lnear Lfar Fnear Ffar kappa : Nat)
     (hLn : 0 < Lnear) (hLt : Lnear < Lfar) (hFf : 0 < Ffar)
@@ -85,5 +84,7 @@ theorem O60_euler_buckling_near_wall_dominance
     have hb : Ffar * (Lnear * Lnear) < Ffar * (Lfar * Lfar) := Nat.mul_lt_mul_of_pos_left hSq hFf
     have hlt : Fnear * (Lnear * Lnear) < Ffar * (Lfar * Lfar) := Nat.lt_of_le_of_lt ha hb
     omega
+
+end
 
 end OmegaCellular.CytoskeletonMotorsLLPS

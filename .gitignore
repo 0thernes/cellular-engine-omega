@@ -9,3 +9,9 @@ lean/.lake/
 .lake/
 node_modules/
 __pycache__/
+*.pyc
+.pytest_cache/
+.hypothesis/
+paper/build/
+results/omega_run_2026001.json
+.env

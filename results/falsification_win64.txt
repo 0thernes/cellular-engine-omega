@@ -1,5 +1,5 @@
 ================================================================================
- CELLULAR ENGINE OMEGA v5.0 — 54-GATE FALSIFICATION SUITE + 16/16 MUTANTS + 10-SEED
+ CELLULAR ENGINE OMEGA v5.2.0 — 60-GATE FALSIFICATION SUITE + 16/16 MUTANTS + 10-SEED + 75-SUB/1000-CUBE
 ================================================================================
   [PASS] G01  | TB01 Purcell 1-DOF reciprocal scallop net displacement == 0 (< 1e-10) despite peak > 0.1
   [PASS] G02  | TB01 2-DOF Purcell non-reciprocal loop & stochastic MotA5MotB2 10-state proton ratchet generate thrust
@@ -55,6 +55,12 @@
   [PASS] G52  | TB14 True 4-Layer Causal Cascade (8 hops L1->L2->L3->L4) & Multi-Agent SSIN Contention (2k <= m, m >= 48)
   [PASS] G53  | TB15 Cohesin Excluded-Volume Steric Queuing (>100 blocks) & 3-Genome Knockout Closure Falsifiability (3/3 KO)
   [PASS] G54  | LIVE 6-TIER LEDGER FAULT PROPAGATION: Clean int_drift==0; injecting M8 INet leak triggers int_drift>0 & err>=1
+  [PASS] G55  | CLEAN-SLATE 75 SUBSTRATES: 25/25 PM + 25/25 MF + 25/25 GW, PM18 Kahan < 1e-12 & b1.58 3^5=243<=256
+  [PASS] G56  | 1,000-CELL HYBRID CUBE: 661 [OK] + 274 [ADAPT] + 20 [OVER] + 45 [EXCL] = 1000, 935/935 active & bit-exact SHA
+  [PASS] G57  | 5-SEED 75-SUBSTRATE & 1,000-CUBE STABILITY SWEEP (2026001..2026005): 5/5 pass all substrate & cube invariants
+  [PASS] G58  | FIPS 180-4 SHA-256 NIST TEST VECTORS ('', 'abc', 448-bit msg) match canonical digests bit-for-bit
+  [PASS] G59  | NUMERIC EDGE-VALUE STABILITY (seed=1, UINT64_MAX, 0x00/0xFF DNA): zero NaN/Inf, exact chi=+2 & bounded 112D
+  [PASS] G60  | REENTRANCY & TB16 STANDALONE-VS-COUPLED PARITY: identical syn3A AUROC/R2 & zero integer 6-tier drift
 ================================================================================
- FALSIFICATION SUMMARY: 54 / 54 PASSED · 0 FAILED · 16/16 MUTANTS CAUGHT (0.898s)
+ FALSIFICATION SUMMARY: 60 / 60 PASSED · 0 FAILED · 16/16 MUTANTS CAUGHT (1.352s)
 ================================================================================
