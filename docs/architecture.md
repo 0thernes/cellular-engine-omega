@@ -1,11 +1,11 @@
 # System Architecture (`A20`)
 
-**CELLULAR ENGINE OMEGA (`v5.2.0`)** integrates a zero-dependency C11 multi-scale biophysics simulation core, a Clean-Slate v3.0 75-substrate & 1,000-cell Hybrid Cube verifier, a cryptographically coupled live C11-to-Lean 4.35.0 formal proof pipeline across independent kernels, a Python exact verification ladder, and a hardened loopback Web Observatory.
+**CELLULAR ENGINE OMEGA (`v5.3.0`)** integrates a zero-dependency C11 multi-scale biophysics simulation core, a Clean-Slate v3.0 75-substrate & 1,000-cell Hybrid Cube verifier, a cryptographically coupled live C11-to-Lean 4.35.0 formal proof pipeline across all 6 independent kernels, a Python exact verification ladder, FAIR scholarly metadata, and a hardened loopback Web Observatory.
 
 ```mermaid
 flowchart TD
     subgraph C11["Native C11 Zero-Dependency Engine (-O3 -std=c11 -Werror -ffp-contract=off)"]
-        RNG["omega_rng_hash.c\nSplitMix64 + FIPS 180-4 SHA-256"]
+        RNG["omega_rng_hash.c\nPhilox4x32-10 PRNG + FIPS 180-4 SHA-256"]
         TB1["exp_01_06.c + exp_07_12.c\nTB01..TB12 Core Biophysics"]
         TB2["exp_13..16_*.c\nTB13 12D Morphospace · TB14 Bio-Frostbite INet\nTB15 Deep Strata · TB16 Virtual-Cell AI"]
         CUBE["omega_substrates_cube.c\n75 Substrates (PM/MF/GW) + 1,000 Hybrid Cube"]
@@ -23,9 +23,9 @@ flowchart TD
     subgraph LEAN["Pure Lean 4.35.0 Formal Suite (Zero Mathlib, Constructive)"]
         RECEIPT["LiveC11Receipt.lean\nAuto-emitted C11 Telemetry & SHAs"]
         SPEC["Spec.lean\nPure Definitions Only (0 Proofs)"]
-        CHAL["Challenge.lean\nIsolated Statement-Only Specs (89)"]
-        SOL["Solution.lean + 13 Proof Modules\n89 Constructive Proofs (O01..O89)"]
-        KERN["Multi-Kernel Verification\nlean · leanchecker-paranoid · con-leche\ncon-ron · nanoda_bin · lake comparator"]
+        CHAL["Challenge.lean\nIsolated Statement-Only Specs (100)"]
+        SOL["Solution.lean + 14 Proof Modules\n100 Constructive Proofs (O01..O100)"]
+        KERN["6-Kernel Verification + Negative Test\nlean · leanchecker-paranoid · lean4lean\nnanoda_bin · con-leche · con-ron · comparator"]
         CLI -- "--export-lean-trace" --> RECEIPT
         RECEIPT --> SPEC
         SPEC --> CHAL & SOL

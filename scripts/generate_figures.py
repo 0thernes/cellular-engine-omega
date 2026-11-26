@@ -49,8 +49,8 @@ def make_fig1_architecture(summary: dict) -> None:
     boxes = [
         (0.25, 2.55, 2.15, 1.45, "#0f4c81", "#e8f1fa", "Native C11 Engine", "TB01-TB16 Biophysics\n75 Substrates + 1,000 Cube\n-O3 -Werror -ffp-contract=off\n141 ms / 4.85 ms"),
         (2.80, 2.55, 2.15, 1.45, "#1b6b4c", "#e6f5ee", "C11 Falsification + Fuzz", "60 Gates (G01-G60)\n16/16 Planted Mutants\n256 Fuzz + 32 prop_check\nASan + UBSan (Linux CI)"),
-        (5.35, 2.55, 2.15, 1.45, "#6b3fa0", "#f2ebfb", "Pure Lean 4.35.0 Suite", "89 Constructive Proofs\n{propext, Quot.sound} Only\n0 Mathlib · 0 Classical.choice\nIsolated Challenge/Solution"),
-        (7.85, 2.55, 1.90, 1.45, "#9a3412", "#fef0e6", "Multi-Kernel Audit", "lean · leanchecker\nleanchecker-paranoid\ncon-leche · con-ron\nnanoda_bin · comparator"),
+        (5.35, 2.55, 2.15, 1.45, "#6b3fa0", "#f2ebfb", "Pure Lean 4.35.0 Suite", "100 Constructive Proofs\n{propext, Quot.sound} Only\n0 Mathlib · 0 Classical.choice\nIsolated Challenge/Solution"),
+        (7.78, 2.55, 2.00, 1.45, "#9a3412", "#fef0e6", "6 Independent Kernels", "lean · leanchecker-paranoid\nlean4lean · nanoda_bin\ncon-leche · con-ron\n+ Live Negative Kernel Test"),
         (0.25, 0.45, 2.90, 1.45, "#334155", "#f1f5f9", "Exact Python Verification Ladder", "Fraction / 50-digit Decimal Oracle\nHypothesis 1,200+ Property Cases\nJSON Schema Draft 2020-12\n20-Seed Holm-Bonferroni Stats"),
         (3.55, 0.45, 2.90, 1.45, "#0f766e", "#e6f7f5", "Live C11 -> Lean Receipts", "--export-lean-trace -> LiveC11Receipt.lean\nO63: TB14 Confluence + 6-Tier Drift = 0\nO72: 75/75 Sub + 661/274/20/45 Cube\nBit-Exact FIPS 180-4 SHA-256"),
         (6.85, 0.45, 2.90, 1.45, "#7c2d12", "#fff7ed", "Observatory & Open Artifacts", "Loopback Web Observatory (WCAG 2.2 AA)\nInteractive Lean Proof Blueprint\nAMS-LaTeX White Paper + arXiv Tarball\n0/1,900 Mega-Atlas Honest Scope"),
@@ -73,7 +73,7 @@ def make_fig1_architecture(summary: dict) -> None:
     for p0, p1 in arrows:
         ax.annotate("", xy=p1, xytext=p0, arrowprops=dict(arrowstyle="-|>", color="#475569", lw=1.25, shrinkA=2, shrinkB=2))
 
-    ax.set_title("CELLULAR ENGINE OMEGA v5.2.0: Verified Multi-Layer Architecture & Cryptographic Receipt Loop", pad=6)
+    ax.set_title("CELLULAR ENGINE OMEGA v5.3.0: Verified Multi-Layer Architecture & Cryptographic Receipt Loop", pad=6)
     fig.tight_layout()
     fig.savefig(FIG_DIR / "fig1_multiscale_architecture.pdf", bbox_inches="tight")
     plt.close(fig)
@@ -217,7 +217,7 @@ def make_fig4_substrates_cube(cube_data: dict, rows: list[dict]) -> None:
     # Panel C: PM21 RMSE stability across all 20 preregistered seeds vs 0.25 gate
     ax = axes[2]
     pm21_vals = [float(r["pm21_rmse"]) for r in rows]
-    ax.plot(range(1, len(pm21_vals) + 1), pm21_vals, "o-", color="#0f766e", lw=1.6, ms=4, label="PM21 (16-Trial v5.2.0)")
+    ax.plot(range(1, len(pm21_vals) + 1), pm21_vals, "o-", color="#0f766e", lw=1.6, ms=4, label="PM21 (16-Trial Hardened)")
     ax.axhline(0.25, color="#dc2626", ls="--", lw=1.3, label="Gate Threshold (0.25)")
     ax.set_ylim(0, 0.30)
     ax.set_xlabel("Seed Index (2026001..2026020)")
@@ -265,7 +265,7 @@ def make_demo_and_social_preview(run_data: dict, cube_data: dict, summary: dict)
     axes[2].legend(frameon=False, labelcolor="#f8fafc")
 
     fig.suptitle(
-        "CELLULAR ENGINE OMEGA v5.2.0  |  60/60 Gates · 16/16 Mutants · 75/75 Substrates · 1,000 Cube · 89 Constructive Lean 4.35.0 Proofs",
+        "CELLULAR ENGINE OMEGA v5.3.0  |  60/60 Gates · 16/16 Mutants · 75/75 Substrates · 1,000 Cube · 100 Constructive Lean 4.35.0 Proofs",
         color="#38bdf8",
         fontsize=11,
         fontweight="bold",
@@ -286,11 +286,11 @@ def make_demo_and_social_preview(run_data: dict, cube_data: dict, summary: dict)
 
     # Subtle accent bar
     ax.add_patch(patches.Rectangle((0, 6.22), 12.8, 0.18, color="#38bdf8"))
-    ax.text(0.75, 5.45, "CELLULAR ENGINE OMEGA  v5.2.0", fontsize=30, fontweight="bold", color="#f8fafc")
+    ax.text(0.75, 5.45, "CELLULAR ENGINE OMEGA  v5.3.0", fontsize=30, fontweight="bold", color="#f8fafc")
     ax.text(
         0.75,
         4.82,
-        "Zero-Dependency C11 Multi-Scale Cellular Biophysics Engine  ·  75 Substrates & 1,000-Cell Hybrid Cube\nConstructive Zero-Mathlib Lean 4.35.0 Multi-Kernel Formal Verification  ·  AMS-LaTeX Technical Report",
+        "Zero-Dependency C11 Multi-Scale Cellular Biophysics Engine  ·  75 Substrates & 1,000-Cell Hybrid Cube\nConstructive Zero-Mathlib Lean 4.35.0 6-Kernel Formal Verification  ·  AMS-LaTeX Monograph",
         fontsize=13.5,
         color="#94a3b8",
         linespacing=1.45,
@@ -298,7 +298,7 @@ def make_demo_and_social_preview(run_data: dict, cube_data: dict, summary: dict)
 
     metrics = [
         ("60 / 60", "C11 Falsification Gates\n16/16 Mutants · 256 Fuzz", "#10b981"),
-        ("89 / 89", "Constructive Lean 4.35.0\n0 Classical.choice · 0 Mathlib", "#a78bfa"),
+        ("100 / 100", "Constructive Lean 4.35.0\n6 Kernels · 0 Classical.choice", "#a78bfa"),
         ("75 + 1,000", "Substrates & Hybrid Cube\n661 OK · 274 ADAPT · 20/20 Seeds", "#38bdf8"),
         ("0 / 1,900", "Mega-Atlas Problems Solved\nHonest Scope · 22 Adjacent Open", "#f59e0b"),
     ]

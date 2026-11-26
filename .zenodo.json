@@ -1,8 +1,8 @@
 {
-  "title": "CELLULAR ENGINE OMEGA v5.2.0: Zero-Dependency C11 Multi-Scale Cellular Biophysics Engine, 75-Substrate & 1,000-Cell Hybrid Cube, and Multi-Kernel Lean 4.35.0 Formal Verification Suite",
+  "title": "CELLULAR ENGINE OMEGA v5.3.0: Zero-Dependency C11 Multi-Scale Cellular Biophysics Engine, 75-Substrate & 1,000-Cell Hybrid Cube, and 6-Kernel Lean 4.35.0 Formal Verification Suite",
   "upload_type": "software",
-  "version": "5.2.0",
-  "publication_date": "2026-11-25",
+  "version": "5.3.0",
+  "publication_date": "2026-11-26",
   "creators": [
     {
       "name": "Donahue, Alexander Stephen",
@@ -10,7 +10,7 @@
       "orcid": "0009-0006-8168-9648"
     }
   ],
-  "description": "Zero-dependency C11 multi-scale cellular biophysics engine (16 testbeds, 75 substrates, 1,000-cell Hybrid Cube, 60 falsification gates, 16/16 planted mutants) coupled via live C11-to-Lean runtime receipts (O63, O72) to 89 zero-Mathlib Pure Lean 4.35.0 formal theorems audited across independent Lean 4 kernels, accompanied by an AMS-LaTeX technical white paper, Lean Proof Blueprint, Python verification ladder, and hardened loopback Web Observatory. AI assistance is transparently disclosed in docs/AI_DISCLOSURE.md; the human author takes full scholarly responsibility.",
+  "description": "Zero-dependency C11 multi-scale cellular biophysics engine (16 testbeds, 75 substrates, 1,000-cell Hybrid Cube, 60 falsification gates, 16/16 planted mutants) coupled via live C11-to-Lean runtime receipts (O63, O72) to 100 strictly constructive zero-Mathlib Pure Lean 4.35.0 formal theorems audited across all 6 independent Lean 4 kernels, accompanied by an AMS-LaTeX monograph, Lean Proof Blueprint, FAIR Croissant/RO-Crate/CodeMeta metadata, RFC 3161 timestamps, Python verification ladder, and hardened loopback Web Observatory. AI assistance is transparently disclosed in docs/AI_DISCLOSURE.md; the human author takes full scholarly responsibility.",
   "license": "Apache-2.0",
   "access_right": "open",
   "language": "eng",

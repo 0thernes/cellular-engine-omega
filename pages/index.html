@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>CELLULAR ENGINE OMEGA v5.2.0 — Multi-Scale Cellular Biophysics & Lean 4.35.0 Verification</title>
+  <title>CELLULAR ENGINE OMEGA v5.3.0 — Multi-Scale Cellular Biophysics &amp; 6-Kernel Lean 4.35.0 Verification</title>
   <style>
     :root { --bg:#080d1a; --card:#10182b; --border:#1f2a44; --text:#e2e8f0; --muted:#94a3b8; --accent:#38bdf8; --ok:#10b981; --warn:#f59e0b; }
     * { box-sizing:border-box; }
@@ -36,11 +36,12 @@
   <a class="skip" href="#main">Skip to content</a>
   <header>
     <div class="wrap">
-      <h1>CELLULAR ENGINE OMEGA <span style="color:#38bdf8">v5.2.0</span></h1>
-      <p class="lead">Zero-dependency C11 multi-scale cellular biophysics engine (16 quantitative testbeds, 75 computational substrates, 1,000-cell Hybrid Cube) cryptographically linked via live runtime receipts to <strong>89 constructive zero-Mathlib Pure Lean 4.35.0 theorems</strong> audited across independent kernels.</p>
+      <h1>CELLULAR ENGINE OMEGA <span style="color:#38bdf8">v5.3.0</span></h1>
+      <p class="lead">Zero-dependency C11 multi-scale cellular biophysics engine (16 quantitative testbeds, 75 computational substrates, 1,000-cell Hybrid Cube) cryptographically linked via live runtime receipts to <strong>100 strictly constructive zero-Mathlib Pure Lean 4.35.0 theorems</strong> audited across all 6 independent kernels.</p>
       <div class="cta">
         <a class="btn btn-primary" href="blueprint/index.html">Open Lean 4.35.0 Proof Blueprint</a>
-        <a class="btn" href="Donahue_2026_cellular_engine_omega.pdf">Download White Paper (PDF)</a>
+        <a class="btn" href="Donahue_2026_cellular_engine_omega.pdf">Download Monograph (PDF)</a>
+        <a class="btn" href="croissant.json">Croissant 1.0 Metadata</a>
         <a class="btn" href="https://github.com/0thernes/cellular-engine-omega">GitHub Source &amp; CI</a>
       </div>
     </div>
@@ -48,20 +49,20 @@
   <main id="main" class="wrap">
     <section class="stats" aria-label="Verified Key Metrics">
       <div class="stat"><strong>60 / 60</strong><span>C11 Falsification Gates · 16/16 Planted Mutants · 256 Fuzz Cases</span></div>
-      <div class="stat"><strong style="color:#a78bfa">89 / 89</strong><span>Constructive Lean 4.35.0 Proofs · 0 Classical.choice · 0 Mathlib</span></div>
+      <div class="stat"><strong style="color:#a78bfa">100 / 100</strong><span>Constructive Lean 4.35.0 Proofs · All 6 Kernels · 0 Classical.choice</span></div>
       <div class="stat"><strong style="color:#10b981">75 + 1,000</strong><span>Substrates &amp; Hybrid Cube (661 OK · 274 ADAPT · 20/20 Seeds)</span></div>
       <div class="stat"><strong style="color:#f59e0b">0 / 1,900</strong><span>Mega-Atlas Problems Retired (Honest Scope · 22 Adjacent Open)</span></div>
     </section>
 
     <section class="panel">
       <h2>Verification Snapshot</h2>
-      <img src="observatory_snapshot.png" alt="CELLULAR ENGINE OMEGA v5.2.0 verification snapshot showing TB07 Turing pattern, 1,000-cell Hybrid Cube partition, and TB08 Gillespie TUR bound">
+      <img src="observatory_snapshot.png" alt="CELLULAR ENGINE OMEGA v5.3.0 verification snapshot showing TB07 Turing pattern, 1,000-cell Hybrid Cube partition, and TB08 Gillespie TUR bound">
     </section>
 
     <section class="panel">
       <h2>Honest Verification Boundary</h2>
-      <p><strong>What is proved in Lean 4.35.0:</strong> Exact integer, natural-number, and list algebraic/combinatorial cellular biophysics invariants (<code>O01</code>–<code>O62</code>, <code>O67</code>–<code>O71</code>), 17 non-vacuity and sharp negative-boundary refutations (<code>O73</code>–<code>O89</code>), and kernel-checked live C11 runtime telemetry receipts (<code>O63</code>, <code>O72</code>) strictly within <code>{propext, Quot.sound}</code>.</p>
-      <p><strong>What is NOT proved in Lean:</strong> IEEE-754 floating-point PDE convergence (Cahn–Hilliard, Schnakenberg, spherical nematic relaxation) and C11 memory safety — these are verified empirically via 60 gates, 16 compiled structural mutants, ASan/UBSan, a 256-case fuzz harness, 20-seed Holm–Bonferroni statistical sweeps, and an independent exact Python oracle. All 1,900 overarching open problems in <code>0thernes/unsolved-problems-mega-atlas</code> remain strictly <strong>OPEN</strong>.</p>
+      <p><strong>What is proved in Lean 4.35.0:</strong> Exact integer, natural-number, and list algebraic/combinatorial cellular biophysics invariants (<code>O01</code>–<code>O62</code>, <code>O67</code>–<code>O71</code>), 17 non-vacuity and sharp negative-boundary refutations (<code>O73</code>–<code>O89</code>), 11 constructive adversarial refutations (<code>O90</code>–<code>O100</code>), and kernel-checked live C11 runtime telemetry receipts (<code>O63</code>, <code>O72</code>) strictly within <code>{propext, Quot.sound}</code> across all 6 independent kernels plus a live negative kernel rejection test.</p>
+      <p><strong>What is NOT proved in Lean:</strong> IEEE-754 floating-point PDE convergence (Cahn–Hilliard, Schnakenberg, spherical nematic relaxation) and C11 memory safety — these are verified empirically via 60 gates, 16 compiled structural mutants, ASan/UBSan, a 256-case fuzz harness, 20-seed Holm–Bonferroni statistical sweeps, and an independent exact Python oracle. All 1,900 overarching open problems in <code>0thernes/unsolved-problems-mega-atlas</code> (<code>V2.6.0</code>) remain strictly <strong>OPEN</strong>.</p>
     </section>
 
     <section class="panel">
@@ -69,7 +70,7 @@
       <pre>git clone https://github.com/0thernes/cellular-engine-omega.git
 cd cellular-engine-omega
 OMEGA_SANITIZE=1 ./build_linux.sh
-(cd lean &amp;&amp; lake comparator --config comparator.json --paranoid)
+./scripts/verify_lean_six_kernels.sh
 python3 -m pytest tests/ -v</pre>
     </section>
   </main>

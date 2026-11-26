@@ -354,6 +354,25 @@ static int run_cube_cli(uint64_t seed, const char* json_path) {
     return 0;
 }
 
+static void compute_master_hash(
+    const TB01Result* r1,  const TB02Result* r2,  const TB03Result* r3,  const TB04Result* r4,
+    const TB05Result* r5,  const TB06Result* r6,  const TB07Result* r7,  const TB08Result* r8,
+    const TB09Result* r9,  const TB10Result* r10, const TB11Result* r11, const TB12Result* r12,
+    const TB13Result* r13, const TB14Result* r14, const TB15Result* r15, const TB16Result* r16,
+    char master_hash[65]) {
+    char concat[16 * 64 + 1];
+    memcpy(concat +  0*64, r1->sha256, 64);  memcpy(concat +  1*64, r2->sha256, 64);
+    memcpy(concat +  2*64, r3->sha256, 64);  memcpy(concat +  3*64, r4->sha256, 64);
+    memcpy(concat +  4*64, r5->sha256, 64);  memcpy(concat +  5*64, r6->sha256, 64);
+    memcpy(concat +  6*64, r7->sha256, 64);  memcpy(concat +  7*64, r8->sha256, 64);
+    memcpy(concat +  8*64, r9->sha256, 64);  memcpy(concat +  9*64, r10->sha256, 64);
+    memcpy(concat + 10*64, r11->sha256, 64); memcpy(concat + 11*64, r12->sha256, 64);
+    memcpy(concat + 12*64, r13->sha256, 64); memcpy(concat + 13*64, r14->sha256, 64);
+    memcpy(concat + 14*64, r15->sha256, 64); memcpy(concat + 15*64, r16->sha256, 64);
+    concat[16*64] = '\0';
+    omega_sha256_hex(concat, 16 * 64, master_hash);
+}
+
 static void emit_json_all(uint64_t seed, int mutant, int feral) {
     uint8_t dna[256]; make_demo_autophage_dna(seed, dna);
     TB01Result r1; TB02Result r2; TB03Result r3; TB04Result r4;
@@ -383,8 +402,13 @@ static void emit_json_all(uint64_t seed, int mutant, int feral) {
     omega_run_tb16_coupled(seed, mutant, &ledger, &r16);
     double elapsed_ms = (omega_time_sec() - t0) * 1000.0;
 
+    char master_hash[65];
+    compute_master_hash(&r1, &r2, &r3, &r4, &r5, &r6, &r7, &r8,
+                        &r9, &r10, &r11, &r12, &r13, &r14, &r15, &r16, master_hash);
+
     printf("{\n");
-    printf("  \"seed\": %llu, \"mutant\": %d, \"feral\": %d, \"elapsed_ms\": %.3f,\n", (unsigned long long)seed, mutant, feral, elapsed_ms);
+    printf("  \"version\": \"%s\", \"seed\": %llu, \"mutant\": %d, \"feral\": %d, \"elapsed_ms\": %.3f, \"master_sha256\": \"%s\",\n",
+           OMEGA_VERSION_STR, (unsigned long long)seed, mutant, feral, elapsed_ms, master_hash);
     printf("  \"tb01\": {\"scallop_net_disp\": %.12f, \"scallop_peak\": %.6f, \"purcell_2dof_disp\": %.6f, \"loop_area\": %.4f, \"mota5_disp\": %.4f, \"mota5_steps\": %d, \"mutant_disp\": %.6f, \"sha256\": \"%s\"},\n",
            r1.scallop_net_disp, r1.scallop_peak_excursion, r1.purcell_2dof_disp, r1.purcell_loop_area, r1.mota5_helical_disp, r1.mota5_proton_steps, r1.mutant_disp, r1.sha256);
     printf("  \"tb02\": {\"shannon_no_phage\": %.4f, \"shannon_with_phage\": %.4f, \"top_no_phage\": %.4f, \"top_with_phage\": %.4f, \"phikz_no_shell\": %.4f, \"phikz_shell\": %.4f, \"amoeba_no_mavirus\": %.4f, \"amoeba_with_mavirus\": %.4f, \"orfans\": %d, \"obelisks\": %d, \"sha256\": \"%s\"},\n",
@@ -586,18 +610,9 @@ static void run_human_all(uint64_t seed, int mutant, int feral) {
            r16.syn3a_dark_discovered, r16.syn3a_dark_genes,
            r16.raw_ai_mass_hallucination, r16.projected_mass_residual, r16.six_tier_closure_err);
 
-    char concat[16 * 64 + 1];
-    memcpy(concat +  0*64, r1.sha256, 64);  memcpy(concat +  1*64, r2.sha256, 64);
-    memcpy(concat +  2*64, r3.sha256, 64);  memcpy(concat +  3*64, r4.sha256, 64);
-    memcpy(concat +  4*64, r5.sha256, 64);  memcpy(concat +  5*64, r6.sha256, 64);
-    memcpy(concat +  6*64, r7.sha256, 64);  memcpy(concat +  7*64, r8.sha256, 64);
-    memcpy(concat +  8*64, r9.sha256, 64);  memcpy(concat +  9*64, r10.sha256, 64);
-    memcpy(concat + 10*64, r11.sha256, 64); memcpy(concat + 11*64, r12.sha256, 64);
-    memcpy(concat + 12*64, r13.sha256, 64); memcpy(concat + 13*64, r14.sha256, 64);
-    memcpy(concat + 14*64, r15.sha256, 64); memcpy(concat + 15*64, r16.sha256, 64);
-    concat[16*64] = '\0';
     char master_hash[65];
-    omega_sha256_hex(concat, 16 * 64, master_hash);
+    compute_master_hash(&r1, &r2, &r3, &r4, &r5, &r6, &r7, &r8,
+                        &r9, &r10, &r11, &r12, &r13, &r14, &r15, &r16, master_hash);
     printf("--------------------------------------------------------------------------------\n");
     printf(" ALL 16 TESTBEDS COMPLETE in %.2f ms | MASTER SHA-256: %s\n", dt_ms, master_hash);
     printf("================================================================================\n");

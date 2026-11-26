@@ -30,6 +30,7 @@ jobs:
           cp -r blueprint/* _site/blueprint/
           cp dist/Donahue_2026_cellular_engine_omega.pdf _site/
           cp docs/media/observatory_snapshot.png _site/
+          cp croissant.json ro-crate-metadata.json codemeta.json llms.txt llms-full.txt _site/
           touch _site/.nojekyll
       - uses: actions/upload-pages-artifact@v3
         with:

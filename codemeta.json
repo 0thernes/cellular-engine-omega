@@ -1,0 +1,56 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+  "@type": "SoftwareSourceCode",
+  "name": "CELLULAR ENGINE OMEGA",
+  "version": "5.3.0",
+  "datePublished": "2026-11-26",
+  "dateModified": "2026-11-26",
+  "description": "Zero-dependency C11 multi-scale cellular biophysics engine (16 testbeds, 75 substrates, 1,000-cell Hybrid Cube, 60 falsification gates, 16/16 compiled planted mutants) coupled via live C11-to-Lean runtime receipts (O63, O72) to 100 strictly constructive zero-Mathlib Pure Lean 4.35.0 theorems verified across all 6 independent kernels.",
+  "codeRepository": "https://github.com/0thernes/cellular-engine-omega",
+  "url": "https://0thernes.github.io/cellular-engine-omega/",
+  "issueTracker": "https://github.com/0thernes/cellular-engine-omega/issues",
+  "license": "https://spdx.org/licenses/Apache-2.0",
+  "programmingLanguage": [
+    "C11",
+    "Lean 4.35.0",
+    "Python 3",
+    "JavaScript (ESM)",
+    "AMS-LaTeX"
+  ],
+  "operatingSystem": [
+    "Linux",
+    "macOS",
+    "Windows"
+  ],
+  "runtimePlatform": [
+    "GCC / Clang C11",
+    "Lean 4.35.0",
+    "Node.js 22+",
+    "Python 3.11+"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "@id": "https://orcid.org/0009-0006-8168-9648",
+      "givenName": "Alexander Stephen",
+      "familyName": "Donahue",
+      "email": "0_0@0thernes.art",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Independent Researcher, Spokane, WA, USA"
+      }
+    }
+  ],
+  "keywords": [
+    "cellular biophysics",
+    "artificial life",
+    "Lean 4",
+    "formal verification",
+    "interaction nets",
+    "Turing morphogenesis",
+    "thermodynamic uncertainty relation",
+    "tardigrade cryptobiosis",
+    "virtual cell",
+    "C11"
+  ]
+}

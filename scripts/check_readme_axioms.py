@@ -16,8 +16,8 @@ def extract_live_axioms() -> list[str]:
     audit = (ROOT / "results" / "lean4-omega-audit.txt").read_text(encoding="utf-8-sig")
     rx = re.compile(r"^'(OmegaCellular\.[^']+)' (depends on axioms:\s*\[[^\]]+\]|does not depend on any axioms)$", re.M)
     lines = [re.sub(r"\s+", " ", m.group(0)).strip() for m in rx.finditer(audit)]
-    if len(lines) != 89:
-        raise RuntimeError(f"Expected 89 axiom lines in results/lean4-omega-audit.txt, found {len(lines)}")
+    if len(lines) != 100:
+        raise RuntimeError(f"Expected 100 axiom lines in results/lean4-omega-audit.txt, found {len(lines)}")
     for line in lines:
         if any(bad in line for bad in ("sorryAx", "Lean.ofReduceBool", "Lean.trustCompiler", "_native", "Classical.choice")):
             raise RuntimeError(f"Disallowed axiom in audit output: {line}")
@@ -42,7 +42,7 @@ def main() -> int:
         if line.group(0).strip() not in live_set:
             print(f"FAIL: README axiom line drifted from live audit: {line.group(0)}", file=sys.stderr)
             return 1
-    print(f"PASS: README.md verbatim #print axioms block matches live 89-theorem constructive audit (0 Classical.choice, 0 sorryAx).")
+    print(f"PASS: README.md verbatim #print axioms block matches live {len(live)}-theorem constructive audit (0 Classical.choice, 0 sorryAx).")
     return 0
 
 

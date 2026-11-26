@@ -25,7 +25,8 @@ jobs:
           chmod +x build_linux.sh
           ./build_linux.sh
           mkdir -p release_bundle
-          cp bin/omega_cell bin/libomega_cell.a dist/Donahue_2026_cellular_engine_omega.pdf dist/arxiv_submission.tar.gz CHECKSUMS.sha256 release_bundle/
+          cp bin/omega_cell bin/libomega_cell.a dist/Donahue_2026_cellular_engine_omega.pdf dist/arxiv_submission.tar.gz CHECKSUMS.sha256 croissant.json ro-crate-metadata.json codemeta.json release_bundle/
+          if [ -d timestamps ]; then cp timestamps/*.tsr release_bundle/ || true; fi
           (cd release_bundle && sha256sum * > SHA256SUMS)
           cat release_bundle/SHA256SUMS
 

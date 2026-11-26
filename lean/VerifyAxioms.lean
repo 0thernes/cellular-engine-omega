@@ -5,12 +5,12 @@ module
 public import Solution
 
 /-!
-# VerifyAxioms.lean — Standalone Axiom Audit Script (CELLULAR ENGINE OMEGA v5.2.0)
+# VerifyAxioms.lean — Standalone Axiom Audit Script (CELLULAR ENGINE OMEGA v5.3.0)
 
-Prints `#print axioms` for ALL 89 machine-checked theorems exported by `Solution`.
-Every declaration MUST depend strictly on subsets of `[propext, Classical.choice, Quot.sound]`
-(in v5.2.0 constructively within `[propext, Quot.sound]` or zero axioms) with ZERO `sorryAx`,
-`Lean.ofReduceBool`, `Lean.trustCompiler`, `_native`, or custom axioms.
+Prints `#print axioms` for ALL 100 machine-checked theorems exported by `Solution`.
+Every declaration MUST depend strictly on subsets of `[propext, Quot.sound]`
+(0 `Classical.choice`, 0 `sorryAx`, 0 `Lean.ofReduceBool`, 0 `Lean.trustCompiler`,
+0 `_native`, 0 custom axioms).
 -/
 
 -- Module 1: Purcell Scallop Theorem & Stokes Gauge Geometry (6)
@@ -127,3 +127,16 @@ Every declaration MUST depend strictly on subsets of `[propext, Classical.choice
 #print axioms OmegaCellular.NonVacuity.O87_nonvacuous_virtual_cell_projection_hallucination
 #print axioms OmegaCellular.NonVacuity.O88_nonvacuous_trace_replay_and_frozen_invariance
 #print axioms OmegaCellular.NonVacuity.O89_refute_quantum_cap_11_fits_16kib
+
+-- Module 14: Constructive Adversarial Refutations (11)
+#print axioms OmegaCellular.AdversarialTests.O90_refute_purcell_2dof_zero_area
+#print axioms OmegaCellular.AdversarialTests.O91_refute_hopfield_equilibrium_beats_proofreading
+#print axioms OmegaCellular.AdversarialTests.O92_refute_turing_equal_diffusion_destabilizes_witness
+#print axioms OmegaCellular.AdversarialTests.O93_refute_feinberg_deficiency_always_zero
+#print axioms OmegaCellular.AdversarialTests.O94_refute_mota5_motb2_9_state_step
+#print axioms OmegaCellular.AdversarialTests.O95_refute_tardigrade_budget_exceeds_1000
+#print axioms OmegaCellular.AdversarialTests.O96_refute_bio_inet_mass_leak_on_step
+#print axioms OmegaCellular.AdversarialTests.O97_refute_levin_bicephalic_requires_dna_mutation
+#print axioms OmegaCellular.AdversarialTests.O98_refute_o56_projection_leaves_nonzero_sum
+#print axioms OmegaCellular.AdversarialTests.O99_refute_b158_6trits_fits_byte
+#print axioms OmegaCellular.AdversarialTests.O100_refute_hybrid_cube_partition_drift

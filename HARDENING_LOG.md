@@ -1,4 +1,4 @@
-# 3-Cycle Forensic Hardening Log — CELLULAR ENGINE OMEGA (`v5.1.0` $\to$ `v5.2.0`)
+# Forensic Hardening Log — CELLULAR ENGINE OMEGA (`v5.1.0` $\to$ `v5.2.0` $\to$ `v5.3.0`)
 
 Structured index and audit ledger of all three complete hardening cycles conducted across every folder, source file, formal proof module, test suite, white paper, and governance manifest against **Build Standard for LLMs `v1.2.0`** and **Defensible Independent AI-Assisted Research Playbook `v1.3`**.
 
@@ -35,3 +35,11 @@ Structured index and audit ledger of all three complete hardening cycles conduct
 | Silent CLI invalid-arg acceptance, no fuzz harness, no `Challenge.lean` | `hole` | 1A/1B | `src/omega_main_cli.c`, `test/fuzz_omega_cli_codec.c`, `lean/` | **CLOSED** (exit code `2`, `256/256` fuzz, isolated `Spec`/`Challenge`/`Solution` + `17` NonVacuity) |
 | Unaudited open-problem scope vs `unsolved-problems-mega-atlas` | `blindspot` | 1/2 | `docs/mega-atlas-cross-check.md`, `paper/main.tex` | **CLOSED** (honest `0/1,900` solved + 22 adjacent open problems documented) |
 | Wall-clock timing files in `CHECKSUMS.sha256` & `llms-full.txt` R8 quote | `issue` | 3 | `scripts/generate_checksums.py`, `scripts/verify_version_sync.py` | **FIXED** (caught in clean-directory `B44` replication; checksum manifests restricted to strictly deterministic zero-timestamp artifacts) |
+| PRNG misidentified as `"SplitMix64"` instead of `Philox4x32-10` | `error` | R2-C2 | `AGENTS.md`, `repo.yaml`, `docs/architecture.md`, `docs/adr/0001*`, `paper/main.tex` | **FIXED** (corrected to `Philox4x32-10`, Salmon et al. SC11, `doi:10.1145/2063384.2063405`) |
+| Web Observatory default port documented as `8787` vs runtime `8791` | `error` | R2-C2 | `docs/{configuration,operations,threat-model}.md`, `README.md`, `examples/web_api_demo.mjs` | **FIXED** (unified everywhere to `8791`) |
+| Broken relative link `SUPPORT.md -> docs/index.md` | `error` | R2-C2 | `SUPPORT.md`, `docs/index.md` | **FIXED** (created complete `docs/index.md` hub; `0` broken links across repo) |
+| Stale `PENDING CI RUN` row in `REPLICATION.md` | `error` | R2-C2 | `REPLICATION.md` | **FIXED** (recorded live verified CI `#45749131672` + `v5.3.0`) |
+| CI missing Tectonic PDF build, `nanoda_bin`, `lake check --paranoid` (`lean4lean`) & negative kernel test | `hole` | R2-C1/C3 | `.github/workflows/ci.yml`, `scripts/verify_lean_six_kernels.sh`, `build.ps1` | **CLOSED** (all 6 kernels + live negative kernel test + Tectonic PDF + clean-room arXiv check in CI) |
+| `omega_cell json` omitted top-level `"version"` and `"master_sha256"` | `issue` | R2-C1 | `src/omega_main_cli.c`, `schema/omega_run.schema.json` | **FIXED** (shared `compute_master_hash` helper + schema/pytest parity check) |
+| Missing `AdversarialTests.lean`, live Crossref check, FAIR JSON-LD & RFC 3161 timestamps | `gap` | R2-C1/C2 | `lean/OmegaCellularProofs/AdversarialTests.lean`, `scripts/{check_citations,generate_fair_metadata,timestamp_digicert}.py`, `docs/DATASHEET.md` | **CLOSED** (`100/100` constructive theorems, `32/32` live DOIs `0` retractions, Croissant 1.0 + RO-Crate 1.1 + CodeMeta 2.0 + DigiCert `.tsr`) |
+| Windows PowerShell `Set-Content -Encoding ascii` mangled UTF-8 names in `leanexport` for `nanoda_bin` | `bug` | R2-C1 | `build.ps1` | **FIXED** (binary stdout redirect via `cmd /c`; `nanoda_bin` passes all `100/100` exported proofs with `exit 0`) |

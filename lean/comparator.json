@@ -90,7 +90,18 @@
     "OmegaCellular.NonVacuity.O86_nonvacuous_ciss_oxytricha_cohesin_witness",
     "OmegaCellular.NonVacuity.O87_nonvacuous_virtual_cell_projection_hallucination",
     "OmegaCellular.NonVacuity.O88_nonvacuous_trace_replay_and_frozen_invariance",
-    "OmegaCellular.NonVacuity.O89_refute_quantum_cap_11_fits_16kib"
+    "OmegaCellular.NonVacuity.O89_refute_quantum_cap_11_fits_16kib",
+    "OmegaCellular.AdversarialTests.O90_refute_purcell_2dof_zero_area",
+    "OmegaCellular.AdversarialTests.O91_refute_hopfield_equilibrium_beats_proofreading",
+    "OmegaCellular.AdversarialTests.O92_refute_turing_equal_diffusion_destabilizes_witness",
+    "OmegaCellular.AdversarialTests.O93_refute_feinberg_deficiency_always_zero",
+    "OmegaCellular.AdversarialTests.O94_refute_mota5_motb2_9_state_step",
+    "OmegaCellular.AdversarialTests.O95_refute_tardigrade_budget_exceeds_1000",
+    "OmegaCellular.AdversarialTests.O96_refute_bio_inet_mass_leak_on_step",
+    "OmegaCellular.AdversarialTests.O97_refute_levin_bicephalic_requires_dna_mutation",
+    "OmegaCellular.AdversarialTests.O98_refute_o56_projection_leaves_nonzero_sum",
+    "OmegaCellular.AdversarialTests.O99_refute_b158_6trits_fits_byte",
+    "OmegaCellular.AdversarialTests.O100_refute_hybrid_cube_partition_drift"
   ],
   "definition_names": [],
   "permitted_axioms": [

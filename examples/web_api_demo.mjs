@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: Apache-2.0
 // Copyright (c) 2026 Alexander Stephen Donahue
 // Minimal Node.js client querying the hardened loopback Web Observatory API.
-// Start server first: `node web/server.mjs` (default http://127.0.0.1:8787)
+// Start server first: `node web/server.mjs` (default http://127.0.0.1:8791)
 
-const BASE = process.env.OMEGA_URL || "http://127.0.0.1:8787";
+const BASE = process.env.OMEGA_URL || "http://127.0.0.1:8791";
 
 async function main() {
   const health = await (await fetch(`${BASE}/api/health`)).json();

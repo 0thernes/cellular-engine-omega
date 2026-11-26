@@ -26,13 +26,16 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install Python verification dependencies & cppcheck
+      - name: Install Python verification dependencies, cppcheck, bubblewrap & Tectonic
         shell: bash
         run: |
           set -euo pipefail
           sudo apt-get update -qq
-          sudo apt-get install -y -qq cppcheck bubblewrap
+          sudo apt-get install -y -qq cppcheck bubblewrap curl
           python3 -m pip install --quiet pytest hypothesis jsonschema numpy scipy matplotlib pyyaml
+          curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net | sh
+          sudo mv tectonic /usr/local/bin/tectonic
+          tectonic --version
 
       - name: Install elan & Lean 4.35.0
         shell: bash
@@ -41,25 +44,20 @@ jobs:
           curl https://elan.lean-lang.org/elan-init.sh -sSf | sh -s -- -y --default-toolchain leanprover/lean4:v4.35.0
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
 
-      - name: Build C11 (-Werror -ffp-contract=off), ASan/UBSan, 60 Gates, 16 Mutants, Fuzz & Lean 4.35.0 (89 Proofs)
+      - name: Build C11 (-Werror -ffp-contract=off), ASan/UBSan, 60 Gates, 16 Mutants, Fuzz & Lean 4.35.0 (100 Proofs)
         shell: bash
         run: |
           set -euo pipefail
-          chmod +x build_linux.sh scripts/audit-repo.sh
+          chmod +x build_linux.sh scripts/audit-repo.sh scripts/verify_lean_six_kernels.sh
           OMEGA_SANITIZE=1 ./build_linux.sh
 
-      - name: Multi-Kernel Lean 4.35.0 Audit (lake comparator --paranoid, leanchecker-paranoid, con-leche, con-ron)
+      - name: All 6 Independent Lean 4.35.0 Kernels + Live Negative Kernel Test + Isolated Comparator
         shell: bash
         run: |
           set -euo pipefail
-          cd lean
-          lake comparator --config comparator.json --paranoid
-          lake env leanexport Solution > /tmp/solution.export
-          if command -v con-leche >/dev/null 2>&1; then con-leche --verified /tmp/solution.export; fi
-          if command -v con-ron >/dev/null 2>&1; then con-ron --verified /tmp/solution.export; fi
-          rm -f /tmp/solution.export
+          ./scripts/verify_lean_six_kernels.sh
 
-      - name: Python Verification Ladder, Oracle, Version Sync, Axiom Drift & Citation Checks
+      - name: Python Verification Ladder, Oracle, Version Sync, Axiom Drift, Live Crossref Citations & FAIR Metadata
         shell: bash
         run: |
           set -euo pipefail
@@ -68,6 +66,21 @@ jobs:
           python3 scripts/verify_version_sync.py
           python3 scripts/check_readme_axioms.py
           python3 scripts/check_citations.py
+          python3 scripts/generate_fair_metadata.py --verify
+          python3 scripts/generate_checksums.py --verify
+
+      - name: Compile AMS-LaTeX Monograph & Clean-Room arXiv Submission Tarball (Tectonic)
+        shell: bash
+        run: |
+          set -euo pipefail
+          (cd paper && tectonic -X compile main.tex --outdir build --keep-logs --keep-intermediates)
+          test -s paper/build/main.pdf
+          rm -rf /tmp/arxiv_clean && mkdir -p /tmp/arxiv_clean
+          tar -xzf dist/arxiv_submission.tar.gz -C /tmp/arxiv_clean
+          (cd /tmp/arxiv_clean && tectonic -X compile main.tex)
+          test -s /tmp/arxiv_clean/main.pdf
+          rm -rf /tmp/arxiv_clean
+          echo "PASS: Both paper/main.tex and clean-room dist/arxiv_submission.tar.gz compiled cleanly with Tectonic."
 
       - name: Web Observatory HTTP Security, /api/health, /healthz & /api/cube Smoke Test
         shell: bash
@@ -85,7 +98,7 @@ jobs:
             const hRes = await fetch("http://127.0.0.1:18791/api/health");
             if (hRes.headers.get("x-content-type-options") !== "nosniff") throw new Error("Missing nosniff");
             const h = await hRes.json();
-            if (!h.ok || h.version !== ver || h.lean_theorems !== 89 || h.gates !== 60 || h.mutants !== 16) {
+            if (!h.ok || h.version !== ver || h.lean_theorems !== 100 || h.gates !== 60 || h.mutants !== 16) {
               throw new Error("Health mismatch: " + JSON.stringify(h));
             }
             const hz = await fetch("http://127.0.0.1:18791/healthz");

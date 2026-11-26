@@ -22,16 +22,17 @@ This document provides a self-contained protocol for replicating every build, C1
 ```bash
 git clone https://github.com/0thernes/cellular-engine-omega.git omega-repro
 cd omega-repro
-# 1. C11 build + ASan/UBSan + 60 gates + 16/16 mutants + 256 fuzz + Live C11->Lean export + 89 Lean proofs
+# 1. C11 build + ASan/UBSan + 60 gates + 16/16 mutants + 256 fuzz + Live C11->Lean export + 100 Lean proofs
 OMEGA_SANITIZE=1 ./build_linux.sh
-# 2. Isolated Challenge/Solution multi-kernel comparator
-(cd lean && lake comparator --config comparator.json --paranoid)
-# 3. Independent Python verification ladder + exact oracle + Hypothesis (1,000+ cases)
+# 2. All 6 independent Lean 4.35.0 kernels + live negative kernel test + isolated Challenge/Solution comparator
+./scripts/verify_lean_six_kernels.sh
+# 3. Independent Python verification ladder + exact oracle + Hypothesis (1,200+ cases) + negative Lean test
 python3 -m pytest tests/ -v
-# 4. Version, README axiom-block, citation, and SHA-256 checksum audits
+# 4. Version, README axiom-block, live Crossref citation, FAIR metadata, and SHA-256 checksum audits
 python3 scripts/verify_version_sync.py
 python3 scripts/check_readme_axioms.py
 python3 scripts/check_citations.py
+python3 scripts/generate_fair_metadata.py --verify
 python3 scripts/generate_checksums.py --verify
 # 5. Build Standard v1.2.0 repository audit
 ./scripts/audit-repo.sh
@@ -52,14 +53,14 @@ pwsh -File scripts/Audit-Repo.ps1
 
 ---
 
-## 3. Expected Deterministic Receipts (`v5.2.0`, Seed `2026001`, x86-64 `-ffp-contract=off`)
+## 3. Expected Deterministic Receipts (`v5.3.0`, Seed `2026001`, x86-64 `-ffp-contract=off`)
 
 - **Falsification Suite:** `60 / 60 PASSED · 0 FAILED · 16/16 MUTANTS CAUGHT`
 - **Fuzz + Property Harness:** `256 / 256` mutated cases + `32 / 32` property seeds PASS (`0` crashes)
 - **Master SHA-256 (`TB01`–`TB16`):** `a92641843e46736b04cd781181f34f1de8444859ce73db47d4204c5553364661`
 - **75-Substrate / 1,000-Cube SHA-256:** `c9fd6d3dfcf1492c2271e2fd7a6e30473ff02187ca17a9d664493df0fb0a55ab`
 - **Live C11 Receipt SHA-256 (`LiveC11Receipt.lean`):** `12d58fa590f59aa052f243fcb0ea8b0d24c41b6fff55185c3671d0bc1b0941c2`
-- **Lean 4.35.0 Formal Proofs:** `89 / 89` theorems strictly within `{propext, Quot.sound}` (`0` `Classical.choice`, `0` `sorryAx`, `0` warnings)
+- **Lean 4.35.0 Formal Proofs:** `100 / 100` theorems strictly within `{propext, Quot.sound}` (`0` `Classical.choice`, `0` `sorryAx`, `0` warnings) across all `6` independent kernels + live negative kernel rejection test
 
 ---
 
@@ -69,5 +70,6 @@ pwsh -File scripts/Audit-Repo.ps1
 
 | Date (UTC) | Replicator | OS / Arch / Toolchain | Commit / Tag | Outcome | Observed Master SHA-256 / Notes |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| 2026-11-25 | Author clean-directory replication (fresh temp clone outside workspace) | Windows 11 x86_64 · Clang (Lean 4.35.0 bundle) · Lean 4.35.0 · Python 3.12 · Node 22 | `v5.2.0` | **PASS** | `a92641843e46736b...` · `60/60` gates, `16/16` mutants, `89/89` Lean proofs (`lean`, `leanchecker`, `leanchecker-paranoid`, `con-leche`, `con-ron`), `pytest` PASS, `Audit-Repo.ps1` `100.0%` |
-| 2026-11-25 | GitHub Actions clean-runner CI (`ubuntu-latest`) | Ubuntu 24.04 x86_64 · GCC + ASan/UBSan · Lean 4.35.0 + `lake comparator --paranoid` | `v5.2.0` | **PENDING CI RUN** *(updated after push to `main`)* | Full Linux ELF64 + ASan/UBSan + `lake comparator --paranoid` + Tectonic PDF verification |
+| 2026-11-25 | Author clean-directory replication (fresh temp clone outside workspace) | Windows 11 x86_64 · Clang (Lean 4.35.0 bundle) · Lean 4.35.0 · Python 3.12 · Node 22 | `v5.2.0` (`f6bb7ec`) | **PASS** | `a92641843e46736b...` · `60/60` gates, `16/16` mutants, `89/89` Lean proofs (`lean`, `leanchecker`, `leanchecker-paranoid`, `con-leche`, `con-ron`), `pytest` PASS, `Audit-Repo.ps1` `100.0%` |
+| 2026-11-25 | GitHub Actions Multi-OS CI Run [`#45749131672`](https://github.com/0thernes/cellular-engine-omega/actions/runs/45749131672) | Ubuntu 24.04 x86_64 (GCC + ASan/UBSan + Lean 4.35.0 `lake comparator --paranoid`) · macOS ARM64 (Clang) · Windows x64 (MinGW GCC) | `v5.2.0` (`f6bb7ec`) | **PASS (ALL 3 OS GREEN)** | Full Linux ELF64 + ASan/UBSan + `60/60` gates + `16/16` mutants + `lake comparator --paranoid` + Web Observatory API + SLSA build provenance + GitHub Release [`#45749136562`](https://github.com/0thernes/cellular-engine-omega/actions/runs/45749136562) |
+| 2026-11-26 | Author Round-2 verification (`v5.3.0`) | Windows 11 x86_64 · Clang + Lean 4.35.0 (`lean`, `leanchecker`, `leanchecker-paranoid`, `con-leche`, `con-ron`, `nanoda_bin` + negative kernel test) · Python 3.12 · Tectonic | `v5.3.0` | **PASS** | `a92641843e46736b...` · `60/60` gates, `16/16` mutants, `100/100` constructive Lean proofs (`0` `Classical.choice`), `32/32` live Crossref DOIs (`0` retractions), FAIR Croissant/RO-Crate/CodeMeta, RFC 3161 DigiCert `.tsr`, `Audit-Repo.ps1` `100.0%` |

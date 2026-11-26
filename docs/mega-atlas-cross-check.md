@@ -1,7 +1,7 @@
 # Honest Cross-Check Against `unsolved-problems-mega-atlas` (1,900 Open Problems)
 
-**Checked Dataset:** `0thernes/unsolved-problems-mega-atlas` (`V2.4.0`, `outputs/MegaAtlas_Unsolved_Problems_V2.json.gz`, `1,900` deduplicated unsolved problems across `8` Pillars & `28` Superdomains)  
-**Audit Date:** `2026-11-25`  
+**Checked Dataset:** `0thernes/unsolved-problems-mega-atlas` (`V2.6.0`, `outputs/MegaAtlas_Unsolved_Problems_V2.json.gz`, `1,900` deduplicated unsolved problems across `8` Pillars & `28` Superdomains)  
+**Audit Date:** `2026-11-26`  
 **Author:** Alexander Stephen Donahue (ORCID `0009-0006-8168-9648`)
 
 ---
@@ -11,13 +11,13 @@
 - **Overarching Mega-Atlas Open Problems Solved or Retired:** **`0 / 1,900`**
 - **Directly Adjacent Parent Problems Mapped with Scoped Formal/Computational Sub-Models:** **`22` Atlas IDs (ALL remain `OPEN`)**
 
-CELLULAR ENGINE OMEGA (`v5.2.0`) **does not solve, close, or retire** any of the 1,900 open scientific, mathematical, or engineering problems in the Unsolved Problems Mega-Atlas. Rather, it supplies a **scoped, reproducible, multi-scale computational testbed (`16` testbeds, `75` substrates, `1,000`-cell Hybrid Cube)** paired with **`89` zero-Mathlib constructive Lean 4.35.0 algebraic invariants (`O01`–`O89`)** and live runtime verification receipts (`O63`, `O72`) touching 22 open frontier domains.
+CELLULAR ENGINE OMEGA (`v5.3.0`) **does not solve, close, or retire** any of the 1,900 open scientific, mathematical, or engineering problems in the Unsolved Problems Mega-Atlas. Rather, it supplies a **scoped, reproducible, multi-scale computational testbed (`16` testbeds, `75` substrates, `1,000`-cell Hybrid Cube)** paired with **`100` zero-Mathlib constructive Lean 4.35.0 algebraic invariants (`O01`–`O100`)** audited across all `6` independent kernels and live runtime verification receipts (`O63`, `O72`) touching 22 open frontier domains.
 
 ---
 
 ## Scoped Mapping to 22 Directly Adjacent Open Mega-Atlas Problems
 
-| Atlas ID | Pillar / Domain | Open Mega-Atlas Problem | Status | Scoped Sub-Model / Invariant in `cellular-engine-omega` (`v5.2.0`) | Why the Parent Open Problem Remains Unsolved |
+| Atlas ID | Pillar / Domain | Open Mega-Atlas Problem | Status | Scoped Sub-Model / Invariant in `cellular-engine-omega` (`v5.3.0`) | Why the Parent Open Problem Remains Unsolved |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | `BIO-001` | Biology | Origin of life (abiogenesis) | **OPEN** | `TB15` CISS magnetite chiral symmetry breaking + RAF mass closure (`O47`) | Reduced kinetic toy model; does not reconstruct prebiotic geochemistry or experimental self-replicating protocells. |
 | `BIO-003` | Biology | Homochirality of biomolecules | **OPEN** | `TB15` spin-polarized CISS amplification (`O47`, `>96% ee`) | Demonstrates algebraic quadratic bias amplification (`L^2 - D^2`), not a full physical derivation across planetary reservoirs. |

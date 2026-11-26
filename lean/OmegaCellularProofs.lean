@@ -17,14 +17,17 @@ public import OmegaCellularProofs.VirtualCellManifold
 public import OmegaCellularProofs.VerifyTraceReceipt
 public import OmegaCellularProofs.SubstratesCube
 public import OmegaCellularProofs.NonVacuity
+public import OmegaCellularProofs.AdversarialTests
 
 /-!
-# OmegaCellularProofs.lean — Root Formal Verification Library (v5.2.0)
+# OmegaCellularProofs.lean — Root Formal Verification Library (v5.3.0)
 
-Aggregates all 13 pure Lean 4.35.0 `module` proof & specification files exporting
-**89 machine-checked frontier theorems** (`O01`–`O63` + `O01b` + `O41b` + `O59b` +
-`O67`–`O72` + `O73`–`O89` non-vacuity & sharp negative-boundary witnesses) with:
+Aggregates all 14 pure Lean 4.35.0 `module` proof & specification files exporting
+**100 strictly constructive machine-checked frontier theorems** (`O01`–`O63` + `O01b` +
+`O41b` + `O59b` + `O67`–`O72` + `O73`–`O89` non-vacuity & negative-boundary witnesses +
+`O90`–`O100` constructive adversarial refutations) with:
 - Zero Mathlib dependencies,
+- Zero `Classical.choice` (strictly `propext` + `Quot.sound` or zero axioms),
 - Zero `sorry`, zero `admit`, zero `native_decide`, zero compiler/SAT axioms,
 - Strict `autoImplicit = false`, `relaxedAutoImplicit = false`,
   `linter.unusedVariables = true`, `linter.deprecated = true`.

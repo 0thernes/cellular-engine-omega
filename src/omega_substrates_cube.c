@@ -2,7 +2,7 @@
 #include "omega_abi.h"
 
 /*
- * CELLULAR ENGINE OMEGA v5.1.0 — Clean-Slate v3.0 75 Substrates & 1,000-Cell Hybrid Cube
+ * CELLULAR ENGINE OMEGA v5.3.0 — Clean-Slate v3.0 75 Substrates & 1,000-Cell Hybrid Cube
  *
  * ZERO LARP · ZERO FAKE PASS CONSTANTS · ZERO HEAP ALLOCATIONS · 100% REENTRANT C11:
  *   1. All 25 Numeric Precision Codecs (PM01..PM25): genuine bit/byte encode->decode roundtrips,

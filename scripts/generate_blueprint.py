@@ -25,6 +25,7 @@ def parse_axioms() -> dict[str, str]:
 
 
 def main() -> int:
+    version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
     axioms = parse_axioms()
     grouped: dict[str, list[tuple[str, str]]] = {}
     for full, ax in axioms.items():
@@ -35,9 +36,9 @@ def main() -> int:
 
     cards_html = []
     tex_lines = [
-        "% Auto-generated Lean 4.35.0 Proof Blueprint (CELLULAR ENGINE OMEGA v5.2.0)",
-        "\\section*{CELLULAR ENGINE OMEGA v5.2.0 — Lean 4.35.0 Proof Blueprint}",
-        f"Total machine-checked theorems: {len(axioms)} (strictly constructive within \\{{propext, Quot.sound\\}}, zero Classical.choice, zero sorryAx, zero Mathlib).",
+        f"% Auto-generated Lean 4.35.0 Proof Blueprint (CELLULAR ENGINE OMEGA v{version})",
+        f"\\section*{{CELLULAR ENGINE OMEGA v{version} — Lean 4.35.0 Proof Blueprint}}",
+        f"Total machine-checked theorems: {len(axioms)} across {len(grouped)} modules (strictly constructive within \\{{propext, Quot.sound\\}}, zero Classical.choice, zero sorryAx, zero Mathlib).",
     ]
     for mod, items in grouped.items():
         rows = []
@@ -63,7 +64,7 @@ def main() -> int:
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>CELLULAR ENGINE OMEGA v5.2.0 — Lean 4.35.0 Proof Blueprint</title>
+  <title>CELLULAR ENGINE OMEGA v{version} — Lean 4.35.0 Proof Blueprint</title>
   <style>
     :root {{ --bg:#0b1120; --panel:#111a2e; --border:#1e293b; --text:#e2e8f0; --muted:#94a3b8; --accent:#38bdf8; --ok:#10b981; --purple:#a78bfa; }}
     body {{ margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--text); line-height:1.55; }}
@@ -91,18 +92,18 @@ def main() -> int:
 <body>
   <header>
     <div style="max-width:1180px;margin:0 auto;">
-      <h1>CELLULAR ENGINE OMEGA v5.2.0 — Lean 4.35.0 Proof Blueprint</h1>
+      <h1>CELLULAR ENGINE OMEGA v{version} — Lean 4.35.0 Proof Blueprint</h1>
       <div class="meta">Author: Alexander Stephen Donahue (ORCID 0009-0006-8168-9648) · Independent Researcher, Spokane, WA, USA · <a href="../index.html">Project Home</a> · <a href="https://github.com/0thernes/cellular-engine-omega">GitHub Repository</a></div>
       <div class="pills">
         <span class="pill">{len(axioms)} / {len(axioms)} Theorems Proven</span>
         <span class="pill">0 Mathlib · 0 sorryAx · 0 Classical.choice</span>
         <span class="pill">Isolated Spec.lean -> Challenge.lean / Solution.lean</span>
-        <span class="pill">Multi-Kernel Audited (lean · leanchecker-paranoid · con-leche · con-ron · nanoda_bin · comparator)</span>
+        <span class="pill">All 6 Independent Kernels (lean · leanchecker-paranoid · lean4lean · nanoda_bin · con-leche · con-ron)</span>
       </div>
     </div>
   </header>
   <main>
-    <p>Every theorem below is extracted directly from the live <code>results/lean4-omega-audit.txt</code> kernel output of <code>lean/VerifyAxioms.lean</code>. Live C11 runtime telemetry is bound into the kernel via <code>LiveC11Receipt.lean</code> (<code>O63</code>, <code>O72</code>), and every universal hypothesis bundle is inhabited and sharp-boundary tested in <code>NonVacuity.lean</code> (<code>O73</code>–<code>O89</code>).</p>
+    <p>Every theorem below is extracted directly from the live <code>results/lean4-omega-audit.txt</code> kernel output of <code>lean/VerifyAxioms.lean</code>. Live C11 runtime telemetry is bound into the kernel via <code>LiveC11Receipt.lean</code> (<code>O63</code>, <code>O72</code>), every universal hypothesis bundle is inhabited and sharp-boundary tested in <code>NonVacuity.lean</code> (<code>O73</code>–<code>O89</code>), and 11 weakened/inverted domain falsifications are refuted constructively in <code>AdversarialTests.lean</code> (<code>O90</code>–<code>O100</code>).</p>
     <div class="grid">{''.join(cards_html)}</div>
   </main>
 </body>

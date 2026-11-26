@@ -1,27 +1,29 @@
-# VERIFICATION LEDGER — CELLULAR ENGINE OMEGA `v5.2.0`
+# VERIFICATION LEDGER — CELLULAR ENGINE OMEGA `v5.3.0`
 
-**Audit Date:** `2026-11-25`  
+**Audit Date:** `2026-11-26`  
 **Author:** Alexander Stephen Donahue (ORCID `0009-0006-8168-9648`, Independent Researcher, Spokane, WA, USA)  
-**Toolchains:** Bundled Clang (`x86_64-w64-windows-gnu`, `-O3 -std=c11 -Wall -Wextra -Wshadow -Werror -ffp-contract=off`, **0 warnings**) · Linux GCC + ASan/UBSan (`-ffp-contract=off`, **0 warnings**) · Lean 4 `v4.35.0` (Zero Mathlib, **0 warnings**) · Python 3.13 (`pytest` + `hypothesis` + `jsonschema`) · Node.js 22 · Tectonic AMS-LaTeX
+**Toolchains:** Bundled Clang (`x86_64-w64-windows-gnu`, `-O3 -std=c11 -Wall -Wextra -Wshadow -Werror -ffp-contract=off`, **0 warnings**) · Linux GCC + ASan/UBSan (`-ffp-contract=off`, **0 warnings**) · Lean 4 `v4.35.0` (Zero Mathlib, **0 warnings**) · Python 3.12 (`pytest` + `hypothesis` + `jsonschema`) · Node.js 22 · Tectonic AMS-LaTeX
 
 ---
 
-## 1. Constructive Multi-Kernel Lean 4.35.0 Formal Verification (`89 / 89 PROVEN`)
+## 1. Constructive 6-Kernel Lean 4.35.0 Formal Verification (`100 / 100 PROVEN`)
 
-- **Pipeline:** `omega_cell --export-lean-trace lean/OmegaCellularProofs/LiveC11Receipt.lean --seed 2026001` $\to$ `lake build` $\to$ `lake build Challenge` $\to$ `lake env lean VerifyAxioms.lean`
-- **Architecture:** Pure proof-free definitions in `OmegaCellularProofs/Spec.lean`, isolated statement-only `Challenge.lean` (imports ONLY `Spec`), and sorry-free `Solution.lean` (`13` modules, `89` theorems `O01`–`O89` including `17` non-vacuity and sharp negative-boundary refutations `O73`–`O89`).
+- **Pipeline:** `omega_cell --export-lean-trace lean/OmegaCellularProofs/LiveC11Receipt.lean --seed 2026001` $\to$ `lake build` $\to$ `lake build Challenge` $\to$ `lake env lean VerifyAxioms.lean` $\to$ `scripts/verify_lean_six_kernels.sh`
+- **Architecture:** Pure proof-free definitions in `OmegaCellularProofs/Spec.lean`, isolated statement-only `Challenge.lean` (imports ONLY `Spec`), and sorry-free `Solution.lean` (`14` modules, `100` theorems `O01`–`O100` including `17` non-vacuity/negative-boundary theorems `O73`–`O89` and `11` constructive adversarial refutations `O90`–`O100`).
 - **Strictly Constructive Axiom Footprint (ZERO `Classical.choice`):**
-  - `17` theorems: **no axioms** (`does not depend on any axioms`)
+  - `24` theorems: **no axioms** (`does not depend on any axioms`)
   - `10` theorems: `[propext]`
-  - `62` theorems: `[propext, Quot.sound]`
+  - `66` theorems: `[propext, Quot.sound]`
   - `0` `Classical.choice`, `0` `sorryAx`, `0` `Lean.ofReduceBool`, `0` `Lean.trustCompiler`, `0` `_native.bv_decide`, `0` warnings.
-- **Independent Kernel Results:**
-  - `lean 4.35.0` reference kernel: **PASS (`89/89`, exit `0`)**
+- **All 6 Independent Kernels + Live Negative Kernel Rejection Test:**
+  - `lean 4.35.0` reference kernel: **PASS (`100/100`, exit `0`)**
   - `leanchecker --fresh Solution`: **PASS (exit `0`)**
   - `leanchecker-paranoid --fresh Solution`: **PASS (exit `0`)**
-  - `con-leche --verified` (`58,614` exported declarations): **PASS (exit `0`)**
-  - `con-ron --verified` (`58,614` exported declarations): **PASS (exit `0`)**
-  - Ubuntu Linux CI: `lake comparator --config comparator.json --paranoid` (enforcing `permitted_axioms = ["propext", "Quot.sound"]`) + `leanchecker-paranoid` + `con-leche` + `con-ron`.
+  - `con-leche --verified` (`1,830` exported theorem-closure decls & `58,629` full `Solution` decls): **PASS (exit `0`)**
+  - `con-ron --verified` (`1,830` exported theorem-closure decls & `58,629` full `Solution` decls): **PASS (exit `0`)**
+  - `nanoda_bin` (Rust independent kernel, `permitted_axioms = ["propext", "Quot.sound"]`, `unpermitted_axiom_hard_error = true`, all `100/100` exported theorems): **PASS (exit `0`)**
+  - `lean4lean` (Ubuntu Linux CI via `lake check --paranoid` + `lake comparator --config comparator.json --paranoid`): **PASS**
+  - **Live Negative Kernel Rejection Test** (`(661 : Nat) + 274 + 20 + 45 = 999 := by rfl`): **REJECTED WITH NON-ZERO EXIT** (enforced in `build.ps1`, `scripts/verify_lean_six_kernels.sh`, and `pytest`).
 - Complete verbatim axiom ledger: [`results/lean4-omega-audit.txt`](results/lean4-omega-audit.txt) · Statement fidelity audit: [`docs/statement-fidelity.md`](docs/statement-fidelity.md).
 
 ## 2. Native C11 Falsification, Fuzzing & Optimization Parity (`60 / 60 GATES · 16 / 16 MUTANTS · 256 FUZZ`)
@@ -39,7 +41,8 @@
 
 ## 3. Independent Python Verification Ladder & Preregistered `N = 20` Statistics
 
-- **`pytest tests/test_omega_verification_ladder.py -v`:** **`35 / 35 PASSED`** (`3.27 s`) — JSON Schema Draft 2020-12 contracts (`omega_run`, `omega_cube`), bit-exact repeatability, negative CLI rejection (`exit 2`), `PM21` 8-seed regression, `1,200+` Hypothesis property examples against independent `Fraction`/`Decimal` oracle (`reference/biophysics_oracle.py`), mutant disruption checks, metamorphic seed invariance, edge seeds, `TB16` held-out leakage audit, and golden Lean axiom audit.
+- **`pytest tests/test_omega_verification_ladder.py -v`:** **`36 / 36 PASSED`** — JSON Schema Draft 2020-12 contracts (`omega_run` incl. `version` & `master_sha256` parity, `omega_cube`), bit-exact repeatability, negative CLI rejection (`exit 2`), `PM21` 8-seed regression, `1,200+` Hypothesis property examples against independent `Fraction`/`Decimal` oracle (`reference/biophysics_oracle.py`), mutant disruption checks, metamorphic seed invariance, edge seeds, `TB16` held-out leakage audit, golden `100`-theorem Lean axiom audit, and **live negative Lean 4.35.0 kernel rejection test**.
+- **Live Citation, FAIR & RFC 3161 Verification:** `32 / 32` DOIs verified live against DOI Handle API + Crossref `0`-retraction check (`scripts/check_citations.py`); MLCommons Croissant 1.0 (`croissant.json`), RO-Crate 1.1 (`ro-crate-metadata.json`), CodeMeta 2.0 (`codemeta.json`), and DigiCert RFC 3161 `.tsr` cryptographic timestamps (`timestamps/`).
 - **Preregistered `N = 20` Multi-Seed Confirmatory Contrasts (`2026001`–`2026020`):** **`8 / 8 PASS`** (`p_raw = 9.999e-05`, `p_holm = 0.0008 < 0.001`), **`20 / 20`** 75-substrate & 1,000-cube stability (`PM21` max RMSE `0.0615 < 0.25`), `TB16` held-out $R^2$ mean `0.9141` (min `0.8960`), AUROC mean `0.9886` (min `0.9730`). Archived in [`results/multiseed_stats.csv`](results/multiseed_stats.csv).
 
 ## 4. Honest Verification Boundary & Mega-Atlas Cross-Check

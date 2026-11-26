@@ -1,5 +1,5 @@
 ================================================================================
- CELLULAR ENGINE OMEGA v5.2.0 — 60-GATE FALSIFICATION SUITE + 16/16 MUTANTS + 10-SEED + 75-SUB/1000-CUBE
+ CELLULAR ENGINE OMEGA v5.3.0 — 60-GATE FALSIFICATION SUITE + 16/16 MUTANTS + 10-SEED + 75-SUB/1000-CUBE
 ================================================================================
   [PASS] G01  | TB01 Purcell 1-DOF reciprocal scallop net displacement == 0 (< 1e-10) despite peak > 0.1
   [PASS] G02  | TB01 2-DOF Purcell non-reciprocal loop & stochastic MotA5MotB2 10-state proton ratchet generate thrust
@@ -62,5 +62,5 @@
   [PASS] G59  | NUMERIC EDGE-VALUE STABILITY (seed=1, UINT64_MAX, 0x00/0xFF DNA): zero NaN/Inf, exact chi=+2 & bounded 112D
   [PASS] G60  | REENTRANCY & TB16 STANDALONE-VS-COUPLED PARITY: identical syn3A AUROC/R2 & zero integer 6-tier drift
 ================================================================================
- FALSIFICATION SUMMARY: 60 / 60 PASSED · 0 FAILED · 16/16 MUTANTS CAUGHT (0.869s)
+ FALSIFICATION SUMMARY: 60 / 60 PASSED · 0 FAILED · 16/16 MUTANTS CAUGHT (0.798s)
 ================================================================================

@@ -1,0 +1,514 @@
+{
+  "@context": {
+    "@language": "en",
+    "@vocab": "https://schema.org/",
+    "citeAs": "cr:citeAs",
+    "column": "cr:column",
+    "conformsTo": "dct:conformsTo",
+    "cr": "http://mlcommons.org/croissant/",
+    "data": {
+      "@id": "cr:data",
+      "@type": "@json"
+    },
+    "dataType": {
+      "@id": "cr:dataType",
+      "@type": "@vocab"
+    },
+    "dct": "http://purl.org/dc/terms/",
+    "extract": "cr:extract",
+    "field": "cr:field",
+    "fileObject": "cr:fileObject",
+    "fileProperty": "cr:fileProperty",
+    "fileSet": "cr:fileSet",
+    "format": "cr:format",
+    "includes": "cr:includes",
+    "isLiveDataset": "cr:isLiveDataset",
+    "jsonPath": "cr:jsonPath",
+    "key": "cr:key",
+    "md5": "cr:md5",
+    "parentField": "cr:parentField",
+    "path": "cr:path",
+    "recordSet": "cr:recordSet",
+    "references": "cr:references",
+    "regex": "cr:regex",
+    "repeated": "cr:repeated",
+    "replace": "cr:replace",
+    "sc": "https://schema.org/",
+    "separator": "cr:separator",
+    "source": "cr:source",
+    "subField": "cr:subField",
+    "transform": "cr:transform"
+  },
+  "@type": "sc:Dataset",
+  "conformsTo": "http://mlcommons.org/croissant/1.0",
+  "name": "CELLULAR ENGINE OMEGA Multi-Seed Biophysics & Formal Verification Dataset",
+  "alternateName": "CELLULAR ENGINE OMEGA v5.3.0",
+  "description": "Preregistered N=20 multi-seed paired intact-vs-knockout experimental telemetry (seeds 2026001..2026020 across 8 confirmatory contrasts, 75 computational substrates, and 1,000-cell Hybrid Cube) and verbatim 100-theorem strictly constructive Lean 4.35.0 kernel axiom audit for CELLULAR ENGINE OMEGA v5.3.0.",
+  "version": "5.3.0",
+  "datePublished": "2026-11-26",
+  "url": "https://0thernes.github.io/cellular-engine-omega/",
+  "sameAs": "https://github.com/0thernes/cellular-engine-omega",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "citeAs": "Donahue, Alexander Stephen (2026). CELLULAR ENGINE OMEGA (v5.3.0). Independent Researcher, Spokane, WA, USA. ORCID: 0009-0006-8168-9648. https://github.com/0thernes/cellular-engine-omega",
+  "creator": {
+    "@type": "sc:Person",
+    "name": "Alexander Stephen Donahue",
+    "identifier": "https://orcid.org/0009-0006-8168-9648",
+    "affiliation": "Independent Researcher, Spokane, WA, USA",
+    "url": "https://0thernes.art"
+  },
+  "keywords": [
+    "cellular biophysics",
+    "artificial life",
+    "lean 4",
+    "formal verification",
+    "interaction nets",
+    "thermodynamic uncertainty relation",
+    "turing morphogenesis",
+    "llps",
+    "tardigrade cryptobiosis",
+    "virtual cell",
+    "reproducible research"
+  ],
+  "distribution": [
+    {
+      "@type": "cr:FileObject",
+      "@id": "multiseed-stats-csv",
+      "name": "multiseed_stats.csv",
+      "description": "Preregistered N=20 independent-seed intact-vs-knockout experimental CSV (29 columns, UTF-8).",
+      "contentUrl": "https://raw.githubusercontent.com/0thernes/cellular-engine-omega/main/results/multiseed_stats.csv",
+      "encodingFormat": "text/csv",
+      "sha256": "1172807fea3ded439e644d45f99c36f7b9d275dc671c17c63fda21b5c7e26766",
+      "contentSize": "3902 B"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "lean4-omega-audit-txt",
+      "name": "lean4-omega-audit.txt",
+      "description": "Verbatim Lean 4.35.0 #print axioms output across all 100 constructive theorems (0 Classical.choice, 0 sorryAx).",
+      "contentUrl": "https://raw.githubusercontent.com/0thernes/cellular-engine-omega/main/results/lean4-omega-audit.txt",
+      "encodingFormat": "text/plain",
+      "sha256": "95cd022607658257dbd8165668bf6c74c61a7c88b62c1403339dc2e17c68fe10",
+      "contentSize": "11386 B"
+    }
+  ],
+  "recordSet": [
+    {
+      "@type": "cr:RecordSet",
+      "@id": "multiseed_stats",
+      "name": "multiseed_stats",
+      "description": "All 20 preregistered independent-seed intact-vs-knockout runs (seeds 2026001..2026020).",
+      "key": {
+        "@id": "multiseed_stats/seed"
+      },
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/seed",
+          "name": "seed",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "seed"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/h1_amoeba_intact",
+          "name": "h1_amoeba_intact",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "h1_amoeba_intact"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/h1_amoeba_ko_m2",
+          "name": "h1_amoeba_ko_m2",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "h1_amoeba_ko_m2"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/h2_mt_len_after_ca_intact",
+          "name": "h2_mt_len_after_ca_intact",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "h2_mt_len_after_ca_intact"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/h2_mt_len_after_ca_ko_m11",
+          "name": "h2_mt_len_after_ca_ko_m11",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "h2_mt_len_after_ca_ko_m11"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/h3_llps_drops_intact",
+          "name": "h3_llps_drops_intact",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "h3_llps_drops_intact"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/h3_llps_drops_ko_m12",
+          "name": "h3_llps_drops_ko_m12",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "h3_llps_drops_ko_m12"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/h4_eigen_kp1_intact",
+          "name": "h4_eigen_kp1_intact",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "h4_eigen_kp1_intact"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/h4_eigen_ko_m3",
+          "name": "h4_eigen_ko_m3",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "h4_eigen_ko_m3"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/h5_turing_std_intact",
+          "name": "h5_turing_std_intact",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "h5_turing_std_intact"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/h5_turing_std_ko_m4",
+          "name": "h5_turing_std_ko_m4",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "h5_turing_std_ko_m4"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/h6_tardi_surv_intact",
+          "name": "h6_tardi_surv_intact",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "h6_tardi_surv_intact"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/h6_tardi_surv_ko_m5",
+          "name": "h6_tardi_surv_ko_m5",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "h6_tardi_surv_ko_m5"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/h7_inet_confl_intact",
+          "name": "h7_inet_confl_intact",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "h7_inet_confl_intact"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/h7_inet_confl_ko_m8",
+          "name": "h7_inet_confl_ko_m8",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "h7_inet_confl_ko_m8"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/h8_proj_res_intact",
+          "name": "h8_proj_res_intact",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "h8_proj_res_intact"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/h8_proj_res_ko_m10",
+          "name": "h8_proj_res_ko_m10",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "h8_proj_res_ko_m10"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/h8_raw_ai_err_ctrl",
+          "name": "h8_raw_ai_err_ctrl",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "h8_raw_ai_err_ctrl"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/tb05_poincare_charge",
+          "name": "tb05_poincare_charge",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "tb05_poincare_charge"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/tb08_tur_min",
+          "name": "tb08_tur_min",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "tb08_tur_min"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/tb16_perturb_r2",
+          "name": "tb16_perturb_r2",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "tb16_perturb_r2"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/tb16_essential_auroc",
+          "name": "tb16_essential_auroc",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "tb16_essential_auroc"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/tb16_six_tier_int_drift",
+          "name": "tb16_six_tier_int_drift",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "tb16_six_tier_int_drift"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/substrates_passed",
+          "name": "substrates_passed",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "substrates_passed"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/cube_ok",
+          "name": "cube_ok",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "cube_ok"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/cube_adapt",
+          "name": "cube_adapt",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "cube_adapt"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/cube_over",
+          "name": "cube_over",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "cube_over"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/cube_excl",
+          "name": "cube_excl",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "cube_excl"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "multiseed_stats/pm21_rmse",
+          "name": "pm21_rmse",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "multiseed-stats-csv"
+            },
+            "extract": {
+              "column": "pm21_rmse"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

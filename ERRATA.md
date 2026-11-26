@@ -2,9 +2,18 @@
 
 This ledger tracks any substantive errors discovered in **CELLULAR ENGINE OMEGA** code, formal proofs, datasets, or the accompanying technical white paper (`paper/main.tex` / `dist/Donahue_2026_cellular_engine_omega.pdf`) after publication, with permanent attribution and commit links.
 
-## Post-Release Errata (`v5.2.0`, 2026-11-25)
+## Post-Release Errata (`v5.3.0`, 2026-11-26)
 
-*No post-release errata have been reported for `v5.2.0` yet.*
+*No post-release errata have been reported for `v5.3.0` yet.*
+
+## Defects Discovered in `v5.2.0` and Resolved in `v5.3.0` (Full Disclosure)
+
+| ID | Class | Location | Defect in `v5.2.0` | Resolution in `v5.3.0` |
+| :--- | :--- | :--- | :--- | :--- |
+| `E-07` | `error` | `AGENTS.md`, `repo.yaml`, `docs/architecture.md`, `docs/adr/0001-bare-crt-c11.md`, `paper/main.tex` | Documentation mislabeled the C11 PRNG in `src/omega_rng_hash.c` as `"SplitMix64"` | Corrected all prose and citations to **`Philox4x32-10`** (Salmon et al., SC11, `doi:10.1145/2063384.2063405`) |
+| `E-08` | `error` | `docs/{configuration,operations,threat-model}.md`, `README.md`, `examples/web_api_demo.mjs` | Documented Web Observatory default port as `8787` while `web/server.mjs` binds `8791` | Unified all docs and examples to port **`8791`** |
+| `E-09` | `error` | `SUPPORT.md`, `REPLICATION.md` | `SUPPORT.md` linked to non-existent `docs/index.md`; `REPLICATION.md` retained `PENDING CI RUN` stub | Created `docs/index.md` hub (`0` broken links across repo) and recorded verified CI run `#45749131672` |
+| `E-10` | `hole` | `.github/workflows/ci.yml` | CI omitted live Tectonic white paper build, `nanoda_bin`, `lake check --paranoid` (`lean4lean`), and live negative Lean kernel test | Wired unified `scripts/verify_lean_six_kernels.sh` + Tectonic compilation of `paper/main.tex` and clean-room `dist/arxiv_submission.tar.gz` into CI |
 
 ## Pre-Release Defects Corrected Between `v5.1.0` and `v5.2.0` (Full Disclosure)
 

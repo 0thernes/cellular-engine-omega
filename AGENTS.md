@@ -1,9 +1,9 @@
-# AGENTS.md — CELLULAR ENGINE OMEGA (`v5.2.0`)
+# AGENTS.md — CELLULAR ENGINE OMEGA (`v5.3.0`)
 
 Canonical engineering and audit instructions for AI coding agents and human contributors working in `0thernes/cellular-engine-omega` (`Build Standard for LLMs v1.2.0`).
 
 - **Author:** Alexander Stephen Donahue · ORCID `0009-0006-8168-9648` · Independent Researcher, Spokane, WA, USA (`0_0@0thernes.art` · `https://0thernes.art`)
-- **Single Version Source:** [`VERSION`](VERSION) (`5.2.0`)
+- **Single Version Source:** [`VERSION`](VERSION) (`5.3.0`)
 - **Dual License:** Apache-2.0 (`LICENSE`, code/Lean/scripts) + CC BY 4.0 (`LICENSE-DOCS`, white paper/prose/figures/datasets)
 
 ## Hard Rules (`R1`–`R8`)
@@ -19,9 +19,9 @@ Canonical engineering and audit instructions for AI coding agents and human cont
 
 ## Architecture & Source Layout
 
-- `include/` & `src/`: Zero-dependency C11 biophysics engine (`TB01`–`TB16`) + Clean-Slate v3.0 75 Substrates (`PM01`–`PM25`, `MF01`–`MF25`, `GW01`–`GW25`) + `10×10×10` 1,000-Cell Hybrid Cube (`omega_substrates_cube.c`) + FIPS 180-4 SHA-256 & SplitMix64 (`omega_rng_hash.c`).
+- `include/` & `src/`: Zero-dependency C11 biophysics engine (`TB01`–`TB16`) + Clean-Slate v3.0 75 Substrates (`PM01`–`PM25`, `MF01`–`MF25`, `GW01`–`GW25`) + `10×10×10` 1,000-Cell Hybrid Cube (`omega_substrates_cube.c`) + FIPS 180-4 SHA-256 & counter-based `Philox4x32-10` PRNG (`omega_rng_hash.c`).
 - `test/`: `test_omega_falsification.c` (`60` gates `G01`–`G60`, `16/16` planted mutants, 10-seed sweep) + `fuzz_omega_cli_codec.c` (`LLVMFuzzerTestOneInput` + 256-case standalone harness + 32-seed `prop_check`).
-- `lean/`: Zero-Mathlib Pure Lean 4.35.0 (`module` system, `autoImplicit = false`) exporting **89 theorems** (`O01`–`O89`), split into pure proof-free `OmegaCellularProofs/Spec.lean`, live C11 receipt `LiveC11Receipt.lean`, 13 proof modules, isolated statement-only `Challenge.lean`, sorry-free `Solution.lean`, `comparator.json`, `formalization.yaml`, and standalone `VerifyAxioms.lean`.
+- `lean/`: Zero-Mathlib Pure Lean 4.35.0 (`module` system, `autoImplicit = false`) exporting **100 strictly constructive theorems** (`O01`–`O100`), split into pure proof-free `OmegaCellularProofs/Spec.lean`, live C11 receipt `LiveC11Receipt.lean`, 14 proof modules (including `NonVacuity.lean` and `AdversarialTests.lean`), isolated statement-only `Challenge.lean`, sorry-free `Solution.lean`, `comparator.json`, `formalization.yaml`, and standalone `VerifyAxioms.lean`.
 - `reference/` & `tests/`: Independent Python `Fraction`/`Decimal` reference oracle (`reference/biophysics_oracle.py`), JSON Schema Draft 2020-12 contracts (`schema/`), and `pytest` + `hypothesis` verification ladder (`tests/test_omega_verification_ladder.py`).
 - `web/`: Hardened loopback-only (`127.0.0.1`) Node.js Web Observatory (`server.mjs`, WCAG 2.2 AA `index.html`, `styles.css`, `app.js`).
 - `paper/` & `dist/`: Publication-grade AMS-LaTeX white paper (`paper/main.tex`, `paper/references.bib`, vector PDF figures in `paper/figures/`), frozen PDF (`dist/Donahue_2026_cellular_engine_omega.pdf`), and clean-room `dist/arxiv_submission.tar.gz`.

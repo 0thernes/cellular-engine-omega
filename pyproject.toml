@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cellular-engine-omega-verify"
-version = "5.2.0"
+version = "5.3.0"
 description = "Verification oracle, test ladder, statistical sweep, figure generator, and blueprint tooling for CELLULAR ENGINE OMEGA"
 readme = "README.md"
 license = "Apache-2.0"

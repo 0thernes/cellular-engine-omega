@@ -239,7 +239,7 @@ int main(void) {
     gate("G49", "MUTANT M16 CAUGHT (TB11): Blocking serial endosymbiosis traps eukaryotes under Lane's 1/R prokaryotic ceiling",
          m16.max_vol_euk_largeNe < 1.2 * m16.max_vol_prok_largeNe);
 
-    /* G50-G54: v5.0 Forensic Hardening Gates (10-Seed Sweep, Dual LLPS/Topo, 4-Layer Causal INet, Cohesin/3G-KO & Live Ledger Fault) */
+    /* G50-G54: v5.3.0 Forensic Hardening Gates (10-Seed Sweep, Dual LLPS/Topo, 4-Layer Causal INet, Cohesin/3G-KO & Live Ledger Fault) */
     int seeds_clean = 0;
     for (int si = 0; si < 10; ++si) {
         uint64_t sd = 2026001ULL + (uint64_t)si;

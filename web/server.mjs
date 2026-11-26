@@ -12,7 +12,7 @@ const PORT = Number(process.env.PORT || 8791);
 const LOG_LEVEL = (process.env.OMEGA_LOG_LEVEL || 'info').toLowerCase();
 const VERSION = fs.existsSync(path.join(ROOT, 'VERSION'))
   ? fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim()
-  : '5.2.0';
+  : '5.3.0';
 
 function logEvent(level, event, fields = {}) {
   if (LOG_LEVEL === 'silent') return;
@@ -129,6 +129,7 @@ const server = http.createServer((req, res) => {
   if (!isLoopbackHost(req.headers.host) ||
       !isAllowedOrigin(req.headers.origin) ||
       !isAllowedFetchSite(req, url.pathname)) {
+    logEvent('warn', 'http_forbidden', { method, path: url.pathname });
     res.writeHead(403, secHeaders({ 'Content-Type': 'text/plain; charset=utf-8' }));
     res.end('Forbidden');
     return;
@@ -144,6 +145,7 @@ const server = http.createServer((req, res) => {
 
     if (!feral && resultCache.has(cacheKey)) {
       const cached = resultCache.get(cacheKey);
+      logEvent('info', 'api_run', { seed, mutant, feral, cache: 'HIT', status: 200 });
       res.writeHead(200, secHeaders({
         'Content-Type': 'application/json; charset=utf-8',
         'X-Omega-Cache': 'HIT'
@@ -153,6 +155,7 @@ const server = http.createServer((req, res) => {
     }
 
     if (inflight >= MAX_INFLIGHT) {
+      logEvent('warn', 'api_run_throttled', { seed, mutant, inflight, status: 429 });
       res.writeHead(429, secHeaders({
         'Content-Type': 'application/json; charset=utf-8',
         'Retry-After': '1'
@@ -165,14 +168,18 @@ const server = http.createServer((req, res) => {
     if (feral) args.push('--feral');
 
     inflight++;
+    const tStart = Date.now();
     execFile(BIN, args, { maxBuffer: 8 * 1024 * 1024, timeout: 15000 }, (err, stdout, stderr) => {
       inflight = Math.max(0, inflight - 1);
+      const duration_ms = Date.now() - tStart;
       if (err) {
+        logEvent('error', 'api_run_failed', { seed, mutant, feral, duration_ms, error: err.message });
         res.writeHead(500, secHeaders({ 'Content-Type': 'application/json; charset=utf-8' }));
         res.end(headOnly ? undefined : JSON.stringify({ error: err.message, stderr }));
         return;
       }
       if (!feral) cacheSet(cacheKey, stdout);
+      logEvent('info', 'api_run', { seed, mutant, feral, cache: feral ? 'BYPASS' : 'MISS', duration_ms, status: 200 });
       res.writeHead(200, secHeaders({
         'Content-Type': 'application/json; charset=utf-8',
         'X-Omega-Cache': feral ? 'BYPASS' : 'MISS'
@@ -183,16 +190,19 @@ const server = http.createServer((req, res) => {
   }
 
   if (url.pathname === '/api/lean') {
+    logEvent('debug', 'api_lean', { method, status: 200 });
     serveFile(res, path.join(ROOT, 'results', 'lean4-omega-audit.txt'), headOnly);
     return;
   }
 
   if (url.pathname === '/api/cube') {
+    logEvent('debug', 'api_cube', { method, status: 200 });
     serveFile(res, path.join(ROOT, 'results', 'omega_75_substrates_1000_cube.json'), headOnly);
     return;
   }
 
   if (url.pathname === '/api/health' || url.pathname === '/healthz') {
+    logEvent('debug', 'api_health', { method, status: 200 });
     res.writeHead(200, secHeaders({ 'Content-Type': 'application/json; charset=utf-8' }));
     res.end(headOnly ? undefined : JSON.stringify({
       ok: true,
@@ -201,7 +211,7 @@ const server = http.createServer((req, res) => {
       testbeds: 16,
       substrates_75: 75,
       hybrid_cube_1000: 1000,
-      lean_theorems: 89,
+      lean_theorems: 100,
       lean_kernels: 6,
       gates: 60,
       mutants: 16
@@ -233,7 +243,8 @@ server.listen(PORT, '127.0.0.1', () => {
     testbeds: 16,
     substrates_75: 75,
     hybrid_cube_1000: 1000,
-    lean_theorems: 89,
+    lean_theorems: 100,
+    lean_kernels: 6,
     gates: 60,
     mutants: 16
   });

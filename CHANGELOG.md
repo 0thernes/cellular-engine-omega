@@ -5,7 +5,31 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
-- Future cross-architecture ARM64 (`aarch64`) reference build receipts and expanded C11/Python differential suites for PDE grid convergence studies.
+- Future cross-architecture ARM64 (`aarch64`) reference build receipts and CBMC bounded model checking for C11 solvers.
+
+## [5.3.0] - 2026-11-26
+
+### Fixed
+- **[error] PRNG documentation misidentification (`AGENTS.md`, `repo.yaml`, `docs/architecture.md`, `docs/adr/0001-bare-crt-c11.md`, `paper/main.tex`):** Corrected all prose references from `"SplitMix64"` to the actual implemented counter-based **`Philox4x32-10`** PRNG (Salmon et al., SC11, `doi:10.1145/2063384.2063405`) in `src/omega_rng_hash.c`.
+- **[error] Default Web Observatory port mismatch (`docs/configuration.md`, `docs/operations.md`, `docs/threat-model.md`, `README.md`, `examples/web_api_demo.mjs`):** Unified all documentation and example clients to match `web/server.mjs` default loopback port **`8791`**.
+- **[error] Broken relative documentation link (`SUPPORT.md` -> `docs/index.md`):** Created comprehensive `docs/index.md` hub so all internal repository links resolve cleanly (`0` broken links).
+- **[error] Stale `PENDING CI RUN` entry in `REPLICATION.md`:** Recorded executed multi-OS GitHub Actions CI verification run (`#45749131672` for `v5.2.0`) alongside `v5.3.0` clean-clone replication receipts.
+- **[issue] `omega_cell json` self-describing schema (`src/omega_main_cli.c`, `schema/omega_run.schema.json`):** Added top-level `"version"` and `"master_sha256"` (shared `compute_master_hash` helper guaranteeing byte-exact parity with `omega_cell all`).
+- **[issue] Web Observatory structured API request & error logging (`web/server.mjs`):** Added JSON structured logging on `/api/run`, `/api/health`, `/api/lean`, `/api/cube`, `403`, `429`, and `500` subprocess errors (`A34`).
+- **[bug] Windows `leanexport` UTF-8 preservation (`build.ps1`):** Used raw stdout redirection so `nanoda_bin` independently verifies all `100` exported constructive theorems locally on Windows (`exit 0`, strict `["propext", "Quot.sound"]` with `unpermitted_axiom_hard_error: true`).
+
+### Added
+- **100 / 100 Constructive Pure Lean 4.35.0 Proofs across ALL 6 Independent Kernels (`lean/OmegaCellularProofs/AdversarialTests.lean`, `scripts/verify_lean_six_kernels.sh`):**
+  - Added Module 14 (`AdversarialTests.lean`, `O90`–`O100`): 11 constructive adversarial refutations proving weakened, inverted, or off-by-one biophysical variants `False` without `Classical.choice`.
+  - Tightened both `build.ps1` and `build_linux.sh` to enforce `>= 100` theorems strictly within `{propext, Quot.sound}` (mechanically banning `Classical.choice`).
+  - Added unified 6-kernel verification script `scripts/verify_lean_six_kernels.sh` covering `lean`, `leanchecker`, `leanchecker-paranoid`, `lean4lean` (`lake check --paranoid`), `nanoda_bin`, `con-leche --verified`, `con-ron --verified`, isolated `lake comparator --paranoid`, AND a **live negative Lean 4.35.0 kernel rejection test** (also enforced in `pytest`).
+- **Live DOI + Crossref 0-Retraction Citation Checker (`scripts/check_citations.py`):** Verifies all `32/32` BibTeX DOIs (adding Salmon et al. 2011 `Philox4x32-10`) live against DOI Handle API and Crossref retraction metadata, with `--offline` support.
+- **FAIR Scholarly Metadata, Datasheet & RFC 3161 Cryptographic Timestamps:**
+  - Added `scripts/generate_fair_metadata.py` generating `croissant.json` (MLCommons Croissant 1.0), `ro-crate-metadata.json` (RO-Crate 1.1), and `codemeta.json` (CodeMeta 2.0), plus Gebru et al. `docs/DATASHEET.md`.
+  - Added `scripts/timestamp_digicert.py` producing verifiable DigiCert RFC 3161 `.tsr` timestamps under `timestamps/` (`*.tsr binary` in `.gitattributes`).
+- **Monograph-Grade AMS-LaTeX White Paper & CI Tectonic Verification (`paper/main.tex`, `.github/workflows/ci.yml`):**
+  - Expanded `paper/main.tex` to a complete monograph with governing equations for `TB01`–`TB16`, full 16-row empirical & mutant-knockout ledger, formal `\begin{theorem}` blocks, complete 6-kernel verification matrix, and complete 22-row Mega-Atlas `V2.6.0` cross-check table.
+  - Added live Tectonic compilation of both `paper/main.tex` and clean-room `dist/arxiv_submission.tar.gz` directly inside `.github/workflows/ci.yml`.
 
 ## [5.2.0] - 2026-11-25
 

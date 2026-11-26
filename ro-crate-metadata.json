@@ -1,0 +1,293 @@
+{
+  "@context": "https://w3id.org/ro/crate/1.1/context",
+  "@graph": [
+    {
+      "@type": "CreativeWork",
+      "@id": "ro-crate-metadata.json",
+      "conformsTo": {
+        "@id": "https://w3id.org/ro/crate/1.1"
+      },
+      "about": {
+        "@id": "./"
+      }
+    },
+    {
+      "@id": "./",
+      "@type": "Dataset",
+      "name": "CELLULAR ENGINE OMEGA (v5.3.0)",
+      "version": "5.3.0",
+      "datePublished": "2026-11-26",
+      "description": "Zero-dependency C11 multi-scale cellular biophysics engine (16 testbeds, 75 computational substrates, 1,000-cell Hybrid Cube, 60 falsification gates, 16/16 planted mutants, 256-case fuzz harness) cryptographically coupled via live runtime receipts (O63, O72) to 100 strictly constructive zero-Mathlib Pure Lean 4.35.0 theorems audited across all 6 independent kernels.",
+      "url": "https://0thernes.github.io/cellular-engine-omega/",
+      "identifier": "https://github.com/0thernes/cellular-engine-omega",
+      "license": {
+        "@id": "https://www.apache.org/licenses/LICENSE-2.0"
+      },
+      "author": {
+        "@id": "https://orcid.org/0009-0006-8168-9648"
+      },
+      "hasPart": [
+        {
+          "@id": "results/multiseed_stats.csv"
+        },
+        {
+          "@id": "results/lean4-omega-audit.txt"
+        },
+        {
+          "@id": "lean/OmegaCellularProofs/LiveC11Receipt.lean"
+        },
+        {
+          "@id": "lean/OmegaCellularProofs/Spec.lean"
+        },
+        {
+          "@id": "lean/Challenge.lean"
+        },
+        {
+          "@id": "lean/Solution.lean"
+        },
+        {
+          "@id": "lean/comparator.json"
+        },
+        {
+          "@id": "lean/formalization.yaml"
+        },
+        {
+          "@id": "schema/omega_run.schema.json"
+        },
+        {
+          "@id": "schema/omega_cube.schema.json"
+        },
+        {
+          "@id": "dist/Donahue_2026_cellular_engine_omega.pdf"
+        },
+        {
+          "@id": "dist/arxiv_submission.tar.gz"
+        },
+        {
+          "@id": "blueprint/index.html"
+        },
+        {
+          "@id": "docs/DATASHEET.md"
+        },
+        {
+          "@id": "docs/statement-fidelity.md"
+        },
+        {
+          "@id": "docs/mega-atlas-cross-check.md"
+        },
+        {
+          "@id": "CLAIMS.md"
+        },
+        {
+          "@id": "VERIFICATION.md"
+        },
+        {
+          "@id": "CHECKSUMS.sha256"
+        },
+        {
+          "@id": "croissant.json"
+        },
+        {
+          "@id": "codemeta.json"
+        }
+      ]
+    },
+    {
+      "@id": "https://orcid.org/0009-0006-8168-9648",
+      "@type": "Person",
+      "name": "Alexander Stephen Donahue",
+      "email": "0_0@0thernes.art",
+      "affiliation": "Independent Researcher, Spokane, WA, USA",
+      "url": "https://0thernes.art"
+    },
+    {
+      "@id": "https://www.apache.org/licenses/LICENSE-2.0",
+      "@type": "CreativeWork",
+      "name": "Apache License 2.0 (code/Lean) & CC BY 4.0 (paper/docs/datasets)",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0"
+    },
+    {
+      "@id": "results/multiseed_stats.csv",
+      "@type": "File",
+      "name": "multiseed_stats.csv",
+      "description": "Preregistered N=20 multi-seed paired intact-vs-knockout telemetry CSV",
+      "encodingFormat": "text/csv",
+      "sha256": "1172807fea3ded439e644d45f99c36f7b9d275dc671c17c63fda21b5c7e26766",
+      "contentSize": 3902
+    },
+    {
+      "@id": "results/lean4-omega-audit.txt",
+      "@type": "File",
+      "name": "lean4-omega-audit.txt",
+      "description": "Verbatim Lean 4.35.0 #print axioms transcript (100 constructive theorems)",
+      "encodingFormat": "text/plain",
+      "sha256": "95cd022607658257dbd8165668bf6c74c61a7c88b62c1403339dc2e17c68fe10",
+      "contentSize": 11386
+    },
+    {
+      "@id": "lean/OmegaCellularProofs/LiveC11Receipt.lean",
+      "@type": "File",
+      "name": "LiveC11Receipt.lean",
+      "description": "Auto-generated live C11 telemetry & SHA-256 kernel receipt (O63, O72)",
+      "encodingFormat": "text/plain",
+      "sha256": "d7b7ba2c83c3f9807a864c18a20a6b32e21aafb5b54c7bb821d5be3cb0ae987c",
+      "contentSize": 3910
+    },
+    {
+      "@id": "lean/OmegaCellularProofs/Spec.lean",
+      "@type": "File",
+      "name": "Spec.lean",
+      "description": "Pure proof-free Lean 4.35.0 specification module",
+      "encodingFormat": "text/plain",
+      "sha256": "b85fbedd52b5aca74c88f7ed7ecefec80257025c79fc9b6830cf57cea7f243e9",
+      "contentSize": 9195
+    },
+    {
+      "@id": "lean/Challenge.lean",
+      "@type": "File",
+      "name": "Challenge.lean",
+      "description": "Isolated statement-only Challenge module (100 theorems)",
+      "encodingFormat": "text/plain",
+      "sha256": "2a27137bd0e5db788df375035f08ffa1fccaf1f298d9ec9b8859e705280cb67b",
+      "contentSize": 23610
+    },
+    {
+      "@id": "lean/Solution.lean",
+      "@type": "File",
+      "name": "Solution.lean",
+      "description": "Sorry-free constructive Solution module (100 theorems across 6 kernels)",
+      "encodingFormat": "text/plain",
+      "sha256": "122edd241c4355885e62f2a6f46242c5479ebf8ee4609ed8f7a9f012954abdfa",
+      "contentSize": 527
+    },
+    {
+      "@id": "lean/comparator.json",
+      "@type": "File",
+      "name": "comparator.json",
+      "description": "Six-kernel comparator specification (100 theorems, constructive allowlist)",
+      "encodingFormat": "application/json",
+      "sha256": "7bdebe03b550207e516c2e6350ec347a9e310a71766d63166419c97aa16d4017",
+      "contentSize": 8334
+    },
+    {
+      "@id": "lean/formalization.yaml",
+      "@type": "File",
+      "name": "formalization.yaml",
+      "description": "Structured Lean 4.35.0 formalization provenance & scope manifest",
+      "encodingFormat": "application/yaml",
+      "sha256": "c4e9ab8023163cc0d917a6496f343b3e8777ed1f51bd3e1b8d294ed94d3e894c",
+      "contentSize": 3206
+    },
+    {
+      "@id": "schema/omega_run.schema.json",
+      "@type": "File",
+      "name": "omega_run.schema.json",
+      "description": "JSON Schema Draft 2020-12 contract for 16-testbed JSON output",
+      "encodingFormat": "application/schema+json",
+      "sha256": "4d490e2a7e6bdec7257d5023a02a1fa61c4af27dfe28025b10f6aba5f43be6c6",
+      "contentSize": 3688
+    },
+    {
+      "@id": "schema/omega_cube.schema.json",
+      "@type": "File",
+      "name": "omega_cube.schema.json",
+      "description": "JSON Schema Draft 2020-12 contract for 75-substrate & 1,000-cell Hybrid Cube",
+      "encodingFormat": "application/schema+json",
+      "sha256": "98f99ef15950d0ac425a8b1038ab01d66a0c38e7a0fec0d4d2b15daccc1f202f",
+      "contentSize": 1999
+    },
+    {
+      "@id": "dist/Donahue_2026_cellular_engine_omega.pdf",
+      "@type": "File",
+      "name": "Donahue_2026_cellular_engine_omega.pdf",
+      "description": "AMS-LaTeX technical monograph (Tectonic, 0 warnings, 0 overfull hboxes)",
+      "encodingFormat": "application/pdf",
+      "sha256": "fc414420f63b9f55834b439646278d856de0f00583536933fa2ebdc11b2dce91",
+      "contentSize": 372891
+    },
+    {
+      "@id": "dist/arxiv_submission.tar.gz",
+      "@type": "File",
+      "name": "arxiv_submission.tar.gz",
+      "description": "Deterministic clean-room arXiv LaTeX submission tarball",
+      "encodingFormat": "application/gzip",
+      "sha256": "2fda2431dd9ec3b6e8e78943102f834e48209266353a7c01b7d91faf1439009b",
+      "contentSize": 179900
+    },
+    {
+      "@id": "blueprint/index.html",
+      "@type": "File",
+      "name": "index.html",
+      "description": "Interactive Lean 4.35.0 Proof Blueprint (100 theorems)",
+      "encodingFormat": "text/html",
+      "sha256": "18c578199d2046d9f52e68d7f12bdb66b6dced787f1c94ef114c47cdff5dcdd1",
+      "contentSize": 25311
+    },
+    {
+      "@id": "docs/DATASHEET.md",
+      "@type": "File",
+      "name": "DATASHEET.md",
+      "description": "Gebru et al. Datasheet for empirical datasets",
+      "encodingFormat": "text/markdown",
+      "sha256": "c9b5c1883f6ef3dbf5c747e9395cacb26f2dfa919fe54a213aa3889750ca4859",
+      "contentSize": 3917
+    },
+    {
+      "@id": "docs/statement-fidelity.md",
+      "@type": "File",
+      "name": "statement-fidelity.md",
+      "description": "14-module Lean-vs-C11 statement fidelity audit (100 theorems)",
+      "encodingFormat": "text/markdown",
+      "sha256": "9a5e52c9df9e32f2731ce37f2faf637b59d226f910759cc8fb10f814cb43e569",
+      "contentSize": 8127
+    },
+    {
+      "@id": "docs/mega-atlas-cross-check.md",
+      "@type": "File",
+      "name": "mega-atlas-cross-check.md",
+      "description": "Honest 0/1,900 Mega-Atlas open-problem cross-check (22 adjacent open IDs)",
+      "encodingFormat": "text/markdown",
+      "sha256": "e28b19a3be2922236e1cbc1c79efa9d342d7db40d74ebbadb4ab5e19c4962fa6",
+      "contentSize": 7669
+    },
+    {
+      "@id": "CLAIMS.md",
+      "@type": "File",
+      "name": "CLAIMS.md",
+      "description": "Numbered falsifiable claims ledger (C01-C10)",
+      "encodingFormat": "text/markdown",
+      "sha256": "06ce721540e2277877cd09e10b2f9df13721a5b2e81e55256681caacc6f0b316",
+      "contentSize": 6874
+    },
+    {
+      "@id": "VERIFICATION.md",
+      "@type": "File",
+      "name": "VERIFICATION.md",
+      "description": "Multi-kernel Lean, 60-gate C11, and Python verification ledger",
+      "encodingFormat": "text/markdown",
+      "sha256": "252107db331327ab12691ed665ed83aea37c3fc88e1e47f21b7f387017aaa2a9",
+      "contentSize": 6552
+    },
+    {
+      "@id": "CHECKSUMS.sha256",
+      "@type": "File",
+      "name": "CHECKSUMS.sha256",
+      "description": "Cryptographic SHA-256 integrity manifest",
+      "encodingFormat": "text/plain"
+    },
+    {
+      "@id": "croissant.json",
+      "@type": "File",
+      "name": "croissant.json",
+      "description": "MLCommons Croissant 1.0 dataset metadata",
+      "encodingFormat": "application/ld+json"
+    },
+    {
+      "@id": "codemeta.json",
+      "@type": "File",
+      "name": "codemeta.json",
+      "description": "CodeMeta 2.0 research software metadata",
+      "encodingFormat": "application/ld+json"
+    }
+  ]
+}

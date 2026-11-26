@@ -5,10 +5,10 @@ module
 public import OmegaCellularProofs.Spec
 
 /-!
-# Challenge.lean — Isolated Statement-Only Challenge Specification (v5.2.0)
+# Challenge.lean — Isolated Statement-Only Challenge Specification (v5.3.0)
 
 Imports ONLY `OmegaCellularProofs.Spec` (pure definitions + live C11 receipt data,
-ZERO proofs, ZERO `sorry`) and NONE of the 12 proof modules.
+ZERO proofs, ZERO `sorry`) and NONE of the 14 proof modules.
 Every `sorry` below is intentional and matched against sorry-free `Solution.lean`
 across all 6 independent Lean 4.35.0 kernels via:
     lake comparator --config comparator.json --paranoid
@@ -377,3 +377,36 @@ public theorem O88_nonvacuous_trace_replay_and_frozen_invariance :
 public theorem O89_refute_quantum_cap_11_fits_16kib :
     16 * (2 ^ 11) = 32768 ∧ ¬ (16 * (2 ^ 11) ≤ 16384) := by sorry
 end OmegaCellular.NonVacuity
+
+namespace OmegaCellular.AdversarialTests
+open OmegaCellular.PurcellGaugeGeometry
+open OmegaCellular.TuringFeinbergCRNT
+open OmegaCellular.BioInteractionNets
+open OmegaCellular.DeepStrataFrontier
+open OmegaCellular.VirtualCellManifold
+public theorem O90_refute_purcell_2dof_zero_area :
+    ¬ (∀ a b da db : Int, 0 < da → 0 < db → twoDofLoopArea2 a b da db = 0) := by sorry
+public theorem O91_refute_hopfield_equilibrium_beats_proofreading :
+    ¬ (∀ p q n : Nat, 0 < p → p < q → 0 < n → p * q ^ (n + 1) ≤ p ^ (n + 1) * q) := by sorry
+public theorem O92_refute_turing_equal_diffusion_destabilizes_witness :
+    ¬ (((2 : Int) - 1 * 1) * (-3 - 1 * 1) - (-4) * 2 < 0) := by sorry
+public theorem O93_refute_feinberg_deficiency_always_zero :
+    ¬ (∀ n l s : Nat, l + s ≤ n → feinbergDeficiency n l s = 0) := by sorry
+public theorem O94_refute_mota5_motb2_9_state_step :
+    ¬ ((5 : Nat) * 2 = 9 ∨ 9 * 36 = 360) := by sorry
+public theorem O95_refute_tardigrade_budget_exceeds_1000 :
+    ¬ ((240 : Nat) + 180 + 110 + 80 + 24 + 56 + 90 > 1000) := by sorry
+public theorem O96_refute_bio_inet_mass_leak_on_step :
+    ¬ (∃ (r : ActivePairRule) (s : BioNetState),
+        BioInteractionNets.totalMass (stepNet r s) ≠ BioInteractionNets.totalMass s) := by sorry
+public theorem O97_refute_levin_bicephalic_requires_dna_mutation :
+    ¬ (∀ g : Nat,
+        (⟨g, -15, -65, -35⟩ : BioelectricTissue).dna ≠
+        (⟨g, -15, -15, -35⟩ : BioelectricTissue).dna) := by sorry
+public theorem O98_refute_o56_projection_leaves_nonzero_sum :
+    ¬ (∃ xs : List Int, sumScaledShift (xs.length : Int) (sumInt xs) xs ≠ 0) := by sorry
+public theorem O99_refute_b158_6trits_fits_byte :
+    (3 : Nat) ^ 6 = 729 ∧ ¬ ((3 : Nat) ^ 6 ≤ 256) := by sorry
+public theorem O100_refute_hybrid_cube_partition_drift :
+    ¬ ((661 : Nat) + 274 + 20 + 45 ≠ 1000) := by sorry
+end OmegaCellular.AdversarialTests

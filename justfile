@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
-# CELLULAR ENGINE OMEGA v5.2.0 — Task Runner (Build Standard v1.2.0: A31, A36, B01)
+# CELLULAR ENGINE OMEGA v5.3.0 — Task Runner (Build Standard v1.2.0: A31, A36, B01)
 # Zero git hooks; every recipe is explicit and directly invocable.
 
 set windows-shell := ["pwsh.exe", "-NoProfile", "-Command"]
@@ -65,13 +65,14 @@ sanitize:
 lean:
     #!/usr/bin/env bash
     set -euo pipefail
-    cd lean
-    lake build
-    lake build Challenge
-    lake env lean VerifyAxioms.lean > ../results/lean4-omega-audit.txt
-    lake comparator --config comparator.json --paranoid
-    lake env leanchecker --fresh Solution
-    lake env leanchecker-paranoid --fresh Solution
+    chmod +x scripts/verify_lean_six_kernels.sh
+    ./scripts/verify_lean_six_kernels.sh
+
+fair:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    python3 scripts/generate_fair_metadata.py
+    python3 scripts/generate_checksums.py --verify
 
 paper:
     #!/usr/bin/env bash
@@ -90,5 +91,5 @@ clean:
     set -euo pipefail
     rm -rf bin/*.o paper/build lean/.lake/build
 
-rollback tag="v5.1.0":
+rollback tag="v5.2.0":
     @echo "To roll back GitHub Pages or release artifacts to {{tag}}, run: git checkout {{tag}} -- pages/ dist/ && git commit -m 'revert: rollback static site to {{tag}}' && git push origin main"

@@ -22,6 +22,9 @@ def main() -> int:
         ("lean/formalization.yaml", rf'version:\s*"{re.escape(version)}"'),
         ("CITATION.cff", rf'version:\s*"{re.escape(version)}"'),
         (".zenodo.json", rf'"version":\s*"{re.escape(version)}"'),
+        ("pyproject.toml", rf'version\s*=\s*"{re.escape(version)}"'),
+        ("codemeta.json", rf'"version":\s*"{re.escape(version)}"'),
+        ("croissant.json", rf'"version":\s*"{re.escape(version)}"'),
         ("CHANGELOG.md", rf'## \[{re.escape(version)}\]'),
         ("repo.yaml", rf'version:\s*"{re.escape(version)}"'),
     ]
@@ -44,9 +47,9 @@ def main() -> int:
         rel = p.relative_to(ROOT).as_posix()
         if any(rel == d or rel.startswith(d + "/") for d in skip_dirs):
             continue
-        if p.suffix.lower() in {".pdf", ".png", ".jpg", ".gz", ".exe", ".dll", ".a", ".olean", ".ilean"}:
+        if p.suffix.lower() in {".pdf", ".png", ".jpg", ".gz", ".tsr", ".exe", ".dll", ".a", ".olean", ".ilean"}:
             continue
-        if rel in {"ERRATA.md", "HARDENING_LOG.md", "CHANGELOG.md", "AGENTS.md", "llms-full.txt", "scripts/verify_version_sync.py", "docs/reviews/2026-11-25-redteam-3cycle.md", "docs/adr/0004-dual-license-and-independent-researcher.md"}:
+        if rel in {"ERRATA.md", "HARDENING_LOG.md", "CHANGELOG.md", "AGENTS.md", "llms-full.txt", "scripts/verify_version_sync.py", "docs/reviews/2026-11-25-redteam-3cycle.md", "docs/reviews/2026-11-26-redteam-v530.md", "docs/adr/0004-dual-license-and-independent-researcher.md"}:
             continue
         try:
             txt = p.read_text(encoding="utf-8")

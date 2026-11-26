@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
 # Copyright (c) 2026 Alexander Stephen Donahue
-"""Comprehensive Python Verification Ladder for CELLULAR ENGINE OMEGA v5.2.0.
+"""Comprehensive Python Verification Ladder for CELLULAR ENGINE OMEGA v5.3.0.
 
 Covers Build Standard v1.2.0 checks:
 - B03: Bit-exact determinism across repeated runs
@@ -26,6 +26,7 @@ import math
 from pathlib import Path
 import platform
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -75,10 +76,17 @@ def run_cube(seed: int = 2026001) -> dict:
 # ---------------------------------------------------------------------------
 def test_b09_run_json_schema_contract():
     schema = json.loads((ROOT / "schema" / "omega_run.schema.json").read_text(encoding="utf-8"))
+    expected_version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
     data = run_json(2026001)
     jsonschema.validate(instance=data, schema=schema)
+    assert data["version"] == expected_version
     assert data["seed"] == 2026001
     assert data["mutant"] == 0
+    # Verify JSON master_sha256 matches human `omega_cell all` Master SHA-256 byte-for-byte
+    human = run_cli("all", "--seed", "2026001").stdout
+    m = re.search(r"MASTER SHA-256:\s*([0-9a-f]{64})", human)
+    assert m is not None
+    assert data["master_sha256"] == m.group(1)
 
 
 def test_b09_cube_json_schema_contract():
@@ -356,6 +364,39 @@ def test_b08_golden_lean_axiom_audit():
     assert "Classical.choice" not in txt
     rx = re.compile(r"'(OmegaCellular\.[^']+)' (depends on axioms:\s*\[([^\]]+)\]|does not depend on any axioms)")
     theorems = {m.group(1) for m in rx.finditer(txt)}
-    assert len(theorems) == 89
+    assert len(theorems) == 100
     assert "OmegaCellular.VerifyTraceReceipt.O63_live_c11_receipt_verified" in theorems
     assert "OmegaCellular.SubstratesCube.O72_live_c11_cube_receipt_verified" in theorems
+    assert "OmegaCellular.AdversarialTests.O90_refute_purcell_2dof_zero_area" in theorems
+    assert "OmegaCellular.AdversarialTests.O96_refute_bio_inet_mass_leak_on_step" in theorems
+    assert "OmegaCellular.AdversarialTests.O100_refute_hybrid_cube_partition_drift" in theorems
+
+
+def test_b24_live_negative_lean_kernel_rejects_false_theorem():
+    """Playbook v1.3 Item 12: prove the active Lean 4.35.0 kernel rejects a deliberately false theorem."""
+    lake_bin = shutil.which("lake")
+    if not lake_bin:
+        cand = Path.home() / ".elan" / "toolchains" / "leanprover--lean4---v4.35.0" / "bin" / (
+            "lake.exe" if platform.system() == "Windows" else "lake"
+        )
+        if cand.exists():
+            lake_bin = str(cand)
+    if not lake_bin:
+        pytest.skip("Lean 4.35.0 lake binary not installed on this runner")
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".lean", encoding="utf-8", delete=False) as tf:
+        tf.write(
+            "import OmegaCellularProofs.SubstratesCube\n"
+            "theorem deliberately_false_cube_partition : (661 : Nat) + 274 + 20 + 45 = 999 := by rfl\n"
+        )
+        neg_path = Path(tf.name)
+    try:
+        proc = subprocess.run(
+            [lake_bin, "env", "lean", str(neg_path)],
+            cwd=str(ROOT / "lean"),
+            capture_output=True,
+            text=True,
+            timeout=60,
+        )
+        assert proc.returncode != 0, "Lean 4.35.0 kernel must reject a deliberately false theorem!"
+    finally:
+        neg_path.unlink(missing_ok=True)

@@ -103,7 +103,7 @@ if (-not $SkipLean -and (Test-Path -LiteralPath $lake)) {
     & "$proj\bin\omega_cell.exe" --export-lean-trace "$proj\lean\OmegaCellularProofs\LiveC11Receipt.lean" --seed 2026001
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
-    Write-Host "`nVerifying 89 Pure Lean 4.35.0 Theorems (Palomar Module System + Challenge/Solution + Multi-Kernel Audit)..."
+    Write-Host "`nVerifying 100 Constructive Pure Lean 4.35.0 Theorems (Palomar Module System + Challenge/Solution + Multi-Kernel Audit)..."
     Push-Location -LiteralPath "$proj\lean"
     $buildOut = & $lake build 2>&1
     $lrc = $LASTEXITCODE
@@ -125,15 +125,16 @@ if (-not $SkipLean -and (Test-Path -LiteralPath $lake)) {
     if ($lrc -ne 0) { exit $lrc }
     $chalOut
     if ($crc -ne 0) { exit $crc }
-    $axiomOut | Set-Content -LiteralPath "$proj\results\lean4-omega-audit.txt" -Encoding utf8
+    $axiomJoined = (($axiomOut | ForEach-Object { $_.ToString() }) -join "`n") + "`n"
+    [System.IO.File]::WriteAllText("$proj\results\lean4-omega-audit.txt", $axiomJoined, [System.Text.UTF8Encoding]::new($false))
     if ($arc -ne 0) {
         $axiomOut
         exit $arc
     }
 
     $combinedText = (($buildOut | Out-String) + "`n" + ($axiomOut | Out-String))
-    if ($combinedText -match "sorryAx|declaration uses 'sorry'|warning:|Lean\.ofReduceBool|Lean\.trustCompiler|_native\.bv_decide") {
-        throw "Lean 4 audit failed: sorryAx, compiler/SAT axiom, or warning detected!"
+    if ($combinedText -match "sorryAx|declaration uses 'sorry'|warning:|Lean\.ofReduceBool|Lean\.trustCompiler|_native\.bv_decide|Classical\.choice") {
+        throw "Lean 4 audit failed: sorryAx, Classical.choice, compiler/SAT axiom, or warning detected!"
     }
 
     $axiomText = ($axiomOut | Out-String)
@@ -146,7 +147,7 @@ if (-not $SkipLean -and (Test-Path -LiteralPath $lake)) {
         if ($m.Groups[3].Success) {
             foreach ($ax in ($m.Groups[3].Value -split ",")) {
                 $t = $ax.Trim()
-                if ($t -and ($t -notin @("propext", "Classical.choice", "Quot.sound"))) {
+                if ($t -and ($t -notin @("propext", "Quot.sound"))) {
                     $badAxioms += "$($m.Groups[1].Value):$t"
                 }
             }
@@ -155,8 +156,8 @@ if (-not $SkipLean -and (Test-Path -LiteralPath $lake)) {
     if ($badAxioms.Count -gt 0) {
         throw ("Lean 4 audit failed: unauthorized axiom(s) detected: " + ($badAxioms -join ", "))
     }
-    if ($seen.Count -lt 89) {
-        throw "Lean 4 audit failed: expected >= 89 unique audited theorems, found $($seen.Count)!"
+    if ($seen.Count -lt 100) {
+        throw "Lean 4 audit failed: expected >= 100 unique audited theorems, found $($seen.Count)!"
     }
     if (-not $seen.Contains("OmegaCellular.VerifyTraceReceipt.O63_live_c11_receipt_verified")) {
         throw "Lean 4 audit failed: O63_live_c11_receipt_verified missing from axiom audit!"
@@ -164,7 +165,59 @@ if (-not $SkipLean -and (Test-Path -LiteralPath $lake)) {
     if (-not $seen.Contains("OmegaCellular.SubstratesCube.O72_live_c11_cube_receipt_verified")) {
         throw "Lean 4 audit failed: O72_live_c11_cube_receipt_verified missing from axiom audit!"
     }
-    Write-Host "Lean 4.35.0 Formal Verification PASSED ($($seen.Count)/89 theorems incl. Live C11 O63 & O72 + 17 NonVacuity witnesses, 0 sorryAx, 0 custom axioms, 0 warnings)!"
+    if (-not $seen.Contains("OmegaCellular.AdversarialTests.O100_refute_hybrid_cube_partition_drift")) {
+        throw "Lean 4 audit failed: O100_refute_hybrid_cube_partition_drift missing from axiom audit!"
+    }
+
+    Write-Host "`nRunning independent Lean 4.35.0 kernels (leanchecker, leanchecker-paranoid, con-leche, con-ron, nanoda_bin) + live negative kernel test..."
+    Push-Location -LiteralPath "$proj\lean"
+    try {
+        & $lake env leanchecker --fresh Solution
+        if ($LASTEXITCODE -ne 0) { throw "leanchecker --fresh Solution failed!" }
+        & $lake env leanchecker-paranoid --fresh Solution
+        if ($LASTEXITCODE -ne 0) { throw "leanchecker-paranoid --fresh Solution failed!" }
+
+        $negFile = Join-Path $env:TEMP "omega_neg_kernel_test.lean"
+        Set-Content -LiteralPath $negFile -Encoding ascii -Value @(
+            "import OmegaCellularProofs.SubstratesCube",
+            "theorem deliberately_false_cube_partition : (661 : Nat) + 274 + 20 + 45 = 999 := by rfl"
+        )
+        $prevPref = $ErrorActionPreference
+        $ErrorActionPreference = "Continue"
+        $null = & $lake env lean $negFile 2>&1
+        $negRc = $LASTEXITCODE
+        $ErrorActionPreference = $prevPref
+        Remove-Item -Force -LiteralPath $negFile -ErrorAction SilentlyContinue
+        if ($negRc -eq 0) { throw "CRITICAL: Lean 4.35.0 kernel accepted a deliberately false theorem!" }
+
+        $comp = Get-Content -LiteralPath "$proj\lean\comparator.json" -Raw | ConvertFrom-Json
+        $expFile = Join-Path $env:TEMP "omega_solution_all100.export"
+        $nanodaCfg = Join-Path $env:TEMP "omega_nanoda_all100.json"
+        $thmArgs = ($comp.theorem_names -join ' ')
+        & cmd /c "`"$lake`" env leanexport Solution -- $thmArgs > `"$expFile`""
+        if ($LASTEXITCODE -ne 0) { throw "leanexport Solution failed!" }
+
+        & $lake env con-leche --verified $expFile
+        if ($LASTEXITCODE -ne 0) { throw "con-leche --verified failed!" }
+        & $lake env con-ron --verified $expFile
+        if ($LASTEXITCODE -ne 0) { throw "con-ron --verified failed!" }
+
+        $cfgObj = [ordered]@{
+            export_file_path = ($expFile -replace '\\', '/')
+            use_stdin = $false
+            permitted_axioms = @("propext", "Quot.sound")
+            unpermitted_axiom_hard_error = $true
+            nat_extension = $true
+            string_extension = $true
+        }
+        ($cfgObj | ConvertTo-Json -Depth 4) | Set-Content -LiteralPath $nanodaCfg -Encoding ascii
+        & $lake env nanoda_bin $nanodaCfg
+        if ($LASTEXITCODE -ne 0) { throw "nanoda_bin failed!" }
+        Remove-Item -Force -LiteralPath $expFile, $nanodaCfg -ErrorAction SilentlyContinue
+    } finally {
+        Pop-Location
+    }
+    Write-Host "Lean 4.35.0 Formal Verification PASSED ($($seen.Count)/100 constructive theorems across lean + leanchecker-paranoid + con-leche + con-ron + nanoda_bin + live negative kernel test, 0 Classical.choice, 0 sorryAx, 0 warnings)!"
 }
 
-Write-Host "`nCELLULAR ENGINE OMEGA v5.2.0 (75 SUBSTRATES · 1,000 CUBE CELLS · LIVE C11->LEAN O63/O72 · 89 PROOFS · 60 GATES · 16/16 MUTANTS) COMPLETE."
+Write-Host "`nCELLULAR ENGINE OMEGA v5.3.0 (75 SUBSTRATES · 1,000 CUBE CELLS · LIVE C11->LEAN O63/O72 · 100 PROOFS · 60 GATES · 16/16 MUTANTS) COMPLETE."

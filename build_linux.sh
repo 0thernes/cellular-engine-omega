@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # SPDX-License-Identifier: Apache-2.0
-# CELLULAR ENGINE OMEGA v5.2.0 — Native Linux ELF64 Zero-Dependency Build & Verification
+# CELLULAR ENGINE OMEGA v5.3.0 — Native Linux ELF64 Zero-Dependency Build & Verification
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CC="${CC:-gcc}"
 mkdir -p "$SCRIPT_DIR/bin" "$SCRIPT_DIR/results"
@@ -84,6 +84,12 @@ if command -v node >/dev/null 2>&1; then
   "$SCRIPT_DIR/bin/omega_cell" json --seed 2026001 | node -e '
     const fs = require("fs");
     const j = JSON.parse(fs.readFileSync(0, "utf8"));
+    if (!j.version || !/^\d+\.\d+\.\d+$/.test(j.version)) {
+      throw new Error("Missing or invalid top-level version field");
+    }
+    if (!j.master_sha256 || !/^[0-9a-f]{64}$/.test(j.master_sha256)) {
+      throw new Error("Missing or invalid top-level master_sha256 field");
+    }
     for (let i = 1; i <= 16; i++) {
       const k = "tb" + String(i).padStart(2, "0");
       if (!j[k] || !/^[0-9a-f]{64}$/.test(j[k].sha256)) {
@@ -93,13 +99,13 @@ if command -v node >/dev/null 2>&1; then
     if (j.tb14.causal_hops !== 8) throw new Error("Expected 8 causal 4-layer hops");
     if (j.tb16.syn3a_total !== 493 || j.tb16.syn3a_dark !== 92) throw new Error("Unexpected syn3A genome counts");
     if (j.tb16.six_tier_int_drift !== 0) throw new Error("Expected 0 six_tier_int_drift");
-    console.log("PASS: Validated all 16 JSON testbeds and SHA-256 receipts cleanly.");
+    console.log("PASS: Validated v" + j.version + " master_sha256=" + j.master_sha256.slice(0, 12) + "... and all 16 JSON testbeds.");
   '
 fi
 
 if command -v lake >/dev/null 2>&1; then
   echo ""
-  echo "Verifying 89 Pure Lean 4.35.0 Proofs (Palomar Challenge/Solution + Strict Axiom Allowlist)..."
+  echo "Verifying 100 Constructive Pure Lean 4.35.0 Proofs (Palomar Challenge/Solution + Strict Constructive Axiom Allowlist)..."
   (
     cd "$SCRIPT_DIR/lean"
     lake build 2>&1 | tee "$SCRIPT_DIR/results/lean4-build-linux.log"
@@ -113,10 +119,10 @@ import re, sys
 build_log = open(sys.argv[1], encoding="utf-8").read()
 axiom_log = open(sys.argv[2], encoding="utf-8").read()
 combined = build_log + "\n" + axiom_log
-if re.search(r"sorryAx|declaration uses 'sorry'|warning:|Lean\.ofReduceBool|Lean\.trustCompiler|_native\.bv_decide", combined):
-    print("ERROR: sorryAx, unauthorized compiler/SAT axiom, or warning detected!", file=sys.stderr)
+if re.search(r"sorryAx|declaration uses 'sorry'|warning:|Lean\.ofReduceBool|Lean\.trustCompiler|_native\.bv_decide|Classical\.choice", combined):
+    print("ERROR: sorryAx, Classical.choice, unauthorized compiler/SAT axiom, or warning detected!", file=sys.stderr)
     sys.exit(1)
-allowed = {"propext", "Classical.choice", "Quot.sound"}
+allowed = {"propext", "Quot.sound"}
 seen = set()
 for m in re.finditer(r"'(OmegaCellular\.[^']+)' (depends on axioms:\s*\[([^\]]+)\]|does not depend on any axioms)", axiom_log, re.S):
     seen.add(m.group(1))
@@ -126,8 +132,8 @@ for m in re.finditer(r"'(OmegaCellular\.[^']+)' (depends on axioms:\s*\[([^\]]+)
         if bad:
             print(f"ERROR: Unauthorized axiom(s) {bad} in {m.group(1)}", file=sys.stderr)
             sys.exit(1)
-if len(seen) < 89:
-    print(f"ERROR: Expected >= 89 unique audited theorems, found {len(seen)}", file=sys.stderr)
+if len(seen) < 100:
+    print(f"ERROR: Expected >= 100 unique audited theorems, found {len(seen)}", file=sys.stderr)
     sys.exit(1)
 if "OmegaCellular.VerifyTraceReceipt.O63_live_c11_receipt_verified" not in seen:
     print("ERROR: Missing O63_live_c11_receipt_verified in axiom audit!", file=sys.stderr)
@@ -135,9 +141,12 @@ if "OmegaCellular.VerifyTraceReceipt.O63_live_c11_receipt_verified" not in seen:
 if "OmegaCellular.SubstratesCube.O72_live_c11_cube_receipt_verified" not in seen:
     print("ERROR: Missing O72_live_c11_cube_receipt_verified in axiom audit!", file=sys.stderr)
     sys.exit(1)
-print(f"PASS: All {len(seen)}/89 OmegaCellularProofs theorems verified (0 sorryAx, 0 custom axioms, 0 warnings).")
+if "OmegaCellular.AdversarialTests.O100_refute_hybrid_cube_partition_drift" not in seen:
+    print("ERROR: Missing O100_refute_hybrid_cube_partition_drift in axiom audit!", file=sys.stderr)
+    sys.exit(1)
+print(f"PASS: All {len(seen)}/100 constructive OmegaCellularProofs theorems verified (0 Classical.choice, 0 sorryAx, 0 custom axioms, 0 warnings).")
 PY
 fi
 
 echo ""
-echo "CELLULAR ENGINE OMEGA v5.2.0 LINUX ELF64 BUILD & VERIFICATION COMPLETE."
+echo "CELLULAR ENGINE OMEGA v5.3.0 LINUX ELF64 BUILD & VERIFICATION COMPLETE."
