@@ -75,6 +75,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          mkdir -p paper/build
           (cd paper && tectonic -X compile main.tex --outdir build --keep-logs --keep-intermediates)
           test -s paper/build/main.pdf
           rm -rf /tmp/arxiv_clean && mkdir -p /tmp/arxiv_clean

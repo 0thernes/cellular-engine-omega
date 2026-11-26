@@ -78,6 +78,7 @@ paper:
     #!/usr/bin/env bash
     set -euo pipefail
     python3 scripts/generate_figures.py
+    mkdir -p paper/build
     (cd paper && tectonic -X compile main.tex --outdir build --keep-logs --keep-intermediates)
     cp paper/build/main.pdf dist/Donahue_2026_cellular_engine_omega.pdf
 
