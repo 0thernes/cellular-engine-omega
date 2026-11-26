@@ -61,10 +61,17 @@ OMEGA_API double omega_rng_gauss(OmegaRng* r) {
  * ============================================================================ */
 OMEGA_API double omega_time_sec(void) {
 #if defined(_WIN32)
+#  if defined(OMEGA_BARE_WIN64)
     int64_t freq = 1, cnt = 0;
     QueryPerformanceFrequency(&freq);
     QueryPerformanceCounter(&cnt);
     return (double)cnt / (double)freq;
+#  else
+    LARGE_INTEGER freq, cnt;
+    QueryPerformanceFrequency(&freq);
+    QueryPerformanceCounter(&cnt);
+    return (double)cnt.QuadPart / (double)freq.QuadPart;
+#  endif
 #else
     struct timespec ts;
     clock_gettime(CLOCK_MONOTONIC, &ts);

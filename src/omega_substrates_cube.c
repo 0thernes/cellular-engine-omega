@@ -2478,7 +2478,7 @@ OMEGA_API void omega_run_substrates_75_and_cube_1000(uint64_t seed, OmegaSubstra
         if (p == 17) pass = pass && (extra_m < 1e-12);
         if (p == 13 || p == 15 || p == 16) pass = pass && (rmse < 1e-2);
 
-        snprintf(out->pm[p].id, sizeof(out->pm[p].id), "PM%02d", p + 1);
+        snprintf(out->pm[p].id, sizeof(out->pm[p].id), "PM%02u", (unsigned)(p + 1) & 0x3Fu);
         sc_copy_str(out->pm[p].name, sizeof(out->pm[p].name), PM_NAMES[p]);
         out->pm[p].bytes_per_syn = PM_BPS[p];
         out->pm[p].rmse = rmse;
@@ -2502,7 +2502,7 @@ OMEGA_API void omega_run_substrates_75_and_cube_1000(uint64_t seed, OmegaSubstra
         double nrm = sc_l2_norm(out16, 16, &fin);
         int pass = (fin && sc_isfinite(ep) && nrm > 1e-9 && nrm < 1e4);
 
-        snprintf(out->mf[m].id, sizeof(out->mf[m].id), "MF%02d", m + 1);
+        snprintf(out->mf[m].id, sizeof(out->mf[m].id), "MF%02u", (unsigned)(m + 1) & 0x3Fu);
         sc_copy_str(out->mf[m].name, sizeof(out->mf[m].name), MF_NAMES[m]);
         out->mf[m].state_norm = nrm;
         out->mf[m].energy_proxy = ep;
@@ -2524,7 +2524,7 @@ OMEGA_API void omega_run_substrates_75_and_cube_1000(uint64_t seed, OmegaSubstra
         omega_rng_seed(&lrng, seed ^ (0x30003ULL * (uint64_t)(g + 1)));
         int pass = gw_run_builder(g, base_in16, base_w16, out16, w_geo, &iv, &ie, &lrng);
 
-        snprintf(out->gw[g].id, sizeof(out->gw[g].id), "GW%02d", g + 1);
+        snprintf(out->gw[g].id, sizeof(out->gw[g].id), "GW%02u", (unsigned)(g + 1) & 0x3Fu);
         sc_copy_str(out->gw[g].name, sizeof(out->gw[g].name), GW_NAMES[g]);
         out->gw[g].invariant_val = iv;
         out->gw[g].invariant_err = ie;

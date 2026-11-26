@@ -156,6 +156,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          chmod +x build_linux.sh
           CC=clang ./build_linux.sh
 
       - name: Build & Run 60-Gate Falsification + Fuzz on Windows

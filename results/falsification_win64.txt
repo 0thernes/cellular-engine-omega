@@ -62,5 +62,5 @@
   [PASS] G59  | NUMERIC EDGE-VALUE STABILITY (seed=1, UINT64_MAX, 0x00/0xFF DNA): zero NaN/Inf, exact chi=+2 & bounded 112D
   [PASS] G60  | REENTRANCY & TB16 STANDALONE-VS-COUPLED PARITY: identical syn3A AUROC/R2 & zero integer 6-tier drift
 ================================================================================
- FALSIFICATION SUMMARY: 60 / 60 PASSED · 0 FAILED · 16/16 MUTANTS CAUGHT (1.352s)
+ FALSIFICATION SUMMARY: 60 / 60 PASSED · 0 FAILED · 16/16 MUTANTS CAUGHT (0.869s)
 ================================================================================
