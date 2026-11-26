@@ -17,7 +17,7 @@
       "name": "CELLULAR ENGINE OMEGA (v5.3.0)",
       "version": "5.3.0",
       "datePublished": "2026-11-26",
-      "description": "Zero-dependency C11 multi-scale cellular biophysics engine (16 testbeds, 75 computational substrates, 1,000-cell Hybrid Cube, 60 falsification gates, 16/16 planted mutants, 256-case fuzz harness) cryptographically coupled via live runtime receipts (O63, O72) to 100 strictly constructive zero-Mathlib Pure Lean 4.35.0 theorems audited across all 6 independent kernels.",
+      "description": "Zero-dependency C11 multi-scale cellular biophysics engine (16 testbeds, 75 computational substrates, 1,000-cell Hybrid Cube, 60 falsification gates, 16/16 planted mutants, 256-case fuzz harness) linked by a generated receipt file whose literal fields O63 and O72 re-check (no hash computed in Lean) to 100 constructive zero-Mathlib Lean 4.35.0 lemmas about its discrete software model, checked by the reference kernel and four independent checkers.",
       "url": "https://0thernes.github.io/cellular-engine-omega/",
       "identifier": "https://github.com/0thernes/cellular-engine-omega",
       "license": {

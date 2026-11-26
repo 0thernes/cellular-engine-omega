@@ -11,9 +11,10 @@ abstract: >-
   CELLULAR ENGINE OMEGA v5.3.0 is a zero-dependency C11 multi-scale cellular biophysics
   simulation engine (16 quantitative testbeds, 75 computational substrates, 1,000-cell
   Hybrid Cube, 60 falsification gates, 16/16 planted mutants, 256-case fuzz/property harness)
-  coupled via live runtime trace receipts (O63, O72) to 100 strictly constructive
-  zero-Mathlib Pure Lean 4.35.0 formal theorems checked across all 6 independent Lean 4
-  kernels under isolated Challenge/Solution comparator verification.
+  linked by a C11-generated receipt file whose literal fields O63 and O72 re-check on
+  each build (no hash is computed in Lean) to 100 constructive zero-Mathlib Lean 4.35.0
+  lemmas about its discrete software model, at least 16 of them closed arithmetic checks,
+  checked by the reference kernel and four independent checkers.
 authors:
   - family-names: "Donahue"
     given-names: "Alexander Stephen"

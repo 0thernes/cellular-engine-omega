@@ -11,7 +11,7 @@ Formal proof artifacts in independent AI-assisted research are vulnerable to thr
 2. Separate pure definitions into proof-free `OmegaCellularProofs/Spec.lean`, statement-only `Challenge.lean` (imports ONLY `Spec`), and sorry-free `Solution.lean` (`OmegaCellularProofs`), judged via `lake comparator --config comparator.json --paranoid`.
 3. Eliminate all `Classical.choice` usage by splitting constructive conjunctions/biconditionals, keeping `100%` of theorems strictly within `{propext, Quot.sound}` (or axiom-free).
 4. Add `17` explicit non-vacuity and sharp negative-boundary theorems (`NonVacuity.lean`, `O73`–`O89`).
-5. Audit across independent kernels: `lean`, `leanchecker`, `leanchecker-paranoid`, `con-leche --verified`, `con-ron --verified`, and Linux CI `nanoda_bin` + `lake comparator --paranoid`.
+5. Check with the reference kernel (`lean`, `leanchecker`, `leanchecker-paranoid`) and independent checkers (`con-leche --verified`, `con-ron --verified`, and in Linux CI `nanoda_bin`, `lean4lean` via `lake check --paranoid`, and `lake comparator --paranoid`).
 
 ## Consequences
 - **Positive:** Minimal trusted kernel base, `< 20 s` full build, airtight statement-to-proof separation, and zero classical/compiler/SAT axioms.

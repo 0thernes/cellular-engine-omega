@@ -25,7 +25,7 @@ flowchart TD
         SPEC["Spec.lean\nPure Definitions Only (0 Proofs)"]
         CHAL["Challenge.lean\nIsolated Statement-Only Specs (100)"]
         SOL["Solution.lean + 14 Proof Modules\n100 Constructive Proofs (O01..O100)"]
-        KERN["6-Kernel Verification + Negative Test\nlean · leanchecker-paranoid · lean4lean\nnanoda_bin · con-leche · con-ron · comparator"]
+        KERN["Reference kernel + 4 independent checkers + negative elaboration test\nlean · leanchecker-paranoid · lean4lean\nnanoda_bin · con-leche · con-ron · comparator"]
         CLI -- "--export-lean-trace" --> RECEIPT
         RECEIPT --> SPEC
         SPEC --> CHAL & SOL

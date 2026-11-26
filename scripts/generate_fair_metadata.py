@@ -207,9 +207,9 @@ def build_ro_crate() -> dict:
             "datePublished": PUB_DATE,
             "description": (
                 f"Zero-dependency C11 multi-scale cellular biophysics engine (16 testbeds, 75 computational substrates, "
-                f"1,000-cell Hybrid Cube, 60 falsification gates, 16/16 planted mutants, 256-case fuzz harness) cryptographically "
-                f"coupled via live runtime receipts (O63, O72) to {lean_n} strictly constructive zero-Mathlib Pure Lean 4.35.0 "
-                "theorems audited across all 6 independent kernels."
+                f"1,000-cell Hybrid Cube, 60 falsification gates, 16/16 planted mutants, 256-case fuzz harness) linked by a "
+                f"generated receipt file whose literal fields O63 and O72 re-check (no hash computed in Lean) to {lean_n} constructive "
+                "zero-Mathlib Lean 4.35.0 lemmas about its discrete software model, checked by the reference kernel and four independent checkers."
             ),
             "url": PAGES_URL,
             "identifier": REPO_URL,
@@ -265,7 +265,7 @@ def build_codemeta() -> dict:
         "description": (
             f"Zero-dependency C11 multi-scale cellular biophysics engine (16 testbeds, 75 substrates, 1,000-cell Hybrid Cube, "
             f"60 falsification gates, 16/16 compiled planted mutants) coupled via live C11-to-Lean runtime receipts (O63, O72) "
-            f"to {lean_n} strictly constructive zero-Mathlib Pure Lean 4.35.0 theorems verified across all 6 independent kernels."
+            f"to {lean_n} constructive zero-Mathlib Lean 4.35.0 lemmas about the discrete software model, checked by the reference kernel and four independent checkers."
         ),
         "codeRepository": REPO_URL,
         "url": PAGES_URL,
