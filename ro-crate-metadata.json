@@ -112,8 +112,8 @@
       "name": "multiseed_stats.csv",
       "description": "Preregistered N=20 multi-seed paired intact-vs-knockout telemetry CSV",
       "encodingFormat": "text/csv",
-      "sha256": "1172807fea3ded439e644d45f99c36f7b9d275dc671c17c63fda21b5c7e26766",
-      "contentSize": 3902
+      "sha256": "cd0ea6a176089789def30fb8aa57892af6c02c4e2bc593fd659357448b82b116",
+      "contentSize": 3881
     },
     {
       "@id": "results/lean4-omega-audit.txt",
@@ -220,8 +220,8 @@
       "name": "index.html",
       "description": "Interactive Lean 4.35.0 Proof Blueprint (100 theorems)",
       "encodingFormat": "text/html",
-      "sha256": "18c578199d2046d9f52e68d7f12bdb66b6dced787f1c94ef114c47cdff5dcdd1",
-      "contentSize": 25311
+      "sha256": "1c9b01dbc6baf7d64abe3897efa47bbbb44e39952f2d6c0a7d3507fbd5d9e44c",
+      "contentSize": 25243
     },
     {
       "@id": "docs/DATASHEET.md",

@@ -78,8 +78,8 @@
       "description": "Preregistered N=20 independent-seed intact-vs-knockout experimental CSV (29 columns, UTF-8).",
       "contentUrl": "https://raw.githubusercontent.com/0thernes/cellular-engine-omega/main/results/multiseed_stats.csv",
       "encodingFormat": "text/csv",
-      "sha256": "1172807fea3ded439e644d45f99c36f7b9d275dc671c17c63fda21b5c7e26766",
-      "contentSize": "3902 B"
+      "sha256": "cd0ea6a176089789def30fb8aa57892af6c02c4e2bc593fd659357448b82b116",
+      "contentSize": "3881 B"
     },
     {
       "@type": "cr:FileObject",

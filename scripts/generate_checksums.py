@@ -58,7 +58,7 @@ def write_manifest(out_path: Path, targets: list[str]) -> int:
         p = ROOT / rel
         if p.exists():
             lines.append(f"{sha256_file(p)}  {rel}")
-    out_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    out_path.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
     return len(lines)
 
 

@@ -109,8 +109,8 @@ def main() -> int:
 </body>
 </html>
 """
-    (BP_DIR / "index.html").write_text(page, encoding="utf-8")
-    (BP_DIR / "blueprint.tex").write_text("\n".join(tex_lines) + "\n", encoding="utf-8")
+    (BP_DIR / "index.html").write_text(page, encoding="utf-8", newline="\n")
+    (BP_DIR / "blueprint.tex").write_text("\n".join(tex_lines) + "\n", encoding="utf-8", newline="\n")
     print(f"Generated blueprint/index.html and blueprint/blueprint.tex ({len(axioms)} theorems across {len(grouped)} modules).")
     return 0
 

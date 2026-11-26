@@ -1,6 +1,6 @@
-# CELLULAR ENGINE OMEGA (v5.2.0)
+# CELLULAR ENGINE OMEGA (v5.3.0)
 
-> Zero-dependency C11 multi-scale cellular biophysics engine (16 testbeds, 75 computational substrates, 1,000-cell Hybrid Cube, 60 falsification gates, 16/16 planted mutants) coupled via live runtime receipts (O63, O72) to 89 zero-Mathlib Pure Lean 4.35.0 formal theorems checked across independent Lean 4 kernels.
+> Zero-dependency C11 multi-scale cellular biophysics engine (16 testbeds, 75 computational substrates, 1,000-cell Hybrid Cube, 60 falsification gates, 16/16 planted mutants) coupled via live runtime receipts (O63, O72) to 100 strictly constructive zero-Mathlib Pure Lean 4.35.0 formal theorems checked across all 6 independent Lean 4 kernels.
 
 ## Core Documentation
 - [README.md](README.md): Overview, quickstart, live verbatim `#print axioms`, verification boundaries, and citations
@@ -17,10 +17,15 @@
 - [docs/threat-model.md](docs/threat-model.md): STRIDE security analysis of the C11 CLI and loopback Web Observatory
 - [docs/AI_DISCLOSURE.md](docs/AI_DISCLOSURE.md): Transparent AI-assistance disclosure and CRediT attribution
 
-## Formal Verification & White Paper
+- [docs/DATASHEET.md](docs/DATASHEET.md): Gebru et al. datasheet for empirical datasets
+- [docs/index.md](docs/index.md): Central documentation hub
+
+## Formal Verification, FAIR Metadata & White Paper
 - [lean/Challenge.lean](lean/Challenge.lean): Statement-only challenge module for isolated comparator judging
-- [lean/Solution.lean](lean/Solution.lean): Sorry-free 89-theorem solution module
-- [lean/comparator.json](lean/comparator.json): Palomar/Lean 4.35.0 comparator specification
+- [lean/Solution.lean](lean/Solution.lean): Sorry-free 100-theorem constructive solution module
+- [lean/comparator.json](lean/comparator.json): Palomar/Lean 4.35.0 6-kernel comparator specification
 - [lean/formalization.yaml](lean/formalization.yaml): Machine-readable formalization metadata
-- [paper/main.tex](paper/main.tex): Publication-grade AMS-LaTeX technical white paper
+- [scripts/verify_lean_six_kernels.sh](scripts/verify_lean_six_kernels.sh): Single-source 6-kernel Lean 4.35.0 + live negative kernel test script
+- [paper/main.tex](paper/main.tex): 14-page AMS-LaTeX technical monograph (32/32 live Crossref 0-retraction DOIs)
 - [blueprint/index.html](blueprint/index.html): Interactive Lean 4.35.0 proof dependency blueprint
+- [croissant.json](croissant.json) · [ro-crate-metadata.json](ro-crate-metadata.json) · [codemeta.json](codemeta.json): FAIR scholarly metadata descriptors

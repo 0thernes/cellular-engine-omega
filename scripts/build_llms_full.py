@@ -19,6 +19,7 @@ FILES = [
     "REPLICATION.md",
     "docs/mega-atlas-cross-check.md",
     "docs/statement-fidelity.md",
+    "docs/DATASHEET.md",
     "docs/architecture.md",
     "docs/benchmarks.md",
     "docs/threat-model.md",
@@ -27,7 +28,8 @@ FILES = [
 
 
 def main() -> int:
-    parts = ["# CELLULAR ENGINE OMEGA (v5.2.0) — Complete LLM Context Bundle\n"]
+    version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+    parts = [f"# CELLULAR ENGINE OMEGA (v{version}) — Complete LLM Context Bundle\n"]
     included = 0
     for rel in FILES:
         p = ROOT / rel
@@ -36,7 +38,7 @@ def main() -> int:
             parts.append(p.read_text(encoding="utf-8"))
             included += 1
     out = ROOT / "llms-full.txt"
-    out.write_text("\n".join(parts), encoding="utf-8")
+    out.write_text("\n".join(parts), encoding="utf-8", newline="\n")
     print(f"Wrote {out.name} ({out.stat().st_size:,} bytes from {included} core docs).")
     return 0
 
