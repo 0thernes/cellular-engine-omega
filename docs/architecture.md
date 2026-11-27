@@ -1,6 +1,6 @@
 # System Architecture (`A20`)
 
-**CELLULAR ENGINE OMEGA (`v5.3.0`)** integrates a zero-dependency C11 multi-scale biophysics simulation core, a Clean-Slate v3.0 75-substrate & 1,000-cell Hybrid Cube verifier, a Lean 4.35.0 suite of 100 discrete lemmas about the software model, linked to the C11 output by a generated receipt file whose integer and string fields `O63` and `O72` re-check on each build (checked by the reference kernel and four independent checkers), a Python exact verification ladder, FAIR scholarly metadata, and a hardened loopback Web Observatory.
+**CELLULAR ENGINE OMEGA (`v5.4.0`)** integrates a zero-dependency C11 multi-scale biophysics simulation core, a Clean-Slate v3.0 75-substrate & 1,000-cell Hybrid Cube verifier, a Lean 4.35.0 suite of 100 discrete lemmas about the software model, linked to the C11 output by a generated receipt file whose integer and string fields `O63` and `O72` re-check on each build (checked by the reference kernel and four independent checkers), a Python exact verification ladder, FAIR scholarly metadata, and a hardened loopback Web Observatory.
 
 ```mermaid
 flowchart TD

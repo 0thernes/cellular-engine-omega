@@ -16,13 +16,13 @@ jobs:
     name: Linux ELF64 + ASan/UBSan + 60 Gates + Python Ladder + Multi-Checker Lean 4.35.0 + Paper
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: "22"
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
@@ -148,7 +148,7 @@ jobs:
           sha256sum bin/omega_cell bin/libomega_cell.a dist/Donahue_2026_cellular_engine_omega.pdf dist/arxiv_submission.tar.gz > SHA256SUMS
           cat SHA256SUMS
 
-      - uses: actions/attest-build-provenance@v2
+      - uses: actions/attest-build-provenance@v4
         continue-on-error: true
         with:
           subject-path: |
@@ -164,7 +164,7 @@ jobs:
       matrix:
         os: [macos-latest, windows-latest]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Build & Run 60-Gate Falsification + Fuzz on macOS
         if: runner.os == 'macOS'
