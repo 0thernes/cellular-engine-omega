@@ -22,7 +22,9 @@ import json
 from pathlib import Path
 import re
 import sys
+import time
 import unicodedata
+import urllib.error
 import urllib.parse
 import urllib.request
 
@@ -190,6 +192,34 @@ def check_author_match(entry: dict[str, str], cr_msg: dict) -> tuple[bool, str, 
     return False, bib_surname, cr_first or str(cr_msg.get("publisher", ""))
 
 
+def _fetch_json_with_retry(req: urllib.request.Request, timeout: int = 20, max_attempts: int = 5) -> tuple[int, dict]:
+    """Perform HTTP GET returning (status, json) with polite backoff on HTTP 429 / 5xx."""
+    last_exc: Exception | None = None
+    for attempt in range(max_attempts):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                return resp.getcode(), json.loads(resp.read().decode("utf-8"))
+        except urllib.error.HTTPError as exc:
+            last_exc = exc
+            if exc.code in (429, 500, 502, 503, 504) and attempt + 1 < max_attempts:
+                retry_after = exc.headers.get("Retry-After") if exc.headers else None
+                try:
+                    wait_s = max(1.0, min(15.0, float(retry_after))) if retry_after else (1.5 * (2 ** attempt))
+                except ValueError:
+                    wait_s = 1.5 * (2 ** attempt)
+                time.sleep(wait_s)
+                continue
+            raise
+        except Exception as exc:
+            last_exc = exc
+            if attempt + 1 < max_attempts:
+                time.sleep(1.0 * (attempt + 1))
+                continue
+            raise
+    assert last_exc is not None
+    raise last_exc
+
+
 def verify_entry_live(entry: dict[str, str], timeout: int = 20) -> dict:
     key = entry["key"]
     doi = entry.get("doi", "").strip()
@@ -218,15 +248,14 @@ def verify_entry_live(entry: dict[str, str], timeout: int = 20) -> dict:
         method="GET",
     )
     try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
-            if resp.getcode() != 200:
-                record["status"] = f"HANDLE HTTP {resp.getcode()}"
-                return record
-            payload = json.loads(resp.read().decode("utf-8"))
-            if payload.get("responseCode") != 1:
-                record["status"] = f"HANDLE code {payload.get('responseCode')}"
-                return record
-            record["handle_ok"] = True
+        code, payload = _fetch_json_with_retry(req, timeout=timeout)
+        if code != 200:
+            record["status"] = f"HANDLE HTTP {code}"
+            return record
+        if payload.get("responseCode") != 1:
+            record["status"] = f"HANDLE code {payload.get('responseCode')}"
+            return record
+        record["handle_ok"] = True
     except Exception as exc:
         record["status"] = f"HANDLE ERR: {exc}"
         return record
@@ -238,12 +267,12 @@ def verify_entry_live(entry: dict[str, str], timeout: int = 20) -> dict:
         method="GET",
     )
     try:
-        with urllib.request.urlopen(cr_req, timeout=timeout) as cr_resp:
-            if cr_resp.getcode() != 200:
-                record["status"] = f"CROSSREF HTTP {cr_resp.getcode()}"
-                return record
-            msg = json.loads(cr_resp.read().decode("utf-8")).get("message", {})
-            record["crossref_ok"] = True
+        cr_code, cr_payload = _fetch_json_with_retry(cr_req, timeout=timeout)
+        if cr_code != 200:
+            record["status"] = f"CROSSREF HTTP {cr_code}"
+            return record
+        msg = cr_payload.get("message", {})
+        record["crossref_ok"] = True
     except Exception as exc:
         record["status"] = f"CROSSREF ERR: {exc}"
         return record
@@ -352,7 +381,9 @@ def main() -> int:
 
     results = []
     failures = []
-    for e in parsed:
+    for idx, e in enumerate(parsed):
+        if idx > 0:
+            time.sleep(0.12)
         rec = verify_entry_live(e)
         results.append(rec)
         tag = "OK  " if rec["passed"] else "FAIL"
