@@ -53,19 +53,19 @@ pwsh -File scripts/Audit-Repo.ps1
 
 ---
 
-## 3. Expected Deterministic Receipts (`v5.3.0`, Seed `2026001`, x86-64 `-ffp-contract=off`)
+## 3. Expected Deterministic Receipts (`v5.4.0`, Seed `2026001`, x86-64 `-ffp-contract=off`)
 
 - **Falsification Suite:** `60 / 60 PASSED · 0 FAILED · 16/16 MUTANTS CAUGHT`
 - **Fuzz + Property Harness:** `256 / 256` mutated cases + `32 / 32` property seeds PASS (`0` crashes)
 - **Master SHA-256 (`TB01`–`TB16`):**
   - Windows x86-64 (Clang / UCRT `libm`, `-O0` == `-O3`): `a92641843e46736b04cd781181f34f1de8444859ce73db47d4204c5553364661`
-  - Ubuntu 26.04 x86-64 (GCC / `glibc libm`): `48eb8e8d2638d1f2a95f9f1add672d27a1c63f76c2b69e0b8318a3135e324238` *(transcendental `libm` ULP difference; all integer/topological invariants & all 100 Lean proofs match identically)*
+  - Ubuntu x86-64 (GCC / `glibc libm`): `48eb8e8d2638d1f2a95f9f1add672d27a1c63f76c2b69e0b8318a3135e324238` *(transcendental `libm` ULP difference; all integer/topological invariants & all 100 Lean proofs match identically)*
 - **75-Substrate / 1,000-Cube SHA-256:**
   - Windows x86-64 (Clang / UCRT): `c9fd6d3dfcf1492c2271e2fd7a6e30473ff02187ca17a9d664493df0fb0a55ab`
-  - Ubuntu 26.04 x86-64 (GCC / `glibc`): `403258d5ded2d7ac96566ac4147a029dd1858a68ac8096128691f5fd970103db`
-- **Live C11 Receipt SHA-256 (`LiveC11Receipt.lean`):**
-  - Windows x86-64: `12d58fa590f59aa052f243fcb0ea8b0d24c41b6fff55185c3671d0bc1b0941c2` · Ubuntu 26.04 x86-64: `cd6cc557b4a0a2fccb4d77bcca47cba8156510fea8b5bd758dbeb023b94e13fd` *(both satisfy `O63` & `O72` inside all 6 Lean 4.35.0 kernels)*
-- **Lean 4.35.0 Formal Proofs:** `100 / 100` theorems strictly within `{propext, Quot.sound}` (`0` `Classical.choice`, `0` `sorryAx`, `0` warnings) across all `6` independent kernels + live negative kernel rejection test
+  - Ubuntu x86-64 (GCC / `glibc`): `403258d5ded2d7ac96566ac4147a029dd1858a68ac8096128691f5fd970103db`
+- **C11-Exported Receipt SHA-256 (`LiveC11Receipt.lean`):**
+  - Windows x86-64: `12d58fa590f59aa052f243fcb0ea8b0d24c41b6fff55185c3671d0bc1b0941c2` · Ubuntu x86-64: `cd6cc557b4a0a2fccb4d77bcca47cba8156510fea8b5bd758dbeb023b94e13fd` *(both satisfy `O63` & `O72` literal equality checks inside Lean 4.35.0; no hash is computed in Lean)*
+- **Lean 4.35.0 Formal Proofs:** `100 / 100` discrete software-model lemmas strictly within `{propext, Quot.sound}` (`0` `Classical.choice`, `0` `sorryAx` outside `Challenge.lean`, `0` warnings) checked by the reference kernel plus four independent checkers (`lean4lean`, `nanoda_bin`, `con-leche`, `con-ron`), negative elaboration test, and live negative axiom-gate & comparator `sorry`-tamper rejection tests (`scripts/test_lean_negative.py`)
 
 ---
 

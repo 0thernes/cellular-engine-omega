@@ -3,7 +3,7 @@ module
 -- Copyright (c) 2026 Alexander Stephen Donahue
 
 /-!
-# LiveC11Receipt.lean — Auto-Generated Live C11 Runtime Trace Receipt (v5.3.0)
+# LiveC11Receipt.lean — Auto-Generated Live C11 Runtime Trace Receipt (v5.4.0)
 
 Emitted directly by `omega_cell --export-lean-trace` executing real C11 `TB14`
 (Bio-Frostbite 4-Layer INet VM) + coupled `TB16` (Virtual-Cell AI & 6-Tier Closure)

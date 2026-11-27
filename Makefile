@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
-# CELLULAR ENGINE OMEGA v5.2.0 — GNU Make fallback alongside justfile
+# CELLULAR ENGINE OMEGA v5.4.0 — GNU Make fallback alongside justfile
 
 .PHONY: all build test lint bench run reproduce fuzz sanitize lean paper audit clean
 

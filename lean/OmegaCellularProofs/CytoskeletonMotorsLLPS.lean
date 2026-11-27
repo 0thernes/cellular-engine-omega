@@ -3,8 +3,9 @@ module
 -- Copyright (c) 2026 Alexander Stephen Donahue
 
 /-!
-  CELLULAR ENGINE OMEGA v5.2.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib)
-  Module 5: Dynamic Instability, MotA5MotB2 Cogwheel, F1F0 Gearbox, Motors, Active LLPS & Euler Buckling (`O22`–`O26`, `O60`)
+  CELLULAR ENGINE OMEGA v5.4.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib)
+  Module 5 of 14 (100 strictly constructive theorems, 0 `Classical.choice`):
+  Dynamic Instability, `MotA5MotB2` Cogwheel Arithmetic, `F1F0` Gearbox, Motors, Active LLPS & Euler Buckling (`O22`–`O26`, `O60`)
 -/
 
 namespace OmegaCellular.CytoskeletonMotorsLLPS
@@ -20,8 +21,8 @@ theorem O22_dogterom_leibler_phase_transition (vg vs fres fcat : Int) :
     (0 < vg * fres - vs * fcat ↔ vs * fcat < vg * fres) := by
   exact ⟨⟨fun h => by omega, fun h => by omega⟩, ⟨fun h => by omega, fun h => by omega⟩⟩
 
-/-- `O23` (Bacterial Flagellar Stator `MotA₅MotB₂` Coprime 5:2 Cogwheel `36°` Step Law):
-    `gcd(5, 2) = 1`, `5 × 2 = 10` proton-gated states per `360°` turn (`36°` per proton). -/
+/-- `O23` (Closed Literal Arithmetic Check — 5:2 Cogwheel `36°` Step Arithmetic):
+    Closed `decide` check verifying `Nat.gcd 5 2 = 1`, `5 * 2 = 10`, and `10 * 36 = 360`. -/
 theorem O23_mota5_motb2_cogwheel_36_degree_step :
     Nat.gcd 5 2 = 1 ∧ 5 * 2 = 10 ∧ 10 * 36 = 360 := by
   decide

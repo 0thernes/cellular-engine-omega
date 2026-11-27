@@ -172,22 +172,25 @@ def build_ro_crate() -> dict:
     parts = [
         ("results/multiseed_stats.csv", "text/csv", "Preregistered N=20 multi-seed paired intact-vs-knockout telemetry CSV"),
         ("results/lean4-omega-audit.txt", "text/plain", f"Verbatim Lean 4.35.0 #print axioms transcript ({lean_n} constructive theorems)"),
-        ("lean/OmegaCellularProofs/LiveC11Receipt.lean", "text/plain", "Auto-generated live C11 telemetry & SHA-256 kernel receipt (O63, O72)"),
+        ("results/citation-audit.json", "application/json", "Live DOI Handle + Crossref title/author/0-retraction audit receipt (32/32)"),
+        ("lean/OmegaCellularProofs/LiveC11Receipt.lean", "text/plain", "C11-generated runtime literal receipt re-checked by O63 and O72"),
         ("lean/OmegaCellularProofs/Spec.lean", "text/plain", "Pure proof-free Lean 4.35.0 specification module"),
         ("lean/Challenge.lean", "text/plain", f"Isolated statement-only Challenge module ({lean_n} theorems)"),
-        ("lean/Solution.lean", "text/plain", f"Sorry-free constructive Solution module ({lean_n} theorems across 6 kernels)"),
-        ("lean/comparator.json", "application/json", f"Six-kernel comparator specification ({lean_n} theorems, constructive allowlist)"),
+        ("lean/Solution.lean", "text/plain", f"Sorry-free constructive Solution module ({lean_n} theorems across reference kernel + 4 independent checkers)"),
+        ("lean/comparator.json", "application/json", f"Multi-checker comparator specification ({lean_n} theorems, constructive allowlist)"),
         ("lean/formalization.yaml", "application/yaml", "Structured Lean 4.35.0 formalization provenance & scope manifest"),
         ("schema/omega_run.schema.json", "application/schema+json", "JSON Schema Draft 2020-12 contract for 16-testbed JSON output"),
         ("schema/omega_cube.schema.json", "application/schema+json", "JSON Schema Draft 2020-12 contract for 75-substrate & 1,000-cell Hybrid Cube"),
-        ("dist/Donahue_2026_cellular_engine_omega.pdf", "application/pdf", "AMS-LaTeX technical monograph (Tectonic, 0 warnings, 0 overfull hboxes)"),
+        ("dist/Donahue_2026_cellular_engine_omega.pdf", "application/pdf", "AMS-LaTeX technical monograph (Tectonic, 0 warnings, 0 overfull hboxes; not peer-reviewed)"),
         ("dist/arxiv_submission.tar.gz", "application/gzip", "Deterministic clean-room arXiv LaTeX submission tarball"),
         ("blueprint/index.html", "text/html", f"Interactive Lean 4.35.0 Proof Blueprint ({lean_n} theorems)"),
         ("docs/DATASHEET.md", "text/markdown", "Gebru et al. Datasheet for empirical datasets"),
         ("docs/statement-fidelity.md", "text/markdown", f"14-module Lean-vs-C11 statement fidelity audit ({lean_n} theorems)"),
         ("docs/mega-atlas-cross-check.md", "text/markdown", "Honest 0/1,900 Mega-Atlas open-problem cross-check (22 adjacent open IDs)"),
         ("CLAIMS.md", "text/markdown", "Numbered falsifiable claims ledger (C01-C10)"),
-        ("VERIFICATION.md", "text/markdown", "Multi-kernel Lean, 60-gate C11, and Python verification ledger"),
+        ("VERIFICATION.md", "text/markdown", "Multi-checker Lean, 60-gate C11, and Python verification ledger"),
+        ("SUBMISSION_READINESS.md", "text/markdown", "Playbook v1.3 43-item submission readiness matrix"),
+        ("REUSE.toml", "application/toml", "SPDX / REUSE dual-licensing manifest (Apache-2.0 / CC-BY-4.0)"),
         ("CHECKSUMS.sha256", "text/plain", "Cryptographic SHA-256 integrity manifest"),
         ("croissant.json", "application/ld+json", "MLCommons Croissant 1.0 dataset metadata"),
         ("codemeta.json", "application/ld+json", "CodeMeta 2.0 research software metadata"),
@@ -207,9 +210,11 @@ def build_ro_crate() -> dict:
             "datePublished": PUB_DATE,
             "description": (
                 f"Zero-dependency C11 multi-scale cellular biophysics engine (16 testbeds, 75 computational substrates, "
-                f"1,000-cell Hybrid Cube, 60 falsification gates, 16/16 planted mutants, 256-case fuzz harness) linked by a "
-                f"generated receipt file whose literal fields O63 and O72 re-check (no hash computed in Lean) to {lean_n} constructive "
-                "zero-Mathlib Lean 4.35.0 lemmas about its discrete software model, checked by the reference kernel and four independent checkers."
+                f"1,000-cell Hybrid Cube, 60 falsification gates, 16/16 planted mutants, 256-case fuzz harness) paired "
+                f"with {lean_n} strictly constructive zero-Mathlib Pure Lean 4.35.0 discrete software-model lemmas "
+                f"(including C11-generated receipt checks O63/O72; zero Classical.choice), audited by the reference "
+                "kernel plus four independent checkers (lean4lean, nanoda_bin, con-leche, con-ron). Not peer-reviewed; "
+                "retires 0 / 1,900 overarching Mega-Atlas open problems."
             ),
             "url": PAGES_URL,
             "identifier": REPO_URL,
@@ -264,8 +269,9 @@ def build_codemeta() -> dict:
         "dateModified": PUB_DATE,
         "description": (
             f"Zero-dependency C11 multi-scale cellular biophysics engine (16 testbeds, 75 substrates, 1,000-cell Hybrid Cube, "
-            f"60 falsification gates, 16/16 compiled planted mutants) coupled via live C11-to-Lean runtime receipts (O63, O72) "
-            f"to {lean_n} constructive zero-Mathlib Lean 4.35.0 lemmas about the discrete software model, checked by the reference kernel and four independent checkers."
+            f"60 falsification gates, 16/16 compiled planted mutants) paired with {lean_n} strictly constructive zero-Mathlib "
+            f"Pure Lean 4.35.0 discrete software-model lemmas (including C11-generated receipt checks O63/O72; zero Classical.choice) "
+            "verified by the reference kernel plus four independent checkers (lean4lean, nanoda_bin, con-leche, con-ron)."
         ),
         "codeRepository": REPO_URL,
         "url": PAGES_URL,

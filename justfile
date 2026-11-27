@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
-# CELLULAR ENGINE OMEGA v5.3.0 — Task Runner (Build Standard v1.2.0: A31, A36, B01)
+# CELLULAR ENGINE OMEGA v5.4.0 — Task Runner (Build Standard v1.2.0: A31, A36, B01)
 # Zero git hooks; every recipe is explicit and directly invocable.
 
 set windows-shell := ["pwsh.exe", "-NoProfile", "-Command"]

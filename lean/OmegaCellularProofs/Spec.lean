@@ -5,13 +5,14 @@ module
 public import OmegaCellularProofs.LiveC11Receipt
 
 /-!
-# Spec.lean — Pure Definitions & Data Specification Module (v5.2.0)
+# Spec.lean — Pure Definitions & Data Specification Module (v5.4.0)
 
 Contains ONLY pure data structures and computable definitions (ZERO proofs, ZERO `sorry`)
-shared between isolated statement-only `Challenge.lean` and sorry-free proof modules
-`OmegaCellularProofs.*` / `Solution.lean`. Keeping definitions in a proof-free `Spec`
-module guarantees that `Challenge.lean` imports zero proof terms and can be judged
-against `Solution.lean` under `lake comparator --config comparator.json --paranoid`.
+shared between isolated statement-only `Challenge.lean` and the 14 sorry-free proof modules
+in `OmegaCellularProofs.*` / `Solution.lean` (100 strictly constructive theorems, 0 `Classical.choice`).
+Keeping definitions in a proof-free `Spec` module guarantees that `Challenge.lean` imports zero
+proof terms and can be judged against `Solution.lean` under
+`lake comparator --config comparator.json --paranoid`.
 -/
 
 namespace OmegaCellular.PurcellGaugeGeometry

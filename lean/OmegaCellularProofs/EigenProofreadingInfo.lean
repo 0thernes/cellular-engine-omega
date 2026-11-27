@@ -3,8 +3,9 @@ module
 -- Copyright (c) 2026 Alexander Stephen Donahue
 
 /-!
-  CELLULAR ENGINE OMEGA v5.2.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib)
-  Module 2: Eigen's Error Threshold & Hopfield–Ninio Kinetic Proofreading (`O06`–`O10`)
+  CELLULAR ENGINE OMEGA v5.4.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib)
+  Module 2 of 14 (100 strictly constructive theorems, 0 `Classical.choice`):
+  Eigen's Error Threshold & Hopfield–Ninio Kinetic Proofreading Algebra (`O06`–`O10`)
 -/
 
 namespace OmegaCellular.EigenProofreadingInfo
@@ -28,9 +29,9 @@ theorem O06_hopfield_ninio_proofreading_beats_equilibrium
   rw [hlhs, hrhs]
   exact h1
 
-/-- `O07` (Concrete Biological Proofreading Amplification Witness):
-    For Watson–Crick equilibrium mismatch `1 / 100`, 1 proofreading stage drops error to
-    `1 / 10,000` (`100×`) and 2 stages drop error to `1 / 1,000,000` (`10,000×`). -/
+/-- `O07` (Closed Literal Arithmetic Check — Concrete Proofreading Powers):
+    Closed `decide` check on concrete integer powers (`100^2 = 10000`, `100^3 = 1000000`)
+    illustrating 1-stage (`100×`) and 2-stage (`10,000×`) error-rate scaling. -/
 theorem O07_hopfield_ninio_quadratic_and_cubic_witness :
     (1 : Nat) ^ 2 * 100 < 1 * 100 ^ 2 ∧
     (1 : Nat) ^ 3 * 100 ^ 2 < 1 ^ 2 * 100 ^ 3 ∧
@@ -59,9 +60,8 @@ theorem O08_eigen_error_threshold_expansion
   rw [hLhs, hRhs]
   exact h1
 
-/-- `O09` (RNA Virus vs. Proofread DNA Cell Genome Ceiling Separation):
-    With RNA error rate `10^-4` and DNA error rate `10^-8`, at identical selective
-    superiority `ln σ = 1`, the sustainable DNA genome ceiling is `10,000×` larger. -/
+/-- `O09` (Closed Literal Arithmetic Check — `10^8 = 10^4 * 10^4`):
+    Closed `decide` check illustrating the `10,000×` ratio between `10^4` and `10^8`. -/
 theorem O09_rna_virus_vs_dna_cell_genome_separation :
     (100000000 : Nat) = 10000 * 10000 ∧ (10000 : Nat) < 100000000 := by
   decide

@@ -1,6 +1,6 @@
 schema_version: "0.4"
 project: "CELLULAR ENGINE OMEGA"
-version: "5.3.0"
+version: "5.4.0"
 repository: "https://github.com/0thernes/cellular-engine-omega"
 license_code: "Apache-2.0"
 license_docs: "CC-BY-4.0"
@@ -45,33 +45,33 @@ theorem_count: 100
 core_frontier_theorems: 72
 non_vacuity_and_negative_boundary_theorems: 17
 adversarial_refutation_theorems: 11
-live_negative_kernel_test: true
+live_negative_elaboration_test: true
+live_negative_axiom_and_comparator_tamper_test: true
 kernels:
-  - name: "Lean 4.35.0 reference kernel"
+  - name: "Lean 4.35.0 reference kernel (lean, leanchecker --fresh, leanchecker-paranoid --fresh)"
+    role: "reference"
     local_windows: true
     ci_ubuntu: true
-  - name: "leanchecker --fresh"
+  - name: "nanoda_bin (Rust independent checker)"
+    role: "independent"
     local_windows: true
     ci_ubuntu: true
-  - name: "leanchecker-paranoid --fresh"
+  - name: "con-leche (--verified independent export checker)"
+    role: "independent"
     local_windows: true
     ci_ubuntu: true
-  - name: "nanoda_bin (Rust independent kernel)"
+  - name: "con-ron (--verified independent export checker)"
+    role: "independent"
     local_windows: true
     ci_ubuntu: true
-  - name: "con-leche (--verified)"
-    local_windows: true
-    ci_ubuntu: true
-  - name: "con-ron (--verified)"
-    local_windows: true
-    ci_ubuntu: true
-  - name: "lean4lean (via lake check --paranoid & lake comparator)"
+  - name: "lean4lean (independent Lean-in-Lean checker via lake check --paranoid & lake comparator)"
+    role: "independent"
     local_windows: false
     ci_ubuntu: true
 scope_and_non_formalized_disclaimers:
   formalized_in_lean:
-    - "Exact integer and natural-number algebraic, combinatorial, and inductive cellular biophysics invariants (O01-O62, O01b, O41b, O59b, O67-O71)"
-    - "Live C11 runtime telemetry kernel receipts for TB14+TB16 (O63) and 75-substrate/1,000-cell Hybrid Cube (O72)"
+    - "Discrete Nat/Int/List algebraic, combinatorial, and inductive invariants of the software model (O01-O62, O01b, O41b, O59b, O67-O71), including 16 closed literal arithmetic/receipt checks"
+    - "C11-exported runtime literal equality checks in LiveC11Receipt.lean for TB14+TB16 (O63) and 75-substrate/1,000-cell Hybrid Cube (O72) — no SHA-256 hash is computed inside Lean"
     - "Explicit non-vacuity inhabitants, sharp negative-boundary refutations, and constructive adversarial refutations across all domains (O73-O100)"
   not_formalized_in_lean:
     - "IEEE-754 floating-point PDE solvers (Cahn-Hilliard, Schnakenberg, Hepatic Sinusoid, Levin Vmem), ODE integrators, stochastic Gillespie/Langevin/Cohesin Monte Carlo loops, cyclic Jacobi eigensolver, Snell ray tracer, and Ridge regression in C11 (verified empirically by 60 gates, 16 planted mutants, 10-seed sweeps, and 256-case fuzz/property harness)"

@@ -20,7 +20,7 @@ public import OmegaCellularProofs.NonVacuity
 public import OmegaCellularProofs.AdversarialTests
 
 /-!
-# OmegaCellularProofs.lean — Root Formal Verification Library (v5.3.0)
+# OmegaCellularProofs.lean — Root Formal Verification Library (v5.4.0)
 
 Aggregates all 14 pure Lean 4.35.0 `module` proof & specification files exporting
 **100 strictly constructive machine-checked frontier theorems** (`O01`–`O63` + `O01b` +

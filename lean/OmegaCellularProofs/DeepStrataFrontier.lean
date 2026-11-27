@@ -5,8 +5,9 @@ module
 public import OmegaCellularProofs.Spec
 
 /-!
-  CELLULAR ENGINE OMEGA v5.2.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib)
-  Module 9: Deep Strata Frontier (`O47`–`O54`, `O62`)
+  CELLULAR ENGINE OMEGA v5.4.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib)
+  Module 9 of 14 (100 strictly constructive theorems, 0 `Classical.choice`):
+  Deep Strata Discrete Software-Model Invariants (`O47`–`O54`, `O62`)
 -/
 
 namespace OmegaCellular.DeepStrataFrontier
@@ -90,6 +91,11 @@ theorem O51_cnidocyte_osmotic_acceleration_exceeds_million_g
   have hMono : v0 * scale ≤ v * scale := Nat.mul_le_mul_right scale hGe
   exact ⟨Nat.lt_of_lt_of_le hBase hMono, by decide⟩
 
+/-- `O52` (Concrete Record Check on Two Software `BioelectricTissue` Structs):
+    Checks via `simp` that two hand-constructed `BioelectricTissue` records sharing the same
+    `dna` field `g` and differing in `vPosterior` (`-65` vs `-15` against threshold `-35`) have
+    equal `dna` fields and `headCount` `1` vs `2`. This is a discrete software-record check
+    motivated by Levin (2021), NOT a biological proof of planarian regeneration. -/
 theorem O52_levin_bioelectric_bistable_memory_without_dna_mutation (g : Nat) :
     let wild : BioelectricTissue := ⟨g, -15, -65, -35⟩
     let biceph : BioelectricTissue := ⟨g, -15, -15, -35⟩

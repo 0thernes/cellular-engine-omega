@@ -33,6 +33,8 @@ $cflags = @(
     "-march=native", "-mavx2", "-mavxvnni", "-mbmi", "-mbmi2", "-mpopcnt",
     "-ffp-contract=off",
     "--target=x86_64-w64-windows-gnu",
+    "--sysroot=$root",
+    "-B$root\lib",
     "-DOMEGA_BARE_WIN64",
     "-I$proj\include",
     "-isystem", "$root\include\clang"
@@ -169,7 +171,7 @@ if (-not $SkipLean -and (Test-Path -LiteralPath $lake)) {
         throw "Lean 4 audit failed: O100_refute_hybrid_cube_partition_drift missing from axiom audit!"
     }
 
-    Write-Host "`nRunning independent Lean 4.35.0 kernels (leanchecker, leanchecker-paranoid, con-leche, con-ron, nanoda_bin) + live negative kernel test..."
+    Write-Host "`nRunning reference kernel (leanchecker, leanchecker-paranoid) + independent export checkers (con-leche, con-ron, nanoda_bin) + negative elaboration test..."
     Push-Location -LiteralPath "$proj\lean"
     try {
         & $lake env leanchecker --fresh Solution
@@ -177,7 +179,7 @@ if (-not $SkipLean -and (Test-Path -LiteralPath $lake)) {
         & $lake env leanchecker-paranoid --fresh Solution
         if ($LASTEXITCODE -ne 0) { throw "leanchecker-paranoid --fresh Solution failed!" }
 
-        $negFile = Join-Path $env:TEMP "omega_neg_kernel_test.lean"
+        $negFile = Join-Path $env:TEMP "omega_neg_elab_test.lean"
         Set-Content -LiteralPath $negFile -Encoding ascii -Value @(
             "import OmegaCellularProofs.SubstratesCube",
             "theorem deliberately_false_cube_partition : (661 : Nat) + 274 + 20 + 45 = 999 := by rfl"
@@ -188,7 +190,7 @@ if (-not $SkipLean -and (Test-Path -LiteralPath $lake)) {
         $negRc = $LASTEXITCODE
         $ErrorActionPreference = $prevPref
         Remove-Item -Force -LiteralPath $negFile -ErrorAction SilentlyContinue
-        if ($negRc -eq 0) { throw "CRITICAL: Lean 4.35.0 kernel accepted a deliberately false theorem!" }
+        if ($negRc -eq 0) { throw "CRITICAL: Lean 4.35.0 elaboration accepted a deliberately false literal equation!" }
 
         $comp = Get-Content -LiteralPath "$proj\lean\comparator.json" -Raw | ConvertFrom-Json
         $expFile = Join-Path $env:TEMP "omega_solution_all100.export"
@@ -217,7 +219,7 @@ if (-not $SkipLean -and (Test-Path -LiteralPath $lake)) {
     } finally {
         Pop-Location
     }
-    Write-Host "Lean 4.35.0 Formal Verification PASSED ($($seen.Count)/100 constructive theorems across lean + leanchecker-paranoid + con-leche + con-ron + nanoda_bin + live negative kernel test, 0 Classical.choice, 0 sorryAx, 0 warnings)!"
+    Write-Host "Lean 4.35.0 Formal Verification PASSED ($($seen.Count)/100 constructive theorems across reference kernel + con-leche + con-ron + nanoda_bin + negative elaboration test, 0 Classical.choice, 0 sorryAx, 0 warnings)!"
 }
 
-Write-Host "`nCELLULAR ENGINE OMEGA v5.3.0 (75 SUBSTRATES · 1,000 CUBE CELLS · LIVE C11->LEAN O63/O72 · 100 PROOFS · 60 GATES · 16/16 MUTANTS) COMPLETE."
+Write-Host "`nCELLULAR ENGINE OMEGA v5.4.0 (75 SUBSTRATES · 1,000 CUBE CELLS · LIVE C11->LEAN O63/O72 · 100 PROOFS · 60 GATES · 16/16 MUTANTS) COMPLETE."

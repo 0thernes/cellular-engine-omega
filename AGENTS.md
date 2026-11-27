@@ -1,10 +1,10 @@
-# AGENTS.md — CELLULAR ENGINE OMEGA (`v5.3.0`)
+# AGENTS.md — CELLULAR ENGINE OMEGA (`v5.4.0`)
 
 Canonical engineering and audit instructions for AI coding agents and human contributors working in `0thernes/cellular-engine-omega` (`Build Standard for LLMs v1.2.0`).
 
 - **Author:** Alexander Stephen Donahue · ORCID `0009-0006-8168-9648` · Independent Researcher, Spokane, WA, USA (`0_0@0thernes.art` · `https://0thernes.art`)
-- **Single Version Source:** [`VERSION`](VERSION) (`5.3.0`)
-- **Dual License:** Apache-2.0 (`LICENSE`, code/Lean/scripts) + CC BY 4.0 (`LICENSE-DOCS`, white paper/prose/figures/datasets)
+- **Single Version Source:** [`VERSION`](VERSION) (`5.4.0`)
+- **Dual License:** Apache-2.0 (`LICENSE`, code/Lean/scripts) + CC BY 4.0 (`LICENSE-DOCS`, white paper/prose/figures/datasets) + `REUSE.toml` / `LICENSES/`
 
 ## Hard Rules (`R1`–`R8`)
 
@@ -41,5 +41,5 @@ Canonical engineering and audit instructions for AI coding agents and human cont
 
 1. **PowerShell bracketed paths:** On the Windows ReFS Dev Drive (`Z:\[Vibe Coded (AI)]\ANTIGRAVITY\cellular-engine-omega`), always pass `-LiteralPath` to PowerShell file cmdlets because `[...]` is wildcard syntax.
 2. **Cross-OS floating-point determinism:** Keep `-ffp-contract=off` in both `build.ps1` and `build_linux.sh` to prevent FMA contraction divergence between Clang and GCC.
-3. **Never touch `LiveC11Receipt.lean` manually:** Always regenerate via `omega_cell --export-lean-trace lean/OmegaCellularProofs/LiveC11Receipt.lean --seed 2026001` so C11 telemetry and Lean proofs `O63`/`O72` stay cryptographically bound.
+3. **Never touch `LiveC11Receipt.lean` manually:** Always regenerate via `omega_cell --export-lean-trace lean/OmegaCellularProofs/LiveC11Receipt.lean --seed 2026001` so C11-reported literals stay synchronized with `O63`/`O72` equality checks (note: no hash is computed inside Lean).
 4. **Honest scope:** `cellular-engine-omega` solves **`0 / 1,900`** overarching Mega-Atlas open problems (`docs/mega-atlas-cross-check.md`); Lean 4 formalizes exact `Nat`/`Int` algebraic invariants and runtime receipts, not IEEE-754 PDE discretization bounds.

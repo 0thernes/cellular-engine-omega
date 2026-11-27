@@ -3,16 +3,19 @@ module
 -- Copyright (c) 2026 Alexander Stephen Donahue
 
 /-!
-  CELLULAR ENGINE OMEGA v5.2.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib)
-  Module 6: Tardigrade "Walking Head", Anucleate Compression, Radiotolerance, Mavirus & Odd Elasticity (`O27`–`O32`)
+  CELLULAR ENGINE OMEGA v5.4.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib)
+  Module 6 of 14 (100 strictly constructive theorems, 0 `Classical.choice`):
+  Discrete Organ-Budget Arithmetic, Anucleate Compression, Radiotolerance, Mavirus & Odd Elasticity (`O27`–`O32`)
 -/
 
 namespace OmegaCellular.TardigradeVirosphereOmega
 
 @[expose] public section
 
-/-- `O27` (Tardigrade "Walking Head" 4-Hox Compressed 7-Organ Budget ≤ 1,000 Cells):
-    7-organ eutelic tardigrade sums to `780 ≤ 1000` cells while satisfying every organ floor. -/
+/-- `O27` (Closed Literal Arithmetic Check — 7-Organ Model Budget ≤ 1,000 Cells):
+    Closed `decide` check verifying that the 7 fixed integer organ counts (`240, 180, 110, 80, 24, 56, 90`)
+    in the `TB09` software model sum to `780 ≤ 1000` and meet the model's lower-bound literals.
+    This is a closed literal arithmetic check on model constants, not a developmental biology proof. -/
 theorem O27_tardigrade_walking_head_budget_le_1000 :
     let skin := (240 : Nat); let neuro := 180; let muscle := 110
     let gut := 80; let malpighian := 24; let gonad := 56; let storage := 90

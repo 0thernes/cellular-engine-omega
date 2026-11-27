@@ -5,9 +5,16 @@ module
 public import OmegaCellularProofs.Spec
 
 /-!
-# VerifyTraceReceipt.lean — Multi-Compartment Differential C11-to-Lean4 Trace Receipt (`O59`, `O59b`, `O63`)
+# VerifyTraceReceipt.lean — Multi-Compartment Trace Replay & C11-Exported Literal Receipt (`O59`, `O59b`, `O63`)
 
-CELLULAR ENGINE OMEGA v5.2.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib)
+CELLULAR ENGINE OMEGA v5.4.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib)
+Module 11 of 14 (100 strictly constructive theorems, 0 `Classical.choice`).
+
+Note on `O63`: `LiveC11Receipt.lean` is a record of integer and string literals emitted by
+`omega_cell --export-lean-trace --seed 2026001`. `O63` verifies equalities and inequalities
+among those C-reported literals (including `shaFifo = shaLifo = shaRandom` as string equality).
+No SHA-256 hash is computed or cryptographically verified inside Lean; `receiptSha256`,
+`tb14Sha256`, `tb16Sha256`, and `cubeSha256` are stored as unhashed string fields.
 -/
 
 namespace OmegaCellular.VerifyTraceReceipt
@@ -87,6 +94,10 @@ theorem O59b_cryptobiotic_frozen_trace_invariance
       exact ih (fun e he => hDry e (List.Mem.tail ev he))
 
 open OmegaCellular.LiveC11Receipt in
+/-- `O63` (Closed Literal Equality Check on C11-Exported `TB14`/`TB16` Telemetry):
+    Checks integer equalities/inequalities and digest-string equalities (`shaFifo = shaLifo = shaRandom`)
+    on the literals emitted by one C11 run into `LiveC11Receipt.lean`. No cryptographic hash
+    function is executed inside Lean; this is a build-time consistency check on C-reported literals. -/
 theorem O63_live_c11_receipt_verified :
     let r := liveReceipt
     r.massAfterFifo = r.massBefore ∧

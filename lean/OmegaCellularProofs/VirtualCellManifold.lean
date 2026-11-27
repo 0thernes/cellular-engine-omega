@@ -5,9 +5,9 @@ module
 public import OmegaCellularProofs.Spec
 
 /-!
-  CELLULAR ENGINE OMEGA v5.2.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib)
-  Module 10: Continuous Waddington/Zonation Gradients, Physics-Projected Virtual Cell AI,
-  JCVI-syn3A (493 Genes / 92 Dark) Proteome Partition & End-to-End 6-Tier Conservation Closure (`O55`–`O58`)
+  CELLULAR ENGINE OMEGA v5.4.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib)
+  Module 10 of 14 (100 strictly constructive theorems, 0 `Classical.choice`):
+  Discrete Zonation Bounds, Integer Hyperplane Projection, JCVI-syn3A Counts & 6-Tier Closure (`O55`–`O58`)
 -/
 
 namespace OmegaCellular.VirtualCellManifold
@@ -42,14 +42,17 @@ theorem sumScaledShift_eq (N S : Int) (xs : List Int) :
       rw [h1, h2, h3]
       omega
 
+/-- `O56` (Exact Integer Hyperplane Projection Zero-Sum Conservation):
+    For every finite integer list `xs : List Int` of length `N = xs.length` and sum `err = sumInt xs`,
+    the scaled shifted sum `sumScaledShift N err xs = ∑_i (N * x_i - err)` vanishes identically.
+    (In `v5.4.0`, the tautological second conjunct `err ≠ 0 → sumInt xs ≠ 0` logged in `ERRATA.md`
+    was removed; floating-point IEEE-754 Ridge projection residual is checked numerically in C11 `TB16`.) -/
 theorem O56_virtual_cell_physics_projection_conservation
     (xs : List Int) :
     let N : Int := (xs.length : Int)
     let err : Int := sumInt xs
-    sumScaledShift N err xs = 0 ∧
-    (err ≠ 0 → sumInt xs ≠ 0) := by
+    sumScaledShift N err xs = 0 := by
   intro N err
-  refine ⟨?_, fun hNe => hNe⟩
   dsimp only [N, err]
   rw [sumScaledShift_eq]
   omega

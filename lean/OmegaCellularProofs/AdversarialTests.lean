@@ -20,11 +20,13 @@ public import OmegaCellularProofs.NonVacuity
 /-!
 # AdversarialTests.lean — Constructive Adversarial Refutations (`O90`–`O100`)
 
-CELLULAR ENGINE OMEGA v5.3.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib).
+CELLULAR ENGINE OMEGA v5.4.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib)
+Module 14 of 14 (100 strictly constructive theorems, 0 `Classical.choice`).
 Per the *Defensible Independent AI Research Playbook v1.3 (Gold Standard Item 12)*,
 proves constructively inside the Lean 4.35.0 kernel (`¬ (...)`, zero `sorry`,
 zero `Classical.choice`, zero `native_decide`) that deliberately weakened, inverted,
-or off-by-one variants across every core cellular biophysics domain are provably `False`.
+or off-by-one variants across every core software-model domain are provably `False`.
+Note: `O92`, `O94`, `O95`, and `O100` are closed literal arithmetic refutations via `decide`.
 -/
 
 namespace OmegaCellular.AdversarialTests
@@ -102,7 +104,7 @@ theorem O97_refute_levin_bicephalic_requires_dna_mutation :
 theorem O98_refute_o56_projection_leaves_nonzero_sum :
     ¬ (∃ xs : List Int, sumScaledShift (xs.length : Int) (sumInt xs) xs ≠ 0) := by
   intro ⟨xs, hNe⟩
-  exact hNe (O56_virtual_cell_physics_projection_conservation xs).1
+  exact hNe (O56_virtual_cell_physics_projection_conservation xs)
 
 /-- `O99`: Refutes off-by-one `b1.58` packing of `6` trits into a single byte (`3^6 = 729 > 256`, sharp boundary of `O71`). -/
 theorem O99_refute_b158_6trits_fits_byte :

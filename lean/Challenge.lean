@@ -5,20 +5,21 @@ module
 public import OmegaCellularProofs.Spec
 
 /-!
-# Challenge.lean — Isolated Statement-Only Challenge Specification (v5.3.0)
+# Challenge.lean — Isolated Statement-Only Challenge Specification (v5.4.0)
 
 Imports ONLY `OmegaCellularProofs.Spec` (pure definitions + live C11 receipt data,
 ZERO proofs, ZERO `sorry`) and NONE of the 14 proof modules.
 Every `sorry` below is intentional and matched against sorry-free `Solution.lean`
-across all 6 independent Lean 4.35.0 kernels via:
+across the Lean 4.35.0 reference kernel (`lean`, `leanchecker`, `leanchecker-paranoid`)
+plus four independent checkers (`lean4lean`, `nanoda_bin`, `con-leche`, `con-ron`) via:
     lake comparator --config comparator.json --paranoid
 -/
 
 namespace OmegaCellular.PurcellGaugeGeometry
 public theorem O01_purcell_1dof_reciprocal_cycle_zero
     (A : Int → Int → Int) (hAnti : ∀ x y, A y x = - A x y)
-    (a b : Int) (tFwd tRev : Nat) :
-    tFwd > 0 → tRev > 0 → pathDisp A [a, b, a] = 0 := by sorry
+    (a b : Int) :
+    pathDisp A [a, b, a] = 0 := by sorry
 public theorem O01b_purcell_multistep_reciprocal_zero
     (A : Int → Int → Int) (hAnti : ∀ x y, A y x = - A x y)
     (a b c : Int) :
@@ -255,7 +256,7 @@ public theorem O55_waddington_zonation_gradient_interpolation
 public theorem O56_virtual_cell_physics_projection_conservation (xs : List Int) :
     let N : Int := (xs.length : Int)
     let err : Int := sumInt xs
-    sumScaledShift N err xs = 0 ∧ (err ≠ 0 → sumInt xs ≠ 0) := by sorry
+    sumScaledShift N err xs = 0 := by sorry
 public theorem O57_jcvi_syn3a_dark_proteome_essential_fraction
     (known dark total protCoding : Nat)
     (hPart : known + dark = total) (hProtLe : protCoding ≤ total)

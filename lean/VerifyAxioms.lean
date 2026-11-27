@@ -5,7 +5,7 @@ module
 public import Solution
 
 /-!
-# VerifyAxioms.lean — Standalone Axiom Audit Script (CELLULAR ENGINE OMEGA v5.3.0)
+# VerifyAxioms.lean — Standalone Axiom Audit Script (CELLULAR ENGINE OMEGA v5.4.0)
 
 Prints `#print axioms` for ALL 100 machine-checked theorems exported by `Solution`.
 Every declaration MUST depend strictly on subsets of `[propext, Quot.sound]`

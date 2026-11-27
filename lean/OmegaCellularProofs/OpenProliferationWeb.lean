@@ -5,9 +5,9 @@ module
 public import OmegaCellularProofs.Spec
 
 /-!
-  CELLULAR ENGINE OMEGA v5.2.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib)
-  Module 7: 12-Axis Universal Morphospace, Exotic Bioenergetics, Russian-Doll Symbiosis,
-            Open Proliferation & 5-Repo Ecosystem Conservation Closure (`O33`–`O40`, `O61`)
+  CELLULAR ENGINE OMEGA v5.4.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib)
+  Module 7 of 14 (100 strictly constructive theorems, 0 `Classical.choice`):
+  12-Axis Cardinality Arithmetic, Bifurcation, Symbiosis, Xenocellular PMF & 5-Repo Closure (`O33`–`O40`, `O61`)
 -/
 
 namespace OmegaCellular.OpenProliferationWeb
@@ -31,6 +31,10 @@ theorem O35_cryptist_4genome_additive_information
     gNuc + gMito + gPlast < gNuc + gMito + gPlast + gNm := by
   omega
 
+/-- `O36` (Closed Literal Arithmetic Check — Binary vs. 10-Bin 12-Axis Cardinality):
+    Closed `decide` check verifying `2 ^ 12 = 4096`, `10 ^ 12 = 1000000000000`, and `2 ^ 12 < 10 ^ 12`.
+    This is a closed arithmetic check on literal powers motivating `TB13`'s 12-axis binning,
+    NOT a proof of open-ended biological novelty. -/
 theorem O36_continuous_12axis_morphospace_unbounded_novelty :
     (2 : Nat) ^ 12 = 4096 ∧
     (10 : Nat) ^ 12 = 1000000000000 ∧

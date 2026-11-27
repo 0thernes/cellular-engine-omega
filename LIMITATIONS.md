@@ -1,6 +1,6 @@
 # Limitations, Scope Boundaries & Real-vs-Metaphor Audit (`B41`)
 
-This document states clearly what **CELLULAR ENGINE OMEGA (`v5.3.0`)** actually verifies, what is modeled only as a reduced-order or synthetic surrogate, and what it explicitly **does not** prove or solve.
+This document states clearly what **CELLULAR ENGINE OMEGA (`v5.4.0`)** actually verifies, what is modeled only as a reduced-order or synthetic surrogate, and what it explicitly **does not** prove or solve.
 
 ---
 
@@ -25,6 +25,6 @@ This document states clearly what **CELLULAR ENGINE OMEGA (`v5.3.0`)** actually 
 3. **Web Observatory Deployment Model:** `web/server.mjs` is strictly designed for **local loopback (`127.0.0.1`)** interactive inspection. It has no authentication layer and must never be exposed directly to the public internet.
 4. **Statistical Power & Synthetic Noise:** The `20`-seed statistical suite (`results/multiseed_stats.csv`) evaluates deterministic synthetic PRNG ensembles, not wet-lab biological replicates.
 5. **Preprint Status:** Neither the software nor `paper/main.tex` has undergone external journal peer review.
-6. **Negative test scope:** The "negative kernel test" in `scripts/verify_lean_six_kernels.sh` feeds `(661 : Nat) + 274 + 20 + 45 = 999 := by rfl` to `lake env lean`. The `rfl` failure is raised during elaboration, so the test shows that the toolchain rejects a false literal equation, not that a kernel rejects a forged proof term.
-7. **Statement-only challenge file:** `lean/Challenge.lean` holds 100 intentional `sorry` (statements for the comparator; not a default build target). The proof modules contain no `sorry`.
-8. **Cosmetic hypotheses:** `O01` takes rate hypotheses `tFwd > 0` and `tRev > 0` that its proof discards, and the second conjunct of `O56` is a tautology (`fun hNe => hNe`). See [`ERRATA.md`](ERRATA.md).
+6. **Negative test scope:** The negative elaboration test in `scripts/verify_lean_six_kernels.sh` feeds `(661 : Nat) + 274 + 20 + 45 = 999 := by rfl` to `lake env lean` (checking that elaboration rejects a false literal equation). In `v5.4.0`, `scripts/test_lean_negative.py` adds 4 live negative axiom-gate tests (planted `sorry`, custom `axiom`, `native_decide`, and `Classical.choice`) plus a live `lake comparator --paranoid` `sorry`-tamper rejection test in Linux CI.
+7. **Statement-only challenge file:** `lean/Challenge.lean` holds 100 intentional `sorry` (statements for the comparator; not a default build target). The 14 proof modules contain no `sorry`.
+8. **Resolved formal-statement hygiene (`v5.4.0`):** The unused `tFwd > 0`/`tRev > 0` hypotheses in `O01` and the tautological second conjunct in `O56` logged in the 2026-11-26 statement audit were removed in `v5.4.0` (see [`ERRATA.md`](ERRATA.md)).

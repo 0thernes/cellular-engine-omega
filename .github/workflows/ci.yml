@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
-name: CI — Multi-OS C11, ASan/UBSan, 6-Kernel Lean 4.35.0, Python Ladder & Paper
+name: CI — Multi-OS C11, ASan/UBSan, Multi-Checker Lean 4.35.0, Python Ladder & Paper
 
 on:
   push:
@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   linux-full-verify:
-    name: Linux ELF64 + ASan/UBSan + 60 Gates + Python Ladder + 6-Kernel Lean 4.35.0 + Paper
+    name: Linux ELF64 + ASan/UBSan + 60 Gates + Python Ladder + Multi-Checker Lean 4.35.0 + Paper
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -51,13 +51,13 @@ jobs:
           chmod +x build_linux.sh scripts/audit-repo.sh scripts/verify_lean_six_kernels.sh
           OMEGA_SANITIZE=1 ./build_linux.sh
 
-      - name: All 6 Independent Lean 4.35.0 Kernels + Live Negative Kernel Test + Isolated Comparator
+      - name: Reference Kernel + 4 Independent Lean 4.35.0 Checkers + Negative Elaboration & Live Comparator Tamper Tests
         shell: bash
         run: |
           set -euo pipefail
           ./scripts/verify_lean_six_kernels.sh
 
-      - name: Python Verification Ladder, Oracle, Version Sync, Axiom Drift, Live Crossref Citations & FAIR Metadata
+      - name: Python Verification Ladder, Oracle, Version Sync, Axiom Drift, Live Crossref Title/Author Citations, FAIR & Dual Timestamps
         shell: bash
         run: |
           set -euo pipefail
@@ -68,8 +68,7 @@ jobs:
           python3 scripts/check_citations.py
           python3 scripts/generate_fair_metadata.py --verify
           python3 scripts/generate_checksums.py --verify
-          python3 scripts/timestamp_digicert.py --verify CHECKSUMS.sha256 timestamps/CHECKSUMS.sha256.tsr
-          python3 scripts/timestamp_digicert.py --verify dist/Donahue_2026_cellular_engine_omega.pdf timestamps/Donahue_2026_cellular_engine_omega.pdf.tsr
+          python3 scripts/stamp_timestamps.py --verify
 
       - name: Compile AMS-LaTeX Monograph & Clean-Room arXiv Submission Tarball (Tectonic)
         shell: bash

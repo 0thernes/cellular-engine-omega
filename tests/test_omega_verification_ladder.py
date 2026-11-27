@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
 # Copyright (c) 2026 Alexander Stephen Donahue
-"""Comprehensive Python Verification Ladder for CELLULAR ENGINE OMEGA v5.3.0.
+"""Comprehensive Python Verification Ladder for CELLULAR ENGINE OMEGA v5.4.0.
 
 Covers Build Standard v1.2.0 checks:
 - B03: Bit-exact determinism across repeated runs
@@ -372,8 +372,8 @@ def test_b08_golden_lean_axiom_audit():
     assert "OmegaCellular.AdversarialTests.O100_refute_hybrid_cube_partition_drift" in theorems
 
 
-def test_b24_live_negative_lean_kernel_rejects_false_theorem():
-    """Playbook v1.3 Item 12: prove the active Lean 4.35.0 kernel rejects a deliberately false theorem."""
+def test_b24_negative_lean_elaboration_rejects_false_literal():
+    """Playbook v1.3 Item 12: negative Lean 4.35.0 elaboration test rejects a false literal equation."""
     lake_bin = shutil.which("lake")
     if not lake_bin:
         cand = Path.home() / ".elan" / "toolchains" / "leanprover--lean4---v4.35.0" / "bin" / (
@@ -397,6 +397,19 @@ def test_b24_live_negative_lean_kernel_rejects_false_theorem():
             text=True,
             timeout=60,
         )
-        assert proc.returncode != 0, "Lean 4.35.0 kernel must reject a deliberately false theorem!"
+        assert proc.returncode != 0, "Lean 4.35.0 elaboration must reject a deliberately false literal equation!"
     finally:
         neg_path.unlink(missing_ok=True)
+
+
+def test_b24_live_negative_lean_axiom_gate_rejects_exploits():
+    """Playbook v1.3 Item 12: scripts/test_lean_negative.py proves sorry, custom axiom, native_decide & Classical.choice are caught."""
+    proc = subprocess.run(
+        [sys.executable, str(ROOT / "scripts" / "test_lean_negative.py"), "--allow-no-lake"],
+        cwd=str(ROOT),
+        capture_output=True,
+        text=True,
+        timeout=180,
+    )
+    assert proc.returncode == 0, f"test_lean_negative.py failed:\n{proc.stdout}\n{proc.stderr}"
+    assert "PASS:" in proc.stdout or "SKIP:" in proc.stdout

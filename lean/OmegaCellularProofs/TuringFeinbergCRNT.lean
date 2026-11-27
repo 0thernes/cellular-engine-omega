@@ -5,8 +5,9 @@ module
 public import OmegaCellularProofs.Spec
 
 /-!
-  CELLULAR ENGINE OMEGA v5.2.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib)
-  Module 3: Feinberg CRNT Deficiency & Turing Instability Theorems (`O11`–`O15`)
+  CELLULAR ENGINE OMEGA v5.4.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib)
+  Module 3 of 14 (100 strictly constructive theorems, 0 `Classical.choice`):
+  Feinberg CRNT Deficiency & 2×2 Integer Turing Jacobian Algebra (`O11`–`O15`)
 -/
 
 namespace OmegaCellular.TuringFeinbergCRNT

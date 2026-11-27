@@ -30,9 +30,9 @@ Under the following terms:
   * Attribution — You must give appropriate credit, provide a link to the license, and
     indicate if changes were made. Recommended attribution:
 
-      Donahue, Alexander Stephen (2026). CELLULAR ENGINE OMEGA (v5.2.0):
+      Donahue, Alexander Stephen (2026). CELLULAR ENGINE OMEGA (v5.4.0):
       Zero-Dependency C11 Multi-Scale Cellular Biophysics Engine, 75-Substrate &
-      1,000-Cell Hybrid Cube, and Multi-Kernel Lean 4.35.0 Formal Verification Suite.
+      1,000-Cell Hybrid Cube, and Multi-Checker Lean 4.35.0 Formal Verification Suite.
       Independent Researcher, Spokane, WA, USA. ORCID: 0009-0006-8168-9648.
       https://github.com/0thernes/cellular-engine-omega
 

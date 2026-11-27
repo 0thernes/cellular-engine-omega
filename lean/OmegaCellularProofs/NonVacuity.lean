@@ -19,7 +19,8 @@ public import OmegaCellularProofs.SubstratesCube
 /-!
 # NonVacuity.lean — Non-Vacuity Witnesses & Sharp Negative-Boundary Refutations (`O73`–`O89`)
 
-CELLULAR ENGINE OMEGA v5.2.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib)
+CELLULAR ENGINE OMEGA v5.4.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib)
+Module 13 of 14 (100 strictly constructive theorems, 0 `Classical.choice`).
 Constructs explicit concrete inhabitants proving that every universal hypothesis bundle
 in `O01`–`O72` is non-vacuously satisfiable AND proves sharp negative boundary refutations
 ensuring no theorem is trivially true or overly weak (Playbook v1.3 Pass 3 / Item 12).
@@ -49,7 +50,7 @@ theorem O73_nonvacuous_purcell_antisymmetric_witness :
     twoDofLoopArea2 0 0 2 3 = 12 ∧
     0 < twoDofLoopArea2 0 0 2 3 := by
   refine ⟨fun x y => by omega, ?_, ?_, ?_⟩
-  · exact O01_purcell_1dof_reciprocal_cycle_zero (fun x y => y - x) (fun x y => by omega) 3 10 1 2 (by decide) (by decide)
+  · exact O01_purcell_1dof_reciprocal_cycle_zero (fun x y => y - x) (fun x y => by omega) 3 10
   · exact (O02_purcell_2dof_nonreciprocal_area_positive 0 0 2 3 (by decide) (by decide)).1
   · exact (O02_purcell_2dof_nonreciprocal_area_positive 0 0 2 3 (by decide) (by decide)).2
 
@@ -57,7 +58,7 @@ theorem O73_nonvacuous_purcell_antisymmetric_witness :
 theorem O74_refute_1dof_nonzero_reciprocal_stroke :
     ¬ (∃ a b : Int, pathDisp (fun x y => y - x) [a, b, a] ≠ 0) := by
   intro ⟨a, b, hne⟩
-  exact hne (O01_purcell_1dof_reciprocal_cycle_zero (fun x y => y - x) (fun x y => by omega) a b 1 1 (by decide) (by decide))
+  exact hne (O01_purcell_1dof_reciprocal_cycle_zero (fun x y => y - x) (fun x y => by omega) a b)
 
 /-- `O75`: Non-vacuity witness for Hopfield–Ninio (`O06`) and Eigen expansion (`O08`) at `(L=500, p=1, q=100, S=5)`. -/
 theorem O75_nonvacuous_eigen_proofreading_witness :
@@ -176,7 +177,7 @@ theorem O87_nonvacuous_virtual_cell_projection_hallucination :
     sumInt xs ≠ 0 ∧
     sumScaledShift (xs.length : Int) (sumInt xs) xs = 0 := by
   have h56 := O56_virtual_cell_physics_projection_conservation [10, -3, 5, 4]
-  exact ⟨rfl, by decide, h56.1⟩
+  exact ⟨rfl, by decide, h56⟩
 
 /-- `O88`: Non-vacuity witness for 6-compartment trace replay (`O59`) and frozen dry trace invariance (`O59b`). -/
 theorem O88_nonvacuous_trace_replay_and_frozen_invariance :

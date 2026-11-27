@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#define OMEGA_VERSION_STR "5.3.0"
+#define OMEGA_VERSION_STR "5.4.0"
 
 #if defined(_WIN32) && defined(OMEGA_BUILD_DLL)
 #define OMEGA_API __declspec(dllexport)
@@ -35,7 +35,7 @@ OMEGA_API double   omega_time_sec(void);
 OMEGA_API void     omega_sha256_hex(const void* data, size_t len, char out_hex[65]);
 
 /* ============================================================================
- * 16 Experimental Testbed Result Structures (CELLULAR ENGINE OMEGA v5.3.0)
+ * 16 Experimental Testbed Result Structures (CELLULAR ENGINE OMEGA v5.4.0)
  * ============================================================================ */
 
 /* TB01: Purcell Scallop Theorem & MotA5MotB2 Rotary Corkscrew */
@@ -331,7 +331,7 @@ typedef struct OmegaTierLedger {
 
 /* ============================================================================
  * Clean-Slate v3.0 75 Substrates (PM01..25, MF01..25, GW01..25)
- * & 10x10x10 (1,000-Cell) Hybrid Cube Native C11 Engine (v5.3.0)
+ * & 10x10x10 (1,000-Cell) Hybrid Cube Native C11 Engine (v5.4.0)
  * ============================================================================ */
 #define OMEGA_CUBE_OK    0
 #define OMEGA_CUBE_ADAPT 1

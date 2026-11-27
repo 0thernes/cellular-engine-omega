@@ -5,20 +5,27 @@ module
 public import OmegaCellularProofs.Spec
 
 /-!
-  CELLULAR ENGINE OMEGA v5.2.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib)
-  Module 1: Purcell's Scallop Theorem & Low-Reynolds Gauge Geometry (`O01`, `O01b`, `O02`–`O05`)
+  CELLULAR ENGINE OMEGA v5.4.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib)
+  Module 1 of 14 (100 strictly constructive theorems, 0 `Classical.choice`):
+  Discrete Purcell 1-DOF Antisymmetric Cancellation & 2-DOF Loop Area Algebra (`O01`, `O01b`, `O02`–`O05`)
 -/
 
 namespace OmegaCellular.PurcellGaugeGeometry
 
 @[expose] public section
 
+/-- `O01` (Discrete 1-DOF Reciprocal Path Cancellation):
+    For any antisymmetric discrete connection `A : Int → Int → Int` (`A y x = - A x y`)
+    and endpoints `a, b : Int`, the reciprocal 3-point cycle `[a, b, a]` has zero net
+    displacement `pathDisp A [a, b, a] = 0`.
+    (In `v5.4.0`, the unused `tFwd > 0` / `tRev > 0` rate hypotheses logged in `ERRATA.md`
+    were removed so every hypothesis is substantively used; continuum Stokes PDE dynamics
+    are checked numerically in C11 `TB01`.) -/
 theorem O01_purcell_1dof_reciprocal_cycle_zero
     (A : Int → Int → Int)
     (hAnti : ∀ x y, A y x = - A x y)
-    (a b : Int) (tFwd tRev : Nat) :
-    tFwd > 0 → tRev > 0 → pathDisp A [a, b, a] = 0 := by
-  intro _ _
+    (a b : Int) :
+    pathDisp A [a, b, a] = 0 := by
   unfold pathDisp pathDisp pathDisp
   rw [hAnti a b]
   omega

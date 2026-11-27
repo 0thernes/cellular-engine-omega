@@ -5,8 +5,9 @@ module
 public import OmegaCellularProofs.Spec
 
 /-!
-  CELLULAR ENGINE OMEGA v5.2.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib)
-  Module 8: Lafont Bio-Interaction Nets ("Bio-Frostbite") & Hybrid SSIN (`O41`–`O46` + `O41b`)
+  CELLULAR ENGINE OMEGA v5.4.0 — Pure Lean 4.35.0 Formal Verification (Zero Mathlib)
+  Module 8 of 14 (100 strictly constructive theorems, 0 `Classical.choice`):
+  Discrete Linear-Mass Compartment Model & Pointwise Map Commutation ("Bio-Frostbite", `O41`–`O46` + `O41b`)
 -/
 
 namespace OmegaCellular.BioInteractionNets
@@ -28,6 +29,10 @@ theorem O41b_linear_trace_conservation
     rw [ih (stepNet r s)]
     exact O41_linear_single_ownership_conservation r s
 
+/-- `O42` (Commutation of Pointwise Updates at Distinct Indices of `Nat → Int`):
+    Proves that two `applyLocalPair` updates at distinct indices `i ≠ j` on a map `Nat → Int`
+    commute. Motivates disjoint active-pair confluence in `TB14`, without formalizing full
+    Lafont interaction-net graph syntax inside Lean. -/
 theorem O42_active_pair_diamond_strong_confluence
     (i j : Nat) (di dj : Int) (net : Nat → Int) (hDisjoint : i ≠ j) :
     applyLocalPair j dj (applyLocalPair i di net) =

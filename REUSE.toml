@@ -1,0 +1,69 @@
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2026 Alexander Stephen Donahue
+version = 1
+SPDX-PackageName = "cellular-engine-omega"
+SPDX-PackageSupplier = "Alexander Stephen Donahue <0_0@0thernes.art>"
+SPDX-PackageDownloadLocation = "https://github.com/0thernes/cellular-engine-omega"
+
+[[annotations]]
+path = [
+  "VERSION",
+  "NOTICE",
+  "LICENSE",
+  "CHECKSUMS.sha256",
+  "requirements-lock.txt",
+  "pyproject.toml",
+  "repo.yaml",
+  "repo-standard.schema.json",
+  "codemeta.json",
+  "CITATION.cff",
+  "CITATION.bib",
+  ".zenodo.json",
+  ".editorconfig",
+  ".gitattributes",
+  ".gitignore",
+  ".env.example",
+  ".gitleaks.toml",
+  ".github/**",
+  ".cursor/**",
+  "justfile",
+  "Makefile",
+  "build.ps1",
+  "build_linux.sh",
+  "include/**",
+  "src/**",
+  "test/**",
+  "tests/**",
+  "reference/**",
+  "examples/**",
+  "schema/**",
+  "scripts/**",
+  "web/**",
+  "lean/**",
+  "data/**",
+  "timestamps/**",
+  "LICENSES/Apache-2.0.txt",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Alexander Stephen Donahue <0_0@0thernes.art>"
+SPDX-License-Identifier = "Apache-2.0"
+
+[[annotations]]
+path = [
+  "*.md",
+  "LICENSE-DOCS",
+  "LICENSES/CC-BY-4.0.txt",
+  "llms.txt",
+  "llms-full.txt",
+  "croissant.json",
+  "ro-crate-metadata.json",
+  "docs/**",
+  "paper/**",
+  "dist/**",
+  "results/**",
+  "blueprint/**",
+  "pages/**",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Alexander Stephen Donahue <0_0@0thernes.art>"
+SPDX-License-Identifier = "CC-BY-4.0"

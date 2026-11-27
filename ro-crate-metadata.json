@@ -14,10 +14,10 @@
     {
       "@id": "./",
       "@type": "Dataset",
-      "name": "CELLULAR ENGINE OMEGA (v5.3.0)",
-      "version": "5.3.0",
+      "name": "CELLULAR ENGINE OMEGA (v5.4.0)",
+      "version": "5.4.0",
       "datePublished": "2026-11-26",
-      "description": "Zero-dependency C11 multi-scale cellular biophysics engine (16 testbeds, 75 computational substrates, 1,000-cell Hybrid Cube, 60 falsification gates, 16/16 planted mutants, 256-case fuzz harness) linked by a generated receipt file whose literal fields O63 and O72 re-check (no hash computed in Lean) to 100 constructive zero-Mathlib Lean 4.35.0 lemmas about its discrete software model, checked by the reference kernel and four independent checkers.",
+      "description": "Zero-dependency C11 multi-scale cellular biophysics engine (16 testbeds, 75 computational substrates, 1,000-cell Hybrid Cube, 60 falsification gates, 16/16 planted mutants, 256-case fuzz harness) paired with 100 strictly constructive zero-Mathlib Pure Lean 4.35.0 discrete software-model lemmas (including C11-generated receipt checks O63/O72; zero Classical.choice), audited by the reference kernel plus four independent checkers (lean4lean, nanoda_bin, con-leche, con-ron). Not peer-reviewed; retires 0 / 1,900 overarching Mega-Atlas open problems.",
       "url": "https://0thernes.github.io/cellular-engine-omega/",
       "identifier": "https://github.com/0thernes/cellular-engine-omega",
       "license": {
@@ -32,6 +32,9 @@
         },
         {
           "@id": "results/lean4-omega-audit.txt"
+        },
+        {
+          "@id": "results/citation-audit.json"
         },
         {
           "@id": "lean/OmegaCellularProofs/LiveC11Receipt.lean"
@@ -82,6 +85,12 @@
           "@id": "VERIFICATION.md"
         },
         {
+          "@id": "SUBMISSION_READINESS.md"
+        },
+        {
+          "@id": "REUSE.toml"
+        },
+        {
           "@id": "CHECKSUMS.sha256"
         },
         {
@@ -125,10 +134,19 @@
       "contentSize": 11386
     },
     {
+      "@id": "results/citation-audit.json",
+      "@type": "File",
+      "name": "citation-audit.json",
+      "description": "Live DOI Handle + Crossref title/author/0-retraction audit receipt (32/32)",
+      "encodingFormat": "application/json",
+      "sha256": "433c6a9f49990dbbcfa8b7cbed722cbb07ab371a32b647115836b1560a90b612",
+      "contentSize": 21586
+    },
+    {
       "@id": "lean/OmegaCellularProofs/LiveC11Receipt.lean",
       "@type": "File",
       "name": "LiveC11Receipt.lean",
-      "description": "Auto-generated live C11 telemetry & SHA-256 kernel receipt (O63, O72)",
+      "description": "C11-generated runtime literal receipt re-checked by O63 and O72",
       "encodingFormat": "text/plain"
     },
     {
@@ -137,8 +155,8 @@
       "name": "Spec.lean",
       "description": "Pure proof-free Lean 4.35.0 specification module",
       "encodingFormat": "text/plain",
-      "sha256": "b85fbedd52b5aca74c88f7ed7ecefec80257025c79fc9b6830cf57cea7f243e9",
-      "contentSize": 9195
+      "sha256": "c03e154b667551c4262c43dca208dc7471df21a36d34ee504dfdf6eca70387a2",
+      "contentSize": 9264
     },
     {
       "@id": "lean/Challenge.lean",
@@ -146,23 +164,23 @@
       "name": "Challenge.lean",
       "description": "Isolated statement-only Challenge module (100 theorems)",
       "encodingFormat": "text/plain",
-      "sha256": "2a27137bd0e5db788df375035f08ffa1fccaf1f298d9ec9b8859e705280cb67b",
-      "contentSize": 23610
+      "sha256": "8bdc22317cae98e869a84d00dc1eee0bf7b026722a2472cb9507088700196e0c",
+      "contentSize": 23656
     },
     {
       "@id": "lean/Solution.lean",
       "@type": "File",
       "name": "Solution.lean",
-      "description": "Sorry-free constructive Solution module (100 theorems across 6 kernels)",
+      "description": "Sorry-free constructive Solution module (100 theorems across reference kernel + 4 independent checkers)",
       "encodingFormat": "text/plain",
-      "sha256": "122edd241c4355885e62f2a6f46242c5479ebf8ee4609ed8f7a9f012954abdfa",
-      "contentSize": 527
+      "sha256": "8b4aaa49def6f339ceac384ed4e1bac16d176fd70390d211c78626fc67722658",
+      "contentSize": 693
     },
     {
       "@id": "lean/comparator.json",
       "@type": "File",
       "name": "comparator.json",
-      "description": "Six-kernel comparator specification (100 theorems, constructive allowlist)",
+      "description": "Multi-checker comparator specification (100 theorems, constructive allowlist)",
       "encodingFormat": "application/json",
       "sha256": "7bdebe03b550207e516c2e6350ec347a9e310a71766d63166419c97aa16d4017",
       "contentSize": 8334
@@ -173,8 +191,8 @@
       "name": "formalization.yaml",
       "description": "Structured Lean 4.35.0 formalization provenance & scope manifest",
       "encodingFormat": "application/yaml",
-      "sha256": "c4e9ab8023163cc0d917a6496f343b3e8777ed1f51bd3e1b8d294ed94d3e894c",
-      "contentSize": 3206
+      "sha256": "35f085ea2dd3533a7994b8a9152695029245fa917d80b225ec368a85c898ba6b",
+      "contentSize": 3482
     },
     {
       "@id": "schema/omega_run.schema.json",
@@ -182,7 +200,7 @@
       "name": "omega_run.schema.json",
       "description": "JSON Schema Draft 2020-12 contract for 16-testbed JSON output",
       "encodingFormat": "application/schema+json",
-      "sha256": "4d490e2a7e6bdec7257d5023a02a1fa61c4af27dfe28025b10f6aba5f43be6c6",
+      "sha256": "d915760920b6303d804e1e2583ae61cf3211a7ef2b0c34511d704fbc51a4c5e4",
       "contentSize": 3688
     },
     {
@@ -191,17 +209,17 @@
       "name": "omega_cube.schema.json",
       "description": "JSON Schema Draft 2020-12 contract for 75-substrate & 1,000-cell Hybrid Cube",
       "encodingFormat": "application/schema+json",
-      "sha256": "98f99ef15950d0ac425a8b1038ab01d66a0c38e7a0fec0d4d2b15daccc1f202f",
+      "sha256": "3222d10e72ded659c6b6e6aa4cd4124d3e268f55b71eec4405bb436e204688c1",
       "contentSize": 1999
     },
     {
       "@id": "dist/Donahue_2026_cellular_engine_omega.pdf",
       "@type": "File",
       "name": "Donahue_2026_cellular_engine_omega.pdf",
-      "description": "AMS-LaTeX technical monograph (Tectonic, 0 warnings, 0 overfull hboxes)",
+      "description": "AMS-LaTeX technical monograph (Tectonic, 0 warnings, 0 overfull hboxes; not peer-reviewed)",
       "encodingFormat": "application/pdf",
-      "sha256": "fc414420f63b9f55834b439646278d856de0f00583536933fa2ebdc11b2dce91",
-      "contentSize": 372891
+      "sha256": "415e2b293847bf58f9a8f370c32f2a1a2bdbdd438e8d8a1e2d56941429772b9f",
+      "contentSize": 349372
     },
     {
       "@id": "dist/arxiv_submission.tar.gz",
@@ -209,8 +227,8 @@
       "name": "arxiv_submission.tar.gz",
       "description": "Deterministic clean-room arXiv LaTeX submission tarball",
       "encodingFormat": "application/gzip",
-      "sha256": "2fda2431dd9ec3b6e8e78943102f834e48209266353a7c01b7d91faf1439009b",
-      "contentSize": 179900
+      "sha256": "ed30c24404269e492704f072fa380f56df5f68c45a1e01431a23c51fc3269db5",
+      "contentSize": 148415
     },
     {
       "@id": "blueprint/index.html",
@@ -218,8 +236,8 @@
       "name": "index.html",
       "description": "Interactive Lean 4.35.0 Proof Blueprint (100 theorems)",
       "encodingFormat": "text/html",
-      "sha256": "1c9b01dbc6baf7d64abe3897efa47bbbb44e39952f2d6c0a7d3507fbd5d9e44c",
-      "contentSize": 25243
+      "sha256": "d89d1f3925f8cbfb2b3eacfe491f7ed37c4d0446b3f10d32d91adcc27c6a841f",
+      "contentSize": 25466
     },
     {
       "@id": "docs/DATASHEET.md",
@@ -227,8 +245,8 @@
       "name": "DATASHEET.md",
       "description": "Gebru et al. Datasheet for empirical datasets",
       "encodingFormat": "text/markdown",
-      "sha256": "c9b5c1883f6ef3dbf5c747e9395cacb26f2dfa919fe54a213aa3889750ca4859",
-      "contentSize": 3917
+      "sha256": "25047aa486c0ed3cf007184182104e18ace41bb28766122f68a8c66b4f2dc50e",
+      "contentSize": 4520
     },
     {
       "@id": "docs/statement-fidelity.md",
@@ -236,8 +254,8 @@
       "name": "statement-fidelity.md",
       "description": "14-module Lean-vs-C11 statement fidelity audit (100 theorems)",
       "encodingFormat": "text/markdown",
-      "sha256": "aae3df275fb7112a8406c085503c815be3315fba50b117e75d468dc1178f0dfd",
-      "contentSize": 9065
+      "sha256": "9cb5f23313a6123a4d4d850de314fdcbc5f708a4711fac4eb009aeaf30481a5c",
+      "contentSize": 11092
     },
     {
       "@id": "docs/mega-atlas-cross-check.md",
@@ -254,17 +272,35 @@
       "name": "CLAIMS.md",
       "description": "Numbered falsifiable claims ledger (C01-C10)",
       "encodingFormat": "text/markdown",
-      "sha256": "99ca1f395ed8a2c68d582d0fff3b6126ae6f3bf0aafb7a2d539960cc2ce06c93",
-      "contentSize": 8255
+      "sha256": "4f9339ec3100d828596e8a17e965cb2f95bec00f2efec0ba15e02b98b370474e",
+      "contentSize": 8678
     },
     {
       "@id": "VERIFICATION.md",
       "@type": "File",
       "name": "VERIFICATION.md",
-      "description": "Multi-kernel Lean, 60-gate C11, and Python verification ledger",
+      "description": "Multi-checker Lean, 60-gate C11, and Python verification ledger",
       "encodingFormat": "text/markdown",
-      "sha256": "252107db331327ab12691ed665ed83aea37c3fc88e1e47f21b7f387017aaa2a9",
-      "contentSize": 6552
+      "sha256": "54d255b98e7858243584b3d5540126b201fa95ea0eeb1fa951f60cb1c9c001e4",
+      "contentSize": 7116
+    },
+    {
+      "@id": "SUBMISSION_READINESS.md",
+      "@type": "File",
+      "name": "SUBMISSION_READINESS.md",
+      "description": "Playbook v1.3 43-item submission readiness matrix",
+      "encodingFormat": "text/markdown",
+      "sha256": "b013e373e4dfcb894403def5afcae1084f593c17e1e7da1d9690c73c0e01cede",
+      "contentSize": 10610
+    },
+    {
+      "@id": "REUSE.toml",
+      "@type": "File",
+      "name": "REUSE.toml",
+      "description": "SPDX / REUSE dual-licensing manifest (Apache-2.0 / CC-BY-4.0)",
+      "encodingFormat": "application/toml",
+      "sha256": "94fa18abbbec9286e0759efc179d444ac1d33b67001e2b087f6343a53d1285a8",
+      "contentSize": 1476
     },
     {
       "@id": "CHECKSUMS.sha256",

@@ -5,11 +5,22 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
-### Changed (documentation, 2026-11-26 statement audit)
-- Corrected claim wording in `README.md`, `CLAIMS.md` (`C01`, `C05`, `C06`), `LIMITATIONS.md` and `docs/` to match the [2026-11-26 statement audit](https://github.com/0thernes/0thernes-research-archive/blob/main/docs/reviews/2026-11-26-statement-audit.md): the 100 Lean items are discrete `Nat`/`Int`/`List` lemmas about the software model (at least 16 are closed arithmetic checks on literals); the C11-to-Lean receipt is regenerated literals re-checked by `O63`/`O72`, not a cryptographic link; kernel checking is the reference kernel plus four independent checkers; the "negative kernel test" is a negative elaboration test.
-- The `5.3.0` entry below says all `32/32` DOIs were verified; the check confirms resolution only, and the DOI for Nüchter et al. (2006) names a different article (correct DOI `10.1016/j.cub.2006.03.089`). Recorded in `ERRATA.md` with the paper and Lean known issues; no code, Lean or paper file changed.
-
 - Future cross-architecture ARM64 (`aarch64`) reference build receipts and CBMC bounded model checking for C11 solvers.
+
+## [5.4.0] - 2026-11-26
+
+### Fixed
+- **[error] Wrong DOI for Nüchter et al. (2006) & upgraded Crossref citation audit (`paper/references.bib`, `scripts/check_citations.py`, `results/citation-audit.json`):** Corrected `nuchter2006nanosecond` DOI from `10.1016/j.cub.2006.03.079` to verified **`10.1016/j.cub.2006.03.089`** (and normalized `nist2015fips180` title/`number`). Upgraded `scripts/check_citations.py` to enforce DOI Handle `200`, Crossref `0`-retraction, AND automated Crossref title + first-author/institution matching across all **`32 / 32`** references (`J = 1.00`), saving full receipt `results/citation-audit.json`.
+- **[issue] Unused hypotheses in `O01` & tautological second conjunct in `O56` (`lean/OmegaCellularProofs/{PurcellGaugeGeometry,VirtualCellManifold,NonVacuity,AdversarialTests}.lean`, `lean/Challenge.lean`):** Dropped unused `tFwd > 0` / `tRev > 0` hypotheses from `O01` and dropped the tautological `(err ≠ 0 → sumInt xs ≠ 0)` conjunct from `O56`, keeping `100 / 100` strictly constructive theorems (`0 Classical.choice`, `0 sorry` outside `Challenge.lean`, `0` warnings).
+- **[error] Stale Lean 4 docstrings & literal-check annotations (`lean/Solution.lean`, `lean/OmegaCellularProofs/*.lean`, `docs/statement-fidelity.md`):** Updated all 14 stale `v5.2.0` / `"89 ... 13 modules"` docstrings to `v5.4.0`, `100` constructive theorems, `14` proof modules, and added explicit honest annotations on `O19`, `O20`, `O27`, `O36`, `O42`, `O52`, `O63`, `O67`–`O69`, `O72`, and all `16` closed literal checks (explicitly stating `O63`/`O72` check C-reported literals with no hash computed in Lean).
+- **[error] All 5 frozen paper errata & figure labels (`paper/main.tex`, `scripts/generate_figures.py`, `dist/Donahue_2026_cellular_engine_omega.pdf`):** Corrected all 5 statement-audit items in the AMS-LaTeX monograph and regenerated vector figures + social/observatory PNGs (`reference kernel + four independent checkers`, honest `LiveC11Receipt.lean` wording, honest `O19`/`O20`/`O52` software-model wording, and `32/32` title/author-verified citations); rebuilt PDF and clean-room `dist/arxiv_submission.tar.gz` (`0` overfull hboxes, `0` undefined refs/citations).
+- **[hole] Non-executable verification script & negative elaboration labeling (`scripts/verify_lean_six_kernels.sh`, `build.ps1`):** Set executable mode `100755` on `scripts/verify_lean_six_kernels.sh`, renamed the `rfl` false-literal check honestly to `"Negative Lean 4.35.0 elaboration test"`, and isolated bundled Clang on Windows via `--sysroot=$root -B$root\lib` in `build.ps1`.
+
+### Added
+- **Live Negative Axiom-Gate & Comparator `sorry`-Tamper Rejection Suite (`scripts/test_lean_negative.py`, `scripts/verify_lean_six_kernels.sh`, `tests/test_omega_verification_ladder.py`):** Verifies live rejection of planted `sorry` (`sorryAx`), custom `axiom`, `native_decide` (`_native`), and `Classical.choice`, PLUS a live `lake comparator --paranoid` `sorry`-tamper rejection test in Linux CI.
+- **Playbook v1.3 Paper & Governance Completions (`paper/main.tex`, `README.md`, `SUBMISSION_READINESS.md`, `REUSE.toml`, `LICENSES/`):** Added prominent **"Not Peer-Reviewed"** status banners, explicit **Conflict of Interest (COI)** statement, Playbook §4 **AI-Contribution Disclosure & CRediT** attribution, SWHID (`swh:1:snp:b1734acc036650d5a32194f3437e93ca83a891b8`), SLSA/Rekor provenance references, 43-item `SUBMISSION_READINESS.md`, `REUSE.toml`, and `LICENSES/{Apache-2.0,CC-BY-4.0}.txt`.
+- **Dual Cryptographic Timestamping (`scripts/stamp_timestamps.py`, `timestamps/CHECKSUMS.sha256.ots`):** Mints and verifies BOTH DigiCert RFC 3161 `.tsr` tokens (`CHECKSUMS.sha256.tsr`, `Donahue_2026_cellular_engine_omega.pdf.tsr`) AND a 3-calendar Bitcoin OpenTimestamps `.ots` proof (`timestamps/CHECKSUMS.sha256.ots`), enforced in CI.
+- **Preserved 2026-11-26 Statement-Audit Documentation Tightening (`342039e`, `7626781`, `59238bf`):** Retained all honest boundary refinements across `README.md`, `CLAIMS.md`, `LIMITATIONS.md`, `ERRATA.md`, `CITATION.cff`, `docs/`, and FAIR metadata.
 
 ## [5.3.0] - 2026-11-26
 

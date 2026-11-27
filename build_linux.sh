@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # SPDX-License-Identifier: Apache-2.0
-# CELLULAR ENGINE OMEGA v5.3.0 — Native Linux ELF64 Zero-Dependency Build & Verification
+# CELLULAR ENGINE OMEGA v5.4.0 — Native Linux ELF64 Zero-Dependency Build & Verification
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CC="${CC:-gcc}"
 mkdir -p "$SCRIPT_DIR/bin" "$SCRIPT_DIR/results"
@@ -149,4 +149,4 @@ PY
 fi
 
 echo ""
-echo "CELLULAR ENGINE OMEGA v5.3.0 LINUX ELF64 BUILD & VERIFICATION COMPLETE."
+echo "CELLULAR ENGINE OMEGA v5.4.0 LINUX ELF64 BUILD & VERIFICATION COMPLETE."

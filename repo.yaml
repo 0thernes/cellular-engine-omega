@@ -2,8 +2,8 @@
 # Project manifest for Build Standard for LLMs v1.2.0. Read by scripts/Audit-Repo.ps1 & scripts/audit-repo.sh.
 standard: "1.2.0"
 name: "cellular-engine-omega"
-version: "5.3.0"
-description: "Zero-dependency C11 multi-scale cellular biophysics engine (16 testbeds, 75 substrates, 1,000-cell Hybrid Cube, 60 gates, 16/16 mutants) coupled via live receipts to 100 constructive zero-Mathlib Pure Lean 4.35.0 theorems across all 6 independent kernels, AMS-LaTeX monograph, FAIR metadata, RFC 3161 timestamps, and hardened Web Observatory."
+version: "5.4.0"
+description: "Zero-dependency C11 multi-scale cellular biophysics engine (16 testbeds, 75 substrates, 1,000-cell Hybrid Cube, 60 gates, 16/16 mutants) paired with 100 constructive zero-Mathlib Pure Lean 4.35.0 discrete software-model lemmas checked by the reference kernel plus four independent checkers, AMS-LaTeX monograph, FAIR metadata, dual RFC 3161 + OpenTimestamps proofs, and hardened Web Observatory."
 owner: "0thernes"
 author: "Alexander Stephen Donahue"
 orcid: "0009-0006-8168-9648"
@@ -38,7 +38,7 @@ items:
   A38: {status: done, evidence: "WCAG 2.2 AA upgrades in web/index.html & web/styles.css (skip-to-content link, main/nav landmarks, ARIA labels, role=status live region, :focus-visible rings, prefers-reduced-motion, UTF-8 en-US)"}
   B03: {status: done, evidence: "Bit-exact Philox4x32-10 PRNG + FIPS 180-4 SHA-256 repeatability across runs verified by C11 G18/G27/G56 and pytest test_b03_bit_exact_repeatability"}
   B05: {status: done, evidence: "Every claim C01..C10 in CLAIMS.md has executable falsification gates (G01..G60), pytest tests, and/or kernel-checked Lean proofs"}
-  B06: {status: done, evidence: "Negative CLI boundary tests (exit code 2 on invalid seed/mutant/flags), HTTP 403/404/405/429 Web Observatory security tests, live negative Lean 4.35.0 kernel rejection test, and 17 constructive Lean refutations (O74, O77, O79, O84, O87, O89, O90..O100)"}
+  B06: {status: done, evidence: "Negative CLI boundary tests (exit code 2 on invalid seed/mutant/flags), HTTP 403/404/405/429 Web Observatory security tests, negative Lean 4.35.0 elaboration test, live negative axiom-gate & comparator sorry-tamper tests (scripts/test_lean_negative.py), and 17 constructive Lean refutations (O74, O77, O79, O84, O87, O89, O90..O100)"}
   B07: {status: done, evidence: "Named regression tests for every fixed defect (G57 & test_b07_regression_pm21_multiseed_stochastic_rounding for PM21 seeds 2026003/2026006, test_b07_regression_tb04_active_mass_conservation_and_json_field)"}
   B08: {status: done, evidence: "Golden snapshot tests in tests/test_omega_verification_ladder.py (test_b08_golden_lean_axiom_audit) + scripts/check_readme_axioms.py + CHECKSUMS.sha256"}
   B09: {status: done, evidence: "JSON Schema Draft 2020-12 contracts (schema/omega_run.schema.json, schema/omega_cube.schema.json) validated in pytest plus live Web Observatory HTTP API contract checks in CI"}

@@ -12,7 +12,7 @@ const PORT = Number(process.env.PORT || 8791);
 const LOG_LEVEL = (process.env.OMEGA_LOG_LEVEL || 'info').toLowerCase();
 const VERSION = fs.existsSync(path.join(ROOT, 'VERSION'))
   ? fs.readFileSync(path.join(ROOT, 'VERSION'), 'utf8').trim()
-  : '5.3.0';
+  : '5.4.0';
 
 function logEvent(level, event, fields = {}) {
   if (LOG_LEVEL === 'silent') return;

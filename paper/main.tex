@@ -22,12 +22,14 @@
 \newcolumntype{L}{>{\raggedright\arraybackslash}X}
 
 \definecolor{accent}{HTML}{0F4C81}
+\definecolor{bannerbg}{HTML}{FFF8E6}
+\definecolor{bannerborder}{HTML}{B45309}
 \hypersetup{
   colorlinks=true,
   linkcolor=accent,
   citecolor=accent,
   urlcolor=accent,
-  pdftitle={CELLULAR ENGINE OMEGA v5.3.0: Zero-Dependency C11 Multi-Scale Cellular Biophysics, 75-Substrate Hybrid Cube, and Constructive 6-Kernel Lean 4.35.0 Formal Verification},
+  pdftitle={CELLULAR ENGINE OMEGA v5.4.0: Zero-Dependency C11 Multi-Scale Cellular Biophysics, 75-Substrate Hybrid Cube, and Constructive Multi-Checker Lean 4.35.0 Formal Verification},
   pdfauthor={Alexander Stephen Donahue}
 }
 
@@ -35,63 +37,68 @@
 \newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{remark}[theorem]{Remark}
 
-\title[CELLULAR ENGINE OMEGA v5.3.0]{CELLULAR ENGINE OMEGA v5.3.0: A Zero-Dependency C11 Multi-Scale Cellular Biophysics Engine, 75-Substrate \& 1,000-Cell Hybrid Cube, and Constructive Six-Kernel Lean 4.35.0 Formal Verification Suite}
+\title[CELLULAR ENGINE OMEGA v5.4.0]{CELLULAR ENGINE OMEGA v5.4.0: A Zero-Dependency C11 Multi-Scale Cellular Biophysics Engine, 75-Substrate \& 1,000-Cell Hybrid Cube, and Constructive Multi-Checker Lean 4.35.0 Formal Verification Suite}
 
 \author{Alexander Stephen Donahue}
 \address{Independent Researcher, Spokane, WA, USA}
 \email{0\_0@0thernes.art}
 \urladdr{https://0thernes.art}
-\thanks{ORCID: \href{https://orcid.org/0009-0006-8168-9648}{0009-0006-8168-9648}. Code and Lean 4.35.0 proofs are licensed under Apache-2.0; this technical monograph, figures, and empirical datasets are licensed under CC BY 4.0. Repository: \url{https://github.com/0thernes/cellular-engine-omega}. Independent preprint monograph; not externally peer-reviewed.}
+\thanks{ORCID: \href{https://orcid.org/0009-0006-8168-9648}{0009-0006-8168-9648}. Code and Lean 4.35.0 proofs are licensed under Apache-2.0; this technical monograph, figures, and empirical datasets are licensed under CC BY 4.0 (\texttt{REUSE.toml} / \texttt{LICENSES/}). Repository: \url{https://github.com/0thernes/cellular-engine-omega}. Software Heritage SWHID: \nolinkurl{swh:1:snp:b1734acc036650d5a32194f3437e93ca83a891b8}. Independent preprint monograph; not externally peer-reviewed.}
 
-\date{November 26, 2026 (Version 5.3.0)}
+\date{November 26, 2026 (Version 5.4.0)}
 
 \begin{document}
 
 \begin{abstract}
-Computational models of cellular biophysics span low-Reynolds-number hydrodynamics, kinetic proofreading, active liquid--liquid phase separation, spherical topological defect conservation, reaction--diffusion morphogenesis, thermodynamic uncertainty relations, eutelic multicellular body plans, lock-free interaction-net rewriting, and physics-constrained virtual-cell surrogates. Yet numerical biophysics codebases rarely combine cross-compiler bit-exact determinism, structural falsification against compiled knockouts, and an unbreakable machine-checked link between executable runtime telemetry and multi-kernel formal proofs. We present \textsc{Cellular Engine Omega} (\texttt{v5.3.0}), a zero-dependency C11 engine unifying 16 multi-scale cellular biophysics testbeds (\texttt{TB01}--\texttt{TB16}) and a Clean-Slate v3.0 75-substrate and $10\times 10\times 10$ (1,000-cell) Hybrid Cube verifier, cryptographically bound via auto-emitted live runtime receipts (\texttt{O63}, \texttt{O72}) to \textbf{100} zero-Mathlib Pure Lean 4.35.0 theorems (\texttt{O01}--\texttt{O100}) across 14 modules. All 100 theorems are strictly constructive---24 axiom-free, 10 using only \texttt{[propext]}, and 66 using only \texttt{[propext, Quot.sound]} with \textbf{zero \texttt{Classical.choice}}, zero \texttt{sorryAx}, zero \texttt{native\_decide}, and zero compiler warnings---partitioned into proof-free definitions (\texttt{Spec.lean}), statement-only challenge declarations (\texttt{Challenge.lean}), and sorry-free proofs (\texttt{Solution.lean}) including 17 non-vacuity/boundary witnesses (\texttt{O73}--\texttt{O89}) and 11 constructive adversarial refutations (\texttt{O90}--\texttt{O100}). Every proof is independently replayed across \textbf{all 6 Lean 4.35.0 kernels} (\texttt{lean}, \texttt{leanchecker-paranoid}, \texttt{lean4lean} via \texttt{lake check --paranoid}, Rust \texttt{nanoda\_bin}, \texttt{con-leche --verified}, and \texttt{con-ron --verified}), verified by \texttt{lake comparator --paranoid}, and guarded by a live negative kernel rejection test. Empirically, the C11 engine (using counter-based \texttt{Philox4x32-10} PRNG and NIST FIPS 180-4 SHA-256) passes 60 falsification gates, catches 16/16 compiled planted mutants, passes 256 fuzz cases, reproduces bit-identical Master SHA-256 digests between \texttt{-O0} and \texttt{-O3} under \texttt{-ffp-contract=off}, and satisfies all 8 preregistered confirmatory intact-vs.-knockout contrasts across $N=20$ independent seeds (Holm--Bonferroni $p_{\mathrm{Holm}} = 0.0008 < 0.001$; 20/20 substrates and 1,000-cell Hybrid Cube stability after resolving a 20\% single-trial variance defect in \texttt{PM21}). All 32 cited references pass live DOI Handle and Crossref 0-retraction audits, datasets are packaged with MLCommons Croissant 1.0, RO-Crate 1.1, CodeMeta 2.0, and DigiCert RFC 3161 timestamps, and an explicit audit against all 1,900 problems in \nolinkurl{unsolved-problems-mega-atlas} (\texttt{V2.6.0}) confirms honestly that \textbf{0 / 1,900} overarching open problems are retired, with 22 directly adjacent problems remaining strictly \textbf{OPEN}.
+Computational models of cellular biophysics span low-Reynolds-number hydrodynamics, kinetic proofreading, active liquid--liquid phase separation, spherical topological defect conservation, reaction--diffusion morphogenesis, thermodynamic uncertainty relations, eutelic multicellular body plans, lock-free interaction-net rewriting, and physics-constrained virtual-cell surrogates. Yet numerical biophysics codebases rarely combine cross-compiler bit-exact determinism, structural falsification against compiled knockouts, and machine-checked software-model invariants audited across multiple independent proof checkers. We present \textsc{Cellular Engine Omega} (\texttt{v5.4.0}), a zero-dependency C11 engine unifying 16 multi-scale cellular biophysics testbeds (\texttt{TB01}--\texttt{TB16}) and a Clean-Slate v3.0 75-substrate and $10\times 10\times 10$ (1,000-cell) Hybrid Cube verifier, paired with \textbf{100} zero-Mathlib Pure Lean 4.35.0 discrete \texttt{Nat}/\texttt{Int}/\texttt{List} lemmas (\texttt{O01}--\texttt{O100}) about the engine's software model across 14 proof modules (including 16 closed literal checks and a C11-generated Lean receipt file \nolinkurl{LiveC11Receipt.lean} whose integer and string fields are re-checked by \texttt{O63} and \texttt{O72} on each build; no SHA-256 hash is computed inside Lean, and no continuum biological or physical law is formalized in general). All 100 lemmas are strictly constructive---24 axiom-free, 10 using only \texttt{[propext]}, and 66 using only \texttt{[propext, Quot.sound]} with \textbf{zero \texttt{Classical.choice}}, zero \texttt{sorryAx} outside statement-only \texttt{Challenge.lean}, zero \texttt{native\_decide}, and zero compiler warnings---partitioned into proof-free definitions (\texttt{Spec.lean}), statement-only challenge declarations (\texttt{Challenge.lean}), and sorry-free proofs (\texttt{Solution.lean}) including 17 non-vacuity/boundary items (\texttt{O73}--\texttt{O89}) and 11 constructive adversarial refutations (\texttt{O90}--\texttt{O100}). Every proof is replayed across the Lean 4.35.0 \textbf{reference kernel} (\texttt{lean}, \texttt{leanchecker}, \texttt{leanchecker-paranoid}) plus \textbf{four independent checkers} (\texttt{lean4lean} via \texttt{lake check --paranoid}, Rust \texttt{nanoda\_bin}, \texttt{con-leche --verified}, and \texttt{con-ron --verified}), verified by \texttt{lake comparator --paranoid}, and guarded by a negative elaboration test, live negative axiom-gate tests (\texttt{sorry}, custom axiom, \texttt{native\_decide}, \texttt{Classical.choice}), and a live \texttt{lake comparator} \texttt{sorry}-tamper rejection test. Empirically, the C11 engine (using counter-based \texttt{Philox4x32-10} PRNG and NIST FIPS 180-4 SHA-256) passes 60 falsification gates, catches 16/16 compiled planted mutants, passes 256 fuzz cases, reproduces bit-identical Master SHA-256 digests between \texttt{-O0} and \texttt{-O3} under \texttt{-ffp-contract=off}, and satisfies all 8 preregistered confirmatory intact-vs.-knockout contrasts across $N=20$ independent seeds (Holm--Bonferroni $p_{\mathrm{Holm}} = 0.0008 < 0.001$; 20/20 substrates and 1,000-cell Hybrid Cube stability after resolving a 20\% single-trial variance defect in \texttt{PM21}). All 32 cited references pass live DOI Handle, Crossref zero-retraction, and automated Crossref title + first-author/institution matching audits (\textbf{32/32}, $J = 1.00$, after correcting the \texttt{v5.3.0} N\"uchter et al.\ 2006 DOI typo to \texttt{10.1016/j.cub.2006.03.089}); datasets are packaged with MLCommons Croissant 1.0, RO-Crate 1.1, CodeMeta 2.0, Software Heritage archival, SLSA/Rekor attestations, and dual DigiCert RFC 3161 + 3-calendar Bitcoin OpenTimestamps proofs; and an explicit audit against all 1,900 problems in \nolinkurl{unsolved-problems-mega-atlas} (\texttt{V2.6.0}) confirms honestly that \textbf{0 / 1,900} overarching open problems are retired, with 22 directly adjacent problems remaining strictly \textbf{OPEN}.
 \end{abstract}
 
 \maketitle
 
+\noindent\fcolorbox{bannerborder}{bannerbg}{%
+  \parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}{\footnotesize
+  \textbf{Preprint Status Notice (Not Peer-Reviewed):} This technical monograph (\texttt{v5.4.0}) and its accompanying software and Lean 4.35.0 archive constitute independent computational research and have \textbf{not undergone external journal peer review}. All claims are bounded explicitly by verification modality in Table~\ref{tab:claims}, Section~\ref{sec:limitations}, and \nolinkurl{ERRATA.md}; \textbf{0 / 1,900} overarching open problems in \nolinkurl{0thernes/unsolved-problems-mega-atlas} (\texttt{V2.6.0}) are claimed solved or retired.}%
+}\medskip
+
 \section{Introduction}
 \label{sec:intro}
 
-Living cells couple discrete molecular information processing with continuous active soft-matter physics across more than six orders of magnitude in space and time: from angstrom-scale enzymatic kinetic proofreading~\cite{hopfield1974kinetic,ninio1975kinetic} and bacterial rotary stator cogwheels~\cite{santiveri2020structure} to micron-scale active droplets~\cite{zwicker2015suppression}, closed spherical nematic shells, eutelic multicellular organisms under 1,000 cells~\cite{smith2016compact}, and whole-cell minimal metabolism~\cite{breuer2019essential,thornburg2022fundamental}. Modern computational biology simulations rarely integrate these strata inside a single zero-dependency auditable codebase, and even more rarely subject both their algebraic laws and their compiled numerical binaries to adversarial falsification.
+Living cells couple discrete molecular information processing with continuous active soft-matter physics across more than six orders of magnitude in space and time: from angstrom-scale enzymatic kinetic proofreading~\cite{hopfield1974kinetic,ninio1975kinetic} and bacterial rotary stator cogwheels~\cite{santiveri2020structure} to micron-scale active droplets~\cite{zwicker2015suppression}, closed spherical nematic shells, eutelic multicellular organisms under 1,000 cells~\cite{smith2016compact}, and whole-cell minimal metabolism~\cite{breuer2019essential,thornburg2022fundamental}. Modern computational biology simulations rarely integrate these strata inside a single zero-dependency auditable codebase, and even more rarely subject both their discrete software invariants and their compiled numerical binaries to adversarial falsification.
 
-Three recurring scientific-computing failure modes motivate \textsc{Cellular Engine Omega} (\texttt{v5.3.0}):
+Three recurring scientific-computing failure modes motivate \textsc{Cellular Engine Omega} (\texttt{v5.4.0}):
 \begin{enumerate}
   \item \textbf{Tautological green test suites:} Simulation suites frequently assert permissive thresholds without proving that breaking the underlying physical mechanism actually fails the check. We compile 16 structural knockout mutants (\texttt{M1}--\texttt{M16}) directly into the C11 library and verify that deterministic falsification gates (\texttt{G01}--\texttt{G60}) catch 16/16 knockouts.
-  \item \textbf{Disconnected formal verification:} Mechanized theorem libraries often prove isolated textbook lemmas divorced from the executable numerical artifact, or pull massive classical dependencies unnecessarily. We construct a zero-Mathlib Pure Lean 4.35.0 library~\cite{demoura2021lean4} of \textbf{100 strictly constructive theorems} (\texttt{O01}--\texttt{O100}) partitioned into \texttt{Spec.lean} $\to$ \texttt{Challenge.lean} / \texttt{Solution.lean}, bind live C11 runtime telemetry into the kernel via \nolinkurl{omega_cell --export-lean-trace} (\texttt{O63}, \texttt{O72}), replay proofs across \textbf{all 6 independent Lean 4.35.0 kernels}, and execute a live negative kernel rejection test proving the active checker rejects false arithmetic.
-  \item \textbf{Overclaimed open-problem scope and silent documentation drift:} Independent computational research can easily conflate reduced-order models with wet-lab discoveries or overlook subtle discrepancies between source code and documentation. Through two full 3-cycle adversarial hardening rounds (\texttt{v5.1.0} $\to$ \texttt{v5.2.0} $\to$ \texttt{v5.3.0}), we corrected real defects---including a 20\% multi-seed stochastic-rounding flake in \texttt{PM21}, a missing \texttt{-ffp-contract=off} flag on Linux, a PRNG documentation misidentification (\texttt{Philox4x32-10}~\cite{salmon2011parallel} vs.\ SplitMix64), and a Web Observatory default port mismatch---and audited our entire scope against all 1,900 open problems in \nolinkurl{0thernes/unsolved-problems-mega-atlas} (\texttt{V2.6.0}), confirming honestly that \textbf{0 / 1,900} overarching open problems are solved.
+  \item \textbf{Disconnected formal verification:} Mechanized theorem libraries often pull massive classical dependencies unnecessarily or leave formal statements unchecked against independent checkers. We construct a zero-Mathlib Pure Lean 4.35.0 library~\cite{demoura2021lean4} of \textbf{100 strictly constructive discrete software-model lemmas} (\texttt{O01}--\texttt{O100}) partitioned into \texttt{Spec.lean} $\to$ \texttt{Challenge.lean} / \texttt{Solution.lean}, regenerate a C11-exported Lean receipt file (\nolinkurl{LiveC11Receipt.lean} via \nolinkurl{omega_cell --export-lean-trace}) whose integer and string fields are re-checked by \texttt{O63} and \texttt{O72} on each build (no SHA-256 hash is computed inside Lean), replay proofs across the \textbf{reference kernel} (\texttt{lean}, \texttt{leanchecker}, \texttt{leanchecker-paranoid}) plus \textbf{four independent checkers} (\texttt{lean4lean}, \texttt{nanoda\_bin}, \texttt{con-leche --verified}, \texttt{con-ron --verified}), and execute a negative elaboration test plus live negative axiom-gate and \texttt{lake comparator} \texttt{sorry}-tamper rejection tests.
+  \item \textbf{Overclaimed open-problem scope and silent documentation drift:} Independent computational research can easily conflate reduced-order models or literal checks with wet-lab discoveries or continuum theorems. Through multi-cycle adversarial hardening (\texttt{v5.1.0} $\to$ \texttt{v5.2.0} $\to$ \texttt{v5.3.0} $\to$ \texttt{v5.4.0}) and an independent 2026-11-26 statement audit (\nolinkurl{ERRATA.md}), we corrected real defects---including a 20\% multi-seed stochastic-rounding flake in \texttt{PM21}, a missing \texttt{-ffp-contract=off} flag on Linux, a PRNG documentation misidentification (\texttt{Philox4x32-10}~\cite{salmon2011parallel} vs.\ SplitMix64), a Web Observatory default port mismatch, a wrong DOI for N\"uchter et al.\ (2006), unused rate hypotheses in \texttt{O01}, and a tautological second conjunct in \texttt{O56}---and audited our entire scope against all 1,900 open problems in \nolinkurl{0thernes/unsolved-problems-mega-atlas} (\texttt{V2.6.0}), confirming honestly that \textbf{0 / 1,900} overarching open problems are solved.
 \end{enumerate}
 
 \section{System Architecture, Deterministic Numerics, and Claims Ledger}
 \label{sec:architecture}
 
-Figure~\ref{fig:arch} summarizes the closed verification architecture connecting the zero-dependency C11 biophysics core, C11 falsification and fuzzing binaries, constructive six-kernel Lean 4.35.0 formal suite, exact Python \texttt{Fraction}/\texttt{Decimal} verification ladder, FAIR scholarly metadata, and hardened loopback Web Observatory.
+Figure~\ref{fig:arch} summarizes the end-to-end verification architecture connecting the zero-dependency C11 biophysics core, C11 falsification and fuzzing binaries, constructive multi-checker Lean 4.35.0 formal suite, exact Python \texttt{Fraction}/\texttt{Decimal} verification ladder, FAIR scholarly metadata, and hardened loopback Web Observatory.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\textwidth]{figures/fig1_multiscale_architecture.pdf}
-  \caption{End-to-end architecture of \textsc{Cellular Engine Omega} \texttt{v5.3.0}, linking deterministic C11 multi-scale biophysics (\texttt{TB01}--\texttt{TB16}) and Clean-Slate v3.0 75-substrate / 1,000-cell Hybrid Cube execution to live C11-to-Lean kernel receipts (\texttt{O63}, \texttt{O72}), 100 constructive Lean 4.35.0 proofs audited across all 6 independent kernels, and an exact Python verification ladder.}
+  \caption{End-to-end architecture of \textsc{Cellular Engine Omega} \texttt{v5.4.0}, pairing deterministic C11 multi-scale biophysics (\texttt{TB01}--\texttt{TB16}) and Clean-Slate v3.0 75-substrate / 1,000-cell Hybrid Cube execution with a C11-generated Lean receipt file whose integer and string fields are re-checked by \texttt{O63} and \texttt{O72} on each build (no hash computed inside Lean), 100 constructive Lean 4.35.0 discrete software-model lemmas checked by the reference kernel plus four independent checkers, and an exact Python verification ladder.}
   \label{fig:arch}
 \end{figure}
 
 \subsection{Zero-Dependency C11 Core, \texorpdfstring{\texttt{Philox4x32-10}}{Philox4x32-10}, and Bit-Exact Numerics}
 All 16 biophysics testbeds (\nolinkurl{src/exp_01_06.c} through \nolinkurl{src/exp_16_virtual_cell_ai.c}), the 75-substrate and 1,000-cell Hybrid Cube verifier (\nolinkurl{src/omega_substrates_cube.c}), and the cryptographic/randomness layer (\nolinkurl{src/omega_rng_hash.c}) compile cleanly under \nolinkurl{-O3 -std=c11 -Wall -Wextra -Wshadow -Werror -ffp-contract=off} with zero external dependencies beyond standard \texttt{libm}. Random streams are generated by the stateless counter-based \texttt{Philox4x32-10} bijection~\cite{salmon2011parallel} (ten rounds of $32\times 32 \to 64$-bit multiply-high/low Feistel mixing with Weyl key schedule), paired with a self-contained NIST FIPS 180-4 SHA-256 implementation~\cite{nist2015fips180} verified against official NIST test vectors in gate \texttt{G58}.
 
-Enforcing \texttt{-ffp-contract=off} across both Windows Clang (\nolinkurl{build.ps1}) and Linux GCC/Clang (\nolinkurl{build_linux.sh}) prevents fused multiply--add (FMA) contraction differences and guarantees bit-exact reproducibility between \texttt{-O0} and \texttt{-O3}: on deterministic seed \texttt{2026001}, both optimization levels emit the identical 64-hex-digit Master SHA-256 digest
+Enforcing \texttt{-ffp-contract=off} across both Windows Clang (\nolinkurl{build.ps1}, isolated via \texttt{--sysroot}) and Linux GCC/Clang (\nolinkurl{build_linux.sh}) prevents fused multiply--add (FMA) contraction differences and guarantees bit-exact reproducibility between \texttt{-O0} and \texttt{-O3}: on deterministic seed \texttt{2026001}, both optimization levels emit the identical 64-hex-digit Master SHA-256 digest
 \[
   \texttt{a92641843e46736b04cd781181f34f1de8444859ce73db47d4204c5553364661}
 \]
-(covering the concatenated 16 testbed SHA-256 digests, emitted identically by both \nolinkurl{omega_cell all} and the top-level \texttt{master\_sha256} field of \nolinkurl{omega_cell json}). On Windows x64, \texttt{-O3} executes in \texttt{90.72 ms} (recent warmed build \texttt{63.99 ms}) versus \texttt{340.67 ms} at \texttt{-O0} ($3.76\times$ speedup with zero bit drift).
+(covering the concatenated 16 testbed SHA-256 digests, emitted identically by both \nolinkurl{omega_cell all} and the top-level \texttt{master\_sha256} field of \nolinkurl{omega_cell json}). On Windows x64, \texttt{-O3} executes in \texttt{90.72 ms} (warmed \texttt{63.99 ms}--\texttt{99.91 ms}) versus \texttt{340.67 ms} at \texttt{-O0} ($3.76\times$ speedup with zero bit drift).
 
 \subsection{Six-Tier Coupled Conservation Stack}
 Rather than treating the 16 testbeds as disconnected scripts, \nolinkurl{src/omega_main_cli.c} assembles a live cross-testbed conservation ledger (\texttt{OmegaTierLedger}) feeding directly into \texttt{TB16} (\nolinkurl{omega_run_tb16_coupled}):
 \begin{enumerate}
   \item \textbf{Tier 1 (Inorganic $\to$ Molecular Code):} Prebiotic CISS chirality and RAF mass closure (\texttt{TB15}), Hopfield--Ninio kinetic proofreading (\texttt{TB06}), and linear DNA replication pairs (\texttt{TB14}).
   \item \textbf{Tier 2 (Organelles \& Active Matter):} $\mathrm{MotA}_5\mathrm{MotB}_2$ and $F_1F_0$ rotary gearboxes (\texttt{TB01}), microtubule dynamic instability and Euler buckling (\texttt{TB03}), active LLPS Ostwald arrest (\texttt{TB04}), and 3-genome nested assembly plus Cohesin TAD loop extrusion (\texttt{TB15}).
-  \item \textbf{Tier 3 (Cellular Dynamics \& Topology):} Discrete $S^2$ Poincaré--Hopf nematic defects (\texttt{TB05}), Turing/Feinberg morphogenesis (\texttt{TB07}), Gillespie TUR and chemotaxis (\texttt{TB08}), and Levin bioelectric $V_{\mathrm{mem}}$ bistability (\texttt{TB15}).
+  \item \textbf{Tier 3 (Cellular Dynamics \& Topology):} Discrete $S^2$ Poincar\'e--Hopf nematic defects (\texttt{TB05}), Turing/Feinberg morphogenesis (\texttt{TB07}), Gillespie TUR and chemotaxis (\texttt{TB08}), and Levin bioelectric $V_{\mathrm{mem}}$ bistability (\texttt{TB15}).
   \item \textbf{Tier 4 (Eutelic Organisms $\le 1{,}000$ Cells):} 4-Hox 7-organ tardigrade with cryptobiosis and \textit{Megaphragma} anucleate neurons (\texttt{TB09}), odd-elastic chiral crystals (\texttt{TB10}), endosymbiotic bioenergetics (\texttt{TB11}), and \textit{Rhombozoa}/\textit{Henneguya} minimal-cell floors (\texttt{TB15}).
   \item \textbf{Tier 5 (Ecosystems \& Open Proliferation):} Virosphere Kill-the-Winner and Mavirus rescue (\texttt{TB02}), somatic apoptosis vs.\ Hippo--YAP cancer governance (\texttt{TB12}), and 12-axis continuous open morphospace (\texttt{TB13}).
   \item \textbf{Tier 6 (Virtual-Cell AI \& Hybrid Substrates):} \texttt{O56} hyperplane-projected Ridge perturbation model over a synthetic JCVI-syn3A-inspired manifold (\texttt{TB16}) paired with 75 computational substrates and the 1,000-cell Hybrid Cube (\nolinkurl{omega_substrates_cube.c}).
@@ -102,19 +109,19 @@ Table~\ref{tab:claims} assigns every technical claim in this monograph an explic
 
 \begin{table}[t]
 \centering
-\caption{Numbered claims matrix distinguishing kernel-checked formal theorems, numerical C11 checks, statistical contrasts, reduced-order surrogates, and explicit negative scope (\texttt{CLAIMS.md}).}
+\caption{Numbered claims matrix distinguishing kernel-checked discrete software-model lemmas, numerical C11 checks, statistical contrasts, reduced-order surrogates, and explicit negative scope (\texttt{CLAIMS.md}).}
 \label{tab:claims}
 \footnotesize
 \begin{tabularx}{\textwidth}{@{}l l L L@{}}
 \toprule
 \textbf{ID} & \textbf{Modality} & \textbf{Claim Summary} & \textbf{Refutation Condition} \\
 \midrule
-\texttt{C01} & Kernel & 100 zero-Mathlib Lean 4.35.0 proofs (\texttt{O01}--\texttt{O100}) strictly within $\{\texttt{propext}, \texttt{Quot.sound}\}$; 0 \texttt{Classical.choice}, 0 \texttt{sorryAx}, 6 kernels + live negative kernel test. & Any kernel rejection, unauthorized axiom, \texttt{Challenge}/\texttt{Solution} mismatch, or false theorem accepted. \\
+\texttt{C01} & Kernel & 100 zero-Mathlib Lean 4.35.0 discrete \texttt{Nat}/\texttt{Int}/\texttt{List} lemmas about the software model (\texttt{O01}--\texttt{O100}; 16 closed literal checks; \texttt{O63}/\texttt{O72} C-literal checks, no hash in Lean) strictly within $\{\texttt{propext}, \texttt{Quot.sound}\}$; 0 \texttt{Classical.choice}, reference kernel + 4 independent checkers + negative elaboration, axiom-gate \& comparator tamper tests. & Any checker rejecting \texttt{Solution}, unauthorized axiom, \texttt{Challenge}/\texttt{Solution} mismatch, or any negative test failing to reject. \\
 \texttt{C02} & Numerical & C11 engine passes 60/60 gates, catches 16/16 mutants, passes 256 fuzz cases, and matches SHA-256 across \texttt{-O0} vs.\ \texttt{-O3}. & Any gate failure, surviving mutant, ASan/UBSan error, fuzz crash, or hash drift. \\
 \texttt{C03} & Numerical & \texttt{TB01} 1-DOF reciprocal scallop gives $<10^{-10}$ net displacement while 2-DOF loop and $\mathrm{MotA}_5\mathrm{MotB}_2$ generate thrust. & Intact 1-DOF displacement $>10^{-10}$ or \texttt{M1} inertia hack escaping detection. \\
 \texttt{C04} & Numerical & \texttt{TB04} active ATP turnover arrests Ostwald ripening with $<10^{-8}$ mass drift; \texttt{M12} restores passive coarsening. & Active droplet count $\le$ equilibrium or passive/active mass drift $>10^{-8}$. \\
-\texttt{C05} & Numerical & \texttt{TB05} discrete $S^2$ nematic defect sum stays $+2.000000$ ($<10^{-9}$) across steps and seeds; \texttt{M13} breaks $\chi = +2$. & Any intact step $|\sum q - 2| > 10^{-9}$ or \texttt{M13} preserving $\chi = +2$. \\
-\texttt{C06} & Numerical & \texttt{TB14} Bio-Frostbite INet yields 0-bit identical FIFO/LIFO/Random SHA-256, 0 mass/charge drift, 0 dry power, $\ge 95\%$ SSIN. & Any scheduler hash divergence, nonzero integer drift, or \texttt{M8} race escaping. \\
+\texttt{C05} & Numerical & \texttt{TB05} discrete $S^2$ nematic defect sum stays $+2.000000$ ($<10^{-9}$) across steps and seeds; \texttt{M13} breaks $\chi = +2$ (\texttt{O19}/\texttt{O20} check only integer list sums, not continuum Poincar\'e--Hopf). & Any intact step $|\sum q - 2| > 10^{-9}$ or \texttt{M13} preserving $\chi = +2$. \\
+\texttt{C06} & Numerical & \texttt{TB14} Bio-Frostbite INet yields 0-bit identical FIFO/LIFO/Random SHA-256 in tested runs, 0 mass/charge drift, 0 dry power, $\ge 95\%$ SSIN. & Any scheduler hash divergence, nonzero integer drift, or \texttt{M8} race escaping. \\
 \texttt{C07} & Numerical & 75/75 substrates (\texttt{PM}/\texttt{MF}/\texttt{GW}) and 1,000/1,000 Hybrid Cube (\texttt{661/274/20/45}) pass across 20/20 independent seeds. & Any substrate failure on any seed (e.g., pre-fix \texttt{PM21} flake) or partition drift. \\
 \texttt{C08} & Surrogate & \texttt{TB16} \texttt{O56} hyperplane projection drops raw Ridge drift ($>0.05$) to $<10^{-12}$ while keeping held-out $R^2 \ge 0.85$, $\mathrm{AUROC} \ge 0.95$. & Projected residual $>10^{-12}$, train/test index leakage, or held-out drop below floor. \\
 \texttt{C09} & Statistical & All 8 preregistered intact-vs.-KO contrasts (\texttt{H1}--\texttt{H8}) pass across $N=20$ seeds with $p_{\mathrm{Holm}} < 0.01$. & Any contrast failing Holm-adjusted $\alpha = 0.05$ or reversing direction. \\
@@ -148,7 +155,7 @@ In active liquid--liquid phase separation (\texttt{TB04}~\cite{zwicker2015suppre
 When $k_{\mathrm{ATP}} = 0$ (passive equilibrium or mutant \texttt{M12}), surface tension drives Ostwald ripening toward fewer, larger droplets; finite $k_{\mathrm{ATP}} > 0$ arrests coarsening into stable multi-droplet emulsions while preserving field mass.
 
 \subsection{Spherical Topology, Morphogenesis, TUR, and Odd Elasticity}
-On the closed geodesic icosahedral sphere $S^2$ ($V=162$ vertices, Euler characteristic $\chi(S^2) = 2$, \texttt{TB05}), any continuous tangent nematic director field must carry discrete topological defects whose winding numbers satisfy the Poincaré--Hopf theorem:
+On the closed geodesic icosahedral sphere $S^2$ ($V=162$ vertices, Euler characteristic $\chi(S^2) = 2$, \texttt{TB05}), any continuous tangent nematic director field must carry discrete topological defects whose winding numbers satisfy the Poincar\'e--Hopf theorem:
 \begin{equation}
   \sum_{k} q_k = \chi(S^2) = +2, \qquad q_k \in \tfrac{1}{2}\mathbb{Z},
   \label{eq:poincare}
@@ -170,7 +177,7 @@ In \texttt{TB08}, continuous-time stochastic Gillespie trajectories across five 
 implying that halving relative current jitter requires quadrupling entropy production ($4.00\times$ empirically). In \texttt{TB10}, active chiral solids with antisymmetric odd-elastic modulus $K_o$~\cite{scheibner2020odd} extract strictly positive closed-loop work $W = 2 K_o \mathcal{A}_{\mathrm{strain}}$ over strain-space cycles of signed area $\mathcal{A}_{\mathrm{strain}}$, whereas passive solids ($K_o = 0$ or mutant \texttt{M15}) yield $W = 0$.
 
 \subsection{Bio-Frostbite Interaction Nets and \texorpdfstring{\texttt{O56}}{O56} Hyperplane Projection}
-In \texttt{TB14}, four biological layers (\texttt{L1} DNA, \texttt{L2} Organelle, \texttt{L3} Cell, \texttt{L4} Creature) execute as a clean-room Lafont Interaction Net~\cite{lafont1990interaction} in which every wire has a single owner and every active pair $(\alpha \bowtie \beta)$ operates strictly locally. Disjoint active pairs commute by the diamond property, yielding 0-bit identical normal-form SHA-256 hashes under FIFO, LIFO, and chaotic Random schedulers while preserving exact integer mass and gap-junction bioelectric charge.
+In \texttt{TB14}, four biological layers (\texttt{L1} DNA, \texttt{L2} Organelle, \texttt{L3} Cell, \texttt{L4} Creature) execute as a clean-room Lafont Interaction Net~\cite{lafont1990interaction} in which every wire has a single owner and every active pair $(\alpha \bowtie \beta)$ operates strictly locally. Disjoint active pairs commute by the diamond property, yielding 0-bit identical normal-form SHA-256 hashes under FIFO, LIFO, and chaotic Random schedulers in all tested runs while preserving exact integer mass and gap-junction bioelectric charge.
 
 In \texttt{TB16}, an unconstrained Ridge surrogate $\tilde{\mathbf{y}} \in \mathbb{R}^N$ trained on held-out perturbation splits incurs conservation drift $\varepsilon = \sum_{i=1}^N \tilde{y}_i \ne 0$. Applying the orthogonal hyperplane projection (\texttt{O56})
 \begin{equation}
@@ -182,7 +189,7 @@ eliminates conservation error to IEEE-754 machine precision ($2.6\times 10^{-15}
 
 \begin{table}[t]
 \centering
-\caption{Complete 16-testbed empirical receipt ledger (\texttt{v5.3.0}, Seed \texttt{2026001}, \nolinkurl{-O3 -ffp-contract=off}) and matched compiled structural knockouts (\texttt{M1}--\texttt{M16}, 16/16 caught by \texttt{G01}--\texttt{G60}).}
+\caption{Complete 16-testbed empirical receipt ledger (\texttt{v5.4.0}, Seed \texttt{2026001}, \nolinkurl{-O3 -ffp-contract=off}) and matched compiled structural knockouts (\texttt{M1}--\texttt{M16}, 16/16 caught by \texttt{G01}--\texttt{G60}).}
 \label{tab:tb16}
 \scriptsize
 \setlength{\tabcolsep}{3.5pt}
@@ -211,29 +218,29 @@ eliminates conservation error to IEEE-754 machine precision ($2.6\times 10^{-15}
 \end{tabularx}
 \end{table}
 
-\section{Constructive Six-Kernel Lean 4.35.0 Formal Verification (\texorpdfstring{\texttt{O01}--\texttt{O100}}{O01-O100})}
+\section{Constructive Multi-Checker Lean 4.35.0 Formal Verification (\texorpdfstring{\texttt{O01}--\texttt{O100}}{O01-O100})}
 \label{sec:lean}
 
-Formal verification is implemented in Pure Lean 4.35.0~\cite{demoura2021lean4} using the Lean 4 module system (\texttt{module} headers, \nolinkurl{autoImplicit = false}, \nolinkurl{relaxedAutoImplicit = false}, \nolinkurl{linter.unusedVariables = true}, and \nolinkurl{linter.deprecated = true}) with \textbf{zero Mathlib dependency}. To eliminate circular trust between theorem statements and proof implementations, the formal library is strictly stratified:
+Formal verification is implemented in Pure Lean 4.35.0~\cite{demoura2021lean4} using the Lean 4 module system (\texttt{module} headers, \nolinkurl{autoImplicit = false}, \nolinkurl{relaxedAutoImplicit = false}, \nolinkurl{linter.unusedVariables = true}, and \nolinkurl{linter.deprecated = true}) with \textbf{zero Mathlib dependency}. Every item is a discrete \texttt{Nat}/\texttt{Int}/\texttt{List} lemma about the engine's software model (16 of the 100 items are closed literal arithmetic or receipt-equality checks; no continuum physical or biological law is formalized in general). To eliminate circular trust between theorem statements and proof implementations, the formal library is strictly stratified:
 \begin{enumerate}
-  \item \nolinkurl{OmegaCellularProofs/LiveC11Receipt.lean}: Auto-generated directly by \nolinkurl{omega_cell --export-lean-trace --seed 2026001}, capturing exact integer telemetry and FIPS 180-4 SHA-256 digests from \texttt{TB14}, coupled \texttt{TB16}, and \nolinkurl{omega_substrates_cube.c}.
+  \item \nolinkurl{OmegaCellularProofs/LiveC11Receipt.lean}: A C11-generated Lean receipt file written by \nolinkurl{omega_cell --export-lean-trace --seed 2026001}, storing C-reported integer counts and string fields from \texttt{TB14}, coupled \texttt{TB16}, and \nolinkurl{omega_substrates_cube.c}. Its integer and digest-string equalities are re-checked on each build by \texttt{O63} and \texttt{O72}; \emph{no SHA-256 hash is computed inside Lean}.
   \item \nolinkurl{OmegaCellularProofs/Spec.lean}: Pure definitions and data structures only (zero proofs, zero \texttt{sorry}), importing only \texttt{LiveC11Receipt}.
-  \item \texttt{Challenge.lean}: Isolated statement-only challenge module importing \emph{only} \texttt{Spec.lean} and declaring all \textbf{100} target theorems with intentional \texttt{sorry} placeholders.
-  \item \texttt{Solution.lean} and \textbf{14 sorry-free proof modules}: Constructive proofs of all 100 theorems (\texttt{O01}--\texttt{O100}), comprising 72 core frontier theorems (\texttt{O01}--\texttt{O63}, \texttt{O01b}, \texttt{O41b}, \texttt{O59b}, \texttt{O67}--\texttt{O72}), 17 non-vacuity inhabitants and sharp negative-boundary refutations (\texttt{NonVacuity.lean}, \texttt{O73}--\texttt{O89}), and 11 constructive adversarial refutations (\texttt{AdversarialTests.lean}, \texttt{O90}--\texttt{O100}).
+  \item \texttt{Challenge.lean}: Isolated statement-only challenge module importing \emph{only} \texttt{Spec.lean} and declaring all \textbf{100} target items with intentional \texttt{sorry} placeholders.
+  \item \texttt{Solution.lean} and \textbf{14 sorry-free proof modules}: Constructive proofs of all 100 items (\texttt{O01}--\texttt{O100}), comprising 72 core software-model lemmas (\texttt{O01}--\texttt{O63}, \texttt{O01b}, \texttt{O41b}, \texttt{O59b}, \texttt{O67}--\texttt{O72}), 17 non-vacuity inhabitants and sharp negative-boundary refutations (\texttt{NonVacuity.lean}, \texttt{O73}--\texttt{O89}), and 11 constructive adversarial refutations (\texttt{AdversarialTests.lean}, \texttt{O90}--\texttt{O100}).
 \end{enumerate}
 
-\subsection{Headline Machine-Checked Constructive Theorems}
-We state representative kernel-checked theorems directly corresponding to the governing algebra of Section~\ref{sec:math} (exact Lean 4 signatures audited in \nolinkurl{lean/Challenge.lean}):
+\subsection{Representative Machine-Checked Constructive Lemmas}
+We state representative kernel-checked discrete lemmas (exact Lean 4 signatures audited in \nolinkurl{lean/Challenge.lean}; in \texttt{v5.4.0}, unused rate hypotheses were removed from \texttt{O01} and the tautological second conjunct was removed from \texttt{O56} per \nolinkurl{ERRATA.md}):
 
-\begin{theorem}[Purcell 1-DOF Reciprocal Impossibility, \texttt{O01}]
-For every antisymmetric discrete connection $A : \mathbb{Z} \times \mathbb{Z} \to \mathbb{Z}$ satisfying $A(y,x) = -A(x,y)$, all coordinates $a,b \in \mathbb{Z}$, and arbitrary positive forward/reverse durations $t_{\mathrm{fwd}}, t_{\mathrm{rev}} \in \mathbb{N}_{>0}$, the reciprocal cycle displacement satisfies $\mathrm{pathDisp}(A, [a,b,a]) = 0$.
+\begin{theorem}[Discrete 1-DOF Antisymmetric Cycle Cancellation, \texttt{O01}]
+For every antisymmetric discrete connection $A : \mathbb{Z} \times \mathbb{Z} \to \mathbb{Z}$ satisfying $A(y,x) = -A(x,y)$ and all coordinates $a,b \in \mathbb{Z}$, the reciprocal path displacement satisfies $\mathrm{pathDisp}(A, [a,b,a]) = 0$.
 \end{theorem}
 
-\begin{theorem}[Hopfield--Ninio Proofreading Dominance, \texttt{O06}]
+\begin{theorem}[Cleared-Denominator Proofreading Inequality, \texttt{O06}]
 For all positive integers $0 < p < q$ and $n \ge 1$, cleared-denominator multi-stage kinetic proofreading strictly improves discrimination over equilibrium: $p^{n+1} q < p\,q^{n+1}$.
 \end{theorem}
 
-\begin{theorem}[Turing Equal-Diffusion Impossibility \& Necessity, \texttt{O12}--\texttt{O14}]
+\begin{theorem}[Discrete 2$\times$2 Integer Turing Jacobian Algebra, \texttt{O12}--\texttt{O14}]
 Let $a,b,c,d \in \mathbb{Z}$ satisfy $a+d < 0$ and $ad-bc > 0$. For any $D, k^2 \in \mathbb{Z}_{>0}$, equal diffusion preserves stability:
 \[
   (a - Dk^2) + (d - Dk^2) < 0 \quad\text{and}\quad (a - Dk^2)(d - Dk^2) - bc > 0.
@@ -241,76 +248,77 @@ Let $a,b,c,d \in \mathbb{Z}$ satisfy $a+d < 0$ and $ad-bc > 0$. For any $D, k^2 
 Conversely, if $D_u, D_v \in \mathbb{Z}_{>0}$ satisfy $D_v a + D_u d > 0$, then $a$ and $d$ must have opposite signs, and $a > 0$ forces strictly faster inhibitor diffusion $D_u < D_v$.
 \end{theorem}
 
-\begin{theorem}[Bio-Frostbite Linear Conservation \& Strong Confluence, \texttt{O41b}, \texttt{O42}, \texttt{O96}]
-For every finite rewrite trace $\tau$ and 6-compartment Bio-Frostbite net state $s$, $\mathrm{totalMass}(\mathrm{runTrace}(\tau, s)) = \mathrm{totalMass}(s)$, and constructively $\neg\,\exists(r,s),\;\mathrm{totalMass}(\mathrm{stepNet}(r,s)) \ne \mathrm{totalMass}(s)$. For disjoint active ports $i \ne j$, local updates commute strictly:
+\begin{theorem}[Discrete 6-Compartment Conservation \& Pointwise Map Commutation, \texttt{O41b}, \texttt{O42}, \texttt{O96}]
+For every finite rewrite trace $\tau$ and 6-compartment \texttt{BioNetState} $s$, $\mathrm{totalMass}(\mathrm{runTrace}(\tau, s)) = \mathrm{totalMass}(s)$, and constructively $\neg\,\exists(r,s),\;\mathrm{totalMass}(\mathrm{stepNet}(r,s)) \ne \mathrm{totalMass}(s)$. For distinct indices $i \ne j$ on a map $\mathrm{net} : \mathbb{N} \to \mathbb{Z}$, pointwise updates commute strictly:
 \[
   \mathrm{applyLocalPair}\bigl(j,\delta_j,\mathrm{applyLocalPair}(i,\delta_i,\mathrm{net})\bigr)
   = \mathrm{applyLocalPair}\bigl(i,\delta_i,\mathrm{applyLocalPair}(j,\delta_j,\mathrm{net})\bigr).
 \]
 \end{theorem}
 
-\begin{theorem}[Exact Hyperplane Conservation \& Sharp \texttt{b1.58} Boundary, \texttt{O56}, \texttt{O98}, \texttt{O99}]
-For every finite integer prediction vector $x = [x_1,\dots,x_N] \in \mathbb{Z}^N$ with raw sum $E = \sum_{i=1}^N x_i$, the scaled hyperplane projection satisfies $\sum_{i=1}^N (N x_i - E) = 0$ (and $\neg\,\exists x,\,\sum(N x_i - E) \ne 0$). Moreover, $3^5 = 243 \le 256$ fits 5 balanced trits per byte (\texttt{O71}), whereas $3^6 = 729$ provably overflows a byte ($\neg\,(3^6 \le 256)$, \texttt{O99}).
+\begin{theorem}[Exact Integer Hyperplane Projection \& Sharp \texttt{b1.58} Boundary, \texttt{O56}, \texttt{O98}, \texttt{O99}]
+For every finite integer list $x = [x_1,\dots,x_N] \in \mathbb{Z}^N$ with sum $E = \sum_{i=1}^N x_i$, the scaled hyperplane projection satisfies $\sum_{i=1}^N (N x_i - E) = 0$ (and $\neg\,\exists x,\,\sum(N x_i - E) \ne 0$). Moreover, $3^5 = 243 \le 256$ fits 5 balanced trits per byte (\texttt{O71}), whereas $3^6 = 729$ provably overflows a byte ($\neg\,(3^6 \le 256)$, \texttt{O99}).
 \end{theorem}
 
-\subsection{Strict Constructive Axiom Footprint and Six-Kernel Verification}
-Running standalone \nolinkurl{lean/VerifyAxioms.lean} across all 100 exported theorems establishes an exclusively constructive axiom footprint enforced mechanically in \nolinkurl{build.ps1}, \nolinkurl{build_linux.sh}, and \nolinkurl{scripts/verify_lean_six_kernels.sh}:
+\subsection{Strict Constructive Axiom Footprint and Multi-Checker Verification}
+Running standalone \nolinkurl{lean/VerifyAxioms.lean} across all 100 exported declarations establishes an exclusively constructive axiom footprint enforced mechanically in \nolinkurl{build.ps1}, \nolinkurl{build_linux.sh}, and \nolinkurl{scripts/verify_lean_six_kernels.sh}:
 \begin{itemize}
-  \item \textbf{24 theorems} depend on \textbf{no axioms} (\texttt{does not depend on any axioms}), including \texttt{O03}, \texttt{O07}, \texttt{O09}, \texttt{O10}, \texttt{O15}, \texttt{O19}, \texttt{O23}, \texttt{O24}, \texttt{O27}, \texttt{O36}, \texttt{O51}, \texttt{O67}--\texttt{O69}, \texttt{O72}, \texttt{O76}, \texttt{O89}, \texttt{O92}--\texttt{O95}, \texttt{O97}, \texttt{O99}, and \texttt{O100};
-  \item \textbf{10 theorems} depend solely on \texttt{[propext]};
-  \item \textbf{66 theorems} depend solely on \texttt{[propext, Quot.sound]};
-  \item \textbf{0 theorems} depend on \nolinkurl{Classical.choice}, \nolinkurl{sorryAx}, \nolinkurl{Lean.ofReduceBool}, \nolinkurl{Lean.trustCompiler}, or \nolinkurl{_native.bv_decide}.
+  \item \textbf{24 items} depend on \textbf{no axioms} (\texttt{does not depend on any axioms}), including \texttt{O03}, \texttt{O07}, \texttt{O09}, \texttt{O10}, \texttt{O15}, \texttt{O19}, \texttt{O23}, \texttt{O24}, \texttt{O27}, \texttt{O36}, \texttt{O51}, \texttt{O67}--\texttt{O69}, \texttt{O72}, \texttt{O76}, \texttt{O89}, \texttt{O92}--\texttt{O95}, \texttt{O97}, \texttt{O99}, and \texttt{O100};
+  \item \textbf{10 items} depend solely on \texttt{[propext]};
+  \item \textbf{66 items} depend solely on \texttt{[propext, Quot.sound]};
+  \item \textbf{0 items} depend on \nolinkurl{Classical.choice}, \nolinkurl{sorryAx}, \nolinkurl{Lean.ofReduceBool}, \nolinkurl{Lean.trustCompiler}, or \nolinkurl{_native.bv_decide}.
 \end{itemize}
-Table~\ref{tab:kernels} documents verification across all 6 independent Lean 4.35.0 kernels plus the live negative kernel rejection test, and Table~\ref{tab:fidelity} maps all 14 modules to literature anchors and explicit abstraction boundaries.
+Table~\ref{tab:kernels} documents verification across the \textbf{reference kernel} (\texttt{lean}, \texttt{leanchecker}, \nolinkurl{leanchecker-paranoid}) plus \textbf{four independent checkers} (\texttt{lean4lean}, \nolinkurl{nanoda_bin}, \nolinkurl{con-leche --verified}, \nolinkurl{con-ron --verified}), \nolinkurl{lake comparator --paranoid}, the negative elaboration test, and our live negative axiom-gate and comparator \texttt{sorry}-tamper rejection tests (\nolinkurl{scripts/test_lean_negative.py}). Table~\ref{tab:fidelity} maps all 14 modules to motivating literature and explicit formalization gaps, including all 16 closed literal checks (\texttt{O07}, \texttt{O09}, \texttt{O19}, \texttt{O23}, \texttt{O27}, \texttt{O36}, \texttt{O63}, \texttt{O67}--\texttt{O69}, \texttt{O72}, \texttt{O76}, \texttt{O92}, \texttt{O94}, \texttt{O95}, \texttt{O100}).
 
 \begin{table}[t]
 \centering
-\caption{Six-kernel independent Lean 4.35.0 verification matrix (\nolinkurl{scripts/verify_lean_six_kernels.sh} and \nolinkurl{build.ps1}, all 100 constructive theorems, strict \texttt{["propext", "Quot.sound"]} allowlist).}
+\caption{Multi-checker Lean 4.35.0 verification matrix (\nolinkurl{scripts/verify_lean_six_kernels.sh}, \nolinkurl{scripts/test_lean_negative.py}, and \nolinkurl{build.ps1}): reference kernel plus four independent checkers, comparator, and negative tests.}
 \label{tab:kernels}
 \footnotesize
 \begin{tabularx}{\textwidth}{@{}l l c c L@{}}
 \toprule
-\textbf{\#} & \textbf{Independent Kernel / Check} & \textbf{Win64} & \textbf{Linux CI} & \textbf{Verification Scope} \\
+\textbf{\#} & \textbf{Checker / Gate (Role)} & \textbf{Win64} & \textbf{Linux CI} & \textbf{Verification Scope} \\
 \midrule
-1 & \texttt{lean 4.35.0} (C++ reference) & PASS & PASS & Full \texttt{lake build} (0 warnings) + byte-exact \texttt{VerifyAxioms.lean} diff \\
-2 & \texttt{leanchecker --fresh Solution} & PASS & PASS & Independent fresh environment replay of \texttt{Solution} \\
-3 & \texttt{leanchecker-paranoid --fresh} & PASS & PASS & Paranoid definitional-equality replay of \texttt{Solution} \\
-4 & \texttt{con-leche --verified} & PASS & PASS & External Lean export checker ($1{,}830$ closure / $58{,}629$ full decls) \\
-5 & \texttt{con-ron --verified} & PASS & PASS & Independent second external export checker ($1{,}830$ / $58{,}629$ decls) \\
-6 & \texttt{nanoda\_bin} (Rust kernel) & PASS & PASS & Independent Rust typechecker on all 100 exported proofs (\texttt{unpermitted\_axiom\_hard\_error=true}) \\
-7 & \texttt{lean4lean} (\texttt{lake check --paranoid}) & CI$^*$ & PASS & Verified Lean-in-Lean kernel inside bubblewrap sandbox \\
+1 & \texttt{lean 4.35.0} (reference kernel) & PASS & PASS & Full \texttt{lake build} (0 warnings) + byte-exact \texttt{VerifyAxioms.lean} diff \\
+2 & \texttt{leanchecker --fresh} (reference) & PASS & PASS & Fresh environment replay of \texttt{Solution} via reference checker \\
+3 & \texttt{leanchecker-paranoid} (reference) & PASS & PASS & Paranoid definitional-equality replay of \texttt{Solution} \\
+4 & \texttt{con-leche --verified} (indep.\ \#1) & PASS & PASS & Independent external export checker ($1{,}830$ closure decls of 100 items) \\
+5 & \texttt{con-ron --verified} (indep.\ \#2) & PASS & PASS & Independent second external export checker ($1{,}830$ closure decls) \\
+6 & \texttt{nanoda\_bin} Rust (indep.\ \#3) & PASS & PASS & Independent Rust typechecker (\texttt{unpermitted\_axiom\_hard\_error=true}) \\
+7 & \texttt{lean4lean} (indep.\ \#4) & CI$^*$ & PASS & Verified Lean-in-Lean checker via \texttt{lake check --paranoid} (\texttt{bwrap}) \\
 8 & \texttt{lake comparator --paranoid} & CI$^*$ & PASS & Statement-to-proof equivalence between isolated \texttt{Challenge} and \texttt{Solution} \\
-9 & Live Negative Kernel Test & PASS & PASS & Actively compiles false theorem $(661+274+20+45=999)$ and asserts non-zero rejection \\
+9 & Negative Elaboration Test & PASS & PASS & False literal equation $(661+274+20+45=999)$ fails \texttt{rfl} elaboration \\
+10 & Negative Axiom \& Tamper Tests & PASS$^\dagger$ & PASS & \nolinkurl{test_lean_negative.py}: rejects planted \texttt{sorry}, custom axiom, \texttt{native\_decide}, \texttt{Classical.choice}, plus live \texttt{comparator} \texttt{sorry}-tamper$^*$ \\
 \bottomrule
-\multicolumn{5}{@{}p{\textwidth}@{}}{\scriptsize $^*$\texttt{lake check --paranoid} and \texttt{lake comparator --paranoid} require Linux \texttt{bwrap} namespaces and run automatically on Ubuntu CI.}
+\multicolumn{5}{@{}p{\textwidth}@{}}{\scriptsize $^*$\texttt{lake check --paranoid}, \texttt{lake comparator --paranoid}, and the live comparator \texttt{sorry}-tamper test require Linux \texttt{bwrap} namespaces and execute automatically in Ubuntu CI. $^\dagger$All 4 axiom-exploit cases run locally on Windows and in CI.}
 \end{tabularx}
 \end{table}
 
 \begin{table}[t]
 \centering
-\caption{Statement-fidelity matrix across all 14 Pure Lean 4.35.0 modules (100 theorems total, zero Mathlib, zero \texttt{Classical.choice}).}
+\caption{Statement-fidelity matrix across all 14 Pure Lean 4.35.0 modules (100 discrete software-model lemmas total, incl.\ 16 closed literal checks; zero Mathlib, zero \texttt{Classical.choice}; full audit in \nolinkurl{docs/statement-fidelity.md}).}
 \label{tab:fidelity}
 \scriptsize
 \setlength{\tabcolsep}{3.5pt}
-\renewcommand{\arraystretch}{0.93}
+\renewcommand{\arraystretch}{0.92}
 \begin{tabularx}{\textwidth}{@{}l c l L@{}}
 \toprule
-\textbf{Module (IDs)} & \textbf{\#} & \textbf{Literature / C11} & \textbf{Proved Exact Algebra vs.\ Empirical Gap} \\
+\textbf{Module (IDs)} & \textbf{\#} & \textbf{Motivation / C11} & \textbf{Proved Discrete Software Lemma vs.\ Empirical Gap} \\
 \midrule
-1. \texttt{PurcellGaugeGeometry} (\texttt{O01}--\texttt{O05}) & 6 & \cite{purcell1977life} / \texttt{TB01} & Antisymmetric 1-DOF zero path, 2-DOF Green area $2\,\Delta a\,\Delta b$, viscous power $>0$; Stokes PDE is numerical. \\
-2. \texttt{EigenProofreadingInfo} (\texttt{O06}--\texttt{O10}) & 5 & \cite{hopfield1974kinetic,ninio1975kinetic,eigen1971selforganization} / \texttt{TB06} & Cleared-denominator $(p/q)^{n+1} < p/q$, Eigen length expansion, $J_d \Delta\mu > 0$; ODE kinetics are numerical. \\
-3. \texttt{TuringFeinbergCRNT} (\texttt{O11}--\texttt{O15}) & 5 & \cite{turing1952chemical,feinberg1987chemical} / \texttt{TB07} & $\delta = n-l-s$, equal-diffusion stability preservation, opposite-sign \& $D_u < D_v$ necessity; 2D PDE is numerical. \\
-4. \texttt{TURSpeedLimitsTopo} (\texttt{O16}--\texttt{O21}) & 6 & \cite{barato2015thermodynamic,marques2014min} / \texttt{TB05,08} & TUR $4\times$ jitter-entropy scaling, speed limit, discrete $S^2$ charge sum $2\chi = 4$ \& fusion; Gillespie SSA is numerical. \\
-5. \texttt{CytoskeletonMotorsLLPS} (\texttt{O22}--\texttt{O26,O60}) & 6 & \cite{dogterom1993physical,holy1997assembly,santiveri2020structure,zwicker2015suppression} / \texttt{TB03,04} & Dogterom--Leibler sign, $\gcd(5,2)=1$ $36^\circ$ cogwheel, $F_1F_0$ gearbox, LLPS arrest, Euler $1/L^2$; Cahn--Hilliard PDE is numerical. \\
-6. \texttt{TardigradeVirosphereOmega} (\texttt{O27}--\texttt{O32}) & 6 & \cite{smith2016compact,polilov2012smallest,hashimoto2016extremotolerant,fischer2016host,lynch2015bioenergetic,scheibner2020odd} / \texttt{TB02,09--11} & $780 \le 1000$ 7-organ budget, 3-tier multiplicative radiotolerance, Mavirus rescue, $W = 2K_o A$; reduced-order C11 models. \\
-7. \texttt{OpenProliferationWeb} (\texttt{O33}--\texttt{O40,O61}) & 9 & \cite{lane2010energetics,chen2014architecture} / \texttt{TB11,13} & Electron bifurcation, 3/4-genome closure, $2^{12} < 10^{12}$ morphospace, 5-repo mass conservation, xenocell PMF. \\
-8. \texttt{BioInteractionNets} (\texttt{O41}--\texttt{O46,O41b}) & 7 & \cite{lafont1990interaction,levin2021bioelectric} / \texttt{TB14} & Single-step \& trace linear mass conservation, disjoint diamond strong confluence, $0\,\mathrm{W}$ dry freeze, SSIN $\ge 95\%$. \\
-9. \texttt{DeepStrataFrontier} (\texttt{O47}--\texttt{O54,O62}) & 9 & \cite{naaman2019chiral,fudenberg2016formation,nuchter2006nanosecond,ripoll2023neuropeptidergic} / \texttt{TB15} & CISS $L^2-D^2$, \textit{Oxytricha} reverse/swap/IES invariance, Cohesin steric order, Cnidocyte $>5.38\mathrm{M}\,g$, Levin 0-DNA bistability. \\
-10. \texttt{VirtualCellManifold} (\texttt{O55}--\texttt{O58}) & 4 & \cite{breuer2019essential,thornburg2022fundamental} / \texttt{TB16} & Convex zonation bounds, exact integer \texttt{O56} hyperplane projection $= 0$, syn3A $401+92=493$, 6-tier closure. \\
-11. \texttt{VerifyTraceReceipt} (\texttt{O59,O59b,O63}) & 3 & Live C11 / \texttt{TB14,16} & Arbitrary 6-compartment trace replay, dry-tun invariance, and kernel check of live C11 \texttt{LiveC11Receipt}. \\
-12. \texttt{SubstratesCube} (\texttt{O67}--\texttt{O72}) & 6 & Clean-Slate v3.0 / Cube & $25+25+25=75$, $661+274+20+45=1000$, $Q \le 10 \Rightarrow 16\cdot 2^Q \le 16384$, $3^5=243\le 256$, live Cube receipt. \\
-13. \texttt{NonVacuity} (\texttt{O73}--\texttt{O89}) & 17 & Playbook v1.3 / All & Concrete inhabitants for all universal hypothesis bundles plus 6 sharp negative-boundary refutations. \\
-14. \texttt{AdversarialTests} (\texttt{O90}--\texttt{O100}) & 11 & Playbook v1.3 / All & Constructive $\neg(\cdots)$ refutations of weakened, inverted, and off-by-one biophysical variants (0 \texttt{Classical.choice}). \\
+1. \texttt{PurcellGaugeGeometry} (\texttt{O01}--\texttt{O05}) & 6 & \cite{purcell1977life} / \texttt{TB01} & Antisymmetric 1-DOF cancellation (\texttt{O01} cleaned in \texttt{v5.4.0}), 2-DOF area $2\,\Delta a\,\Delta b$, power $>0$; Stokes PDE is numerical. \\
+2. \texttt{EigenProofreadingInfo} (\texttt{O06}--\texttt{O10}) & 5 & \cite{hopfield1974kinetic,ninio1975kinetic,eigen1971selforganization} / \texttt{TB06} & Cleared-denominator $(p/q)^{n+1} < p/q$, Eigen expansion, $J_d \Delta\mu > 0$, 2 literal checks (\texttt{O07,O09}); ODEs numerical. \\
+3. \texttt{TuringFeinbergCRNT} (\texttt{O11}--\texttt{O15}) & 5 & \cite{turing1952chemical,feinberg1987chemical} / \texttt{TB07} & $\delta = n-l-s$, 2$\times$2 integer equal-diffusion stability, opposite-sign \& $D_u < D_v$ necessity; 2D PDE numerical. \\
+4. \texttt{TURSpeedLimitsTopo} (\texttt{O16}--\texttt{O21}) & 6 & \cite{barato2015thermodynamic,marques2014min} / \texttt{TB05,08} & Integer TUR/speed-limit algebra; \texttt{O19} checks 3 fixed lists (\texttt{decide}); \texttt{O20} checks \texttt{1::1}$\mapsto$\texttt{2} list sum (not continuum Poincar\'e--Hopf). \\
+5. \texttt{CytoskeletonMotorsLLPS} (\texttt{O22}--\texttt{O26,O60}) & 6 & \cite{dogterom1993physical,holy1997assembly,santiveri2020structure,zwicker2015suppression} / \texttt{TB03,04} & Sign equivalences, literal check \texttt{O23} ($\gcd(5,2)=1$), inverse-product monotonicity; Cahn--Hilliard PDE numerical. \\
+6. \texttt{TardigradeVirosphereOmega} (\texttt{O27}--\texttt{O32}) & 6 & \cite{smith2016compact,polilov2012smallest,hashimoto2016extremotolerant,fischer2016host,lynch2015bioenergetic,scheibner2020odd} / \texttt{TB02,09--11} & Literal 7-organ sum $780 \le 1000$ (\texttt{O27}), 3-factor monotonicity, burst/ATP bounds, $W = 2K_o A$; software-model invariants. \\
+7. \texttt{OpenProliferationWeb} (\texttt{O33}--\texttt{O40,O61}) & 9 & \cite{lane2010energetics,chen2014architecture} / \texttt{TB11,13} & Difference/additive/telescoping bounds \& literal check \texttt{O36} ($2^{12} < 10^{12}$); stochastic lineages empirical in C11. \\
+8. \texttt{BioInteractionNets} (\texttt{O41}--\texttt{O46,O41b}) & 7 & \cite{lafont1990interaction,levin2021bioelectric} / \texttt{TB14} & 6-compartment mass conservation, pointwise \texttt{Nat}$\to$\texttt{Int} commutation (\texttt{O42}, no INet syntax in Lean), dry freeze, 95\% bound. \\
+9. \texttt{DeepStrataFrontier} (\texttt{O47}--\texttt{O54,O62}) & 9 & \cite{naaman2019chiral,fudenberg2016formation,nuchter2006nanosecond,ripoll2023neuropeptidergic} / \texttt{TB15} & $L^2-D^2$, list reverse/swap sum, order bounds, 2-struct \texttt{BioelectricTissue} check (\texttt{O52}, software record comparison). \\
+10. \texttt{VirtualCellManifold} (\texttt{O55}--\texttt{O58}) & 4 & \cite{breuer2019essential,thornburg2022fundamental} / \texttt{TB16} & Convex bounds, integer projection $= 0$ (\texttt{O56}, tautology dropped in \texttt{v5.4.0}), syn3A $401+92=493$, 6-tier telescoping. \\
+11. \texttt{VerifyTraceReceipt} (\texttt{O59,O59b,O63}) & 3 & C11 receipt / \texttt{TB14,16} & Trace replay \& frozen invariance; \texttt{O63} checks equalities on C-reported literals in \texttt{LiveC11Receipt} (no hash in Lean). \\
+12. \texttt{SubstratesCube} (\texttt{O67}--\texttt{O72}) & 6 & Clean-Slate v3.0 / Cube & Closed \texttt{rfl} checks (\texttt{O67}--\texttt{O69}), $Q \le 10 \Rightarrow 16\cdot 2^Q \le 16384$, $3^5\le 256$, C-reported Cube literal check (\texttt{O72}). \\
+13. \texttt{NonVacuity} (\texttt{O73}--\texttt{O89}) & 17 & Playbook v1.3 / All & Concrete inhabitants for universal hypothesis bundles + 6 sharp negative-boundary refutations (\texttt{O76} literal check). \\
+14. \texttt{AdversarialTests} (\texttt{O90}--\texttt{O100}) & 11 & Playbook v1.3 / All & Constructive $\neg(\cdots)$ refutations of weakened/off-by-one software-model variants (\texttt{O92,O94,O95,O100} literal checks). \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -338,7 +346,7 @@ In \texttt{TB14} (Bio-Frostbite Interaction Net VM, Fig.~\ref{fig:inet}a), execu
 \end{figure}
 
 \subsection{Preregistered Confirmatory Contrasts and Python Verification Ladder}
-Before executing the multi-seed sweep, we locked 8 confirmatory intact-vs.-knockout contrasts (\texttt{H1}--\texttt{H8}) across seeds \texttt{2026001}--\texttt{2026020} in \texttt{PREREGISTRATION.md} (with one pre-sweep mutant-ID correction transparently logged as \texttt{DEV-06} in \texttt{DEVIATIONS.md}). Table~\ref{tab:stats} reports exact means, 10,000-resample seeded bootstrap 95\% confidence intervals of paired differences, paired Cohen's $d_z$, two-sided 10,000-permutation $p$-values (Phipson--Smyth floor $1/10001 = 9.999 \times 10^{-5}$), and Holm--Bonferroni family-wise adjusted $p$-values across all $K = 8$ contrasts. Independently, \nolinkurl{tests/test_omega_verification_ladder.py} executes 36 \texttt{pytest} checks spanning JSON Schema Draft 2020-12 contracts (verifying \texttt{version} and \texttt{master\_sha256} parity against \nolinkurl{omega_cell all}), 1,200+ Hypothesis property examples against our exact \texttt{Fraction}/\texttt{Decimal} oracle (\nolinkurl{reference/biophysics_oracle.py}), mutant disruptions, metamorphic seed invariance, numeric edge seeds ($1$, $2^{64}-1$), \texttt{TB16} held-out leakage auditing, golden 100-theorem axiom verification, and the live negative Lean 4.35.0 kernel rejection test.
+Before executing the multi-seed sweep, we locked 8 confirmatory intact-vs.-knockout contrasts (\texttt{H1}--\texttt{H8}) across seeds \texttt{2026001}--\texttt{2026020} in \texttt{PREREGISTRATION.md} (with one pre-sweep mutant-ID correction transparently logged as \texttt{DEV-06} in \texttt{DEVIATIONS.md}). Table~\ref{tab:stats} reports exact means, 10,000-resample seeded bootstrap 95\% confidence intervals of paired differences, paired Cohen's $d_z$, two-sided 10,000-permutation $p$-values (Phipson--Smyth floor $1/10001 = 9.999 \times 10^{-5}$), and Holm--Bonferroni family-wise adjusted $p$-values across all $K = 8$ contrasts. Independently, \nolinkurl{tests/test_omega_verification_ladder.py} executes 37 \texttt{pytest} checks spanning JSON Schema Draft 2020-12 contracts (verifying \texttt{version} and \texttt{master\_sha256} parity against \nolinkurl{omega_cell all}), 1,200+ Hypothesis property examples against our exact \texttt{Fraction}/\texttt{Decimal} oracle (\nolinkurl{reference/biophysics_oracle.py}), mutant disruptions, metamorphic seed invariance, numeric edge seeds ($1$, $2^{64}-1$), \texttt{TB16} held-out leakage auditing, golden 100-item axiom verification, the negative Lean 4.35.0 elaboration test, and the 4-exploit negative axiom-gate suite (\nolinkurl{scripts/test_lean_negative.py}).
 
 \begin{table}[t]
 \centering
@@ -387,7 +395,7 @@ Across 10 warmed benchmark runs on Windows x64, median wall-clock latency is \te
 \section{Honest Cross-Check Against \texorpdfstring{\texttt{unsolved-problems-mega-atlas}}{unsolved-problems-mega-atlas} (1,900 Open Problems)}
 \label{sec:mega}
 
-To guard rigorously against scope inflation, we cross-checked all 16 testbeds, 75 substrates, and 100 Lean 4.35.0 theorems against all 1,900 deduplicated open problems in \nolinkurl{0thernes/unsolved-problems-mega-atlas} (\texttt{V2.6.0}). Our audit confirms honestly that \textsc{Cellular Engine Omega} \textbf{solves or retires $0 / 1{,}900$ overarching open problems}. Table~\ref{tab:mega} presents the complete 22-row audit of every directly adjacent parent Atlas ID (\nolinkurl{docs/mega-atlas-cross-check.md}); every single parent open problem remains strictly \textbf{OPEN}.
+To guard rigorously against scope inflation, we cross-checked all 16 testbeds, 75 substrates, and 100 Lean 4.35.0 software-model lemmas against all 1,900 deduplicated open problems in \nolinkurl{0thernes/unsolved-problems-mega-atlas} (\texttt{V2.6.0}). Our audit confirms honestly that \textsc{Cellular Engine Omega} \textbf{solves or retires $0 / 1{,}900$ overarching open problems}. Table~\ref{tab:mega} presents the complete 22-row audit of every directly adjacent parent Atlas ID (\nolinkurl{docs/mega-atlas-cross-check.md}); every single parent open problem remains strictly \textbf{OPEN}.
 
 \begin{table}[t]
 \centering
@@ -403,43 +411,55 @@ To guard rigorously against scope inflation, we cross-checked all 16 testbeds, 7
 \texttt{BIO-001} & Origin of life (abiogenesis) & \textbf{OPEN} & \texttt{TB15} CISS + RAF mass closure (\texttt{O47}); kinetic toy model, not prebiotic geochemistry. \\
 \texttt{BIO-003} & Homochirality of biomolecules & \textbf{OPEN} & \texttt{TB15} spin-polarized CISS amplification ($L^2\!-\!D^2$, \texttt{O47}); omits planetary reservoirs. \\
 \texttt{BIO-005} & Origin of eukaryotes & \textbf{OPEN} & \texttt{TB11} Lane--Martin ceiling \& \texttt{TB13/15} 3-genome closure (\texttt{O34,O50}); not phylogenetic proof. \\
-\texttt{BIO-006} & Morphogenesis \& pattern formation & \textbf{OPEN} & \texttt{TB07} 2D Turing (\texttt{O12}--\texttt{O15}) \& \texttt{TB09} 4-Hox budget (\texttt{O27}); omits 3D embryonic robustness. \\
+\texttt{BIO-006} & Morphogenesis \& pattern formation & \textbf{OPEN} & \texttt{TB07} 2D Turing (\texttt{O12}--\texttt{O15}) \& \texttt{TB09} 4-Hox budget (\texttt{O27} literal sum); omits 3D embryonic robustness. \\
 \texttt{BIO-009} & Origin of viruses \& giant viruses & \textbf{OPEN} & \texttt{TB02} virosphere, PhiKZ shell \& Mavirus rescue (\texttt{O30}); ODE model, not viral phylogeny. \\
 \texttt{BIO-013} & Biological LLPS control in vivo & \textbf{OPEN} & \texttt{TB04} scalar 2D active Cahn--Hilliard (\texttt{O26}); omits sticker-spacer polymer physics. \\
 \texttt{BIO-015} & Minimal cell \& dark proteome & \textbf{OPEN} & \texttt{TB16} synthetic 493/92 benchmark (\texttt{O57}); does not experimentally annotate living syn3A. \\
 \texttt{BIO-022} & Cytoskeletal spindle positioning & \textbf{OPEN} & \texttt{TB03} 2D asters \& Euler buckling (\texttt{O22,O60}); omits full 3D mitotic spindle assembly. \\
 \texttt{BIO-026} & Cryptobiosis \& radiotolerance & \textbf{OPEN} & \texttt{TB09} 3-tier survival \& \texttt{TB14} 0W tun freeze (\texttt{O29,O43,O59b}); omits molecular vitrification. \\
-\texttt{BIO-027} & Bioelectric morphogenesis & \textbf{OPEN} & \texttt{TB15} 2-node Levin $V_{\mathrm{mem}}$ switch (\texttt{O45,O52}); omits whole-planarian ion-channel nets. \\
+\texttt{BIO-027} & Bioelectric morphogenesis & \textbf{OPEN} & \texttt{TB15} 2-node $V_{\mathrm{mem}}$ switch (\texttt{O45} charge sum, \texttt{O52} software-model 2-struct record check); omits ion-channel nets. \\
 \texttt{BIO-035} & Chromatin 3D loop extrusion & \textbf{OPEN} & \texttt{TB15} 1D Cohesin/CTCF lattice (\texttt{O49,O62}); omits nucleosomes \& transcription coupling. \\
 \texttt{BIO-037} & Non-canonical genome unscrambling & \textbf{OPEN} & \texttt{TB15} \textit{Oxytricha} pointer-chain bijection (\texttt{O37,O48}); omits piRNA transposase biochemistry. \\
 \texttt{BIO-039} & Intracellular cargo motor transport & \textbf{OPEN} & \texttt{TB03} mean-field tug-of-war \& $\mathrm{Ca}^{2+}$-Miro (\texttt{O25}); omits adaptors \& tubulin PTMs. \\
-\texttt{BIO-046} & Molecular rotary motor coupling & \textbf{OPEN} & \texttt{TB01} $\mathrm{MotA}_5\mathrm{MotB}_2$ 5:2 cogwheel \& $F_1F_0$ gearbox (\texttt{O23,O24,O61}); omits cryo-EM landscapes. \\
+\texttt{BIO-046} & Molecular rotary motor coupling & \textbf{OPEN} & \texttt{TB01} $\mathrm{MotA}_5\mathrm{MotB}_2$ 5:2 cogwheel \& $F_1F_0$ gearbox (\texttt{O23} literal check, \texttt{O24,O61}); omits cryo-EM landscapes. \\
 \texttt{BIO-052} & Evolutionary genome complexity & \textbf{OPEN} & \texttt{TB06} Eigen/KP (\texttt{O06}--\texttt{O10}) \& \texttt{TB11} Lynch--Marinov (\texttt{O31}); scaling, not universal theory. \\
 \texttt{CHEM-002} & CRNT global dynamics & \textbf{OPEN} & \texttt{TB07} 2-network deficiency witness (\texttt{O11,O76}); does not settle higher-deficiency conjectures. \\
 \texttt{CHEM-050} & Quantum coherence in biology & \textbf{OPEN} & \texttt{TB15} 32-Trp Dicke eigenmode~\cite{babcock2024ultraviolet} \& Cube $Q\le 10$ (\texttt{O70}); idealized Hamiltonian. \\
 \texttt{FLD-031} & Optimal microswimmer locomotion & \textbf{OPEN} & \texttt{TB01} discrete gauge algebra (\texttt{O01}--\texttt{O05,O73,O74}); not continuous Stokes shape optimization. \\
-\texttt{CM-050} & Active matter \& odd elasticity & \textbf{OPEN} & \texttt{TB05} $S^2$ defects (\texttt{O19,O20}) \& \texttt{TB10} odd work (\texttt{O32}); not full active field theory. \\
+\texttt{CM-050} & Active matter \& odd elasticity & \textbf{OPEN} & \texttt{TB05} $S^2$ defects (\texttt{O19}/\texttt{O20} software-model integer list-sum checks, not continuum Poincar\'e--Hopf) \& \texttt{TB10} odd work (\texttt{O32}). \\
 \texttt{NEURO-020} & Wireless neuropeptide connectome & \textbf{OPEN} & \texttt{TB15} reachability bound (\texttt{O53}) \& \texttt{TB09} \textit{Megaphragma} (\texttt{O28}); graph bound only. \\
 \texttt{AI-045} & Whole-cell AI foundation models & \textbf{OPEN} & \texttt{TB16} linear \texttt{O56} projection on synthetic manifold; not wet-lab Perturb-seq AI. \\
-\texttt{HW-002} & Interaction-net silicon hardware & \textbf{OPEN} & \texttt{TB14} software INet VM \& SSIN arbiter (\texttt{O41}--\texttt{O46,O63}); not fabricated ASIC. \\
+\texttt{HW-002} & Interaction-net silicon hardware & \textbf{OPEN} & \texttt{TB14} software INet VM \& SSIN arbiter (\texttt{O41}--\texttt{O46}, \texttt{O63} literal check); not fabricated ASIC. \\
 \bottomrule
 \end{tabularx}
 \end{table}
 
-\section{Threats to Validity, FAIR Provenance, and Reproducibility}
+\section{Threats to Validity, FAIR Provenance, Archival Integrity, and Disclosures}
 \label{sec:limitations}
 
 \begin{itemize}
-  \item \textbf{Formal vs.\ Floating-Point Boundary:} Lean 4.35.0 certifies exact \texttt{Nat}/\texttt{Int}/\texttt{List} algebra, constructive adversarial refutations (\texttt{O90}--\texttt{O100}), and live integer/string runtime receipts (\texttt{O63}, \texttt{O72}), not IEEE-754 PDE discretization error bounds or C11 compiler code generation. Those layers are audited empirically via 60 gates, 16 compiled knockouts, ASan+UBSan, 256-case fuzzing, \texttt{-O0}/\texttt{-O3} hash parity, and 1,200+ Hypothesis property tests against an independent \texttt{Fraction}/\texttt{Decimal} Python oracle.
+  \item \textbf{Formal vs.\ Floating-Point \& Literal-Check Boundary:} Lean 4.35.0 certifies discrete \texttt{Nat}/\texttt{Int}/\texttt{List} lemmas about the software model (16 of the 100 items are closed literal checks), constructive adversarial refutations (\texttt{O90}--\texttt{O100}), and equalities among C11-reported literals in \nolinkurl{LiveC11Receipt.lean} (\texttt{O63}, \texttt{O72}; \emph{no SHA-256 hash is computed inside Lean}). It does not formalize continuum physical/biological laws, IEEE-754 PDE discretization error bounds, or C11 compiler memory safety. Those layers are audited empirically via 60 gates, 16 compiled knockouts, ASan+UBSan, 256-case fuzzing, \texttt{-O0}/\texttt{-O3} hash parity, and 1,200+ Hypothesis property tests against an independent \texttt{Fraction}/\texttt{Decimal} Python oracle.
   \item \textbf{Cross-Architecture \texttt{libm} Precision:} Bit-exact SHA-256 identity is enforced on x86-64 via \texttt{-ffp-contract=off}; transcendental \texttt{libm} functions (\texttt{exp}, \texttt{sin}, \texttt{cos}) may differ in the last ULP on \texttt{aarch64} or alternate C runtimes, whereas integer \texttt{TB14} confluence and all 100 Lean proofs are strictly architecture-independent.
   \item \textbf{Reduced-Order Biological Abstractions:} ``Bio-Frostbite'' (\texttt{TB14}) is an architectural software interaction-net VM, not fabricated silicon; \texttt{TB16} evaluates a synthetic held-out Ridge manifold parameterized by published JCVI-syn3A gene counts, not wet-lab Perturb-seq assays.
-  \item \textbf{Preprint Status:} This technical monograph and software repository have not undergone external journal peer review.
+  \item \textbf{Preprint Status:} This technical monograph and software repository are independent research artifacts and have \textbf{not undergone external journal peer review}.
 \end{itemize}
 
-\subsection{Live Citation Audit, FAIR Metadata, RFC 3161 Timestamps, and CRediT}
-Every one of the 32 scholarly references in \nolinkurl{paper/references.bib} is cited in this monograph (zero uncited entries, zero missing keys) and verified live by \nolinkurl{scripts/check_citations.py} against both the DOI Handle REST API (\nolinkurl{https://doi.org/api/handles/}) and Crossref retraction metadata (\textbf{32/32 OK, 0 retractions}). All source code, Lean 4.35.0 proofs, multi-seed CSV datasets (\nolinkurl{results/multiseed_stats.csv}), Gebru et al.\ dataset documentation (\nolinkurl{docs/DATASHEET.md}), machine-readable FAIR descriptors (\texttt{croissant.json} conforming to MLCommons Croissant 1.0, \texttt{ro-crate-metadata.json} conforming to RO-Crate 1.1, and \texttt{codemeta.json} conforming to CodeMeta 2.0), interactive Lean Proof Blueprint (\nolinkurl{blueprint/index.html}), SHA-256 manifests (\texttt{CHECKSUMS.sha256}, \nolinkurl{data/MANIFEST.sha256}), and DigiCert RFC 3161 trusted cryptographic timestamp tokens (\nolinkurl{timestamps/*.tsr}) are publicly archived at \url{https://github.com/0thernes/cellular-engine-omega}. Complete clean-clone reproduction requires three commands: \nolinkurl{OMEGA_SANITIZE=1 ./build_linux.sh}, \nolinkurl{./scripts/verify_lean_six_kernels.sh}, and \nolinkurl{python3 -m pytest tests/ -v}.
+\subsection{Live Citation Audit, FAIR Metadata, SWHID, SLSA/Rekor, and Dual Timestamps}
+Every one of the 32 scholarly references in \nolinkurl{paper/references.bib} is cited in this monograph (zero uncited entries, zero missing keys) and verified live by \nolinkurl{scripts/check_citations.py} against the DOI Handle REST API (\nolinkurl{https://doi.org/api/handles/}) and the Crossref Works API for zero retraction notices \emph{and} automated Crossref title + first-author/institution matching (\textbf{32/32 OK, 0 retractions, 32/32 title match $J=1.00$, 32/32 author/institution match}, archived in \nolinkurl{results/citation-audit.json}). This corrects the \texttt{v5.3.0} DOI typo on N\"uchter et al.\ (2006) (\texttt{10.1016/j.cub.2006.03.079} $\to$ \texttt{10.1016/j.cub.2006.03.089}) logged in \nolinkurl{ERRATA.md}.
 
-\textbf{Author Contributions (CRediT) \& AI Disclosure:} Alexander Stephen Donahue is the sole author (Conceptualization, Methodology, Software, Formal analysis, Validation, Investigation, Visualization, Writing, Project administration) and assumes full scholarly accountability. AI engineering and research assistants (Antigravity/Gemini and Claude workflows) were used as interactive drafting, refactoring, tactic-exploration, and adversarial red-team auditing tools; no AI system is listed as an author, and every claim is independently verified by deterministic machine-checked kernels and executable suites (full disclosure in \nolinkurl{docs/AI_DISCLOSURE.md}). The author declares no competing financial interests.
+All source code, Lean 4.35.0 proofs, multi-seed CSV datasets (\nolinkurl{results/multiseed_stats.csv}), Gebru et al.\ dataset documentation (\nolinkurl{docs/DATASHEET.md}), machine-readable FAIR descriptors (\texttt{croissant.json} conforming to MLCommons Croissant 1.0, \texttt{ro-crate-metadata.json} conforming to RO-Crate 1.1, and \texttt{codemeta.json} conforming to CodeMeta 2.0), REUSE/SPDX dual-licensing metadata (\texttt{REUSE.toml}, \texttt{LICENSES/}), interactive Lean Proof Blueprint (\nolinkurl{blueprint/index.html}), SHA-256 manifests (\texttt{CHECKSUMS.sha256}, \nolinkurl{data/MANIFEST.sha256}), and \nolinkurl{SUBMISSION_READINESS.md} are publicly archived at \url{https://github.com/0thernes/cellular-engine-omega}. Long-term cryptographic provenance combines:
+\begin{itemize}
+  \item \textbf{Software Heritage (SWH):} Persistent repository snapshot archived under SWHID \nolinkurl{swh:1:snp:b1734acc036650d5a32194f3437e93ca83a891b8} and mirrored in \nolinkurl{0thernes/0thernes-research-archive} (\texttt{0TH-BUILD-008}).
+  \item \textbf{SLSA / Sigstore Rekor:} GitHub Actions CI and Release workflows generate SLSA build provenance attestations via \nolinkurl{actions/attest-build-provenance} anchored to the Sigstore Rekor transparency log.
+  \item \textbf{Dual Cryptographic Timestamps:} Managed by \nolinkurl{scripts/stamp_timestamps.py}, sealing \nolinkurl{CHECKSUMS.sha256} and the frozen monograph PDF with DigiCert RFC 3161 trusted timestamp tokens (\nolinkurl{timestamps/*.tsr}) \emph{and} sealing \nolinkurl{CHECKSUMS.sha256} across three independent Bitcoin OpenTimestamps calendars (\nolinkurl{timestamps/CHECKSUMS.sha256.ots}).
+\end{itemize}
+Complete clean-clone reproduction on Linux requires three commands: \nolinkurl{OMEGA_SANITIZE=1 ./build_linux.sh}, \nolinkurl{./scripts/verify_lean_six_kernels.sh}, and \nolinkurl{python3 -m pytest tests/ -v}.
+
+\subsection*{AI-Contribution Disclosure and Author Contributions (CRediT)}
+Per the \emph{Defensible Independent AI-Assisted Research Playbook (v1.3 \S4)}, COPE, and ICMJE authorship standards: Alexander Stephen Donahue (ORCID \texttt{0009-0006-8168-9648}) is the \textbf{sole author} (CRediT roles: \emph{Conceptualization, Methodology, Software, Formal analysis, Validation, Investigation, Resources, Data Curation, Writing -- original draft, Writing -- review \& editing, Visualization, Project administration}) and assumes complete scholarly, legal, and scientific accountability for every claim, proof, program, dataset, and citation. Large language model coding and research assistants (Google DeepMind Antigravity/Gemini and Anthropic Claude workflows) were used as interactive drafting, refactoring, Lean tactic-exploration, and adversarial red-team auditing tools; no AI system is listed as an author, no unverified AI output is trusted, and every formal and numerical claim is independently verified by deterministic machine-checked proof checkers and executable test suites (complete disclosure in \nolinkurl{docs/AI_DISCLOSURE.md}).
+
+\subsection*{Conflict of Interest}
+The author declares no competing financial, commercial, or institutional interests. This work is self-funded independent research conducted with zero external grants, corporate sponsors, or commercial affiliations.
 
 \bibliographystyle{plain}
 \bibliography{references}

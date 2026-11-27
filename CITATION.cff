@@ -1,20 +1,22 @@
 cff-version: 1.2.0
-title: "CELLULAR ENGINE OMEGA: Zero-Dependency C11 Multi-Scale Cellular Biophysics Engine, 75-Substrate & 1,000-Cell Hybrid Cube, and Multi-Kernel Lean 4.35.0 Formal Verification Suite"
+title: "CELLULAR ENGINE OMEGA: Zero-Dependency C11 Multi-Scale Cellular Biophysics Engine, 75-Substrate & 1,000-Cell Hybrid Cube, and Constructive Lean 4.35.0 Formal Verification Suite"
 message: "If you use this software, formal verification suite, or accompanying technical report, please cite it using the metadata below."
 type: software
-version: "5.3.0"
+version: "5.4.0"
 date-released: "2026-11-26"
 license: "Apache-2.0"
 repository-code: "https://github.com/0thernes/cellular-engine-omega"
 url: "https://0thernes.github.io/cellular-engine-omega/"
 abstract: >-
-  CELLULAR ENGINE OMEGA v5.3.0 is a zero-dependency C11 multi-scale cellular biophysics
+  CELLULAR ENGINE OMEGA v5.4.0 is a zero-dependency C11 multi-scale cellular biophysics
   simulation engine (16 quantitative testbeds, 75 computational substrates, 1,000-cell
   Hybrid Cube, 60 falsification gates, 16/16 planted mutants, 256-case fuzz/property harness)
-  linked by a C11-generated receipt file whose literal fields O63 and O72 re-check on
-  each build (no hash is computed in Lean) to 100 constructive zero-Mathlib Lean 4.35.0
-  lemmas about its discrete software model, at least 16 of them closed arithmetic checks,
-  checked by the reference kernel and four independent checkers.
+  paired with 100 strictly constructive zero-Mathlib Pure Lean 4.35.0 discrete lemmas
+  about the engine's software model (including 16 closed literal checks and C11-generated
+  receipt literal equality checks O63/O72; zero Classical.choice), audited by the Lean
+  4.35.0 reference kernel plus four independent checkers (lean4lean, nanoda_bin, con-leche,
+  con-ron) under isolated Challenge/Solution comparator verification. Not peer-reviewed;
+  retires 0 / 1,900 overarching open problems in unsolved-problems-mega-atlas.
 authors:
   - family-names: "Donahue"
     given-names: "Alexander Stephen"

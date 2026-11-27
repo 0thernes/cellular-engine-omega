@@ -98,12 +98,12 @@ def main() -> int:
         <span class="pill">{len(axioms)} / {len(axioms)} Theorems Proven</span>
         <span class="pill">0 Mathlib · 0 sorryAx · 0 Classical.choice</span>
         <span class="pill">Isolated Spec.lean -> Challenge.lean / Solution.lean</span>
-        <span class="pill">All 6 Independent Kernels (lean · leanchecker-paranoid · lean4lean · nanoda_bin · con-leche · con-ron)</span>
+        <span class="pill">Reference Kernel + 4 Independent Checkers (lean4lean · nanoda_bin · con-leche · con-ron)</span>
       </div>
     </div>
   </header>
   <main>
-    <p>Every theorem below is extracted directly from the live <code>results/lean4-omega-audit.txt</code> kernel output of <code>lean/VerifyAxioms.lean</code>. Live C11 runtime telemetry is bound into the kernel via <code>LiveC11Receipt.lean</code> (<code>O63</code>, <code>O72</code>), every universal hypothesis bundle is inhabited and sharp-boundary tested in <code>NonVacuity.lean</code> (<code>O73</code>–<code>O89</code>), and 11 weakened/inverted domain falsifications are refuted constructively in <code>AdversarialTests.lean</code> (<code>O90</code>–<code>O100</code>).</p>
+    <p>Every item below is extracted directly from the live <code>results/lean4-omega-audit.txt</code> output of <code>lean/VerifyAxioms.lean</code> (discrete <code>Nat</code>/<code>Int</code>/<code>List</code> lemmas about the software model, including 16 closed literal checks). C11 runtime telemetry is exported to <code>LiveC11Receipt.lean</code> and re-checked as integer/string literal equalities by <code>O63</code> and <code>O72</code> (no hash is computed in Lean); universal hypothesis bundles are inhabited and sharp-boundary tested in <code>NonVacuity.lean</code> (<code>O73</code>–<code>O89</code>); and 11 weakened/inverted software-model variants are refuted constructively in <code>AdversarialTests.lean</code> (<code>O90</code>–<code>O100</code>). Independent preprint artifact — not peer-reviewed.</p>
     <div class="grid">{''.join(cards_html)}</div>
   </main>
 </body>

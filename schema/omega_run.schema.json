@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://0thernes.github.io/cellular-engine-omega/schema/omega_run.schema.json",
-  "title": "CELLULAR ENGINE OMEGA 16-Testbed JSON Output Contract (v5.3.0)",
+  "title": "CELLULAR ENGINE OMEGA 16-Testbed JSON Output Contract (v5.4.0)",
   "type": "object",
   "required": [
     "version", "seed", "mutant", "feral", "elapsed_ms", "master_sha256",
